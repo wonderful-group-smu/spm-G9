@@ -4,7 +4,7 @@ on: push
 
 jobs:
   run-tests:
-    name: Run Vue Tests
+    name: Run React Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -16,9 +16,10 @@ jobs:
         with:
           node-version: 14
 
-      - name: Run vue lint and test
+      - name: Run React lint and test
         working-directory: ./frontend
         run: |
-          npm ci
-          npm run test:unit
-          npm run test:unit
+          npm install -g yarn
+          yarn
+          yarn test
+          yarn lint
