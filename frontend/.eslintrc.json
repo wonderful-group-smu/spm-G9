@@ -36,6 +36,14 @@
         "extensions": [".js", ".jsx"]
       }
     ],
+    "overrides": [
+      {
+        "excludedFiles": "*.test.js",
+        "rules": {
+          "quotes": [ 2, "single" ]
+        }
+      }
+    ],
     "react/display-name": 1
   }
 }
