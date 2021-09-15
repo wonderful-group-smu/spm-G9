@@ -1,10 +1,10 @@
-name: Lint
+name: Test
 
 on: push
 
 jobs:
   run-tests:
-    name: Run linters
+    name: Run Vue Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -16,12 +16,9 @@ jobs:
         with:
           node-version: 14
 
-      # ESLint and Prettier must be in `package.json`
-      - name: Install Node.js dependencies
-        run: npm ci
-
       - name: Run vue lint and test
         working-directory: ./frontend
         run: |
+          npm ci
           npm run test:unit
           npm run test:unit
