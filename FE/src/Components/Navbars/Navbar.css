@@ -31,16 +31,3 @@
     margin-left: 16px;
   }
   
-  .TopHeader{
-    color: #ffffff;
-    color: 343a40;
-    display: flex;
-    justify-content: end;
-    align-items: flex-end;
-    padding:20px 40px 40px 40px ;
-    /* padding-top: 20px; */
-  }
-  
-  .TopHeader>span{
-    padding-left: 20px;
-  }

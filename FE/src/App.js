@@ -1,29 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
-import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
+import './App.css'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-import Navbar from "./Components/Navbars/Navbar"
-import Courses from "./Pages/Courses/Courses"
-import Records from "./Pages/Records/Records"
+import React, { useState } from 'react'
 
+import Navbar from './Components/Navbars/Navbar'
+import Courses from './Pages/Courses/Courses'
+import Records from './Pages/Records/Records'
+
+import TopNav from './Components/Navbars/TopNav/TopNav'
+import Home from './Pages/Home/Home'
 
 function App() {
+  const [leftOpen, setOpen] = useState(true)
+
+  const [showNavbar, setNavbar] = useState('open')
+
+  const toggleSidebar = () => {
+    setOpen(!leftOpen)
+    if (leftOpen) {
+      setNavbar('open')
+    } else {
+      setNavbar('closed')
+    }
+  }
+
   return (
-    <Router>
-     
-   
-      <Switch>
-        <Route path='/courses' component={Courses}/>
-        <Route path='/records' component={Records}/>
+    <>
+      <div id='layout'>
+        <Router>
+          <Navbar leftOpen={showNavbar} toggleSidebar={toggleSidebar}></Navbar>
 
+          <div id='main'>
+            <TopNav />
 
-      </Switch>
-      <Navbar></Navbar>
-      
-      
-
-    </Router>
-  );
+            <Switch>
+              <Route path='/courses' component={Courses} />
+              <Route path='/records' component={Records} />
+              <Route path='/' component={Home} />
+            </Switch>
+          </div>
+        </Router>
+      </div>
+    </>
+  )
 }
 
-export default App;
+export default App
