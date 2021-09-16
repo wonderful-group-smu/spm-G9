@@ -32,12 +32,13 @@ function App() {
 
           <div id='main'>
             <TopNav />
-
+            <div className='content'>
             <Switch>
               <Route path='/courses' component={Courses} />
               <Route path='/records' component={Records} />
               <Route path='/' component={Home} />
             </Switch>
+            </div>
           </div>
         </Router>
       </div>
