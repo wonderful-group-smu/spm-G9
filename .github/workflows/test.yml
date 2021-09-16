@@ -1,0 +1,25 @@
+name: Test
+
+on: push
+
+jobs:
+  run-tests:
+    name: Run React Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
+      - name: Run React lint and test
+        working-directory: ./frontend
+        run: |
+          npm install -g yarn
+          yarn
+          yarn test
+          yarn lint
