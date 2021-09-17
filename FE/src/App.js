@@ -12,15 +12,17 @@ import Home from './Pages/Home/Home'
 
 function App() {
   const [leftOpen, setOpen] = useState(true)
-
   const [showNavbar, setNavbar] = useState('open')
+  const[iconColor,setIconColor]=useState('icon')
 
   const toggleSidebar = () => {
     setOpen(!leftOpen)
     if (leftOpen) {
       setNavbar('open')
+      setIconColor('icon')
     } else {
       setNavbar('closed')
+      setIconColor('icon-closed')
     }
   }
 
@@ -28,7 +30,7 @@ function App() {
     <>
       <div id='layout'>
         <Router>
-          <Navbar leftOpen={showNavbar} toggleSidebar={toggleSidebar}></Navbar>
+          <Navbar leftOpen={showNavbar} toggleSidebar={toggleSidebar} iconColor={iconColor}></Navbar>
 
           <div id='main'>
             <TopNav />

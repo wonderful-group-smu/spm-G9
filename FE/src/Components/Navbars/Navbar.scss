@@ -3,12 +3,13 @@ div {
   }
   
   :root {
-    --landscape-width: 20; // % OR vw for responsive window resizing!
+    --landscape-width: 18; // % OR vw for responsive window resizing!
     --portrait-width: 80vw;
     --header-height: 3.5rem;
     --secs: 0.4s;
     --bg-left: #343a40;
-    --bg-right: #218380;
+    --bg-right: #FAFAFA;
+    // --bg-right: #218380;
     // --bg-right: #d8dbc8;
     --bg-main: #FAFAFA;
   }
@@ -70,6 +71,13 @@ div {
       line-height: 3.5rem; font-size: 2.5rem;
       text-align: center; user-select: none; cursor: pointer;
       color: white;
+    }
+
+    .icon-closed { position: fixed; z-index: 10;
+      width: var(--header-height); height: var(--header-height);
+      line-height: 3.5rem; font-size: 2.5rem;
+      text-align: center; user-select: none; cursor: pointer;
+      color: black;
     }
 
 

@@ -1,7 +1,7 @@
 // import React from 'react'
 import './Navbar.scss'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 // import * as Bs from 'react-icons/bs'
 // import * as Io from 'react-icons/io'
@@ -12,11 +12,11 @@ import './Navbar.css'
 
 function Navbar(props){
 
-
+  
   return(
         <>
         <div id='left' className={props.leftOpen}>
-          <div className='icon' onClick={props.toggleSidebar}>
+          <div className={props.iconColor} onClick={props.toggleSidebar}>
             &equiv;
           </div>
           <div className={`sidebar ${props.leftOpen}`}>
@@ -30,7 +30,7 @@ function Navbar(props){
                 {SidebarData.map((item, index) => {
                   return (
                     <li key={index} className={item.cName}>
-                      <Link to={item.path}>
+                      <Link to={item.path} >
                         {item.icon}
                         <span className='item-title'>{item.title}</span>
                       </Link>

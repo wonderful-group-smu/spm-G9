@@ -18,10 +18,11 @@
     align-items: center;
     /* padding: 0px 16px; */
     border-radius: 4px;
+    padding-left: 1rem;
   }
   
   .nav-text a:hover {
-    /* background-color: white; */
+    background-color: white;
     color: #218380;
   }
   
@@ -31,3 +32,6 @@
     margin-left: 16px;
   }
   
+  .nav-menu-items{
+    padding-left: 1rem;
+  }
