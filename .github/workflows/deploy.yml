@@ -9,8 +9,8 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@master
+      - name: Check out Git repository
+        uses: actions/checkout@v2
 
       - name: setup node
         uses: actions/setup-node@v1
@@ -27,12 +27,13 @@ jobs:
       - name: build
         working-directory: ./frontend
         run: |
-          npm ci
-          npm run build
+          npm install -g yarn
+          yarn
+          yarn build
         env:
           VUE_APP_SAMPLE_ENV: ''
 
       - name: Copy files to S3
         working-directory: ./frontend
         run: |
-          aws s3 sync dist/ s3://${{ secrets.AWS_S3_CONTENT_BUCKET }}
+          aws s3 sync build/ s3://${{ secrets.AWS_S3_CONTENT_BUCKET }}
