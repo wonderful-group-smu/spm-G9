@@ -28,6 +28,7 @@ Features
     - [Install project requirements](#install-project-requirements)
     - [Run the REST API locally](#run-the-rest-api-locally)
     - [Authentication Demo](#authentication-demo)
+    - [Tips to start work on a new service](#tips-to-start-work-on-a-new-service)
   - [Running tests](#running-tests)
     - [Using tox](#using-tox)
     - [Using pytest directly](#using-pytest-directly)
@@ -92,6 +93,8 @@ Avaible configuration keys:
 
 Run commands to migrate the SQLAlchemy schemas into MySQL database.
 
+I recommend watching this [tutorial](https://www.youtube.com/watch?v=BAOfjPuVby0).
+
 ```
 # Prepare to migrate SQLAlchemy changes
 flask db migrate
@@ -123,6 +126,12 @@ curl -X POST -H "Content-Type: application/json" -d '{"username": "testuser", "p
 You can use access_token to access protected endpoints as a Bearer Token.
 
 You can use refresh token to retrieve a new access_token using the endpoint `POST /auth/refresh`.
+
+### Tips to start work on a new service
+
+To create new schemas, modify `myapi/models`. To create new endpoints, create a new blueprint in a new folder by referring to `myapi/auth` and `myapi/api`. Then register the blueprint in `myapi/app.py`. To add dummy variables on initialization, add to `myapi/manage.py`.
+
+Then run `flask db migrate` and `flask db upgrade` to update the schemas in the current database. Execute `flask run` to run the application.
 
 
 ## Running tests

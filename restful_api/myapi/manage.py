@@ -14,8 +14,6 @@ def init():
     from myapi.extensions import db
     from myapi.models import User
 
-    print(db.engine.url.database)
-
     click.echo("create user")
     user = User(username="testuser", email="testuser@mail.com", password="testpassword", active=True)
     db.session.add(user)
