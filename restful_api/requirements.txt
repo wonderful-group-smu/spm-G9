@@ -1,3 +1,4 @@
+# After adding here, add in root too
 marshmallow>=3
 flask==1.1.2
 flask-cors
@@ -13,3 +14,12 @@ apispec[yaml]
 apispec-webframeworks
 gunicorn
 pymysql
+
+# Non-prod environment
+tox
+pytest
+pytest-runner
+pytest-flask
+pytest-factoryboy
+pytest-celery
+factory_boy
