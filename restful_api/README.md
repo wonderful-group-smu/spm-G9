@@ -156,13 +156,13 @@ tox -e test
 If you want to run pytest manually without using tox you'll need to install some dependencies before
 
 ```
-pip install pytest pytest-runner pytest-flask pytest-factoryboy pytest-celery factory_boy
+pip install pytest pytest-runner pytest-flask pytest-factoryboy pytest-celery factory_boy pytest-cov
 ```
 
 Then you can invoke pytest
 
 ```
-pytest
+pytest --cov=myapi tests/
 ```
 
 Note that tox is setting environment variables for you when testing, but when using pytest directly that's not the case. To avoid setting up env variables each time you run pytest, this cookiecutter provide a `.testenv` file that contains default configuration for testing. Don't forget to update it if your local env doesn't match those defaults.
