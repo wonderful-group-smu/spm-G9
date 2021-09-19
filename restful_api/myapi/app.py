@@ -1,11 +1,7 @@
 from flask import Flask
-from myapi import api
-from myapi import auth
-from myapi.extensions import apispec
-from myapi.extensions import db
-from myapi.extensions import jwt
-from myapi.extensions import migrate
-from myapi.extensions import cors
+
+from myapi import api, auth, course
+from myapi.extensions import apispec, cors, db, jwt, migrate
 
 
 def create_app(testing=False):
@@ -54,3 +50,4 @@ def register_blueprints(app):
     """register all blueprints for application"""
     app.register_blueprint(auth.views.blueprint)
     app.register_blueprint(api.views.blueprint)
+    app.register_blueprint(course.views.blueprint)
