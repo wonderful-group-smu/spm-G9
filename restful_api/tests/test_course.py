@@ -1,7 +1,7 @@
 from flask import url_for
 
 def test_get_all_course(client, db, course_factory, admin_headers):
-    course_url = url_for('myapi.courses')
+    course_url = url_for('api.courses')
     courses = course_factory.create_batch(30)
 
     db.session.add_all(courses)
@@ -12,4 +12,4 @@ def test_get_all_course(client, db, course_factory, admin_headers):
 
     results = rep.get_json()
     for course in courses:
-        assert any(c["cid"] == course.id for c in results["results"])
+        assert any(c["cid"] == course.cid for c in results["results"])
