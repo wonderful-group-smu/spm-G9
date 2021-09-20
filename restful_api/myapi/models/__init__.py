@@ -1,6 +1,6 @@
 from myapi.models.user import User
 from myapi.models.blocklist import TokenBlocklist
-from myapi.models.engineer import Engineer
+from myapi.models.employee import Employee
 
 
-__all__ = ["User", "TokenBlocklist","Engineer"]
+__all__ = ["User", "TokenBlocklist","Employee"]

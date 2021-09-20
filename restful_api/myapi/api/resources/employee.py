@@ -1,13 +1,13 @@
 from flask import request
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
-from myapi.api.schemas import EngineerSchema
+from myapi.api.schemas import EmployeeSchema
 from myapi.commons.pagination import paginate
 from myapi.extensions import db
-from myapi.models import Engineer
+from myapi.models import Employee
 
-class EngineerResource(Resource):
-    """single object engineer resource
+class EmployeeResource(Resource):
+    """single object Employee resource
     ---
     get:
       tags:
@@ -24,17 +24,17 @@ class EngineerResource(Resource):
                       results:
                         type: array
                         items:
-                          $ref: '#/components/schemas/EngineerSchema'
+                          $ref: '#/components/schemas/EmployeeSchema'
     """
 
     method_decorators = [jwt_required()]
 
-    def get(self, engineer_id):
-        schema = EngineerSchema()
-        engineer = Engineer.query.get_or_404(engineer_id)
-        return {"engineer": schema.dump(engineer)}
+    def get(self, employee_id):
+        schema = EmployeeSchema()
+        employee = Employee.query.get_or_404(employee_id)
+        return {"employee": schema.dump(employee)}
 
-class EngineerList(Resource):
+class EmployeeList(Resource):
     """Creation and get_all
 
     ---
@@ -53,7 +53,7 @@ class EngineerList(Resource):
                       results:
                         type: array
                         items:
-                          $ref: '#/components/schemas/EngineerSchema'
+                          $ref: '#/components/schemas/EmployeeSchema'
     post:
       tags:
         - api
@@ -61,7 +61,7 @@ class EngineerList(Resource):
         content:
           application/json:
             schema:
-              EngineerSchema
+              EmployeeSchema
       responses:
         201:
           content:
@@ -71,22 +71,22 @@ class EngineerList(Resource):
                 properties:
                   msg:
                     type: string
-                    example: engineer created
-                  user: EngineerSchema
+                    example: Employee created
+                  user: EmployeeSchema
     """
 
     method_decorators = [jwt_required()]
 
     def get(self):
-        schema = EngineerSchema(many=True)
-        query = Engineer.query
+        schema = EmployeeSchema(many=True)
+        query = Employee.query
         return paginate(query, schema)
 
     def post(self):
-        schema = EngineerSchema()
-        engineer = schema.load(request.json)
+        schema = EmployeeSchema()
+        employee = schema.load(request.json)
 
-        db.session.add(engineer)
+        db.session.add(employee)
         db.session.commit()
 
-        return {"msg": "engineer created", "engineer": schema.dump(engineer)}, 201
+        return {"msg": "employee created", "employee": schema.dump(employee)}, 201

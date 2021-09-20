@@ -1,5 +1,5 @@
 import factory
-from myapi.models import User, Engineer
+from myapi.models import User, Employee
 
 
 class UserFactory(factory.Factory):
@@ -11,8 +11,9 @@ class UserFactory(factory.Factory):
     class Meta:
         model = User
 
-class EngineerFactory(factory.Factory):
+class EmployeeFactory(factory.Factory):
     id = factory.Sequence(lambda n: "%d" % n)
-    name = factory.Sequence(lambda n: "engineer %d" % n)
+    name = factory.Sequence(lambda n: "employee %d" % n)
+    user_type = factory.Sequence(lambda n: "user type %d" % n)
     class Meta:
-        model = Engineer
+        model = Employee
