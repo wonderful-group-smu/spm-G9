@@ -1,6 +1,5 @@
 import factory
-from myapi.models import User
-
+from myapi.models import User, Course
 
 class UserFactory(factory.Factory):
 
@@ -10,3 +9,10 @@ class UserFactory(factory.Factory):
 
     class Meta:
         model = User
+
+class CourseFactory(factory.Factory):
+    cid = factory.Sequence(lambda n: "%d" % n)
+    name = factory.Sequence(lambda n: "course %d" % n)
+    description = factory.Sequence(lambda n: "course %d description" % n)
+    class Meta:
+        model = Course
