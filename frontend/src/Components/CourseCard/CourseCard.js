@@ -3,6 +3,7 @@ import './CourseCard.css'
 import * as Si from 'react-icons/si'
 import * as Bs from 'react-icons/bs'
 import { Link } from 'react-router-dom'
+import { string } from 'prop-types'
 
 const CourseCard = (props) => {
   return (
@@ -43,6 +44,12 @@ CourseCard.defaultProps = {
   cardText: 'Starts on 12 Jan 2021, End on 12 March 2021',
   instructor: 'Daniel Lim (Senior Engineer)',
   // age: "45"
+}
+
+CourseCard.propTypes = {
+  cardTitle: string,
+  cardText: string,
+  instructor: string,
 }
 
 export default CourseCard

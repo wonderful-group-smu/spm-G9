@@ -9,8 +9,11 @@ const Courses = () => {
       <div className='row' >
         <div>
           {[0, 1, 2, 3, 4, 5, 6].map((i) => (
-            <CourseCard />
-          
+            <CourseCard key={{ i }}
+              cardTitle="IS110: Python Programming"
+              cardText="Starts on 12 Jan 2021, End on 12 Mar 2021"
+              instructor="Daniel Lim (Senior Engineer)"
+            />
           ))}
         </div>
       </div>

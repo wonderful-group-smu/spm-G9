@@ -1,7 +1,7 @@
 import React from 'react'
 import * as Bs from 'react-icons/bs'
 import * as Io from 'react-icons/io'
-import "./TapNav.css"
+import "./TopNav.css"
 
 const TopNav = () => {
     return (

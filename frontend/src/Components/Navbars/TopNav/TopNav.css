@@ -2,7 +2,7 @@
     color: #343a40;
     color: 343a40;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: flex-end;
     padding:20px 40px 40px 40px ;
     /* padding-top: 20px; */

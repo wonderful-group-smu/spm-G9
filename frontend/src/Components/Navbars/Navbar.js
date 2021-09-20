@@ -1,13 +1,14 @@
 // import React from 'react'
 import './Navbar.scss'
 
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 // import * as Bs from 'react-icons/bs'
 // import * as Io from 'react-icons/io'
 import { SidebarData } from './SidebarData'
 import './Navbar.css'
 // import TopNav from "./TopNav/TopNav"
+import { string } from 'prop-types'
 
 
 function Navbar(props){
@@ -46,6 +47,12 @@ function Navbar(props){
       </>
     
   )
+}
+
+Navbar.propTypes = {
+  leftOpen: string,
+  iconColor: string,
+  toggleSidebar: string,
 }
 
 
