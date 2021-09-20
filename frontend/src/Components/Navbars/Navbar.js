@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 import { SidebarData } from './SidebarData'
 import './Navbar.css'
 // import TopNav from "./TopNav/TopNav"
-import { string } from 'prop-types'
+import { string, func } from 'prop-types'
 
 
 function Navbar(props){
@@ -52,7 +52,7 @@ function Navbar(props){
 Navbar.propTypes = {
   leftOpen: string,
   iconColor: string,
-  toggleSidebar: string,
+  toggleSidebar: func,
 }
 
 
