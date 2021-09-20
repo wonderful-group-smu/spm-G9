@@ -1,6 +1,6 @@
 from flask import Flask
 
-from myapi import api, auth, course
+from myapi import api, auth
 from myapi.extensions import apispec, cors, db, jwt, migrate
 
 
