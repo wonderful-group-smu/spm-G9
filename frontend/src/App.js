@@ -6,6 +6,9 @@ import React, { useState } from 'react'
 import Navbar from './Components/Navbars/Navbar'
 import Courses from './Pages/Courses/Courses'
 import Records from './Pages/Records/Records'
+import Enrolled from './Pages/Enrolled/Enrolled'
+
+import CreateCourse from './Pages/CreateCourse/CreateCourse'
 
 import TopNav from './Components/Navbars/TopNav/TopNav'
 import Home from './Pages/Home/Home'
@@ -40,6 +43,8 @@ function App() {
             <Switch>
               <Route path='/courses' component={Courses} />
               <Route path='/records' component={Records} />
+              <Route path='/enrolled' component={Enrolled} />
+              <Route path='/createcourse' component={CreateCourse} />
               <Route path='/' component={Home} />
             </Switch>
             </div>
