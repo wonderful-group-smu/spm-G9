@@ -6,6 +6,11 @@ from myapi.commons.pagination import paginate
 from myapi.extensions import db
 from myapi.models import Course
 
+
+
+# -------
+# TODO: This is a work in progress, blocked till further notice
+# -------
 class CourseList(Resource):
     """Get all courses
 
@@ -31,6 +36,20 @@ class CourseList(Resource):
     method_decorators = [jwt_required()]
 
     def get(self):
-        schema = CourseSchema(many=True)
-        query = Course.query
-        return paginate(query, schema)
+      
+      # Step 1: Get all the courses
+      query = Course.query.all()
+      schema = CourseSchema(many=True)
+      courses = schema.dumps(query).data
+      
+      # Step 2: Get engineer completed courses
+      
+      # Step 3: Get enrolled courses
+      
+      # Step 4: Validate the courses pre-req
+      
+      # Step 5: Convert back to MA format and paginate
+      
+      result = validate_prereqs(courses, completed_courses)
+      query = schema.load(result)
+      return paginate(query, schema)
