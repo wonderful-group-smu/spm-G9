@@ -29,8 +29,10 @@ const CreateCourse = (props) => {
               <label htmlFor="inputPrerequisites" className="form-check-label" >{prereq}</label>
             </div>
           ))}
-            
         </div>
+
+        <label htmlFor="inputDescription" className="form-label">Descripton</label>
+        <input className="form-control" id="inputDescription"/>
 
       </form>
 

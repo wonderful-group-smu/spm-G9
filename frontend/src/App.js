@@ -7,7 +7,6 @@ import Navbar from './Components/Navbars/Navbar'
 import Courses from './Pages/Courses/Courses'
 import Records from './Pages/Records/Records'
 import Enrolled from './Pages/Enrolled/Enrolled'
-
 import CreateCourse from './Pages/CreateCourse/CreateCourse'
 
 import TopNav from './Components/Navbars/TopNav/TopNav'
