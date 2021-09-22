@@ -4,8 +4,33 @@ from flask_restful import Resource
 from myapi.api.schemas import CourseSchema
 from myapi.commons.pagination import paginate
 from myapi.extensions import db
-from myapi.models import Course
+from myapi.models import Course, Prereq
 
+class CourseResource(Resource):
+    """Get one course
+
+    ---
+    get:
+      tags:
+        - api
+      responses:
+        200:
+          content:
+            application/json:
+              schema: CourseSchema
+    """
+    # method_decorators = [jwt_required()]
+
+    def get(self, course_id):
+        query = (
+          Course.query
+          .join(Prereq)
+          .filter(Course.course_id == course_id)
+          .one()
+        )
+        schema = CourseSchema()
+        courses = schema.dump(query)
+        return courses
 
 
 # -------
