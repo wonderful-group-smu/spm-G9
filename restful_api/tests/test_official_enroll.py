@@ -2,9 +2,9 @@
 from flask import url_for
 
 def test_get_all_enrollments(client, db, official_enroll_factory, test_user_headers):
-    official_enrollment_url = url_for('api.official_enroll', eng_id=1)
     official_enrollments = official_enroll_factory.create_batch(5)
-    
+    official_enrollment_url = url_for('api.official_enroll', eng_id=official_enrollments[0].eng_id)
+
     db.session.add_all(official_enrollments)
     db.session.commit()
 
