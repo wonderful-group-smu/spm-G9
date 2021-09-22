@@ -32,7 +32,7 @@ def test_get_single_course(client, db, course_factory, admin_headers, prereq_fac
     rep = client.get(course_url, headers=admin_headers)
 
     assert rep.status_code == 200
-    assert rep.get_json()['name'] == courses[0].name
+    assert rep.get_json()['course']['name'] == courses[0].name
 
     # Add prereq to second course
     prereq_one = prereq_factory(course_id=courses[1].course_id, prereq_id=courses[0].course_id)
@@ -44,4 +44,4 @@ def test_get_single_course(client, db, course_factory, admin_headers, prereq_fac
     rep = client.get(course_url, headers=admin_headers)
 
     assert rep.status_code == 200
-    assert len(rep.get_json()['prereqs']) == 1
+    assert len(rep.get_json()['course']['prereqs']) == 1

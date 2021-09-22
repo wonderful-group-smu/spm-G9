@@ -17,7 +17,13 @@ class CourseResource(Resource):
         200:
           content:
             application/json:
-              schema: CourseSchema
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: course retrieved
+                  course: CourseSchema
 
     post:
       tags:
@@ -57,7 +63,7 @@ class CourseResource(Resource):
 
         schema = CourseSchema()
         course = schema.dump(query)
-        return course
+        return {"msg": "course retrieved", "course": schema.dump(course)}, 200
 
     # Removing 'course_id' will raise error when parsing
     def post(self, course_id):
