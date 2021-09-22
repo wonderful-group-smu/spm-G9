@@ -14,11 +14,11 @@ def init():
     from myapi.extensions import db
     from myapi.models import User
 
-    click.echo("create user")
-    user = User(username="testuser", email="testuser@mail.com", password="testpassword", active=True)
-    db.session.add(user)
-    db.session.commit()
-    click.echo("created user admin")
+    # click.echo("create user")
+    # user = User(username="testuser", email="testuser@mail.com", password="testpassword", active=True)
+    # db.session.add(user)
+    # db.session.commit()
+    # click.echo("created user admin")
 
 
 if __name__ == "__main__":

@@ -5,17 +5,21 @@ from myapi.models import User
 from myapi.app import create_app
 from myapi.extensions import db as _db
 from pytest_factoryboy import register
+
 from tests.factories import (
     UserFactory,
     EmployeeFactory,
     CourseFactory,
-    PrereqFactory
+    PrereqFactory,
+    OfficialEnrollFactory
 )
 
 register(UserFactory)
-register(CourseFactory)
+register(EmployeeFactory)
+register(OfficialEnrollFactory)
 register(EmployeeFactory)
 register(PrereqFactory)
+register(CourseFactory)
 
 
 @pytest.fixture(scope="session")
@@ -87,4 +91,37 @@ def admin_refresh_headers(admin_user, client):
     return {
         'content-type': 'application/json',
         'authorization': 'Bearer %s' % tokens['refresh_token']
+    }
+    
+
+@pytest.fixture
+def test_user(db):
+    user = User(
+        username='testuser',
+        email='testuser@mail.com',
+        password='testpassword'
+    )
+
+    db.session.add(user)
+    db.session.commit()
+
+    return user
+
+
+@pytest.fixture
+def test_user_headers(client, test_user):
+    data = {
+        'username': 'testuser',
+        'password': 'testpassword'
+    }
+    rep = client.post(
+        '/auth/login',
+        data=json.dumps(data),
+        headers={'content-type': 'application/json'}
+    )
+
+    tokens = json.loads(rep.get_data(as_text=True))
+    return {
+        'content-type': 'application/json',
+        'authorization': 'Bearer %s' % tokens['access_token']
     }
