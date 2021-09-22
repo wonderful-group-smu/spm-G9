@@ -7,7 +7,7 @@ from myapi.extensions import db
 from myapi.models import Course, Prereq
 
 class CourseResource(Resource):
-    """Get one course
+    """Get, Create one course
 
     ---
     get:
@@ -42,23 +42,35 @@ class CourseResource(Resource):
     # method_decorators = [jwt_required()]
 
     def get(self, course_id):
-        query = (
-          Course.query
-          .join(Prereq)
-          .filter(Course.course_id == course_id)
-          .one()
-        )
+        try:
+          query = (
+            Course.query
+            .join(Prereq, isouter=True)
+            .filter(Course.course_id == course_id)
+            .one()
+          )
+        except Exception as error:
+          if "No row was found" in str(error):
+            return {"msg": "not found"}, 404
+          else:
+            raise error
+
         schema = CourseSchema()
-        courses = schema.dump(query)
-        return courses
+        course = schema.dump(query)
+        return course
 
     # Removing 'course_id' will raise error when parsing
     def post(self, course_id):
         schema = CourseSchema()
         course = schema.load(request.json)
-
-        db.session.add(course)
-        db.session.commit()
+        try:
+          db.session.add(course)
+          db.session.commit()
+        except AssertionError as error:
+          if "blank-out primary key" in str(error):
+            return {"msg": "duplicate object"}, 400
+          else:
+            raise error
 
         return {"msg": "course created", "course": schema.dump(course)}, 201
 
