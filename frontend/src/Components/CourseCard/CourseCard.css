@@ -1,5 +1,6 @@
-.shadow{
-    box-shadow: 1px 0px 8px #404040  ;
+.shadow-box{
+    /* box-shadow: 1px 0px 8px #404040  ; */
+    box-shadow: 1px 1px 8px #d8d8d8;
   
     /* text-decoration: none !important; */
     

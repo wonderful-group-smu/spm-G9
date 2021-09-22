@@ -10,7 +10,7 @@ const CourseCard = (props) => {
    <>
    {/* <div className='col-sm-4'> */}
     <Link to='/CourseTitle' className='try' style={{ textDecoration: 'none' }}>
-      <div className='col-sm shadow'>
+      <div className='col-sm shadow-box'>
         <div className='card hover-backgroundcolor'>
           <div className='card-body'>
             <h5 className='card-title'>
