@@ -19,6 +19,7 @@ register(EmployeeFactory)
 register(OfficialEnrollFactory)
 register(EmployeeFactory)
 register(PrereqFactory)
+register(CourseFactory)
 
 
 @pytest.fixture(scope="session")
