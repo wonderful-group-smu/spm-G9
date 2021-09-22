@@ -42,5 +42,5 @@ class OfficialEnrollResourceList(Resource):
 
     def get(self, eng_id):
       schema = OfficialEnrollSchema(many=True)
-      query = OfficialEnroll.query.get_or_404(eng_id)
+      query = OfficialEnroll.query.filter_by(eng_id=eng_id)
       return paginate(query, schema)

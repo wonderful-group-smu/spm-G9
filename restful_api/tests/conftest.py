@@ -84,3 +84,36 @@ def admin_refresh_headers(admin_user, client):
         'content-type': 'application/json',
         'authorization': 'Bearer %s' % tokens['refresh_token']
     }
+    
+
+@pytest.fixture
+def test_user(db):
+    user = User(
+        username='testuser',
+        email='testuser@mail.com',
+        password='testpassword'
+    )
+
+    db.session.add(user)
+    db.session.commit()
+
+    return user
+
+
+@pytest.fixture
+def test_user_headers(client, test_user):
+    data = {
+        'username': 'testuser',
+        'password': 'testpassword'
+    }
+    rep = client.post(
+        '/auth/login',
+        data=json.dumps(data),
+        headers={'content-type': 'application/json'}
+    )
+
+    tokens = json.loads(rep.get_data(as_text=True))
+    return {
+        'content-type': 'application/json',
+        'authorization': 'Bearer %s' % tokens['access_token']
+    }

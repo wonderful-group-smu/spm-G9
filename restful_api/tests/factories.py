@@ -38,5 +38,5 @@ class OfficialEnrollFactory(factory.Factory):
         model = OfficialEnroll
     
     class Meta:
-        model = Employee
+        model = OfficialEnroll
 

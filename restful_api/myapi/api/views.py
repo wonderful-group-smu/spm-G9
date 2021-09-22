@@ -17,8 +17,8 @@ api.add_resource(UserResource, "/users/<int:user_id>", endpoint="user_by_id")
 api.add_resource(UserList, "/users", endpoint="users")
 api.add_resource(EmployeeList, "/employees", endpoint="employees")
 api.add_resource(EmployeeResource, "/employees/<int:employee_id>", endpoint="employee_by_id")
-api.add_resource(OfficialEnrollResource, "/official_enroll/<int:employee_id>&<int:course_id>", endpoint="official_enroll_by_ids")
-api.add_resource(OfficialEnrollResourceList, "/official_enroll", endpoint="official_enroll")
+api.add_resource(OfficialEnrollResource, "/official_enroll_by_ids/<int:eng_id>&<int:course_id>", endpoint="official_enroll_by_ids")
+api.add_resource(OfficialEnrollResourceList, "/official_enroll/<int:eng_id>", endpoint="official_enroll")
 api.add_resource(CourseList, "/courses", endpoint="courses")
 
 
