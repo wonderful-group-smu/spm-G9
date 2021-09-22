@@ -1,5 +1,5 @@
 import factory
-from myapi.models import User, Employee
+from myapi.models import User, Employee, OfficialEnroll
 
 
 class UserFactory(factory.Factory):
@@ -17,3 +17,12 @@ class EmployeeFactory(factory.Factory):
     user_type = factory.Sequence(lambda n: "user type %d" % n)
     class Meta:
         model = Employee
+
+class OfficialEnrollFactory(factory.Factory):
+    eng_id = factory.Sequence(lambda n: 1)
+    course_id = factory.Sequence(lambda n: "%d" % n)
+    # start_date = factory.Sequence(lambda n: "%d" % n)
+    # end_date = factory.Sequence(lambda n: "%d" % n)
+    has_passed = factory.Sequence(lambda n: False)
+    class Meta:
+        model = OfficialEnroll
