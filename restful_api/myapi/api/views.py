@@ -21,7 +21,7 @@ api.add_resource(UserList, "/users", endpoint="users")
 api.add_resource(CourseList, "/courses", endpoint="courses")
 api.add_resource(EmployeeList, "/employees", endpoint="employees")
 api.add_resource(EmployeeResource, "/employees/<int:employee_id>", endpoint="employee_by_id")
-api.add_resource(CourseResource, "/courses/<int:course_id>", endpoint="course")
+api.add_resource(CourseResource, "/course/<int:course_id>", endpoint="course")
 
 
 @blueprint.before_app_first_request

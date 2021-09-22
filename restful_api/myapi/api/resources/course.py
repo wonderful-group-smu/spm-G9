@@ -1,6 +1,6 @@
 from flask import request
 from flask_jwt_extended import jwt_required
-from flask_restful import Resource
+from flask_restful import Resource, reqparse
 from myapi.api.schemas import CourseSchema
 from myapi.commons.pagination import paginate
 from myapi.extensions import db
@@ -18,6 +18,26 @@ class CourseResource(Resource):
           content:
             application/json:
               schema: CourseSchema
+
+    post:
+      tags:
+        - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              CourseSchema
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: course created
+                  course: CourseSchema
     """
     # method_decorators = [jwt_required()]
 
@@ -31,6 +51,16 @@ class CourseResource(Resource):
         schema = CourseSchema()
         courses = schema.dump(query)
         return courses
+
+    # Removing 'course_id' will raise error when parsing
+    def post(self, course_id):
+        schema = CourseSchema()
+        course = schema.load(request.json)
+
+        db.session.add(course)
+        db.session.commit()
+
+        return {"msg": "course created", "course": schema.dump(course)}, 201
 
 
 # -------
