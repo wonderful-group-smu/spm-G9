@@ -1,10 +1,10 @@
-from myapi.models import PreReq
+from myapi.models import Prereq
 from myapi.extensions import ma, db
 
 
-class PreReqSchema(ma.SQLAlchemyAutoSchema):
+class PrereqSchema(ma.SQLAlchemyAutoSchema):
     
     class Meta:
-        model = PreReq
+        model = Prereq
         sqla_session = db.session
         load_instance = True
