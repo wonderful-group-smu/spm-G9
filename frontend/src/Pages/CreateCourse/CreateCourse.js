@@ -3,6 +3,11 @@ import '../Pagelayout.css'
 import './CreateCourse.css'
 
 const CreateCourse = (props) => {
+  const handleSubmit = (contents) => {
+    console.log(contents);
+    contents.preventDefault();
+  }
+
   return (
     <div id='pagelayout'>
 
@@ -10,7 +15,7 @@ const CreateCourse = (props) => {
         <h5 id='page-title'>Create a Course</h5>
       </div>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <label htmlFor="inputCourseTitle" className="form-label">Course Name</label>
         <input className="form-control" id="inputCourseTitle" placeholder="Input Course Name..."/>
 

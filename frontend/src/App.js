@@ -17,8 +17,6 @@ function App() {
   const [showNavbar, setNavbar] = useState('open')
   const [iconColor,setIconColor] = useState('icon')
 
-  console.log(typeof(iconColor))
-
   const toggleSidebar = () => {
     setOpen(!leftOpen)
     if (leftOpen) {
