@@ -1,5 +1,6 @@
 import { array } from 'prop-types'
 import '../Pagelayout.css'
+import './CreateCourse.css'
 
 const CreateCourse = (props) => {
   return (
@@ -10,8 +11,8 @@ const CreateCourse = (props) => {
       </div>
 
       <form>
-        <label htmlFor="inputCourseTitle" className="form-label">Course Title</label>
-        <input className="form-control" id="inputCourseTitle"/>
+        <label htmlFor="inputCourseTitle" className="form-label">Course Name</label>
+        <input className="form-control" id="inputCourseTitle" placeholder="Input Course Name..."/>
 
         <label htmlFor="inputTrainer" className="form-label">Trainer</label>
         <input className="form-control" list="trainerDatalist" id="inputTrainer" placeholder="Search..."/>
@@ -20,6 +21,9 @@ const CreateCourse = (props) => {
             <option value={trainer} key={i}/>
           ))}
         </datalist>
+
+        <label htmlFor="inputDescription" className="form-label">Description</label>
+        <textarea className="form-control" id="inputDescription" placeholder="Input Course Description..." rows="3"/>
 
         <label htmlFor="form-check" className="form-label">Prerequisites</label>
         <div className="form-check">  
@@ -31,13 +35,9 @@ const CreateCourse = (props) => {
           ))}
         </div>
 
-        <label htmlFor="inputDescription" className="form-label">Descripton</label>
-        <input className="form-control" id="inputDescription"/>
-
+        <button type="submit" className="btn btn-secondary">Create Course</button>
+        
       </form>
-
-      
-
     </div>
   )
 }
