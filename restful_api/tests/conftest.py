@@ -5,12 +5,13 @@ from myapi.models import User
 from myapi.app import create_app
 from myapi.extensions import db as _db
 from pytest_factoryboy import register
-from tests.factories import UserFactory, EmployeeFactory, OfficialEnrollFactory
+from tests.factories import UserFactory, EmployeeFactory, OfficialEnrollFactory, CourseFactory
 
 
 register(UserFactory)
 register(EmployeeFactory)
 register(OfficialEnrollFactory)
+register(EmployeeFactory)
 
 
 @pytest.fixture(scope="session")
