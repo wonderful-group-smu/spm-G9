@@ -73,7 +73,7 @@ class OfficialEnrollResource(Resource):
     
   def get(self, eng_id, course_id):
     enrollment_record = OfficialEnroll.query.get_or_404(eng_id, course_id)
-    return {"employee": self.schema.dump(enrollment_record)}
+    return {"msg": "enrollment record retrieved", "enrollment": self.schema.dump(enrollment_record)}, 200
     
   def post(self, eng_id, course_id, start_date, end_date):
     new_enrollment = OfficialEnroll(eng_id, course_id, start_date, end_date)
