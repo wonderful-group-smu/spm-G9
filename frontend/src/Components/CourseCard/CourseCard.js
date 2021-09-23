@@ -3,13 +3,13 @@ import './CourseCard.css'
 import * as Si from 'react-icons/si'
 import * as Bs from 'react-icons/bs'
 import { Link } from 'react-router-dom'
-import { string } from 'prop-types'
+import { bool, string } from 'prop-types'
 
 const CourseCard = (props) => {
   return (
-   <>
-   {/* <div className='col-sm-4'> */}
-    <Link to='/CourseTitle' className='try' style={{ textDecoration: 'none' }}>
+  <>
+   <Link to='/CourseTitle' className='try' style={{ textDecoration: 'none' }}
+    onClick={props.deleteMode ? "" : (event) => event.preventDefault()}>
       <div className='col-sm shadow'>
         <div className='card hover-backgroundcolor'>
           <div className='card-body'>
@@ -26,9 +26,8 @@ const CourseCard = (props) => {
         </div>
       </div>
     </Link>
-    {/* </div> */}
 
-</>
+  </>
    
   )
 }
@@ -37,6 +36,8 @@ CourseCard.defaultProps = {
   cardTitle: 'IS110:Python Programming',
   cardText: 'Starts on 12 Jan 2021, End on 12 March 2021',
   trainer: 'Daniel Lim (Senior Engineer)',
+  selected: false,
+  deleteMode: false,
   // age: "45"
 }
 
@@ -44,6 +45,8 @@ CourseCard.propTypes = {
   cardTitle: string,
   cardText: string,
   trainer: string,
+  selected: bool,
+  deleteMode: bool,
 }
 
 export default CourseCard
