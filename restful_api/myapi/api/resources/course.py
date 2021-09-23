@@ -45,7 +45,7 @@ class CourseResource(Resource):
                     example: course created
                   course: CourseSchema
     """
-    # method_decorators = [jwt_required()]
+    method_decorators = [jwt_required()]
 
     def get(self, course_id):
         try:

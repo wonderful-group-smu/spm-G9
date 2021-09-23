@@ -30,7 +30,7 @@ class CourseTrainerResource(Resource):
                     example: course trainer created
                   course_trainer: CourseTrainerSchema
     """
-    # method_decorators = [jwt_required()]
+    method_decorators = [jwt_required()]
 
     def post(self):
         schema = CourseTrainerSchema()
