@@ -41,4 +41,4 @@ class CourseTrainerResource(Resource):
         except IntegrityError:
           return {'msg': 'invalid course trainer or course'}, 400
 
-        return {"msg": "course created", "course_trainer": schema.dump(course_trainer)}, 201
+        return {"msg": "course trainer created", "course_trainer": schema.dump(course_trainer)}, 201
