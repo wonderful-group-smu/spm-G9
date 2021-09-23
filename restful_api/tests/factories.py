@@ -1,14 +1,12 @@
 import factory
 
-from myapi.models import User, Course, Employee, Prereq, OfficialEnroll
+from myapi.models import User, Course, Employee, Prereq, OfficialEnroll, CourseTrainer
 
 
 class UserFactory(factory.Factory):
-
     username = factory.Sequence(lambda n: "user%d" % n)
     email = factory.Sequence(lambda n: "user%d@mail.com" % n)
     password = "mypwd"
-
     class Meta:
         model = User
 
@@ -17,7 +15,6 @@ class CourseFactory(factory.Factory):
     course_id = factory.Sequence(lambda n: n)
     name = factory.Sequence(lambda n: "course %d" % n)
     description = factory.Sequence(lambda n: "course %d description" % n)
-
     class Meta:
         model = Course
 
@@ -36,11 +33,11 @@ class OfficialEnrollFactory(factory.Factory):
     has_passed = factory.Sequence(lambda n: False)
     class Meta:
         model = OfficialEnroll
-    
-    class Meta:
-        model = OfficialEnroll
 
 class PrereqFactory(factory.Factory):
-
     class Meta:
         model = Prereq
+
+class CourseTrainerFactory(factory.Factory):
+    class Meta:
+        model = CourseTrainer

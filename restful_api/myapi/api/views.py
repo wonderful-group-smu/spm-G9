@@ -9,9 +9,17 @@ from myapi.api.resources import (
     CourseList,
     CourseResource,
     OfficialEnrollResource,
-    OfficialEnrollResourceList
+    OfficialEnrollResourceList,
+    CourseTrainerResource
 )
-from myapi.api.schemas import UserSchema, EmployeeSchema, CourseSchema, PrereqSchema, OfficialEnrollSchema
+from myapi.api.schemas import (
+    UserSchema,
+    EmployeeSchema,
+    CourseSchema,
+    PrereqSchema,
+    OfficialEnrollSchema,
+    CourseTrainerSchema
+)
 from myapi.extensions import apispec
 
 blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
@@ -26,6 +34,7 @@ api.add_resource(OfficialEnrollResource, "/official_enroll_by_ids/<int:eng_id>&<
 api.add_resource(OfficialEnrollResourceList, "/official_enroll/<int:eng_id>", endpoint="official_enroll")
 api.add_resource(CourseList, "/courses", endpoint="courses")
 api.add_resource(CourseResource, "/course/<int:course_id>", endpoint="course")
+api.add_resource(CourseTrainerResource, "/course_trainer", endpoint="course_trainer")
 
 
 @blueprint.before_app_first_request
@@ -35,6 +44,7 @@ def register_views():
     apispec.spec.components.schema("CourseSchema", schema=CourseSchema)
     apispec.spec.components.schema("OfficialEnrollSchema", schema=OfficialEnrollSchema)
     apispec.spec.components.schema("PrereqSchema", schema=PrereqSchema)
+    apispec.spec.components.schema("CourseTrainerSchema", schema=CourseTrainerSchema)
     apispec.spec.path(view=UserResource, app=current_app)
     apispec.spec.path(view=UserList, app=current_app)
     apispec.spec.path(view=EmployeeResource, app=current_app)
@@ -43,6 +53,7 @@ def register_views():
     apispec.spec.path(view=OfficialEnrollResourceList, app=current_app)
     apispec.spec.path(view=CourseList, app=current_app)
     apispec.spec.path(view=CourseResource, app=current_app)
+    apispec.spec.path(view=CourseTrainerResource, app=current_app)
 
 @blueprint.errorhandler(ValidationError)
 def handle_marshmallow_error(e):

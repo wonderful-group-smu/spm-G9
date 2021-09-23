@@ -4,7 +4,7 @@ from flask_restful import Resource, reqparse
 from myapi.api.schemas import CourseSchema
 from myapi.commons.pagination import paginate
 from myapi.extensions import db
-from myapi.models import Course, Prereq
+from myapi.models import Course, Prereq, CourseTrainer
 
 class CourseResource(Resource):
     """Get, Create one course
@@ -53,6 +53,7 @@ class CourseResource(Resource):
             Course.query
             .join(Prereq, isouter=True)
             .filter(Course.course_id == course_id)
+            .join(CourseTrainer, isouter=True)
             .one()
           )
         except Exception as error:
