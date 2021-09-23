@@ -103,7 +103,7 @@ class CourseList(Resource):
                       results:
                         type: array
                         items:
-                          $ref: '#/components/schemas/UserSchema'
+                          $ref: '#/components/schemas/CourseSchema'
     """
 
     method_decorators = [jwt_required()]
