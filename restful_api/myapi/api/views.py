@@ -2,8 +2,8 @@ from flask import Blueprint, current_app, jsonify
 from flask_restful import Api
 from marshmallow import ValidationError
 from myapi.extensions import apispec
-from myapi.api.resources import UserResource, UserList
-from myapi.api.schemas import UserSchema
+from myapi.api.resources import UserResource, UserList, EmployeeResource, EmployeeList
+from myapi.api.schemas import UserSchema, EmployeeSchema
 
 
 blueprint = Blueprint("api", __name__, url_prefix="/api/v1")
@@ -12,13 +12,18 @@ api = Api(blueprint)
 
 api.add_resource(UserResource, "/users/<int:user_id>", endpoint="user_by_id")
 api.add_resource(UserList, "/users", endpoint="users")
+api.add_resource(EmployeeList, "/employees", endpoint="employees")
+api.add_resource(EmployeeResource, "/employees/<int:employee_id>", endpoint="employee_by_id")
 
 
 @blueprint.before_app_first_request
 def register_views():
     apispec.spec.components.schema("UserSchema", schema=UserSchema)
+    apispec.spec.components.schema("EmployeeSchema", schema=EmployeeSchema)
     apispec.spec.path(view=UserResource, app=current_app)
     apispec.spec.path(view=UserList, app=current_app)
+    apispec.spec.path(view=EmployeeResource, app=current_app)
+    apispec.spec.path(view=EmployeeList, app=current_app)
 
 
 @blueprint.errorhandler(ValidationError)
