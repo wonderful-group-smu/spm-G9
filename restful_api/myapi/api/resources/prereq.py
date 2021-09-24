@@ -5,16 +5,28 @@ from myapi.api.schemas import PrereqSchema
 from myapi.models import Prereq
 from myapi.extensions import db
 from myapi.commons.pagination import paginate
+from collections import defaultdict
 
-# -------
-# TODO: This is a work in progress, blocked till further notice
-# -------
-def validate_prereqs(courses):
-    prereqs = Prereq.query.all()
-    prereq_schema = PrereqSchema(many=True)
-    prereqs = prereq_schema.dumps(prereqs).data
+def validate_prereqs(courses, completed_courses):
+    # convert completed courses to dict for O(1) check
+    # print(completed_courses)
+    fmted_completed_courses = {k['course_id']:1 for k in completed_courses}
+    print(fmted_completed_courses)
+    # Convert to dict for O(1) check
+    prereqs = Prereq.query.all() 
+    # Chose to query everything instead of using the MA schema to handle groupbys
     
+    prereqs_dict = defaultdict(list)
+    for preq in prereqs:
+        prereqs_dict[preq.course_id].append(preq.prereq_id)
+    
+    # check if each course has prereqs
     for course in courses:
-          for prereq in prereqs:
-              if prereq['course_id'] == course['course_id']:
-                  course['prereqs'].append(prereq)
+        completed = 0
+        for cid in prereqs_dict[course['course_id']]:
+            completed += fmted_completed_courses[cid]
+            
+        course['is_eligible'] = completed == len(prereqs_dict[course['course_id']])
+            
+    return courses
+   

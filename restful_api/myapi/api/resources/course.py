@@ -1,11 +1,12 @@
+
 from flask import request
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource, reqparse
-from myapi.api.schemas import CourseSchema
+from myapi.api.schemas import CourseSchema,PrereqSchema
 from myapi.commons.pagination import paginate
 from myapi.extensions import db
-from myapi.models import Course, Prereq, CourseTrainer
-
+from myapi.models import Course, Prereq, CourseTrainer, OfficialEnroll
+from myapi.api.resources.prereq import validate_prereqs
 class CourseResource(Resource):
     """Get, Create one course
 
@@ -82,11 +83,8 @@ class CourseResource(Resource):
         return {"msg": "course created", "course": schema.dump(course)}, 201
 
 
-# -------
-# TODO: This is a work in progress, blocked till further notice
-# -------
 class CourseList(Resource):
-    """Get all courses
+    """Get all courses, with boolean indicating if engineer is eligible / enrolled
 
     ---
     get:
@@ -109,21 +107,29 @@ class CourseList(Resource):
 
     method_decorators = [jwt_required()]
 
-    def get(self):
+    def get(self, eng_id):
       
-      # Step 1: Get all the courses
-      query = Course.query.all()
+      all_courses = (Course.query
+               .join(
+                 OfficialEnroll.query.filter(
+                   OfficialEnroll.eng_id==eng_id
+                   ), isouter=True)
+               .join(Prereq, isouter=True)
+               )
+      
+      completed_courses = (Course.query
+               .join(
+                 OfficialEnroll.query.filter(
+                   OfficialEnroll.eng_id==eng_id,
+                   OfficialEnroll.has_passed == True
+                   ), isouter=True)
+               .join(Prereq, isouter=True)
+               )
+      
       schema = CourseSchema(many=True)
-      courses = schema.dumps(query).data
-      
-      # Step 2: Get engineer completed courses
-      
-      # Step 3: Get enrolled courses
-      
-      # Step 4: Validate the courses pre-req
-      
-      # Step 5: Convert back to MA format and paginate
-      
-      result = validate_prereqs(courses, completed_courses)
-      query = schema.load(result)
-      return paginate(query, schema)
+      courses = validate_prereqs(schema.dump(all_courses),
+                                  schema.dump(completed_courses))
+      # print(schema.dump(completed_courses)
+      # from pprint import pprint
+      # pprint(courses))
+      return paginate(schema.load(courses), schema)

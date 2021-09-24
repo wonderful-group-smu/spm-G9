@@ -4,6 +4,7 @@ class OfficialEnroll(db.Model):
     """Basic official enroll model"""
 
     __tablename__ = "official_enroll"
+    __table_args__ = (db.UniqueConstraint('eng_id','course_id', name = 'unique_official_enroll'),)
     
     eng_id = db.Column(db.Integer, db.ForeignKey('employee.id'), primary_key=True)
     course_id = db.Column(db.Integer, db.ForeignKey('course.course_id'), primary_key=True)
