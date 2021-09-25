@@ -13,6 +13,6 @@ __all__ = [
   "OfficialEnrollResource",
   "CourseList",
   "CourseResource",
-  "CourseTrainerResource"
+  "CourseTrainerResource",
 ]
 
