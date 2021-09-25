@@ -12,7 +12,11 @@ from tests.factories import (
     CourseFactory,
     PrereqFactory,
     OfficialEnrollFactory,
+<<<<<<< HEAD
     SelfEnrollFactory
+=======
+    CourseTrainerFactory
+>>>>>>> origin/SPM-29-Display-Eligible-Courses
 )
 
 register(UserFactory)
@@ -21,8 +25,12 @@ register(OfficialEnrollFactory)
 register(EmployeeFactory)
 register(PrereqFactory)
 register(CourseFactory)
+<<<<<<< HEAD
 register(SelfEnrollFactory)
 
+=======
+register(CourseTrainerFactory)
+>>>>>>> origin/SPM-29-Display-Eligible-Courses
 
 @pytest.fixture(scope="session")
 def app():
