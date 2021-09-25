@@ -6,7 +6,7 @@ class CourseSchema(ma.SQLAlchemyAutoSchema):
 
     prereqs = ma.List(ma.Nested(PrereqSchema), required=False)
     course_trainers = ma.List(ma.Nested(CourseTrainerSchema), required=False)
-    isEligible = ma.Method('is_eligible') # Note, this is using Marshmallow, not the flask extension
+    isEligible = ma.Method('is_eligible')
     isActive = ma.Method('is_active')
     isComplete = ma.Method('is_complete')
     class Meta:
@@ -15,7 +15,6 @@ class CourseSchema(ma.SQLAlchemyAutoSchema):
         load_instance = True
         ordered = True
         
-    
     def is_complete(self, obj):
         if hasattr(obj, 'has_passed'):
             return obj.has_passed

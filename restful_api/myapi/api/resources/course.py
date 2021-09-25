@@ -90,19 +90,26 @@ class CourseList(Resource):
     get:
       tags:
         - api
+      parameters:
+        - name: eng_id
+          in: query
+          type: integer
+          required: true
+          description: engineer id
       responses:
+        400:
+          description: no engineer id provided
         200:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/PaginatedResult'
-                  - type: object
-                    properties:
-                      results:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/UserSchema'
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: all courses retrieved
+                  result: CourseSchema
+            
     """
 
     method_decorators = [jwt_required()]
@@ -122,4 +129,4 @@ class CourseList(Resource):
       
       # Can't use paginate on this as I need to 
       # transform the data first
-      return {"msg": "all courses", "results": course_schema.dump(courses)}, 200
+      return {"msg": "all courses retrieved", "results": course_schema.dump(courses)}, 200
