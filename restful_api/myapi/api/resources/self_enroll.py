@@ -60,6 +60,7 @@ class SelfEnrollResource(Resource):
         return {"msg": "self enrollment record retrieved", "enrollment": schema.dump(enrollment_record)}, 200
 
     # Removing 'eng_id' or 'course_id' will raise error when parsing
+    # No need to check if prereqs are met because handled under courses/<int: eng_id> endpoint, which gives the list of eligible courses for an eng_id. (where courses['isEligible']==True)
     def post(self, eng_id, course_id):
         schema = SelfEnrollSchema()
         new_enrollment = schema.load(request.json)
