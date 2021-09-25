@@ -127,6 +127,4 @@ class CourseList(Resource):
       
       courses = validate_prereqs(all_courses, official_enroll_schema.dump(enrolled_courses))
       
-      # Can't use paginate on this as I need to 
-      # transform the data first
       return {"msg": "all courses retrieved", "results": course_schema.dump(courses)}, 200
