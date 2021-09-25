@@ -8,6 +8,42 @@ from myapi.extensions import db
 from myapi.models import SelfEnroll
 
 class SelfEnrollResource(Resource):
+    """Get, create one self enrollment for an engineer
+    get:
+        tags:
+            - api
+        responses:
+            200:
+            content:
+                application/json:
+                schema:
+                    type: object
+                    properties:
+                    msg:
+                        type: string
+                        example: self enrollment retrieved
+                    SelfEnroll: SelfEnrollSchema
+
+    post:
+        tags:
+            - api
+        requestBody:
+            content:
+            application/json:
+                schema:
+                SelfEnrollSchema
+        responses:
+            201:
+            content:
+                application/json:
+                schema:
+                    type: object
+                    properties:
+                    msg:
+                        type: string
+                        example: self enrollment created
+                    SelfEnroll: SelfEnrollSchema
+    """
     method_decorators = [jwt_required()]
 
     def get(self, eng_id, course_id):
@@ -23,6 +59,7 @@ class SelfEnrollResource(Resource):
         enrollment_record = schema.dump(query)
         return {"msg": "self enrollment record retrieved", "enrollment": schema.dump(enrollment_record)}, 200
 
+    # Removing 'eng_id' or 'course_id' will raise error when parsing
     def post(self, eng_id, course_id):
         schema = SelfEnrollSchema()
         new_enrollment = schema.load(request.json)
@@ -35,7 +72,7 @@ class SelfEnrollResource(Resource):
             else:
                 raise error
 
-        return {"msg": "enrollment created", "enrollment": schema.dump(new_enrollment)}, 201
+        return {"msg": "self enrollment created", "enrollment": schema.dump(new_enrollment)}, 201
 
 class SelfEnrollResourceList(Resource):
     method_decorators = [jwt_required()]

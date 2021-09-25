@@ -19,7 +19,7 @@ def test_get_self_enrollment_for_one_engineer(client, db, self_enroll_factory,  
     assert rep.get_json()["enrollment"]["course_id"] == self_enrollments[0].course_id
 
 
-def test_get_all_self_enrollments(client, db, self_enroll_factory, admin_headers):
+def test_get_all_self_enrollments_for_one_engineer(client, db, self_enroll_factory, admin_headers):
     
     #test get_all self_enrollments
     self_enrollments = self_enroll_factory.create_batch(5)  
