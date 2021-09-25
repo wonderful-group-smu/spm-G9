@@ -9,24 +9,20 @@ from collections import defaultdict
 
 def validate_prereqs(courses, completed_courses):
     # convert completed courses to dict for O(1) check
-    # print(completed_courses)
-    fmted_completed_courses = {k['course_id']:1 for k in completed_courses}
-    print(fmted_completed_courses)
-    # Convert to dict for O(1) check
-    prereqs = Prereq.query.all() 
-    # Chose to query everything instead of using the MA schema to handle groupbys
+    fmted_enrolled_courses = {k['course_id']:k['has_passed'] 
+                               for k in completed_courses}
     
-    prereqs_dict = defaultdict(list)
-    for preq in prereqs:
-        prereqs_dict[preq.course_id].append(preq.prereq_id)
-    
-    # check if each course has prereqs
+    # Check the pre-reqs to see if they are done
     for course in courses:
         completed = 0
-        for cid in prereqs_dict[course['course_id']]:
-            completed += fmted_completed_courses[cid]
+        for preq in course.prereqs:
+            completed += fmted_enrolled_courses.get(preq.prereq_id, 0)
             
-        course['is_eligible'] = completed == len(prereqs_dict[course['course_id']])
-            
+        course.is_eligible = completed == len(course.prereqs) 
+
+        if course.course_id in fmted_enrolled_courses:
+            # only create the attribute if it is inside
+            course.has_passed = fmted_enrolled_courses.get(course.course_id, None)
+        
     return courses
    
