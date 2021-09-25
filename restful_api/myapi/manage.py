@@ -15,7 +15,7 @@ def init():
 
     items_to_add = []
     click.echo("create user")
-    user = User(id=1, username="test", email="test@mail.com", password="testpassword", active=True)
+    user = User(id=1, username="testuser", email="test@mail.com", password="testpassword", active=True)
     items_to_add.append(user)
     click.echo("created user")
     click.echo("create employee")
