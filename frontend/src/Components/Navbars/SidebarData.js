@@ -18,10 +18,15 @@ export const SidebarData=[
         cName:'nav-text'
     },
     {
+        title:'Enrolled',
+        path:'/enrolled',
+        icon: <FaIcons.FaTasks />,
+        cName:'nav-text'
+    },
+    {
         title:'Records',
         path:'/records',
         icon: <FaIcons.FaListAlt />,
         cName:'nav-text'
     },
-
 ]
