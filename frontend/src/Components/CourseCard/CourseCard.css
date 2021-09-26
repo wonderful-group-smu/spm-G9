@@ -30,3 +30,23 @@
 .card-title{
     color: #212529;
 }
+
+.selected-body{
+    border-style: solid;
+    border-width: .15rem;
+    border-color: rgb(12, 198, 245);
+}
+
+.checkbox{
+    position: relative;
+    float: right;
+    right: .1rem;
+    bottom: -.5rem;
+    color: black;    
+    transform: scale(1.1, 1.1)
+}
+
+.selected{
+    color: rgb(12, 198, 245);
+    transform: scale(1.4,1.4);
+}
