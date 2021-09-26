@@ -1,0 +1,37 @@
+name: Test
+
+on: push
+
+jobs:
+  run-tests:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
+      - name: Run React lint and test
+        working-directory: ./frontend
+        run: |
+          npm install -g yarn
+          yarn
+          yarn test
+          yarn lint
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8.3' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+      
+      - name: Run Pytest
+        working-directory: ./restful_api
+        run: |
+          pip3 install -r requirements.txt
+          pytest

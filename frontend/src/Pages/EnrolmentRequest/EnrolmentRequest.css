@@ -1,0 +1,61 @@
+.white-bg{
+    background-color: white;
+    /* border: 1px #404040 solid; */
+    box-shadow: 1px 1px 3px #ebebeb;
+    border-radius: 10px;
+    padding: 2rem;
+  
+}
+
+.header-row{
+    font-weight: bold;
+    border-bottom: #ebebeb solid 1px;
+    padding-bottom:5px ;
+    
+}
+.content-row{
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-bottom: #ebebeb solid 1px;
+
+}
+
+.content-row:hover{
+    background-color:#ebebeb;
+
+}
+
+.status-pill{
+    background-color: rgb(243, 107, 130);
+}
+
+.check{
+    color: green;
+    margin-right: 30px;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+.check:hover{
+    background-color:#d6d6d6 ;
+}
+
+.cross{
+    color: red;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+
+.cross:hover{
+    background-color:#d6d6d6;
+}
+
+button {     
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;        
+}
+

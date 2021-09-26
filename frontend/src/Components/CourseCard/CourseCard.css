@@ -1,0 +1,33 @@
+.shadow-box{
+    /* box-shadow: 1px 0px 8px #404040  ; */
+    box-shadow: 1px 1px 8px #d8d8d8;
+  
+    /* text-decoration: none !important; */
+    
+}
+.hover-backgroundcolor:hover{
+    background-color: #dfdfdf8a;
+    /* text-decoration: none !important; */
+}
+
+.card-text{
+    padding-top:20px ;
+    color: #8d8d8d;
+    /* text-decoration: none !important; */
+}
+.try {
+    /* text-decoration: none !important; */
+    /* display: flex; */
+    display: inline-block;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    /* align-items: center; */
+    /* justify-content: center; */
+    /* display: inline; */
+    /* margin: 0 auto; */
+
+}
+
+.card-title{
+    color: #212529;
+}
