@@ -1,6 +1,8 @@
 from flask import Flask
+
 from myapi import api, auth
-from myapi.extensions import apispec, db, jwt, migrate, cors
+from myapi.extensions import apispec, cors, db, jwt, migrate
+
 
 def create_app(testing=False):
     """Application factory, used to create application"""
