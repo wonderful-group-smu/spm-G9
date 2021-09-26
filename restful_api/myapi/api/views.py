@@ -61,8 +61,10 @@ def register_views():
     apispec.spec.path(view=SelfEnrollResourceList, app=current_app)
     apispec.spec.path(view=SelfEnrollResource, app=current_app)
     apispec.spec.path(view=CourseTrainerResource, app=current_app)
+    
+@blueprint.errorhandler(ValidationError)
+def handle_marshmallow_error(e):
     """Return json error for marshmallow validation errors.
-
     This will avoid having to try/catch ValidationErrors in all endpoints, returning
     correct JSON response with associated HTTP 400 Status (https://tools.ietf.org/html/rfc7231#section-6.5.1)
     """
