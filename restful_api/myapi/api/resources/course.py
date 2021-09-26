@@ -45,6 +45,20 @@ class CourseResource(Resource):
                     type: string
                     example: course created
                   course: CourseSchema
+
+    delete:
+      tags:
+        - api
+      responses: 
+        204:
+          description: The resource was deleted successfully.
+        404:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
     """
     # method_decorators = [jwt_required()]
 
