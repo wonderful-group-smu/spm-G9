@@ -9,5 +9,5 @@ class CourseTrainer(db.Model):
     course_id = db.Column(db.Integer, db.ForeignKey('course.course_id'), primary_key=True)
     trainer_id = db.Column(db.Integer, db.ForeignKey('employee.id'), primary_key=True)
 
-    course = db.relationship('Course', uselist=False, backref=db.backref('course_trainers', lazy="joined"))
-    trainer = db.relationship('Employee', uselist=False, backref=db.backref('trainer_courses', lazy="joined"))
+    course = db.relationship('Course', uselist=False, backref=db.backref('course_trainers', lazy="joined", cascade="all,delete"))
+    trainer = db.relationship('Employee', uselist=False, backref=db.backref('trainer_courses', lazy="joined", cascade="all,delete"))

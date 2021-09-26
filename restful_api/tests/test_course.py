@@ -1,5 +1,7 @@
 from flask import url_for
-import pytest
+
+from myapi.models.prereq import Prereq
+from myapi.models.course_trainer import CourseTrainer
 
 def test_get_single_course_with_prereq(client, db, course_factory, admin_headers, prereq_factory):
     courses = course_factory.create_batch(3)
@@ -30,6 +32,50 @@ def test_get_single_course_with_prereq(client, db, course_factory, admin_headers
 
     assert rep.status_code == 200
     assert len(rep.get_json()['course']['prereqs']) == 1, "Incorrect number of course pre-requisites"
+
+def test_delete_single_course(client, db, course, admin_headers):
+    db.session.add(course)
+    db.session.commit()
+
+    # Delete course success
+    course_url = url_for('api.course', course_id=course.course_id)
+    rep = client.delete(course_url, headers=admin_headers)
+    assert rep.status_code == 204, "Incorrect response code"
+
+    # Delete course failure
+    course_url = url_for('api.course', course_id=9999)
+    rep = client.delete(course_url, headers=admin_headers)
+    assert rep.status_code == 404, "Incorrect response code"
+
+def test_delete_single_course_drop_cascade(
+    client,
+    db,
+    course_factory,
+    admin_headers,
+    prereq_factory,
+    employee,
+    course_trainer_factory
+    ):
+    """Tests if deleting a course drop-cascades foreign keys"""
+    courses = course_factory.create_batch(2)
+    prereq_one = prereq_factory(course_id=courses[0].course_id, prereq_id=courses[1].course_id)
+    course_trainer = course_trainer_factory(course_id=courses[0].course_id, trainer_id=employee.id)
+
+    db.session.add_all(courses)
+    db.session.add_all([employee, prereq_one, course_trainer])
+    db.session.commit()
+
+    assert db.session.query(Prereq.course_id).filter_by(course_id=courses[0].course_id).first() is not None
+    assert db.session.query(CourseTrainer.course_id).filter_by(course_id=courses[0].course_id).first() is not None
+
+    # Delete course success
+    course_url = url_for('api.course', course_id=courses[0].course_id)
+    rep = client.delete(course_url, headers=admin_headers)
+    assert rep.status_code == 204, "Incorrect response code"
+
+    assert db.session.query(Prereq.course_id).filter_by(course_id=courses[0].course_id).first() is None, "Fail to delete cascade course prereq"
+    assert db.session.query(CourseTrainer.course_id).filter_by(course_id=courses[0].course_id).first() is  None, "Fail to delete cascade course trainer"
+
 
 def test_get_single_course_with_trainer(
     client,

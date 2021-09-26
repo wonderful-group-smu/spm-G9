@@ -10,4 +10,4 @@ class Prereq(db.Model):
     course_id = db.Column(db.Integer, db.ForeignKey("course.course_id"), primary_key=True)
     prereq_id = db.Column(db.Integer, primary_key=True)
 
-    course = db.relationship('Course', backref=db.backref('prereqs', lazy='joined'))
+    course = db.relationship('Course', backref=db.backref('prereqs', lazy='joined', cascade="all,delete"))

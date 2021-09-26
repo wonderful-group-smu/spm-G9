@@ -45,6 +45,20 @@ class CourseResource(Resource):
                     type: string
                     example: course created
                   course: CourseSchema
+
+    delete:
+      tags:
+        - api
+      responses: 
+        204:
+          description: The resource was deleted successfully.
+        404:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
     """
     method_decorators = [jwt_required()]
 
@@ -81,6 +95,14 @@ class CourseResource(Resource):
             raise error
 
         return {"msg": "course created", "course": schema.dump(course)}, 201
+
+    def delete(self, course_id):
+        course = Course.query.get_or_404(course_id)
+        db.session.delete(course)
+        db.session.commit()
+
+        return {"msg": "course deleted"}, 204
+
 
 
 class CourseList(Resource):
