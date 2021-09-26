@@ -19,4 +19,4 @@ class Employee(db.Model):
         }
 
     def __repr__(self):
-        return "<Engineer %s>" % self.name
+        return "<Employee %s>" % self.name
