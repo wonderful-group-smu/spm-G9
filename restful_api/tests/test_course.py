@@ -40,12 +40,12 @@ def test_delete_single_course(client, db, course, admin_headers):
     # Delete course success
     course_url = url_for('api.course', course_id=course.course_id)
     rep = client.delete(course_url, headers=admin_headers)
-    assert rep.status_code == 204
+    assert rep.status_code == 204, "Incorrect response code"
 
     # Delete course failure
     course_url = url_for('api.course', course_id=9999)
     rep = client.delete(course_url, headers=admin_headers)
-    assert rep.status_code == 404
+    assert rep.status_code == 404, "Incorrect response code"
 
 def test_delete_single_course_drop_cascade(
     client,
@@ -71,10 +71,10 @@ def test_delete_single_course_drop_cascade(
     # Delete course success
     course_url = url_for('api.course', course_id=courses[0].course_id)
     rep = client.delete(course_url, headers=admin_headers)
-    assert rep.status_code == 204
+    assert rep.status_code == 204, "Incorrect response code"
 
-    assert db.session.query(Prereq.course_id).filter_by(course_id=courses[0].course_id).first() is None
-    assert db.session.query(CourseTrainer.course_id).filter_by(course_id=courses[0].course_id).first() is  None
+    assert db.session.query(Prereq.course_id).filter_by(course_id=courses[0].course_id).first() is None, "Fail to delete cascade course prereq"
+    assert db.session.query(CourseTrainer.course_id).filter_by(course_id=courses[0].course_id).first() is  None, "Fail to delete cascade course trainer"
 
 
 def test_get_single_course_with_trainer(
