@@ -76,6 +76,22 @@ class SelfEnrollResource(Resource):
         return {"msg": "self enrollment created", "enrollment": schema.dump(new_enrollment)}, 201
 
 class SelfEnrollResourceList(Resource):
+    """Get all self enrollments for an engineer
+    get:
+        tags:
+            - api
+        responses:
+            200:
+            content:
+                application/json:
+                schema:
+                    type: object
+                    properties:
+                    msg:
+                        type: string
+                        example: self enrollments retrieved
+                    SelfEnroll: SelfEnrollSchema
+    """
     method_decorators = [jwt_required()]
 
     def get(self, eng_id):

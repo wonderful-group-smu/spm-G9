@@ -3,7 +3,7 @@ from flask import url_for
 
 def test_get_self_enrollment_for_one_engineer(client, db, self_enroll_factory,   admin_headers):
     # test 404 
-    self_enrollment_url = url_for('api.self_enroll_by_ids', eng_id="9999", course_id="9999")
+    self_enrollment_url = url_for('api.self_enroll_by_ids', eng_id=9999, course_id=9999)
     rep = client.get(self_enrollment_url, headers=admin_headers)
     assert rep.status_code == 404
 
