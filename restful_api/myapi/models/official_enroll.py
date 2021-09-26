@@ -11,3 +11,6 @@ class OfficialEnroll(db.Model):
     start_date = db.Column(db.DateTime)
     end_date = db.Column(db.DateTime)
     has_passed = db.Column(db.Boolean, default=False)
+
+    # If course is deleted, the row in this table will be dropped
+    course = db.relationship('Course', backref=db.backref('official_enrols', lazy='joined', cascade="all,delete"))

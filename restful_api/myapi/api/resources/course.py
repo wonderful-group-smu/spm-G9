@@ -46,7 +46,7 @@ class CourseResource(Resource):
                     example: course created
                   course: CourseSchema
     """
-    method_decorators = [jwt_required()]
+    # method_decorators = [jwt_required()]
 
     def get(self, course_id):
         try:
@@ -81,6 +81,14 @@ class CourseResource(Resource):
             raise error
 
         return {"msg": "course created", "course": schema.dump(course)}, 201
+
+    def delete(self, course_id):
+        course = Course.query.get_or_404(course_id)
+        db.session.delete(course)
+        db.session.commit()
+
+        return {"msg": "course deleted"}, 204
+
 
 
 class CourseList(Resource):
