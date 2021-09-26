@@ -8,7 +8,7 @@ from myapi.models.self_enroll import SelfEnroll
 from myapi.models.course_trainer import CourseTrainer
 
 
-__all__ = ["User", "TokenBlocklist","Employee", "Course", "PreReq", "OfficialEnroll", "SelfEnroll", "CourseTrainer"]
+__all__ = ["User", "TokenBlocklist","Employee", "Course", "Prereq", "OfficialEnroll", "SelfEnroll", "CourseTrainer"]
 
 
 

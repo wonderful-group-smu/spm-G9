@@ -19,7 +19,6 @@ from tests.factories import (
 register(UserFactory)
 register(EmployeeFactory)
 register(OfficialEnrollFactory)
-register(EmployeeFactory)
 register(PrereqFactory)
 register(CourseFactory)
 register(SelfEnrollFactory)

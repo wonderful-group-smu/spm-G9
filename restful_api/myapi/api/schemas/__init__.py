@@ -13,7 +13,7 @@ __all__ = [
   "CourseSchema",
   "PrereqSchema",
   "OfficialEnrollSchema",
-  "CourseTrainerSchema"
+  "CourseTrainerSchema",
   "SelfEnrollSchema"
 ]
 

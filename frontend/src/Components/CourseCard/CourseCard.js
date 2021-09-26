@@ -10,7 +10,7 @@ const CourseCard = (props) => {
    <>
    {/* <div className='col-sm-4'> */}
     <Link to='/CourseTitle' className='try' style={{ textDecoration: 'none' }}>
-      <div className='col-sm shadow'>
+      <div className='col-sm shadow-box'>
         <div className='card hover-backgroundcolor'>
           <div className='card-body'>
             <h5 className='card-title'>
@@ -20,7 +20,7 @@ const CourseCard = (props) => {
             <p className='card-subtitle mb-2 text-muted'>{props.cardText}</p>
             <p className='card-text'>
               <Bs.BsPeopleCircle size={25} />
-              &nbsp;{props.instructor}
+              &nbsp;{props.trainer}
             </p>
           </div>
         </div>
@@ -28,28 +28,22 @@ const CourseCard = (props) => {
     </Link>
     {/* </div> */}
 
-
-
 </>
    
-
-
-
-
   )
 }
 
 CourseCard.defaultProps = {
   cardTitle: 'IS110:Python Programming',
   cardText: 'Starts on 12 Jan 2021, End on 12 March 2021',
-  instructor: 'Daniel Lim (Senior Engineer)',
+  trainer: 'Daniel Lim (Senior Engineer)',
   // age: "45"
 }
 
 CourseCard.propTypes = {
   cardTitle: string,
   cardText: string,
-  instructor: string,
+  trainer: string,
 }
 
 export default CourseCard

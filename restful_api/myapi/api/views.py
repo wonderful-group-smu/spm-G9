@@ -57,14 +57,10 @@ def register_views():
     apispec.spec.path(view=EmployeeList, app=current_app)
     apispec.spec.path(view=OfficialEnrollResource, app=current_app)
     apispec.spec.path(view=OfficialEnrollResourceList, app=current_app)
-    apispec.spec.path(view=CourseList, app=current_app)
     apispec.spec.path(view=CourseResource, app=current_app)
     apispec.spec.path(view=SelfEnrollResourceList, app=current_app)
     apispec.spec.path(view=SelfEnrollResource, app=current_app)
     apispec.spec.path(view=CourseTrainerResource, app=current_app)
-
-@blueprint.errorhandler(ValidationError)
-def handle_marshmallow_error(e):
     """Return json error for marshmallow validation errors.
 
     This will avoid having to try/catch ValidationErrors in all endpoints, returning
