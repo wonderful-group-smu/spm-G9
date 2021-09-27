@@ -9,8 +9,10 @@
 
 .header-row{
     font-weight: bold;
-    border-bottom: #ebebeb solid 1px;
-    padding-bottom:5px ;
+    color: rgb(69, 182, 185);
+    font-size: smaller;
+    /* border-bottom: #ebebeb solid 1px; */
+    /* padding-bottom:15px ; */
     
 }
 .content-row{
@@ -25,9 +27,8 @@
 
 }
 
-.status-pill{
-    background-color: rgb(243, 107, 130);
-}
+
+
 
 .check{
     color: green;
@@ -59,3 +60,6 @@ button {
     overflow: hidden;        
 }
 
+.action{
+    visibility: hidden;
+}

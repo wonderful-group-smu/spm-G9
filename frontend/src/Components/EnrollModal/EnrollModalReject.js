@@ -6,7 +6,7 @@ import * as Bs from 'react-icons/bs'
 
 const EnrollModal = (props) => {
   return (
-    <Modal {...props} size='lg' centered>
+    <Modal {...props} centered>
       <div className='modal-box'>
         <h5>
           Reject Request
