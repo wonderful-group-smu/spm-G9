@@ -12,4 +12,4 @@ class CourseClass(db.Model):
     end_date = db.Column(db.DateTime)
 
     course = db.relationship('Course', backref=db.backref('course_classes', lazy='joined', cascade="all,delete"))
-    employee = db.relationship('Employee', backref=db.backref('course_classes', lazy='joined', cascade="all,delete"))
+    trainer = db.relationship('Employee', backref=db.backref('course_classes', lazy='joined', cascade="all,delete"))
