@@ -16,8 +16,7 @@ def init():
         Course,
         Prereq,
         Employee,
-        CourseTrainer,
-        OfficialEnroll
+        CourseClass
     )
 
     items_to_add = []
@@ -43,16 +42,10 @@ def init():
     prereq_one = Prereq(course_id=2, prereq_id=1)
     items_to_add.append(prereq_one)
     click.echo("created prereq")
-    click.echo("create course trainer")
-    course_trainer_one = CourseTrainer(course_id=2, trainer_id=2)
-    course_trainer_two = CourseTrainer(course_id=1, trainer_id=2)
-    items_to_add.append(course_trainer_one)
-    items_to_add.append(course_trainer_two)
-    click.echo("created course trainer")
-    click.echo("create official enrol")
-    official_enrol_one = OfficialEnroll(eng_id=1, course_id=2)
-    items_to_add.append(official_enrol_one)
-    click.echo("created official enrol")
+    click.echo("create course class")
+    course_class_one = CourseClass(course_id=2, trainer_id=2)
+    items_to_add.append(course_class_one)
+    click.echo("created course class")
 
     db.session.add_all(items_to_add)
     db.session.commit()

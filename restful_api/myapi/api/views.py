@@ -8,20 +8,20 @@ from myapi.api.resources import (
     EmployeeList,
     CourseList,
     CourseResource,
+    CourseClassResource,
     OfficialEnrollResource,
     OfficialEnrollResourceList,
     SelfEnrollResource,
-    SelfEnrollResourceList,
-    CourseTrainerResource
+    SelfEnrollResourceList
 )
 from myapi.api.schemas import (
     UserSchema,
     EmployeeSchema,
     CourseSchema,
+    CourseClassSchema,
     PrereqSchema,
     OfficialEnrollSchema,
-    SelfEnrollSchema,
-    CourseTrainerSchema
+    SelfEnrollSchema
 )
 from myapi.extensions import apispec
 
@@ -37,9 +37,9 @@ api.add_resource(OfficialEnrollResource, "/official_enroll_by_ids/<int:eng_id>&<
 api.add_resource(OfficialEnrollResourceList, "/official_enroll/<int:eng_id>", endpoint="official_enroll")
 api.add_resource(CourseList, "/courses/<int:eng_id>", endpoint="courses")
 api.add_resource(CourseResource, "/course/<int:course_id>", endpoint="course")
+api.add_resource(CourseClassResource, "/course_class/<int:course_id>&<int:trainer_id>", endpoint="course_class")
 api.add_resource(SelfEnrollResourceList, "/self_enroll/<int:eng_id>", endpoint="self_enroll")
 api.add_resource(SelfEnrollResource, "/self_enroll/<int:eng_id>&<int:course_id>", endpoint="self_enroll_by_ids")
-api.add_resource(CourseTrainerResource, "/course_trainer", endpoint="course_trainer")
 
 
 @blueprint.before_app_first_request
@@ -47,10 +47,10 @@ def register_views():
     apispec.spec.components.schema("UserSchema", schema=UserSchema)
     apispec.spec.components.schema("EmployeeSchema", schema=EmployeeSchema)
     apispec.spec.components.schema("CourseSchema", schema=CourseSchema)
+    apispec.spec.components.schema("CourseClassSchema", schema=CourseClassSchema)
     apispec.spec.components.schema("OfficialEnrollSchema", schema=OfficialEnrollSchema)
     apispec.spec.components.schema("PrereqSchema", schema=PrereqSchema)
     apispec.spec.components.schema("SelfEnrollSchema", schema=SelfEnrollSchema)
-    apispec.spec.components.schema("CourseTrainerSchema", schema=CourseTrainerSchema)
     apispec.spec.path(view=UserResource, app=current_app)
     apispec.spec.path(view=UserList, app=current_app)
     apispec.spec.path(view=EmployeeResource, app=current_app)
@@ -58,9 +58,9 @@ def register_views():
     apispec.spec.path(view=OfficialEnrollResource, app=current_app)
     apispec.spec.path(view=OfficialEnrollResourceList, app=current_app)
     apispec.spec.path(view=CourseResource, app=current_app)
+    apispec.spec.path(view=CourseClassResource, app=current_app)
     apispec.spec.path(view=SelfEnrollResourceList, app=current_app)
     apispec.spec.path(view=SelfEnrollResource, app=current_app)
-    apispec.spec.path(view=CourseTrainerResource, app=current_app)
     
 @blueprint.errorhandler(ValidationError)
 def handle_marshmallow_error(e):

@@ -1,12 +1,12 @@
 
 from flask import request
 from flask_jwt_extended import jwt_required
-from flask_restful import Resource, reqparse
-from myapi.api.schemas import CourseSchema,PrereqSchema, OfficialEnrollSchema, SelfEnrollSchema
-from myapi.commons.pagination import paginate
+from flask_restful import Resource
+from myapi.api.schemas import CourseSchema, CourseStatusSchema, OfficialEnrollSchema, SelfEnrollSchema
 from myapi.extensions import db
-from myapi.models import Course, Prereq, CourseTrainer, OfficialEnroll, SelfEnroll
-from myapi.api.resources.prereq import validate_prereqs
+from myapi.models import Course, Prereq, OfficialEnroll, SelfEnroll
+
+
 class CourseResource(Resource):
     """Get, Create one course
 
@@ -68,7 +68,6 @@ class CourseResource(Resource):
             Course.query
             .join(Prereq, isouter=True)
             .filter(Course.course_id == course_id)
-            .join(CourseTrainer, isouter=True)
             .one()
           )
         except Exception as error:
@@ -147,11 +146,34 @@ class CourseList(Resource):
                   SelfEnroll.eng_id==eng_id,
                   ).all()
 
-      course_schema = CourseSchema(many=True)
+      course_status_schema = CourseStatusSchema(many=True)
       official_enroll_schema = OfficialEnrollSchema(many=True)
       self_enroll_schema = SelfEnrollSchema(many=True)
       
       enrolled_courses = official_enroll_schema.dump(official_enrolled_courses) + self_enroll_schema.dump(self_enrolled_courses)
-      courses = validate_prereqs(all_courses, enrolled_courses)
+
+      courses = self.validate_prereqs(all_courses, enrolled_courses)
       
-      return {"msg": "all courses retrieved", "results": course_schema.dump(courses)}, 200
+      return {"msg": "all courses retrieved", "results": course_status_schema.dump(courses)}, 200
+
+    @staticmethod
+    def validate_prereqs(courses, completed_courses):
+      # convert completed courses to dict for O(1) check
+      fmted_enrolled_courses = {k['course_id']:k['has_passed'] 
+                                for k in completed_courses}
+      
+      # Check the pre-reqs to see if they are done
+      for course in courses:
+          completed = 0
+          for preq in course.prereqs:
+              completed += fmted_enrolled_courses.get(preq.prereq_id, 0)
+              
+          course.is_eligible = completed == len(course.prereqs) 
+
+          if course.course_id in fmted_enrolled_courses:
+              # only create the attribute if it is inside
+              course.has_passed = fmted_enrolled_courses.get(course.course_id, None)
+          
+      return courses
+   
+    
