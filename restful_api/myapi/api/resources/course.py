@@ -156,8 +156,8 @@ class CourseList(Resource):
       
       return {"msg": "all courses retrieved", "results": course_status_schema.dump(courses)}, 200
 
-
-    def validate_prereqs(self, courses, completed_courses):
+    @staticmethod
+    def validate_prereqs(courses, completed_courses):
       # convert completed courses to dict for O(1) check
       fmted_enrolled_courses = {k['course_id']:k['has_passed'] 
                                 for k in completed_courses}
