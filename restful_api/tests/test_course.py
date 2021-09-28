@@ -1,6 +1,22 @@
 from flask import url_for
+import json
 
 from myapi.models.prereq import Prereq
+
+
+def test_create_single_course(client, admin_headers):
+    course_url = url_for('api.course', course_id=0)
+
+    # Create course failure due to non-nullable fields
+    rep = client.post(course_url, json={ 'course_id': 1 }, headers=admin_headers)
+    assert rep.status_code == 400, "Incorrect response code"
+
+    # Create course success
+    # You need any integer for course_id
+    request_json = { 'course_id': 0, 'name': 'Test Course', 'description': 'Test description' }
+    rep = client.post(course_url, json=request_json, headers=admin_headers)
+    assert rep.status_code == 201, "Incorrect response code"
+
 
 def test_get_single_course_with_prereq(client, db, course_factory, admin_headers, prereq_factory):
     courses = course_factory.create_batch(3)
@@ -99,6 +115,9 @@ def test_get_eligible_courses(
     enroll_two = official_enroll_factory(course_id=courses[1].course_id, has_passed=False, eng_id=employee.id)
     
     # Add the pre-reqs to the courses
+    #
+    #  Course 0 -> Course 1
+    #          \----->    \->  Course 2
     prereq_one = prereq_factory(course_id=courses[1].course_id, prereq_id=courses[0].course_id)
     prereq_two = prereq_factory(course_id=courses[2].course_id, prereq_id=courses[1].course_id)
     prereq_three = prereq_factory(course_id=courses[2].course_id, prereq_id=courses[0].course_id)

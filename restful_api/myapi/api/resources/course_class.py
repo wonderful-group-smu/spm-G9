@@ -1,6 +1,7 @@
 from flask import request
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
+from sqlalchemy.exc import IntegrityError
 from myapi.api.schemas import CourseClassSchema
 from myapi.extensions import db
 from myapi.models import CourseClass, Employee, Course
@@ -60,7 +61,7 @@ class CourseClassResource(Resource):
                   message: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
     """
     
-  # method_decorators = [jwt_required()]
+  method_decorators = [jwt_required()]
   
   def __init__(self):
     self.schema = CourseClassSchema()
@@ -72,7 +73,7 @@ class CourseClassResource(Resource):
         .join(Course, isouter=True)
         .filter(Course.course_id == course_id)
         .join(Employee, isouter=True)
-        .filter(Employee.employee_id == trainer_id)
+        .filter(Employee.id == trainer_id)
         .one()
       )
     except Exception as error:
@@ -81,14 +82,16 @@ class CourseClassResource(Resource):
       else:
         raise error
 
-    # course_class = CourseClass.query.get_or_404((course_id, trainer_id))
     return {"msg": "course class retrieved", "course_class": self.schema.dump(query)}, 200
     
   def post(self, course_id, trainer_id):
     course_class = self.schema.load(request.json)
     
-    db.session.add(course_class)
-    db.session.commit()
+    try:
+      db.session.add(course_class)
+      db.session.commit()
+    except IntegrityError:
+      return {"msg": "integrity error"}, 400
     
     return {"msg": "course class created", "course_class": self.schema.dump(course_class)}, 201
 
