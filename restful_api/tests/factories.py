@@ -1,6 +1,6 @@
 import factory
 
-from myapi.models import User, Course, Employee, Prereq, OfficialEnroll, SelfEnroll, CourseTrainer
+from myapi.models import User, Course, Employee, Prereq, OfficialEnroll, SelfEnroll
 
 class UserFactory(factory.Factory):
     username = factory.Sequence(lambda n: "user%d" % n)
@@ -43,6 +43,3 @@ class SelfEnrollFactory(factory.Factory):
 
     class Meta:
         model = SelfEnroll
-class CourseTrainerFactory(factory.Factory):
-    class Meta:
-        model = CourseTrainer

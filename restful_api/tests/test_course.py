@@ -1,7 +1,6 @@
 from flask import url_for
 
 from myapi.models.prereq import Prereq
-from myapi.models.course_trainer import CourseTrainer
 
 def test_get_single_course_with_prereq(client, db, course_factory, admin_headers, prereq_factory):
     courses = course_factory.create_batch(3)
@@ -53,20 +52,17 @@ def test_delete_single_course_drop_cascade(
     course_factory,
     admin_headers,
     prereq_factory,
-    employee,
-    course_trainer_factory
+    employee
     ):
     """Tests if deleting a course drop-cascades foreign keys"""
     courses = course_factory.create_batch(2)
     prereq_one = prereq_factory(course_id=courses[0].course_id, prereq_id=courses[1].course_id)
-    course_trainer = course_trainer_factory(course_id=courses[0].course_id, trainer_id=employee.id)
 
     db.session.add_all(courses)
-    db.session.add_all([employee, prereq_one, course_trainer])
+    db.session.add_all([employee, prereq_one])
     db.session.commit()
 
     assert db.session.query(Prereq.course_id).filter_by(course_id=courses[0].course_id).first() is not None
-    assert db.session.query(CourseTrainer.course_id).filter_by(course_id=courses[0].course_id).first() is not None
 
     # Delete course success
     course_url = url_for('api.course', course_id=courses[0].course_id)
@@ -74,29 +70,6 @@ def test_delete_single_course_drop_cascade(
     assert rep.status_code == 204, "Incorrect response code"
 
     assert db.session.query(Prereq.course_id).filter_by(course_id=courses[0].course_id).first() is None, "Fail to delete cascade course prereq"
-    assert db.session.query(CourseTrainer.course_id).filter_by(course_id=courses[0].course_id).first() is  None, "Fail to delete cascade course trainer"
-
-
-def test_get_single_course_with_trainer(
-    client,
-    db,
-    course,
-    admin_headers,
-    employee,
-    course_trainer_factory,
-):
-    course_trainer = course_trainer_factory(course_id=course.course_id, trainer_id=employee.id)
-    db.session.add(course)
-    db.session.add(employee)
-    db.session.add(course_trainer)
-    db.session.commit()
-
-    # Get course with trainer
-    course_url = url_for('api.course', course_id=course.course_id)
-    rep = client.get(course_url, headers=admin_headers)
-
-    assert rep.status_code == 200
-    assert len(rep.get_json()['course']['course_trainers']) == 1, "Incorrect number of course trainers"
 
 def test_get_eligible_courses(
     client,
