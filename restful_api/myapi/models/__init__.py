@@ -5,6 +5,7 @@ from myapi.models.official_enroll import OfficialEnroll
 from myapi.models.course import Course
 from myapi.models.prereq import Prereq
 from myapi.models.self_enroll import SelfEnroll
+from myapi.models.course_class import CourseClass
 
 
 __all__ = [
@@ -14,7 +15,8 @@ __all__ = [
   "Course",
   "Prereq",
   "OfficialEnroll",
-  "SelfEnroll"
+  "SelfEnroll",
+  "CourseClass"
 ]
 
 

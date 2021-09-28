@@ -1,4 +1,3 @@
-from sqlalchemy.orm import backref
 from myapi.extensions import db
 
 class Prereq(db.Model):
