@@ -1,8 +1,8 @@
 
 from flask import request
 from flask_jwt_extended import jwt_required
-from flask_restful import Resource, reqparse
-from myapi.api.schemas import CourseSchema, OfficialEnrollSchema, SelfEnrollSchema
+from flask_restful import Resource
+from myapi.api.schemas import CourseSchema, CourseStatusSchema, OfficialEnrollSchema, SelfEnrollSchema
 from myapi.extensions import db
 from myapi.models import Course, Prereq, OfficialEnroll, SelfEnroll
 
@@ -146,7 +146,7 @@ class CourseList(Resource):
                   SelfEnroll.eng_id==eng_id,
                   ).all()
 
-      course_schema = CourseSchema(many=True)
+      course_status_schema = CourseStatusSchema(many=True)
       official_enroll_schema = OfficialEnrollSchema(many=True)
       self_enroll_schema = SelfEnrollSchema(many=True)
       
@@ -154,7 +154,7 @@ class CourseList(Resource):
 
       courses = self.validate_prereqs(all_courses, enrolled_courses)
       
-      return {"msg": "all courses retrieved", "results": course_schema.dump(courses)}, 200
+      return {"msg": "all courses retrieved", "results": course_status_schema.dump(courses)}, 200
 
 
     def validate_prereqs(self, courses, completed_courses):
