@@ -35,7 +35,7 @@ class EmployeeFactory(factory.Factory):
 
 class OfficialEnrollFactory(factory.Factory):
     eng_id = factory.Sequence(lambda n: 1)
-    course_id = factory.Sequence(lambda n: "%d" % n)
+    course_id = factory.Sequence(lambda n: n)
     # start_date = factory.Sequence(lambda n: "%d" % n)
     # end_date = factory.Sequence(lambda n: "%d" % n)
     has_passed = factory.Sequence(lambda n: False)
@@ -48,7 +48,7 @@ class PrereqFactory(factory.Factory):
 
 class SelfEnrollFactory(factory.Factory):
     eng_id = factory.Sequence(lambda n: 1)
-    course_id = factory.Sequence(lambda n: "%d" % n)
+    course_id = factory.Sequence(lambda n: n)
     class Meta:
         model = SelfEnroll
 
@@ -61,9 +61,10 @@ class CourseClassFactory(factory.Factory):
         model = CourseClass
 
 class ClassSectionFactory(factory.Factory):
+    section_id = factory.Sequence(lambda n: n)
     course_id = factory.Sequence(lambda n: n)
     trainer_id = factory.Sequence(lambda n: n)
-    section_name = factory.Sequence(lambda n: "class section %d" % n)
+    section_name = factory.LazyAttribute(lambda o: "class section %d" % o.section_id)
     course_class = factory.SubFactory(
         CourseClassFactory,
         course_id=factory.SelfAttribute('..course_id'),

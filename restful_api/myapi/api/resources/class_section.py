@@ -1,6 +1,7 @@
 from flask import request
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
+from sqlalchemy.exc import IntegrityError
 from myapi.api.schemas import ClassSectionSchema
 from myapi.extensions import db
 from myapi.models import ClassSection, CourseClass
@@ -22,7 +23,7 @@ class ClassSectionResource(Resource):
                   msg:
                     type: string
                     example: class section retrieved
-                  course: ClassSectionSchema
+                  class_section: ClassSectionSchema
         404:
           content:
             application/json:
@@ -30,9 +31,29 @@ class ClassSectionResource(Resource):
                 type: object
                 properties:
                   msg: not found
+
+    post:
+      tags:
+        - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              ClassSectionSchema
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: course class created
+                  class_section: ClassSectionSchema
     """
     
-  method_decorators = [jwt_required()]
+  # method_decorators = [jwt_required()]
   
   def __init__(self):
     self.schema = ClassSectionSchema()
@@ -52,6 +73,17 @@ class ClassSectionResource(Resource):
         raise error
 
     return {"msg": "class section retrieved", "class_section": self.schema.dump(query)}, 200
+
+  def post(self, course_id, trainer_id):
+    class_section = self.schema.load(request.json)
+    
+    try:
+      db.session.add(class_section)
+      db.session.commit()
+    except IntegrityError as e:
+      return {"msg": str(e)}, 400
+    
+    return {"msg": "class section created", "class_section": self.schema.dump(class_section)}, 201
 
 
 class ClassSectionResourceList(Resource):
