@@ -11,7 +11,9 @@ import Enrolled from './Pages/Enrolled/Enrolled'
 import CreateCourse from './Pages/CreateCourse/CreateCourse'
 import SelfEnrollmentForm from './Pages/SelfEnrollmentForm/SelfEnrollmentForm'
 import TopNav from './Components/Navbars/TopNav/TopNav'
+import HrClasses from './Pages/HrClasses/HrClasses'
 import Home from './Pages/Home/Home'
+import HrClassDetails from './Pages/HrClassDetails/HrClassDetails'
 
 function App() {
   const [leftOpen, setOpen] = useState(true)
@@ -45,6 +47,8 @@ function App() {
               <Route path='/records' component={Records} />
               <Route path='/enrolled' component={Enrolled} />
               <Route path='/createcourse' component={CreateCourse} />
+              <Route path='/hrclasses' component={HrClasses} />
+              <Route path='/hrclassdetails' component={HrClassDetails} />
               <Route path='/' component={Home} />
             </Switch>
             </div>

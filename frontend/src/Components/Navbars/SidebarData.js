@@ -1,6 +1,7 @@
 import React from 'react'
 import * as FaIcons from 'react-icons/fa'
 import * as AiIcons from 'react-icons/ai'
+// import * as GrIcons from 'react-icons/gr'
 import {RiArtboardFill} from "react-icons/ri"
 
 
@@ -27,6 +28,12 @@ export const SidebarData=[
         title:'Records',
         path:'/records',
         icon: <FaIcons.FaListAlt />,
+        cName:'nav-text'
+    },
+    {
+        title:'HR Classes',
+        path:'/hrclasses',
+        icon: <FaIcons.FaClipboardList />,
         cName:'nav-text'
     },
 ]

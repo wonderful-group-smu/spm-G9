@@ -3,7 +3,7 @@ import React, { useReducer, useState } from 'react'
 
 import './SelfEnrollmentForm.css'
 import CourseDescription from '../../Components/CourseDescription/CourseDescription'
-import LectureHeader from './Lecture Header.jpeg'
+import LectureHeader from '../../Assets/Lecture Header.jpeg'
 import FormInput from '../../Components/FormInput/FormInput'
 const formReducer = (state, event) => {
   return {
