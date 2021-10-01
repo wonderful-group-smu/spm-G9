@@ -19,6 +19,8 @@ def test_get_single_class_section(
   rep = client.get(course_url, headers=admin_headers)
 
   assert rep.status_code == 200
-  assert rep.get_json()['class_section']['course_id'] == class_section.course_id, "Incorrect course id retrieved"
-  assert rep.get_json()['class_section']['trainer_id'] == class_section.trainer_id, "Incorrect trainer id retrieved"
-  assert rep.get_json()['class_section']['section_id'] == class_section.section_id, "Incorrect section id retrieved"
+  rep_json = rep.get_json()
+  assert rep_json['class_section']['course_id'] == class_section.course_id, "Incorrect course id retrieved"
+  assert rep_json['class_section']['trainer_id'] == class_section.trainer_id, "Incorrect trainer id retrieved"
+  assert rep_json['class_section']['section_id'] == class_section.section_id, "Incorrect section id retrieved"
+  assert rep_json['class_section']['course_class']['course_id'] == class_section.course_class.course_id, "Incorrect course class retrieved"

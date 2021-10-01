@@ -8,13 +8,12 @@ from myapi.models import (
     OfficialEnroll,
     SelfEnroll,
     CourseClass,
-    ClassSection,
-    course_class
+    ClassSection
 )
 
 class UserFactory(factory.Factory):
     username = factory.Sequence(lambda n: "user%d" % n)
-    email = factory.Sequence(lambda n: "user%d@mail.com" % n)
+    email = factory.LazyAttribute(lambda o: o.username + "%@mail.com")
     password = "mypwd"
     class Meta:
         model = User
@@ -30,7 +29,7 @@ class CourseFactory(factory.Factory):
 class EmployeeFactory(factory.Factory):
     id = factory.Sequence(lambda n: n)
     name = factory.LazyAttribute(lambda o: "employee %d" % o.id)
-    user_type = "ENG"
+    user_type = "ENG" # If want to test HR, declare explicit when creating
     class Meta:
         model = Employee
 
@@ -50,7 +49,6 @@ class PrereqFactory(factory.Factory):
 class SelfEnrollFactory(factory.Factory):
     eng_id = factory.Sequence(lambda n: 1)
     course_id = factory.Sequence(lambda n: "%d" % n)
-
     class Meta:
         model = SelfEnroll
 
