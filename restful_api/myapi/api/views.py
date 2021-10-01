@@ -41,8 +41,8 @@ api.add_resource(OfficialEnrollResourceList, "/official_enroll/<int:eng_id>", en
 api.add_resource(CourseList, "/courses/<int:eng_id>", endpoint="courses")
 api.add_resource(CourseResource, "/course/<int:course_id>", endpoint="course")
 api.add_resource(CourseClassResource, "/course_class/<int:course_id>&<int:trainer_id>", endpoint="course_class")
-api.add_resource(ClassSectionResource, "/class_section/<int:course_id>&<int:trainer_id>", endpoint="class_section")
-api.add_resource(ClassSectionResourceList, "/class_section/<int:course_id>", endpoint="class_sections_by_course")
+api.add_resource(ClassSectionResource, "/class_section/<int:section_id>", endpoint="class_section")
+api.add_resource(ClassSectionResourceList, "/class_sections/<int:course_id>", endpoint="class_sections_by_course")
 api.add_resource(SelfEnrollResourceList, "/self_enroll/<int:eng_id>", endpoint="self_enroll")
 api.add_resource(SelfEnrollResource, "/self_enroll/<int:eng_id>&<int:course_id>", endpoint="self_enroll_by_ids")
 

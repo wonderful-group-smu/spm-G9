@@ -53,22 +53,18 @@ class SelfEnrollFactory(factory.Factory):
         model = SelfEnroll
 
 class CourseClassFactory(factory.Factory):
-    course_id = factory.Sequence(lambda n: n)
-    trainer_id = factory.Sequence(lambda n: n)
-    course = factory.SubFactory(CourseFactory, course_id=factory.SelfAttribute('..course_id'))
-    trainer = factory.SubFactory(EmployeeFactory, id=factory.SelfAttribute('..trainer_id'))
+    course_id = factory.SelfAttribute('course.course_id')
+    trainer_id = factory.SelfAttribute('trainer.id')
+    course = factory.SubFactory(CourseFactory)
+    trainer = factory.SubFactory(EmployeeFactory)
     class Meta:
         model = CourseClass
 
 class ClassSectionFactory(factory.Factory):
     section_id = factory.Sequence(lambda n: n)
-    course_id = factory.Sequence(lambda n: n)
-    trainer_id = factory.Sequence(lambda n: n)
+    course_id = factory.SelfAttribute('course_class.course_id')
+    trainer_id = factory.SelfAttribute('course_class.trainer_id')
     section_name = factory.LazyAttribute(lambda o: "class section %d" % o.section_id)
-    course_class = factory.SubFactory(
-        CourseClassFactory,
-        course_id=factory.SelfAttribute('..course_id'),
-        trainer_id=factory.SelfAttribute('..trainer_id'),
-    )
+    course_class = factory.SubFactory(CourseClassFactory)
     class Meta:
         model = ClassSection
