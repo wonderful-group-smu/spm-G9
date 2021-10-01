@@ -24,7 +24,7 @@ def test_get_employee(client, db, employee, admin_headers):
 
 def test_get_all_employee(client, db, employee_factory, admin_headers):
     employees_url = url_for('api.employees')
-    employees = employee_factory.create_batch(30)
+    employees = employee_factory.create_batch(3)
     
     db.session.add_all(employees)
     db.session.commit()
