@@ -22,15 +22,15 @@ class UserFactory(factory.Factory):
 
 class CourseFactory(factory.Factory):
     course_id = factory.Sequence(lambda n: n)
-    name = factory.Sequence(lambda n: "course %d" % n)
-    description = factory.Sequence(lambda n: "course %d description" % n)
+    name = factory.LazyAttribute(lambda o: "course %d" % o.course_id)
+    description = factory.LazyAttribute(lambda o: "course %d description" % o.course_id)
     class Meta:
         model = Course
 
 class EmployeeFactory(factory.Factory):
-    id = factory.Sequence(lambda n: "%d" % n)
-    name = factory.Sequence(lambda n: "employee %d" % n)
-    user_type = factory.Sequence(lambda n: "user type %d" % n)
+    id = factory.Sequence(lambda n: n)
+    name = factory.LazyAttribute(lambda o: "employee %d" % o.id)
+    user_type = "ENG"
     class Meta:
         model = Employee
 
@@ -57,6 +57,8 @@ class SelfEnrollFactory(factory.Factory):
 class CourseClassFactory(factory.Factory):
     course_id = factory.Sequence(lambda n: n)
     trainer_id = factory.Sequence(lambda n: n)
+    course = factory.SubFactory(CourseFactory, course_id=factory.SelfAttribute('..course_id'))
+    trainer = factory.SubFactory(EmployeeFactory, id=factory.SelfAttribute('..trainer_id'))
     class Meta:
         model = CourseClass
 

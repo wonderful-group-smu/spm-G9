@@ -2,10 +2,8 @@ from flask import url_for
 
 from myapi.models.prereq import Prereq
 
-def test_get_single_course_class(client, db, course, employee, admin_headers, course_class_factory):
-    course_class = course_class_factory(course_id=course.course_id, trainer_id=employee.id)
-
-    db.session.add_all([course, employee, course_class])
+def test_get_single_course_class(client, db, course_class, admin_headers):
+    db.session.add(course_class)
     db.session.commit()
 
     # Find unavailable coures
@@ -21,8 +19,8 @@ def test_get_single_course_class(client, db, course, employee, admin_headers, co
     assert rep.get_json()['course_class']['course_id'] == course_class.course_id, "Incorrect course id retrieved"
     assert rep.get_json()['course_class']['trainer_id'] == course_class.trainer_id, "Incorrect trainer id retrieved"
 
-    assert rep.get_json()['course_class']['course']['name'] == course.name, "Incorrect course name retrieved"
-    assert rep.get_json()['course_class']['trainer']['name'] == employee.name, "Incorrect trainer name retrieved"
+    assert rep.get_json()['course_class']['course']['name'] == course_class.course.name, "Incorrect course name retrieved"
+    assert rep.get_json()['course_class']['trainer']['name'] == course_class.trainer.name, "Incorrect trainer name retrieved"
 
 
 def test_create_course_class(client, db, course, employee, admin_headers):
@@ -42,9 +40,8 @@ def test_create_course_class(client, db, course, employee, admin_headers):
     rep = client.post(course_url, json=request_json, headers=admin_headers)
     assert rep.status_code == 400, "Incorrect status code retrieved"
 
-def test_delete_course_class(client, db, course, employee, course_class_factory, admin_headers):
-    course_class = course_class_factory(course_id=course.course_id, trainer_id=employee.id)
-    db.session.add_all([course, employee, course_class])
+def test_delete_course_class(client, db, course_class, admin_headers):
+    db.session.add(course_class)
     db.session.commit()
 
     # Delete course success
