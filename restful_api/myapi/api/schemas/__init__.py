@@ -6,6 +6,7 @@ from myapi.api.schemas.employee import EmployeeSchema
 from myapi.api.schemas.prereq import PrereqSchema
 from myapi.api.schemas.self_enroll import SelfEnrollSchema
 from myapi.api.schemas.course_class import CourseClassSchema
+from myapi.api.schemas.class_section import ClassSectionSchema
 
 __all__ = [
   "UserSchema",
@@ -15,7 +16,8 @@ __all__ = [
   "OfficialEnrollSchema",
   "SelfEnrollSchema",
   "CourseClassSchema",
-  "CourseStatusSchema"
+  "CourseStatusSchema",
+  "ClassSectionSchema"
 ]
 
 

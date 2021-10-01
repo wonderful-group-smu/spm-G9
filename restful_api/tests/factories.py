@@ -1,6 +1,16 @@
 import factory
 
-from myapi.models import User, Course, Employee, Prereq, OfficialEnroll, SelfEnroll, CourseClass
+from myapi.models import (
+    User,
+    Course,
+    Employee,
+    Prereq,
+    OfficialEnroll,
+    SelfEnroll,
+    CourseClass,
+    ClassSection,
+    course_class
+)
 
 class UserFactory(factory.Factory):
     username = factory.Sequence(lambda n: "user%d" % n)
@@ -45,5 +55,19 @@ class SelfEnrollFactory(factory.Factory):
         model = SelfEnroll
 
 class CourseClassFactory(factory.Factory):
+    course_id = factory.Sequence(lambda n: n)
+    trainer_id = factory.Sequence(lambda n: n)
     class Meta:
         model = CourseClass
+
+class ClassSectionFactory(factory.Factory):
+    course_id = factory.Sequence(lambda n: n)
+    trainer_id = factory.Sequence(lambda n: n)
+    section_name = factory.Sequence(lambda n: "class section %d" % n)
+    course_class = factory.SubFactory(
+        CourseClassFactory,
+        course_id=factory.SelfAttribute('..course_id'),
+        trainer_id=factory.SelfAttribute('..trainer_id'),
+    )
+    class Meta:
+        model = ClassSection
