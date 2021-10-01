@@ -17,7 +17,13 @@ class CourseClassResource(Resource):
         200:
           content:
             application/json:
-              schema: CourseClassSchema
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: course class retrieved
+                  course_class: CourseClassSchema
         404:
           content:
             application/json:
@@ -44,7 +50,7 @@ class CourseClassResource(Resource):
                   msg:
                     type: string
                     example: course class created
-                  course: CourseClassSchema
+                  course_class: CourseClassSchema
 
     delete:
       tags:

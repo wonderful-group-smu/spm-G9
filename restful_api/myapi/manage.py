@@ -16,7 +16,8 @@ def init():
         Course,
         Prereq,
         Employee,
-        CourseClass
+        CourseClass,
+        ClassSection
     )
 
     items_to_add = []
@@ -46,6 +47,10 @@ def init():
     course_class_one = CourseClass(course_id=2, trainer_id=2)
     items_to_add.append(course_class_one)
     click.echo("created course class")
+    click.echo("create class section")
+    class_section_one = ClassSection(course_id=2, trainer_id=2, section_name="section one name")
+    items_to_add.append(class_section_one)
+    click.echo("created class section")
 
     db.session.add_all(items_to_add)
     db.session.commit()

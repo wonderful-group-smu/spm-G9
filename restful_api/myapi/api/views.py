@@ -9,6 +9,8 @@ from myapi.api.resources import (
     CourseList,
     CourseResource,
     CourseClassResource,
+    ClassSectionResource,
+    ClassSectionResourceList,
     OfficialEnrollResource,
     OfficialEnrollResourceList,
     SelfEnrollResource,
@@ -19,6 +21,7 @@ from myapi.api.schemas import (
     EmployeeSchema,
     CourseSchema,
     CourseClassSchema,
+    ClassSectionSchema,
     PrereqSchema,
     OfficialEnrollSchema,
     SelfEnrollSchema
@@ -38,6 +41,8 @@ api.add_resource(OfficialEnrollResourceList, "/official_enroll/<int:eng_id>", en
 api.add_resource(CourseList, "/courses/<int:eng_id>", endpoint="courses")
 api.add_resource(CourseResource, "/course/<int:course_id>", endpoint="course")
 api.add_resource(CourseClassResource, "/course_class/<int:course_id>&<int:trainer_id>", endpoint="course_class")
+api.add_resource(ClassSectionResource, "/class_section/<int:section_id>", endpoint="class_section")
+api.add_resource(ClassSectionResourceList, "/class_sections/<int:course_id>", endpoint="class_sections_by_course")
 api.add_resource(SelfEnrollResourceList, "/self_enroll/<int:eng_id>", endpoint="self_enroll")
 api.add_resource(SelfEnrollResource, "/self_enroll/<int:eng_id>&<int:course_id>", endpoint="self_enroll_by_ids")
 
@@ -48,6 +53,7 @@ def register_views():
     apispec.spec.components.schema("EmployeeSchema", schema=EmployeeSchema)
     apispec.spec.components.schema("CourseSchema", schema=CourseSchema)
     apispec.spec.components.schema("CourseClassSchema", schema=CourseClassSchema)
+    apispec.spec.components.schema("ClassSectionSchema", schema=ClassSectionSchema)
     apispec.spec.components.schema("OfficialEnrollSchema", schema=OfficialEnrollSchema)
     apispec.spec.components.schema("PrereqSchema", schema=PrereqSchema)
     apispec.spec.components.schema("SelfEnrollSchema", schema=SelfEnrollSchema)
@@ -59,6 +65,7 @@ def register_views():
     apispec.spec.path(view=OfficialEnrollResourceList, app=current_app)
     apispec.spec.path(view=CourseResource, app=current_app)
     apispec.spec.path(view=CourseClassResource, app=current_app)
+    apispec.spec.path(view=ClassSectionResource, app=current_app)
     apispec.spec.path(view=SelfEnrollResourceList, app=current_app)
     apispec.spec.path(view=SelfEnrollResource, app=current_app)
     
