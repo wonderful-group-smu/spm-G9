@@ -5,8 +5,7 @@ from myapi.models import (
     Course,
     Employee,
     Prereq,
-    OfficialEnroll,
-    SelfEnroll,
+    Enroll,
     CourseClass,
     ClassSection
 )
@@ -33,24 +32,18 @@ class EmployeeFactory(factory.Factory):
     class Meta:
         model = Employee
 
-class OfficialEnrollFactory(factory.Factory):
+class EnrollFactory(factory.Factory):
     eng_id = factory.Sequence(lambda n: 1)
     course_id = factory.Sequence(lambda n: n)
-    # start_date = factory.Sequence(lambda n: "%d" % n)
-    # end_date = factory.Sequence(lambda n: "%d" % n)
+    trainer_id = factory.Sequence(lambda n: n)
     has_passed = factory.Sequence(lambda n: False)
+    is_official = factory.Sequence(lambda n: False)
     class Meta:
-        model = OfficialEnroll
+        model = Enroll
 
 class PrereqFactory(factory.Factory):
     class Meta:
         model = Prereq
-
-class SelfEnrollFactory(factory.Factory):
-    eng_id = factory.Sequence(lambda n: 1)
-    course_id = factory.Sequence(lambda n: n)
-    class Meta:
-        model = SelfEnroll
 
 class CourseClassFactory(factory.Factory):
     course_id = factory.SelfAttribute('course.course_id')

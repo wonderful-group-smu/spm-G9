@@ -2,9 +2,9 @@
 from flask import request
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
-from myapi.api.schemas import CourseSchema, CourseStatusSchema, OfficialEnrollSchema, SelfEnrollSchema
+from myapi.api.schemas import CourseSchema, CourseStatusSchema, EnrollSchema
 from myapi.extensions import db
-from myapi.models import Course, Prereq, OfficialEnroll, SelfEnroll
+from myapi.models import Course, Prereq, Enroll
 
 
 class CourseResource(Resource):
@@ -139,18 +139,19 @@ class CourseList(Resource):
       
       all_courses = Course.query.all()
     
-      official_enrolled_courses = OfficialEnroll.query.filter(
-                  OfficialEnroll.eng_id==eng_id,
+      official_enrolled_courses = Enroll.query.filter(
+                  Enroll.eng_id==eng_id,
+                  Enroll.is_official == True
                   ).all()
       self_enrolled_courses = SelfEnroll.query.filter(
-                  SelfEnroll.eng_id==eng_id,
+                  Enroll.eng_id==eng_id,
+                  Enroll.is_official == False
                   ).all()
 
       course_status_schema = CourseStatusSchema(many=True)
-      official_enroll_schema = OfficialEnrollSchema(many=True)
-      self_enroll_schema = SelfEnrollSchema(many=True)
+      enroll_schema = EnrollSchema(many=True)
       
-      enrolled_courses = official_enroll_schema.dump(official_enrolled_courses) + self_enroll_schema.dump(self_enrolled_courses)
+      enrolled_courses = enroll_schema.dump(official_enrolled_courses) + enroll_schema.dump(self_enrolled_courses)
 
       courses = self.validate_prereqs(all_courses, enrolled_courses)
       

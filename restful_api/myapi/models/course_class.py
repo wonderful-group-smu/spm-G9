@@ -13,3 +13,5 @@ class CourseClass(db.Model):
 
     course = db.relationship('Course', backref=db.backref('course_classes', lazy='joined', cascade="all,delete"))
     trainer = db.relationship('Employee', backref=db.backref('course_classes', lazy='joined', cascade="all,delete"))
+
+    
