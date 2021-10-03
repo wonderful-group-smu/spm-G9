@@ -3,16 +3,20 @@ import './CourseCard.css'
 import * as Si from 'react-icons/si'
 import * as Bs from 'react-icons/bs'
 import { Link } from 'react-router-dom'
-import { array, bool, func, string } from 'prop-types'
+import { array, bool, func, number, string } from 'prop-types'
 
 const CourseCard = (props) => {
   const [selected, setSelected] = useState(false);
 
   const handleClickSelect = (event) => {
+    if (!selected) {
+      props.setSelectedArr([...props.selectedArr, props.courseID]);
+    }
+    else {
+      props.setSelectedArr(props.selectedArr.filter((item) => {return item !== props.courseID}));
+    }
     setSelected(!selected);
-    // if (selected) {
-    //   props.setDeleteList([...props.deleteList, event.target]);
-    // }
+    console.log(props.selectedArr)
     event.preventDefault();
   }
 
@@ -44,24 +48,24 @@ const CourseCard = (props) => {
   )
 }
 
-CourseCard.defaultProps = {
-  cardTitle: 'IS110:Python Programming',
-  cardText: 'Starts on 12 Jan 2021, End on 12 March 2021',
-  trainer: 'Daniel Lim (Senior Engineer)',
-  selected: false,
-  deleteMode: false,
+// CourseCard.defaultProps = {
   
-  // age: "45"
-}
+//   cardTitle: 'IS110:Python Programming',
+//   cardText: 'Starts on 12 Jan 2021, End on 12 March 2021',
+//   trainer: 'Daniel Lim (Senior Engineer)',
+//   deleteMode: false,
+  
+//   // age: "45"
+// }
 
 CourseCard.propTypes = {
+  courseID: number,
   cardTitle: string,
   cardText: string,
   trainer: string,
-  selected: bool,
   deleteMode: bool,
-  deleteList: array,
-  setDeleteList: func,
+  selectedArr: array,
+  setSelectedArr: func,
 }
 
 export default CourseCard

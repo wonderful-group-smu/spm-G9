@@ -7,60 +7,81 @@ import { Link } from 'react-router-dom'
 
 const CourseData = [
   {
+    courseID: 1,
     cardTitle: "IS110: Python Programming",
     cardText: "Starts on 12 Jan 2021, End on 12 Mar 2021",
-    instructor: "Daniel Lim (Senior Engineer)",
+    trainer: "Daniel Lim (Senior Engineer)",
   },
   {
+    courseID: 2,
     cardTitle: "IS110: Python Programming",
     cardText: "Starts on 12 Jan 2021, End on 12 Mar 2021",
-    instructor: "Daniel Lim (Senior Engineer)",
+    trainer: "Daniel Lim (Senior Engineer)",
   },
   {
+    courseID: 3,
     cardTitle: "IS110: Python Programming",
     cardText: "Starts on 12 Jan 2021, End on 12 Mar 2021",
-    instructor: "Daniel Lim (Senior Engineer)",
+    trainer: "Daniel Lim (Senior Engineer)",
   },
   {
+    courseID: 4,
     cardTitle: "IS110: Python Programming",
     cardText: "Starts on 12 Jan 2021, End on 12 Mar 2021",
-    instructor: "Daniel Lim (Senior Engineer)",
+    trainer: "Daniel Lim (Senior Engineer)",
   },
   {
+    courseID: 5,
     cardTitle: "IS110: Python Programming",
     cardText: "Starts on 12 Jan 2021, End on 12 Mar 2021",
-    instructor: "Daniel Lim (Senior Engineer)",
+    trainer: "Daniel Lim (Senior Engineer)",
   },
   {
+    courseID: 6,
     cardTitle: "IS110: Python Programming",
     cardText: "Starts on 12 Jan 2021, End on 12 Mar 2021",
-    instructor: "Daniel Lim (Senior Engineer)",
+    trainer: "Daniel Lim (Senior Engineer)",
   },
 ]
 
 const Courses = () => {
   const [pageTitle, setPageTitle] = useState("Courses")
   const [deleteMode, setDeleteMode] = useState(false)
-  
-  const [deleteList, setDeleteList] = useState([]);
+
+  const [courseDataArr, setCourseDataArr] = useState(CourseData)
+  const [selectedArr, setSelectedArr] = useState([])
+
+  // const [deleteList, setDeleteList] = useState([]);
 
   const handleDeleteMode = () => {
-    setPageTitle(deleteMode ? "Courses" : "Delete Course" )
+    setPageTitle(deleteMode ? "Courses" : "Delete Course")
     setDeleteMode(!deleteMode);
   };
 
-  // const handleDelete = () => {
+  const handleDelete = () => {
+    console.log(selectedArr);
+    // courseDataArr.filter((item) => {console.log(item.courseID in selectedArr)})
+    // setCourseDataArr(courseDataArr.filter(item => !(item.courseID in selectedArr)));
+    // setTimeout(console.log(courseDataArr.filter((item) => {!(item.courseID in selectedArr)})), 3000);
+    // setTimeout(console.log(courseDataArr), 3000);
+    setCourseDataArr(CourseData);
 
-  // }
+    console.log(courseDataArr);
+    courseDataArr.forEach((item) => {
+      console.log(item);
+      console.log(item.courseID);
+      console.log(item.courseID in selectedArr);
+    })
+  }
 
-  // const check = () => {
-  //   console.log("check deleteMode: ", deleteMode);
-  //   console.log("check deleteList: ", deleteList);
-  // }
+  const check = () => {
+    console.log("check deleteMode: ", deleteMode);
+    console.log("check selectedArr: ", selectedArr);
+  }
 
   return (
     <div id='pagelayout'>
-      {/* <button onClick={check}>Check me</button> */}
+      <button onClick={check}>Check me</button>
 
       <div id='section-header'>
         <h5 id='page-title'>{pageTitle}</h5>
@@ -68,23 +89,23 @@ const Courses = () => {
           <button hidden={deleteMode} className="btn btn-secondary">Create a Course</button>
         </Link>
         <button hidden={deleteMode} className="btn btn-secondary" onClick={handleDeleteMode}>Delete Courses</button>
-        <button hidden={!deleteMode} className="btn btn-secondary">Delete Selected Courses</button>
+        <button hidden={!deleteMode} className="btn btn-secondary" onClick={handleDelete}>Delete Selected Courses</button>
         <button hidden={!deleteMode} className="btn btn-secondary" onClick={handleDeleteMode}>Exit</button>
       </div>
 
       <div className='row' >
         <div>
-          {CourseData.map((data, i) => (
+          {courseDataArr.map((data, i) => (
             <CourseCard key={{ i }}
+              courseID={data.courseID}
               cardTitle={data.cardTitle}
               cardText={data.cardText}
-              instructor={data.instructor}
+              trainer={data.trainer}
               deleteMode={deleteMode}
-              deleteList={deleteList}
-              setDeleteList={setDeleteList}
+              selectedArr={selectedArr}
+              setSelectedArr={setSelectedArr}
             />
           ))}
-
         </div>
       </div>
     </div>
