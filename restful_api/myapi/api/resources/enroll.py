@@ -26,7 +26,7 @@ class EnrollResource(Resource):
                       results:
                         type: array
                         items:
-                          $ref: '#/components/schemas/OfficialEnrollSchema'
+                          $ref: '#/components/schemas/EnrollSchema'
     post:
       tags:
         - api
@@ -34,7 +34,7 @@ class EnrollResource(Resource):
         content:
           application/json:
             schema:
-              OfficialEnrollSchema
+              EnrollSchema
       responses:
         201:
           content:
@@ -45,7 +45,7 @@ class EnrollResource(Resource):
                   msg:
                     type: string
                     example: Enrollment record created
-                  user: OfficialEnrollSchema
+                  user: EnrollSchema
     put:
       tags:
         - api
@@ -53,7 +53,7 @@ class EnrollResource(Resource):
         content:
           application/json:
             schema:
-              OfficialEnrollSchema
+              EnrollSchema
       responses:
         201:
           content:
@@ -143,7 +143,7 @@ class EnrollResourceList(Resource):
                       results:
                         type: array
                         items:
-                          $ref: '#/components/schemas/OfficialEnrollSchema'
+                          $ref: '#/components/schemas/EnrollSchema'
     """
     method_decorators = [jwt_required()]
 
