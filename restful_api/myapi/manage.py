@@ -10,15 +10,60 @@ def cli():
 @cli.command("init")
 @with_appcontext
 def init():
-    """Create a new admin user"""
     from myapi.extensions import db
-    from myapi.models import User
+    from myapi.models import (
+        User,
+        Course,
+        Prereq,
+        Employee,
+        CourseClass,
+        ClassSection
+    )
 
+    items_to_add = []
     click.echo("create user")
-    user = User(username="testuser", email="testuser@mail.com", password="testpassword", active=True)
-    db.session.add(user)
+    user_one = User(id=1, username="testuser", email="test@mail.com", password="testpassword", active=True)
+    user_two = User(id=2, username="testtrainer", email="trainer@mail.com", password="trainerpassword", active=True)
+    items_to_add.append(user_one)
+    items_to_add.append(user_two)
+    click.echo("created user")
+    click.echo("create employee")
+    employee_one = Employee(id=1, name="testuser", user_type="ENG")
+    employee_two = Employee(id=2, name="testtrainer", user_type="ENG")
+    items_to_add.append(employee_one)
+    items_to_add.append(employee_two)
+    click.echo("created employee")
+    click.echo("create courses")
+    course_one = Course(course_id=1, description="course one description", name="course one name")
+    course_two = Course(course_id=2, description="course two description", name="course two name")
+    items_to_add.append(course_one)
+    items_to_add.append(course_two)
+    click.echo("created courses")
+    click.echo("create prereq")
+    prereq_one = Prereq(course_id=2, prereq_id=1)
+    items_to_add.append(prereq_one)
+    click.echo("created prereq")
+    click.echo("create course class")
+    course_class_one = CourseClass(course_id=2, trainer_id=2)
+    items_to_add.append(course_class_one)
+    click.echo("created course class")
+    click.echo("create class section")
+    class_section_one = ClassSection(course_id=2, trainer_id=2, section_name="section one name")
+    items_to_add.append(class_section_one)
+    click.echo("created class section")
+
+    db.session.add_all(items_to_add)
     db.session.commit()
-    click.echo("created user admin")
+
+@cli.command("reset")
+@with_appcontext
+def reset():
+    """Deletes all the data from tables
+    """
+    from myapi.extensions import db
+    db.session.commit()
+    db.drop_all()
+    db.create_all()
 
 
 if __name__ == "__main__":

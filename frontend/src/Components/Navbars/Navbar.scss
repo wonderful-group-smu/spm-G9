@@ -32,10 +32,7 @@ div {
       position: relative;
       height: var(--header-height);
       text-align: center; // Horizontal center
-      .title { position: absolute; left: 0; right: 0; color: white;
-        padding-top: 18px;
-        padding-left: 8px;
-        font-size: 22px; }
+      .title { position: absolute; left: 0; right: 0; color: white; padding-top: 18px ; font-size: 22px; }
     }
     .content {
       overflow: auto;

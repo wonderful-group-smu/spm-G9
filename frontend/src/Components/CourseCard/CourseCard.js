@@ -3,6 +3,7 @@ import './CourseCard.css'
 import * as Si from 'react-icons/si'
 import * as Bs from 'react-icons/bs'
 import { Link } from 'react-router-dom'
+
 import { array, bool, func, number, string } from 'prop-types'
 
 const CourseCard = (props) => {
@@ -23,7 +24,7 @@ const CourseCard = (props) => {
     <>
       <Link to='/CourseTitle' className='try' style={{ textDecoration: 'none' }}
         onClick={props.deleteMode ? handleClickSelect : ""}>
-        <div className='col-sm shadow'>
+        <div className='col-sm shadow-box'>
           <div className='card hover-backgroundcolor'>
             <div className={selected && props.deleteMode ? 'card-body selected-body' : 'card-body'}>
               <h5 className='card-title'>

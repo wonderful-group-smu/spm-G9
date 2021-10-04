@@ -1,11 +1,7 @@
 from flask import Flask
-from myapi import api
-from myapi import auth
-from myapi.extensions import apispec
-from myapi.extensions import db
-from myapi.extensions import jwt
-from myapi.extensions import migrate
-from myapi.extensions import cors
+
+from myapi import api, auth
+from myapi.extensions import apispec, cors, db, jwt, migrate
 
 
 def create_app(testing=False):

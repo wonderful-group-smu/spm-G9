@@ -71,6 +71,7 @@ const Courses = () => {
         <button hidden={deleteMode} className="btn btn-secondary" onClick={handleDeleteMode}>Delete Courses</button>
         <button hidden={!deleteMode} className="btn btn-secondary" onClick={handleDelete}>Delete Selected Courses</button>
         <button hidden={!deleteMode} className="btn btn-secondary" onClick={handleDeleteMode}>Exit</button>
+
       </div>
 
       <div className='row' >
@@ -91,4 +92,5 @@ const Courses = () => {
     </div>
   )
 }
+
 export default Courses
