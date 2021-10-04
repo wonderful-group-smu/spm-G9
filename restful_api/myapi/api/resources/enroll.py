@@ -1,6 +1,7 @@
 from flask import request
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
+from sqlalchemy.exc import IntegrityError
 from myapi.api.schemas import EnrollSchema
 from myapi.commons.pagination import paginate
 from myapi.extensions import db
@@ -72,27 +73,55 @@ class EnrollResource(Resource):
     self.schema = EnrollSchema()
     
   def get(self, eng_id, course_id, trainer_id):
-    enrollment_record = Enroll.query.get_or_404(eng_id, course_id, trainer_id)
-    return {"msg": "enrollment record retrieved", "enrollment": self.schema.dump(enrollment_record)}, 200
+      try:
+          query = (
+            Enroll.query
+            .filter(Enroll.eng_id == eng_id)
+            .filter(Enroll.course_id == course_id)
+            .filter(Enroll.trainer_id == trainer_id)
+            .one()
+          )
+      except Exception as error:
+        if "No row was found" in str(error):
+          return {"msg": "not found"}, 404
+        else:
+          raise error
+
+      return {"msg": "enrollment record retrieved", "enrollment": self.schema.dump(query)}, 200
     
   def post(self, eng_id, course_id, trainer_id):
     new_enrollment = self.schema.load(request.json)
+    
     try:
-        db.session.add(new_enrollment)
-        db.session.commit()
-    except AssertionError as error:
-        if "blank-out primary key" in str(error):
-            return {"msg": "duplicate object"}, 400
-        else:
-            raise error
+      db.session.add(new_enrollment)
+      db.session.commit()
+    except IntegrityError as e:
+      return {"msg": str(e)}, 400
+    
     return {"msg": "self enrollment created", "enrollment": self.schema.dump(new_enrollment)}, 201
 
-  def put(self, eng_id, course_id, trainer_id, has_passed):
-    enrollment_record = EnrollSchema.query.get_or_404(eng_id, course_id, trainer_id)
-    enrollment_record.has_passed = has_passed
+  def put(self, eng_id, course_id, trainer_id):
+    updated_record = self.schema.load(request.json)
+    
+    try:
+        enrollment_record = (
+          Enroll.query
+          .filter(Enroll.eng_id == eng_id)
+          .filter(Enroll.course_id == course_id)
+          .filter(Enroll.trainer_id == trainer_id)
+          .one()
+        )
+    except Exception as error:
+      if "No row was found" in str(error):
+        return {"msg": "not found"}, 404
+      else:
+        raise error
+      
+    enrollment_record.has_passed = updated_record.has_passed
+    enrollment_record.is_official = updated_record.is_official
     db.session.commit()
     
-    return {"msg": "enrollment created", "enrollment": self.schema.dump(enrollment_record)}, 201
+    return {"msg": "enrollment updated", "enrollment": self.schema.dump(enrollment_record)}, 201
     
 
 class EnrollResourceList(Resource):

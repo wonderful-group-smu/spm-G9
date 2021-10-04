@@ -9,8 +9,8 @@ class Enroll(db.Model):
     eng_id = db.Column(db.Integer, db.ForeignKey('employee.id'), primary_key=True)
     course_id = db.Column(db.Integer, db.ForeignKey('course.course_id'), primary_key=True)
     trainer_id = db.Column(db.Integer, db.ForeignKey('employee.id'), primary_key=True)
-    has_passed = db.Column(db.Boolean, default=False)
-    is_official = db.Column(db.Boolean, default=False)
+    has_passed = db.Column(db.Boolean, default=False, nullable=False)
+    is_official = db.Column(db.Boolean, default=False, nullable=False)
     
     course = db.relationship('Course', backref=db.backref('enroll', lazy='joined', cascade="all,delete"))
     
