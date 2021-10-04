@@ -143,7 +143,7 @@ class CourseList(Resource):
                   Enroll.eng_id==eng_id,
                   Enroll.is_official == True
                   ).all()
-      self_enrolled_courses = SelfEnroll.query.filter(
+      self_enrolled_courses = Enroll.query.filter(
                   Enroll.eng_id==eng_id,
                   Enroll.is_official == False
                   ).all()

@@ -94,7 +94,7 @@ def test_get_eligible_courses(
     employee,
     course_factory, 
     prereq_factory,
-    official_enroll_factory,
+    enroll_factory,
     ):
     
     # Configurations for test
@@ -111,8 +111,8 @@ def test_get_eligible_courses(
     courses = course_factory.create_batch(num_courses)
     
     # Let course 0 be the base the other courses rely on
-    enroll_one = official_enroll_factory(course_id=courses[0].course_id, has_passed=True, eng_id=employee.id)
-    enroll_two = official_enroll_factory(course_id=courses[1].course_id, has_passed=False, eng_id=employee.id)
+    enroll_one = enroll_factory(course_id=courses[0].course_id, has_passed=True, eng_id=employee.id)
+    enroll_two = enroll_factory(course_id=courses[1].course_id, has_passed=False, eng_id=employee.id)
     
     # Add the pre-reqs to the courses
     #
