@@ -32,9 +32,9 @@
 }
 
 .selected-body{
-    border-style: solid;
-    border-width: .15rem;
-    border-color: rgb(12, 198, 245);
+    outline-style: solid;
+    outline-width: .15rem;
+    outline-color: rgb(12, 198, 245);
 }
 
 .checkbox{

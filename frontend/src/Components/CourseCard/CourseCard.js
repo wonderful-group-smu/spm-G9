@@ -16,7 +16,6 @@ const CourseCard = (props) => {
       props.setSelectedArr(props.selectedArr.filter((item) => {return item !== props.courseID}));
     }
     setSelected(!selected);
-    console.log(props.selectedArr)
     event.preventDefault();
   }
 

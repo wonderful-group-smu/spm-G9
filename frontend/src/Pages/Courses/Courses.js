@@ -51,38 +51,18 @@ const Courses = () => {
   const [courseDataArr, setCourseDataArr] = useState(CourseData)
   const [selectedArr, setSelectedArr] = useState([])
 
-  // const [deleteList, setDeleteList] = useState([]);
-
   const handleDeleteMode = () => {
     setPageTitle(deleteMode ? "Courses" : "Delete Course")
     setDeleteMode(!deleteMode);
   };
 
   const handleDelete = () => {
-    console.log(selectedArr);
-    // courseDataArr.filter((item) => {console.log(item.courseID in selectedArr)})
-    // setCourseDataArr(courseDataArr.filter(item => !(item.courseID in selectedArr)));
-    // setTimeout(console.log(courseDataArr.filter((item) => {!(item.courseID in selectedArr)})), 3000);
-    // setTimeout(console.log(courseDataArr), 3000);
-    setCourseDataArr(CourseData);
-
-    console.log(courseDataArr);
-    courseDataArr.forEach((item) => {
-      console.log(item);
-      console.log(item.courseID);
-      console.log(item.courseID in selectedArr);
-    })
-  }
-
-  const check = () => {
-    console.log("check deleteMode: ", deleteMode);
-    console.log("check selectedArr: ", selectedArr);
+    setCourseDataArr(courseDataArr.filter(item => !(selectedArr.includes(item.courseID))));
+    setSelectedArr([])
   }
 
   return (
     <div id='pagelayout'>
-      <button onClick={check}>Check me</button>
-
       <div id='section-header'>
         <h5 id='page-title'>{pageTitle}</h5>
         <Link to='/createcourse'>
