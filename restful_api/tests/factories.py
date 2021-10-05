@@ -36,8 +36,8 @@ class EnrollFactory(factory.Factory):
     eng_id = factory.SelfAttribute('eng.id')
     course_id = factory.SelfAttribute('course.course_id')
     trainer_id = factory.SelfAttribute('trainer.id')
-    has_passed = factory.Sequence(lambda n: False)
-    is_official = factory.Sequence(lambda n: False)
+    has_passed = factory.LazyAttribute(lambda n: False)
+    is_official = factory.LazyAttribute(lambda n: False)
     
     eng = factory.SubFactory(EmployeeFactory)
     course = factory.SubFactory(CourseFactory)

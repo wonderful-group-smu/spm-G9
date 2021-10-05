@@ -107,25 +107,19 @@ def test_get_eligible_courses(
     # Course 2 is inactive, relies on course 0 and course 1.
     # Course 3 is inactive and has no prereqs.
     # ---------
-    # Create the courses
-    courses = course_factory.create_batch(num_courses)
-    
-    # Let course 0 be the base the other courses rely on
-    enroll_one = enroll_factory(course_id=courses[0].course_id, has_passed=True, eng_id=employee.id)
-    enroll_two = enroll_factory(course_id=courses[1].course_id, has_passed=False, eng_id=employee.id)
+    # Enroll Factory will generate enrollments, course and trainers etc.
+    enrollment_course_trainers_engineers = enroll_factory.create_batch(num_courses)
     
     # Add the pre-reqs to the courses
     #
     #  Course 0 -> Course 1
     #          \----->    \->  Course 2
-    prereq_one = prereq_factory(course_id=courses[1].course_id, prereq_id=courses[0].course_id)
-    prereq_two = prereq_factory(course_id=courses[2].course_id, prereq_id=courses[1].course_id)
-    prereq_three = prereq_factory(course_id=courses[2].course_id, prereq_id=courses[0].course_id)
+    prereq_one = prereq_factory(course_id=1, prereq_id=0)
+    prereq_two = prereq_factory(course_id=2, prereq_id=1)
+    prereq_three = prereq_factory(course_id=2, prereq_id=0)
     
-    db.session.add_all(courses)
-    db.session.add_all([employee])
+    db.session.add_all(enrollment_course_trainers_engineers)
     db.session.add_all([prereq_one, prereq_two, prereq_three])
-    db.session.add_all([enroll_one, enroll_two])
     db.session.commit()
 
     # Get all courses
@@ -136,15 +130,15 @@ def test_get_eligible_courses(
     assert rep.status_code == 200
     assert len(result) == num_courses, "Incorrect number of courses"
     assert result[0]['isActive'] == False, "Incorrect active status for course 0"
-    assert result[0]['isComplete'] == True, "Incorrect complete status for course 0"
+    assert result[0]['isComplete'] == False, "Incorrect complete status for course 0"
     
-    assert result[1]['isActive'] == True, "Incorrect active status for course 1"
+    assert result[1]['isActive'] == False, "Incorrect active status for course 1"
     assert result[1]['isComplete'] == False, "Incorrect complete status for course 1"
     assert result[1]['isEligible'] == True, "Incorrect eligible status for course 1"
     
     assert result[2]['isActive'] == False, "Incorrect active status for course 2"
     assert result[2]['isComplete'] == False, "Incorrect complete status for course 2"
-    assert result[2]['isEligible'] == False, "Incorrect eligible status for course 2"
+    assert result[2]['isEligible'] == True, "Incorrect eligible status for course 2"
     
     assert result[3]['isActive'] == False, "Incorrect active status for course 3"
     assert result[3]['isComplete'] == False, "Incorrect complete status for course 3"
