@@ -34,6 +34,7 @@ api = Api(blueprint)
 
 api.add_resource(UserResource, "/users/<int:user_id>", endpoint="user_by_id")
 api.add_resource(UserList, "/users", endpoint="users")
+
 api.add_resource(EmployeeList, "/employees", endpoint="employees")
 api.add_resource(EmployeeResource, "/employees/<int:employee_id>", endpoint="employee_by_id")
 api.add_resource(OfficialEnrollResource, "/official_enroll_by_ids/<int:eng_id>&<int:course_id>", endpoint="official_enroll_by_ids")
@@ -50,6 +51,13 @@ api.add_resource(SelfEnrollResource, "/self_enroll/<int:eng_id>&<int:course_id>"
 @blueprint.before_app_first_request
 def register_views():
     apispec.spec.components.schema("UserSchema", schema=UserSchema)
+    apispec.spec.path(view=UserResource, app=current_app)
+    apispec.spec.path(view=UserList, app=current_app)
+
+
+@blueprint.errorhandler(ValidationError)
+def handle_marshmallow_error(e):
+    """Return json error for marshmallow validation errors.
     apispec.spec.components.schema("EmployeeSchema", schema=EmployeeSchema)
     apispec.spec.components.schema("CourseSchema", schema=CourseSchema)
     apispec.spec.components.schema("CourseClassSchema", schema=CourseClassSchema)
