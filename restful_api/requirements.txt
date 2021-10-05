@@ -23,3 +23,5 @@ pytest-flask
 pytest-factoryboy
 pytest-celery
 factory_boy
+flake8
+pylint

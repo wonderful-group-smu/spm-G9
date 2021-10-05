@@ -8,16 +8,15 @@ from myapi.api.resources.class_section import ClassSectionResource, ClassSection
 
 
 __all__ = [
-  "UserResource",
-  "UserList",
-  "EmployeeList",
-  "EmployeeResource",
-  "EnrollResourceList",
-  "EnrollResource",
-  "CourseList",
-  "CourseResource",
-  "CourseClassResource",
-  "ClassSectionResource",
-  "ClassSectionResourceList"
+    "UserResource",
+    "UserList",
+    "EmployeeList",
+    "EmployeeResource",
+    "EnrollResourceList",
+    "EnrollResource",
+    "CourseList",
+    "CourseResource",
+    "CourseClassResource",
+    "ClassSectionResource",
+    "ClassSectionResourceList"
 ]
-

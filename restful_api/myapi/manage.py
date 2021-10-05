@@ -55,6 +55,7 @@ def init():
     db.session.add_all(items_to_add)
     db.session.commit()
 
+
 @cli.command("reset")
 @with_appcontext
 def reset():

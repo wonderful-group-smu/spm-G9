@@ -9,15 +9,12 @@ from myapi.models.enroll import Enroll
 
 
 __all__ = [
-  "User",
-  "TokenBlocklist",
-  "Employee",
-  "Course",
-  "Prereq",
-  "Enroll",
-  "CourseClass",
-  "ClassSection"
+    "User",
+    "TokenBlocklist",
+    "Employee",
+    "Course",
+    "Prereq",
+    "Enroll",
+    "CourseClass",
+    "ClassSection"
 ]
-
-
-
