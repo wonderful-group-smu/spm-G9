@@ -57,7 +57,7 @@ def register_views():
 
 @blueprint.errorhandler(ValidationError)
 def handle_marshmallow_error(e):
-    """Return json error for marshmallow validation errors.
+    """Return json error for marshmallow validation errors."""
     apispec.spec.components.schema("EmployeeSchema", schema=EmployeeSchema)
     apispec.spec.components.schema("CourseSchema", schema=CourseSchema)
     apispec.spec.components.schema("CourseClassSchema", schema=CourseClassSchema)
