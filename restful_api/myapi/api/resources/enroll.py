@@ -19,14 +19,12 @@ class EnrollResource(Resource):
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/PaginatedResult'
-                  - type: object
-                    properties:
-                      results:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/EnrollSchema'
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: Enrollment record retrieved
+                  enrollment: EnrollSchema
     post:
       tags:
         - api
@@ -45,7 +43,7 @@ class EnrollResource(Resource):
                   msg:
                     type: string
                     example: Enrollment record created
-                  user: EnrollSchema
+                  enrollment: EnrollSchema
     put:
       tags:
         - api
@@ -64,7 +62,7 @@ class EnrollResource(Resource):
                   msg:
                     type: string
                     example: Enrollment passed record updated
-                  user: EnrollSchema
+                  enrollment: EnrollSchema
     """
     
   method_decorators = [jwt_required()]

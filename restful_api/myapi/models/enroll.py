@@ -19,8 +19,8 @@ class Enroll(db.Model):
         primaryjoin="and_(Employee.id==Enroll.trainer_id)",
         backref=db.backref('enroll', lazy='joined', cascade="all,delete"))
     
-    # eng = db.relationship(
-    #     'Employee',
-    #     primaryjoin="and_(Employee.id==Enroll.eng_id)",
-    #     backref=db.backref('enroll', lazy='joined', cascade="all,delete"))
+    eng = db.relationship(
+        'Employee',
+        primaryjoin="and_(Employee.id==Enroll.eng_id)",
+        backref=db.backref('enroll', lazy='joined', cascade="all,delete"))
     
