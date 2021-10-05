@@ -6,6 +6,7 @@ from myapi.commons.pagination import paginate
 from myapi.extensions import db
 from myapi.models import Employee
 
+
 class EmployeeResource(Resource):
     """single object Employee resource
     ---
@@ -33,6 +34,7 @@ class EmployeeResource(Resource):
         schema = EmployeeSchema()
         employee = Employee.query.get_or_404(employee_id)
         return {"employee": schema.dump(employee)}
+
 
 class EmployeeList(Resource):
     """Creation and get_all

@@ -1,6 +1,5 @@
 from flask import url_for
 
-from myapi.models.prereq import Prereq
 
 def test_get_single_course_class(client, db, course_class, admin_headers):
     db.session.add(course_class)
@@ -30,15 +29,16 @@ def test_create_course_class(client, db, course, employee, admin_headers):
     # You need any integer for course_id, trainer_id
     course_url = url_for('api.course_class', course_id=0, trainer_id=0)
 
-    request_json = { 'course_id': course.course_id, 'trainer_id': employee.id }
+    request_json = {'course_id': course.course_id, 'trainer_id': employee.id}
     rep = client.post(course_url, json=request_json, headers=admin_headers)
     assert rep.status_code == 201, "Incorrect status code retrieved"
     assert rep.get_json()['course_class']['course_id'] == course.course_id, "Incorrect course id retrieved"
 
     # Create course failure due to missing attributes
-    request_json = { 'course_id': course.course_id }
+    request_json = {'course_id': course.course_id}
     rep = client.post(course_url, json=request_json, headers=admin_headers)
     assert rep.status_code == 400, "Incorrect status code retrieved"
+
 
 def test_delete_course_class(client, db, course_class, admin_headers):
     db.session.add(course_class)

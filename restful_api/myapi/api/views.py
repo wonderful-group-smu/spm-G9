@@ -68,7 +68,8 @@ def handle_marshmallow_error(e):
     apispec.spec.path(view=CourseResource, app=current_app)
     apispec.spec.path(view=CourseClassResource, app=current_app)
     apispec.spec.path(view=ClassSectionResource, app=current_app)
-    
+
+
 @blueprint.errorhandler(ValidationError)
 def handle_marshmallow_error(e):
     """Return json error for marshmallow validation errors.

@@ -1,6 +1,7 @@
 
 from flask import url_for
 
+
 def test_get_employee(client, db, employee, admin_headers):
     # test 404
     employee_url = url_for('api.employee_by_id', employee_id="100000")
@@ -21,11 +22,10 @@ def test_get_employee(client, db, employee, admin_headers):
     assert data["user_type"] == employee.user_type
 
 
-
 def test_get_all_employee(client, db, employee_factory, admin_headers):
     employees_url = url_for('api.employees')
     employees = employee_factory.create_batch(3)
-    
+
     db.session.add_all(employees)
     db.session.commit()
 
@@ -34,4 +34,4 @@ def test_get_all_employee(client, db, employee_factory, admin_headers):
 
     results = rep.get_json()
     for employee in employees:
-        assert any(e["id"]==employee.id for e in results["results"])
+        assert any(e["id"] == employee.id for e in results["results"])

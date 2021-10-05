@@ -9,7 +9,7 @@ class ClassSectionSchema(ma.SQLAlchemyAutoSchema):
     trainer_id = ma.Int()
     section_id = ma.Int(required=False)
     course_class = ma.Nested(CourseClassSchema, required=False)
-    
+
     class Meta:
         model = ClassSection
         sqla_session = db.session

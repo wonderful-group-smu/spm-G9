@@ -2,6 +2,7 @@ from myapi.models import Course
 from myapi.extensions import ma, db
 from .prereq import PrereqSchema
 
+
 class CourseSchema(ma.SQLAlchemyAutoSchema):
 
     prereqs = ma.List(ma.Nested(PrereqSchema), required=False)
@@ -11,7 +12,7 @@ class CourseSchema(ma.SQLAlchemyAutoSchema):
         sqla_session = db.session
         load_instance = True
         ordered = True
-    
+
 
 class CourseStatusSchema(CourseSchema):
 
@@ -23,12 +24,12 @@ class CourseStatusSchema(CourseSchema):
         if hasattr(obj, 'has_passed'):
             return obj.has_passed
         return False
-    
+
     def is_eligible(self, obj):
         if hasattr(obj, 'is_eligible'):
             return obj.is_eligible
         return False
-    
+
     def is_active(self, obj):
         # If enrolled but haven't passed, then it's active
         # Hence, not has passed.

@@ -11,7 +11,7 @@ class CourseClassSchema(ma.SQLAlchemyAutoSchema):
 
     course = ma.Nested(CourseSchema, required=False)
     trainer = ma.Nested(EmployeeSchema, required=False)
-    
+
     class Meta:
         model = CourseClass
         sqla_session = db.session

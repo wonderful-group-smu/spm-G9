@@ -61,7 +61,7 @@ def test_delete_user(client, db, user, admin_headers):
     # test get_user
 
     user_url = url_for('api.user_by_id', user_id=user.id)
-    rep = client.delete(user_url,  headers=admin_headers)
+    rep = client.delete(user_url, headers=admin_headers)
     assert rep.status_code == 200
     assert db.session.query(User).filter_by(id=user.id).first() is None
 
