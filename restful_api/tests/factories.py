@@ -33,11 +33,15 @@ class EmployeeFactory(factory.Factory):
         model = Employee
 
 class EnrollFactory(factory.Factory):
-    eng_id = factory.Sequence(lambda n: 1)
-    course_id = factory.Sequence(lambda n: n)
-    trainer_id = factory.Sequence(lambda n: n)
+    eng_id = factory.SelfAttribute('eng.id')
+    course_id = factory.SelfAttribute('course.course_id')
+    trainer_id = factory.SelfAttribute('trainer.id')
     has_passed = factory.Sequence(lambda n: False)
     is_official = factory.Sequence(lambda n: False)
+    
+    eng = factory.SubFactory(EmployeeFactory)
+    course = factory.SubFactory(CourseFactory)
+    trainer = factory.SubFactory(EmployeeFactory)
     class Meta:
         model = Enroll
 
