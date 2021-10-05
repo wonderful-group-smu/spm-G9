@@ -11,18 +11,16 @@ from tests.factories import (
     EmployeeFactory,
     CourseFactory,
     PrereqFactory,
-    OfficialEnrollFactory,
-    SelfEnrollFactory,
+    EnrollFactory,
     CourseClassFactory,
     ClassSectionFactory
 )
 
 register(UserFactory)
 register(EmployeeFactory)
-register(OfficialEnrollFactory)
+register(EnrollFactory)
 register(PrereqFactory)
 register(CourseFactory)
-register(SelfEnrollFactory)
 register(CourseClassFactory)
 register(ClassSectionFactory)
 
