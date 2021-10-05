@@ -4,4 +4,4 @@ flask db upgrade
 
 flask myapi init
 
-pytest --cov=myapi tests/
+pytest --cov=myapi tests/ --disable-warnings

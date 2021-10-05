@@ -130,3 +130,6 @@ dmypy.json
 
 # ignore node_modules for now
 node_modules/
+
+# VScode files
+settings.json
