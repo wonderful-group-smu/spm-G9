@@ -11,6 +11,7 @@ class CourseClass(db.Model):
     trainer_id = db.Column(db.Integer, db.ForeignKey("employee.id"), primary_key=True)
     start_date = db.Column(db.DateTime)
     end_date = db.Column(db.DateTime)
+    class_size = db.Column(db.Integer, default=20, nullable=False)
 
     course = db.relationship('Course', backref=db.backref('course_classes', lazy='joined', cascade="all,delete"))
     trainer = db.relationship('Employee', backref=db.backref('course_classes', lazy='joined', cascade="all,delete"))
