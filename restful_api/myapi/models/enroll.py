@@ -12,6 +12,7 @@ class Enroll(db.Model):
     trainer_id = db.Column(db.Integer, db.ForeignKey('employee.id'), primary_key=True)
     has_passed = db.Column(db.Boolean, default=False, nullable=False)
     is_official = db.Column(db.Boolean, default=False, nullable=False)
+    created_timestamp = db.Column(db.Integer)
 
     course = db.relationship('Course', backref=db.backref('enrollment_course', lazy='joined', cascade="all,delete"))
 

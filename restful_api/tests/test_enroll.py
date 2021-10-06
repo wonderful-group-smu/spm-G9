@@ -1,4 +1,5 @@
 from flask import url_for
+import time
 
 
 def test_get_single_enrollment(
@@ -45,7 +46,8 @@ def test_post_single_enrollment_official(
         'eng_id': enroll.eng_id,
         'course_id': enroll.course_id,
         'trainer_id': enroll.trainer_id,
-        'is_official': True
+        'is_official': True,
+        'created_timestamp': int(time.time())
     }
     rep = client.post(enrollment_url, json=request_json, headers=admin_headers)
     assert rep.status_code == 201, "Incorrect status code retrieved"
@@ -76,6 +78,7 @@ def test_post_single_enrollment_self_enroll(
         'eng_id': enroll.eng_id,
         'course_id': enroll.course_id,
         'trainer_id': enroll.trainer_id,
+        'created_timestamp': int(time.time())
     }
     rep = client.post(enrollment_url, json=request_json, headers=admin_headers)
     assert rep.status_code == 201, "Incorrect status code retrieved"
@@ -143,6 +146,32 @@ def test_get_all_enrollments(
 
     enrollments = [e for e in enrollments if e.eng_id == enrollments[0].eng_id]
     results = res.get_json()
+    for enrollment in enrollments:
+        assert any(e["eng_id"] == enrollment.eng_id for e in results['results']), "Incorrect engineer enrollment data retreived"
+        assert any(e["course_id"] == enrollment.course_id for e in results['results']), "Incorrect course id retrieved for enginer"
+        assert any(e["trainer_id"] == enrollment.trainer_id for e in results['results']), "Incorrect course id retrieved for enginer"
+
+
+# Test Get all enrollments by course_id
+
+def test_get_all_enrollments_by_course(
+    client,
+    db,
+    enroll_factory,
+    admin_headers
+):
+    enrollments = enroll_factory.create_batch(3)
+    db.session.add_all(enrollments)
+    db.session.commit()
+
+    enrollment_url = url_for("api.enrollments_by_course", course_id=enrollments[0].course_id)
+
+    res = client.get(enrollment_url, headers=admin_headers)
+    assert res.status_code == 200, "Enrollment endpoint not up"
+
+    enrollments = [e for e in enrollments if e.course_id == enrollments[0].course_id]
+    results = res.get_json()
+
     for enrollment in enrollments:
         assert any(e["eng_id"] == enrollment.eng_id for e in results['results']), "Incorrect engineer enrollment data retreived"
         assert any(e["course_id"] == enrollment.course_id for e in results['results']), "Incorrect course id retrieved for enginer"

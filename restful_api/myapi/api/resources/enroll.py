@@ -152,3 +152,34 @@ class EnrollResourceList(Resource):
     def get(self, eng_id):
         query = Enroll.query.filter_by(eng_id=eng_id)
         return paginate(query, self.schema)
+
+
+class EnrollByCourseResourceList(Resource):
+    """Get all enrolled courses based on course id
+
+    ---
+    get:
+      tags:
+        - api
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/PaginatedResult'
+                  - type: object
+                    properties:
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/EnrollSchema'
+    """
+    method_decorators = [jwt_required()]
+
+    def __init__(self):
+        self.schema = EnrollSchema(many=True)
+
+    def get(self, course_id):
+        query = Enroll.query.filter_by(course_id=course_id).order_by(Enroll.created_timestamp.desc())
+        return paginate(query, self.schema)
