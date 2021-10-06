@@ -1,14 +1,20 @@
 import React from 'react'
-import "./HrClasses.css"
+import "./CourseClasses.css"
 import * as Cg from 'react-icons/cg'
-import { Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-const HrAssign = () => {
+const CourseClasses = () => {
   return (
     <div id='pagelayout'>
       <div className='white-bg'>
-        <h5>All Classes</h5>
-
+        <div className="title">
+          <h5 id="page-title">All Classes</h5>
+          <Link to='/createclass'>
+            <button type="button" className="btn-sm btn-secondary">
+              <Cg.CgMathPlus className="plus-icon" />Create a Class
+            </button>
+          </Link>
+        </div>
         <div className='row content-row'>
           <div className='col'>
             <div className='header-row'>Course ID</div>IS211
@@ -25,7 +31,7 @@ const HrAssign = () => {
             <div className='header-row'>End Date</div>
             30 Mar 2022
           </div>
-       
+
           <div className='col'>
             <div className='header-row action'>Action</div>
             <Link to='/hrclassdetails' className='arrow'>
@@ -51,7 +57,7 @@ const HrAssign = () => {
             <div className='header-row'>End Date</div>
             30 Mar 2022
           </div>
-       
+
           <div className='col'>
             <div className='header-row action'>Action</div>
             <button className='arrow'>
@@ -77,7 +83,7 @@ const HrAssign = () => {
             <div className='header-row'>End Date</div>
             30 Mar 2022
           </div>
-       
+
           <div className='col'>
             <div className='header-row action'>Action</div>
             <button className='arrow'>
@@ -85,10 +91,10 @@ const HrAssign = () => {
             </button>
           </div>
         </div>
-        
+
       </div>
     </div>
   )
 }
 
-export default HrAssign
+export default CourseClasses

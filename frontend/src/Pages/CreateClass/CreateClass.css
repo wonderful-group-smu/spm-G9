@@ -1,0 +1,16 @@
+.form-control{
+    margin-bottom: 1rem;
+}
+
+.btn{
+    margin-top: 1rem;
+}
+
+.date-picker-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.DayPickerInput{
+    margin-bottom: .5rem;
+}

@@ -3,10 +3,10 @@ import LectureHeader from '../../Assets/Lecture Header.jpeg'
 import * as Bs from 'react-icons/bs'
 import * as Fi from 'react-icons/fi'
 import ProfileImage from '../../Assets/Profile Image.jpg'
-import './HrClassDetails.css'
+import './ClassDetails.css'
 import ClassList from '../../Components/ClassList/ClassList'
 
-const HrClassDetails = () => {
+const ClassDetails = () => {
   const [DetailButton, setDetailButton] = useState('top-bar-selected')
   const [NamelistButton, setNamelistButton] = useState('top-bar')
 
@@ -113,4 +113,4 @@ const HrClassDetails = () => {
   )
 }
 
-export default HrClassDetails
+export default ClassDetails
