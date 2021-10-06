@@ -34,7 +34,7 @@ const CourseClasses = () => {
 
           <div className='col'>
             <div className='header-row action'>Action</div>
-            <Link to='/hrclassdetails' className='arrow'>
+            <Link to='/classdetails' className='arrow'>
               <Cg.CgArrowLongRight size={20} />
             </Link>
           </div>
