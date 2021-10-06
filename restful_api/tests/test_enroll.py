@@ -164,6 +164,14 @@ def test_get_all_enrollments_by_course(
     db.session.add_all(enrollments)
     db.session.commit()
 
+    # Find unavailable/ empty enrollments
+    course_url = url_for('api.enrollments_by_course', course_id=9999)
+    rep = client.get(course_url, headers=admin_headers)
+    results = rep.get_json()
+    assert rep.status_code == 200, "Enrollment endpoint not up"
+    assert len(results['results']) == 0, "Incorrect number of enrollments in course"
+
+    # Get enrollments in course 
     enrollment_url = url_for("api.enrollments_by_course", course_id=enrollments[0].course_id)
 
     res = client.get(enrollment_url, headers=admin_headers)
@@ -172,6 +180,7 @@ def test_get_all_enrollments_by_course(
     enrollments = [e for e in enrollments if e.course_id == enrollments[0].course_id]
     results = res.get_json()
 
+    # Check for all enrollments in the list
     for enrollment in enrollments:
         assert any(e["eng_id"] == enrollment.eng_id for e in results['results']), "Incorrect engineer enrollment data retreived"
         assert any(e["course_id"] == enrollment.course_id for e in results['results']), "Incorrect course id retrieved for enginer"
