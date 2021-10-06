@@ -120,8 +120,7 @@ class CourseClassResource(Resource):
 
     @staticmethod
     def get_num_enrolled(course_id, trainer_id):
-        # helper function to get number of enrolled learners in a course_class
-        # using course_id and trainer_id
+        """Helper function to get number of enrolled learners in a course_class using course_id and trainer_id"""
         try:
             query_count = (
                 Enroll.query
