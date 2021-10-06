@@ -171,7 +171,7 @@ def test_get_all_enrollments_by_course(
     assert rep.status_code == 200, "Enrollment endpoint not up"
     assert len(results['results']) == 0, "Incorrect number of enrollments in course"
 
-    # Get enrollments in course 
+    # Get enrollments in course
     enrollment_url = url_for("api.enrollments_by_course", course_id=enrollments[0].course_id)
 
     res = client.get(enrollment_url, headers=admin_headers)
