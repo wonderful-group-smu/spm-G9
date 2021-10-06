@@ -89,13 +89,13 @@ class CourseClassResource(Resource):
             else:
                 raise error
         course_class = self.schema.dump(query)
-        class_size = course_class['class_size'] 
+        class_size = course_class['class_size']
 
         num_enrolled_dict = self.get_num_enrolled(course_id, trainer_id)
         num_enrolled = num_enrolled_dict["num_enrolled"]
         num_slots_remaining = class_size - num_enrolled
 
-        return {"msg": "course class retrieved", 
+        return {"msg": "course class retrieved",
                 "course_class": course_class,
                 "num_enrolled": num_enrolled,
                 "num_slots_remaining": num_slots_remaining}, 200
@@ -118,11 +118,10 @@ class CourseClassResource(Resource):
 
         return {"msg": "course class deleted"}, 204
 
-
     @staticmethod
     def get_num_enrolled(course_id, trainer_id):
-        #helper function to get number of enrolled learners in a course_class 
-        #using course_id and trainer_id
+        # helper function to get number of enrolled learners in a course_class
+        # using course_id and trainer_id
         try:
             query_count = (
                 Enroll.query
@@ -131,9 +130,9 @@ class CourseClassResource(Resource):
                 .count()
             )
         except Exception as error:
-          if "No row was found" in str(error):
-            return {"msg": "not found"}, 404
-          else:
-              raise error
+            if "No row was found" in str(error):
+                return {"msg": "not found"}, 404
+            else:
+                raise error
 
         return {"num_enrolled": query_count}

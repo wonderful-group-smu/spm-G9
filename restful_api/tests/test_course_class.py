@@ -4,7 +4,7 @@ from flask import url_for
 def test_get_single_course_class(client, db, course_class, admin_headers):
     db.session.add(course_class)
     db.session.commit()
-    
+
     # Find unavailable coures
     course_url = url_for('api.course_class', course_id=9999, trainer_id=9999)
     rep = client.get(course_url, headers=admin_headers)
@@ -31,12 +31,11 @@ def test_get_single_course_class(client, db, course_class, admin_headers):
     }
     client.post(enrollment_url, json=request_json, headers=admin_headers)
 
-    #get course_url again
+    # get course_url again
     course_url = url_for('api.course_class', course_id=course_class.course_id, trainer_id=course_class.trainer_id)
     rep = client.get(course_url, headers=admin_headers)
-    
-    assert rep.get_json()['num_slots_remaining'] == course_class.class_size-1, "Incorrect num slots retrieved"
-    
+
+    assert rep.get_json()['num_slots_remaining'] == course_class.class_size - 1, "Incorrect num slots retrieved"
 
 
 def test_create_course_class(client, db, course, employee, admin_headers):
