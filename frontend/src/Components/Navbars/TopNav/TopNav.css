@@ -11,3 +11,9 @@
   .TopHeader>span{
     padding-left: 20px;
   }
+
+  #profile-dropdown{
+    color: #343a40;
+    padding:0px;
+  }
+
