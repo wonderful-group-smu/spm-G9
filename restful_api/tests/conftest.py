@@ -11,18 +11,16 @@ from tests.factories import (
     EmployeeFactory,
     CourseFactory,
     PrereqFactory,
-    OfficialEnrollFactory,
-    SelfEnrollFactory,
+    EnrollFactory,
     CourseClassFactory,
     ClassSectionFactory
 )
 
 register(UserFactory)
 register(EmployeeFactory)
-register(OfficialEnrollFactory)
+register(EnrollFactory)
 register(PrereqFactory)
 register(CourseFactory)
-register(SelfEnrollFactory)
 register(CourseClassFactory)
 register(ClassSectionFactory)
 
@@ -97,7 +95,7 @@ def admin_refresh_headers(admin_user, client):
         'content-type': 'application/json',
         'authorization': 'Bearer %s' % tokens['refresh_token']
     }
-    
+
 
 @pytest.fixture
 def test_user(db):

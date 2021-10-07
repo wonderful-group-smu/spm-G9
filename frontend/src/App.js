@@ -13,9 +13,10 @@ import Enrolled from './Pages/Enrolled/Enrolled'
 import CreateCourse from './Pages/CreateCourse/CreateCourse'
 import SelfEnrollmentForm from './Pages/SelfEnrollmentForm/SelfEnrollmentForm'
 import TopNav from './Components/Navbars/TopNav/TopNav'
-import HrClasses from './Pages/HrClasses/HrClasses'
+import CourseClasses from './Pages/CourseClasses/CourseClasses'
+import CreateClass from './Pages/CreateClass/CreateClass'
 import Home from './Pages/Home/Home'
-import HrClassDetails from './Pages/HrClassDetails/HrClassDetails'
+import ClassDetails from './Pages/ClassDetails/ClassDetails'
 import LoginPage from './Pages/LoginPage/LoginPage'
 
 function App() {
@@ -51,42 +52,45 @@ function App() {
     <>
       <div id='layout'>
         <Router>
-          {loginStatus == false ? (
-            <LoginPage />
-          ) : (
-            <>
-              <Navbar
-                leftOpen={showNavbar}
-                toggleSidebar={toggleSidebar}
-                iconColor={iconColor}
-              ></Navbar>
+          {
+            loginStatus == false ? (
+              <LoginPage />
+            ) : (
+              <>
+                <Navbar
+                  leftOpen={showNavbar}
+                  toggleSidebar={toggleSidebar}
+                  iconColor={iconColor}
+                ></Navbar>
 
-              <div id='main'>
-                <TopNav />
-                <div className='content'>
-                  <Switch>
-                    <Route
-                      path='/enrolmentrequest'
-                      component={EnrolmentRequest}
-                    />
-                    <Route
-                      path='/courses/selfenrollmentform'
-                      component={SelfEnrollmentForm}
-                    />
-                    <Route path='/courses' component={Courses} />
-                    <Route path='/records' component={Records} />
-                    <Route path='/enrolled' component={Enrolled} />
-                    <Route path='/createcourse' component={CreateCourse} />
-                    <Route path='/hrclasses' component={HrClasses} />
-                    <Route path='/hrclassdetails' component={HrClassDetails} />
-                    <Route path='/' component={Home} />
-                  </Switch>
+                <div id='main'>
+                  <TopNav />
+                  <div className='content'>
+                    <Switch>
+                      <Route
+                        path='/enrolmentrequest'
+                        component={EnrolmentRequest}
+                      />
+                      <Route
+                        path='/courses/selfenrollmentform'
+                        component={SelfEnrollmentForm}
+                      />
+                      <Route path='/courses' component={Courses} />
+                      <Route path='/records' component={Records} />
+                      <Route path='/enrolled' component={Enrolled} />
+                      <Route path='/createcourse' component={CreateCourse} />
+                      <Route path='/courseclasses' component={CourseClasses} />
+                      <Route path='/createclass' component={CreateClass} />
+                      <Route path='/classdetails' component={ClassDetails} />
+                      <Route path='/' component={Home} />
+                    </Switch>
+                  </div>
                 </div>
-              </div>
-            </>
-          )}
-        </Router>
-      </div>
+              </>
+            )
+          }
+        </Router >
+      </div >
     </>
   )
 }
