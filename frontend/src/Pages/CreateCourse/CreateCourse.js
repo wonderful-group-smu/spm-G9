@@ -1,13 +1,15 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import * as Bi from 'react-icons/bi';
 import { array } from 'prop-types'
 import '../Pagelayout.css'
 import './CreateCourse.css'
 
 const CreateCourse = (props) => {
   const [courseName, setCourseName] = useState("");
-  const [trainer, setTrainer] = useState("");
   const [desc, setDesc] = useState("");
   const [prereqs, setPrereqs] = useState([]);
+  let history = useHistory();
 
   const addPrereq = (event) => {
     setPrereqs([
@@ -19,13 +21,14 @@ const CreateCourse = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(event);
-    alert(`Submitted ${courseName}, ${trainer}, ${desc}, ${prereqs}`)
+    alert(`Submitted ${courseName}, ${desc}, ${prereqs}`)
   }
 
   return (
     <div id='pagelayout'>
 
       <div id='section-header'>
+        <button onClick={() => history.goBack()}><Bi.BiArrowBack className="back-arrow"/></button>
         <h5 id='page-title'>Create a Course</h5>
       </div>
 
@@ -37,20 +40,6 @@ const CreateCourse = (props) => {
           placeholder="Input Course Name..."
           onChange={e => setCourseName(e.target.value)}
         />
-
-        <label htmlFor="inputTrainer" className="form-label">Trainer</label>
-        <input
-          className="form-control"
-          list="trainerDatalist"
-          id="inputTrainer"
-          placeholder="Search..."
-          onChange={e => setTrainer(e.target.value)}
-        />
-        <datalist id="trainerDatalist">
-          {props.trainer.map((trainer, i) => (
-            <option value={trainer} key={i} />
-          ))}
-        </datalist>
 
         <label htmlFor="inputDesc" className="form-label">Description</label>
         <textarea
@@ -79,12 +68,10 @@ const CreateCourse = (props) => {
 }
 
 CreateCourse.defaultProps = {
-  trainer: ["Daniel Lim", "Brock Place", "Misty Holder"],
   prereqs: ["IS110", "IS111", "IS112", "IS113"],
 }
 
 CreateCourse.propTypes = {
-  trainer: array,
   prereqs: array,
 }
 
