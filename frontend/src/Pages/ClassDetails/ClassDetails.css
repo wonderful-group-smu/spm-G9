@@ -19,10 +19,10 @@
     min-width: 58%;
 }
 
-.flex-box{
-    display: 'flex';
-    flex-wrap:'wrap';
-    width:'100%';
+.flex-boxx{
+    display: flex;
+    flex-wrap:wrap;
+    width:100%;
 }
 
 

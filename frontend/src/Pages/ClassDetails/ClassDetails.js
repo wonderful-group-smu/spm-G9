@@ -52,7 +52,7 @@ const ClassDetails = () => {
         </button>
       </div>
       {DetailButton == 'top-bar-selected' ? (
-          <div className='flex-box'>
+          <div className='flex-boxx' >
           <div className='white-bg class-detail'>
             <h4>Class Details</h4>
             <hr />
