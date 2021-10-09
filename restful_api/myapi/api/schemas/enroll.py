@@ -11,6 +11,7 @@ class EnrollSchema(ma.SQLAlchemyAutoSchema):
     trainer_id = ma.Int()
     has_passed = ma.Boolean()
     is_official = ma.Boolean()
+    created_timestamp = ma.Int()
 
     course = ma.Nested(CourseSchema, required=False)
     trainer = ma.Nested(EmployeeSchema, required=False)

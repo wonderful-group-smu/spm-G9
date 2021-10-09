@@ -1,4 +1,5 @@
 import factory
+import time
 
 from myapi.models import (
     User,
@@ -44,6 +45,7 @@ class EnrollFactory(factory.Factory):
     trainer_id = factory.SelfAttribute('trainer.id')
     has_passed = factory.LazyAttribute(lambda n: False)
     is_official = factory.LazyAttribute(lambda n: False)
+    created_timestamp = factory.LazyFunction(time.time)
 
     eng = factory.SubFactory(EmployeeFactory)
     course = factory.SubFactory(CourseFactory)
