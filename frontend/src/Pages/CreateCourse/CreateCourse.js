@@ -60,7 +60,7 @@ const CreateCourse = (props) => {
           ))}
         </div>
 
-        <button type="submit" className="btn btn-secondary">Create Course</button>
+        <button type="submit" className="btn btn-secondary submit">Create Course</button>
 
       </form>
     </div>
