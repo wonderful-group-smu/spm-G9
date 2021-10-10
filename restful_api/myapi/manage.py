@@ -106,5 +106,6 @@ def drop_everything(db):
 
     trans.commit()
 
+
 if __name__ == "__main__":
     cli()
