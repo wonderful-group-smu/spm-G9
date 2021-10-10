@@ -4,6 +4,8 @@ import App from './App';
 
 test('renders learn react link', () => {
   render(<App />);
-  const linkElement = screen.getByText(/Wonderful Group/i);
-  expect(linkElement).toBeInTheDocument();
+  const elementArray = screen.getAllByText(/Wonderful Group/i);
+  elementArray.map((target) => {
+    expect(target).toBeInTheDocument();
+  })
 });
