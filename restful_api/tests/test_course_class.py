@@ -20,6 +20,22 @@ def test_get_single_course_class(client, db, course_class, admin_headers):
 
     assert rep.get_json()['course_class']['course']['name'] == course_class.course.name, "Incorrect course name retrieved"
     assert rep.get_json()['course_class']['trainer']['name'] == course_class.trainer.name, "Incorrect trainer name retrieved"
+    assert rep.get_json()['course_class']['class_size'] == course_class.class_size, "Incorrect class size retrieved"
+
+    # Test GET num_slots_remaining after adding one enrollment
+    enrollment_url = url_for("api.enrollment", eng_id=0, course_id=course_class.course_id, trainer_id=course_class.trainer_id)
+    request_json = {
+        'eng_id': 0,
+        'course_id': course_class.course_id,
+        'trainer_id': course_class.trainer_id,
+    }
+    client.post(enrollment_url, json=request_json, headers=admin_headers)
+
+    # get course_url again
+    course_url = url_for('api.course_class', course_id=course_class.course_id, trainer_id=course_class.trainer_id)
+    rep = client.get(course_url, headers=admin_headers)
+
+    assert rep.get_json()['num_slots_remaining'] == course_class.class_size - 1, "Incorrect num slots retrieved"
 
 
 def test_create_course_class(client, db, course, employee, admin_headers):
