@@ -11,3 +11,8 @@
     transform: translateY(-15%);
     margin-right: .3rem;
 }
+
+.delete-btn{
+    background-color: rgba(139, 9, 9, 0.753);
+    color: white;
+}

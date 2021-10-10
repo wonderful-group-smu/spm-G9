@@ -2,8 +2,12 @@
     margin-bottom: 1rem;
 }
 
-.btn{
+.submit{
     margin-top: 1rem;
+}
+
+#inputTrainer{
+    width: 60%;
 }
 
 .date-picker-container{
@@ -13,4 +17,11 @@
 
 .DayPickerInput{
     margin-bottom: .5rem;
+}
+
+.DayPickerInput > input {
+    padding: .375rem .75rem;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    width: 60%;
 }
