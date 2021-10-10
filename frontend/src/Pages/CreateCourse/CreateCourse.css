@@ -2,6 +2,23 @@
     margin-bottom: 1rem;
 }
 
-.btn{
+#section-header{
+    display: flex;
+    gap: 1.5rem;
+}
+
+.back-arrow{
+    transform: scale(1.2) translateY(-5%);
+}
+
+#inputCourseName{
+    width: 60%;
+}
+
+#inputDesc{
+    width: 60%;
+}
+
+.submit{
     margin-top: 1rem;
 }

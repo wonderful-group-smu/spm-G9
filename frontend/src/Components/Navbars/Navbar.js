@@ -1,9 +1,6 @@
 import './Navbar.scss'
-
 import React from 'react'
 import { Link } from 'react-router-dom'
-// import * as Bs from 'react-icons/bs'
-// import * as Io from 'react-icons/io'
 import { SidebarData } from './SidebarData'
 import './Navbar.css'
 // import TopNav from "./TopNav/TopNav"

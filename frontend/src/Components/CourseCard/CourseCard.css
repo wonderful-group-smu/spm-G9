@@ -1,20 +1,3 @@
-.shadow-box{
-    /* box-shadow: 1px 0px 8px #404040  ; */
-    box-shadow: 1px 1px 8px #d8d8d8;
-  
-    /* text-decoration: none !important; */
-    
-}
-.hover-backgroundcolor:hover{
-    background-color: #dfdfdf8a;
-    /* text-decoration: none !important; */
-}
-
-.card-text{
-    padding-top:20px ;
-    color: #8d8d8d;
-    /* text-decoration: none !important; */
-}
 .try {
     /* text-decoration: none !important; */
     /* display: flex; */
@@ -25,9 +8,70 @@
     /* justify-content: center; */
     /* display: inline; */
     /* margin: 0 auto; */
+}
 
+.shadow-box{
+    /* box-shadow: 1px 0px 8px #404040  ; */
+    box-shadow: 1px 1px 8px #d8d8d8;
+    /* text-decoration: none !important; */
+}
+
+
+.card{
+    max-width: 25rem;
+}
+
+.selected{
+    outline-style: solid;
+    outline-width: .15rem;
+    outline-color: rgb(12, 198, 245);
+}
+
+.hover-overlay{
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0; 
+    background-color: #dfdfdf8a;
+    width: 100%;
+    height:100%;
+    opacity: 0;
+    transition: .1s;
+    /* text-decoration: none !important; */
+}
+
+.hover-overlay:hover{
+    opacity: .3;
+}
+
+.card-img-top{
+    display: block;
+    max-width: 100%;
+    max-height: auto;
 }
 
 .card-title{
     color: #212529;
+}
+
+.card-text{
+    padding-top:12px ;
+    color: #8d8d8d;
+    /* text-decoration: none !important; */
+}
+
+.calendar{
+    transform: translate(0, -10%)
+}
+
+.checkbox{
+    position: relative;
+    float: right;
+    right: .1rem;
+    bottom: -.5rem;
+    color: rgb(172, 172, 172);    
+    transform: scale(1.1, 1.1)
+}
+
+.checked{
+    color: rgb(12, 198, 245);
+    transform: scale(1.4,1.4);
 }

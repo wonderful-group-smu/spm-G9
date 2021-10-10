@@ -1,0 +1,30 @@
+.header-row-class{
+    font-weight: bold;
+    color: rgb(69, 182, 185);
+    /* font-size: smaller; */
+    border-bottom: #ebebeb solid 1px;
+    padding-bottom:15px ;
+    
+}
+.cross-side{
+    text-align: right;
+}
+
+
+.add-engineer{
+    padding: 0.5rem;
+    margin-bottom: 5px;
+}
+
+
+.add-engineer:hover{
+    background-color:#d6d6d6;
+    border-radius: 10px;
+    text-decoration: underline;
+    color: rgb(69, 182, 185);
+
+}
+
+.select-engineer{
+    margin-top: 10px;
+}

@@ -13,7 +13,7 @@ const FormDescription = () => {
           <div className='row'>
             <div className='col'>  <b><Fi.FiCalendar /> Start</b></div>
             <div className='col'>  <b><Fi.FiCalendar /> End</b></div>
-            <div className='col'><b> <Bs.BsPeopleCircle/>&nbsp; Instructor</b></div>
+            <div className='col'><b> <Bs.BsPeopleCircle/>&nbsp; Trainer</b></div>
           </div>
 
         <div className='row'>

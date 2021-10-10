@@ -15,12 +15,12 @@ const HrEnroll = () => {
   const [rejectModalShow, setRejectModalShow] = React.useState(false)
   // const[modalName, setModalName]=React.useState(false)
 
-  const[modalName, setModalName]= useState('')
-  const[modalCourse, setModalCourse]= useState('')
+  const [ModalEngId, setModalEngId] = useState('')
+  const [modalCourseId, setModalCourseId] = useState('')
+  const [modalTrainerId, setModalTrainerId] = useState('')
 
-  // setModalName('hello')
-  // console.log(modalName)
- 
+  console.log(modalTrainerId)
+
   useEffect(() => {
     axios
       .get('http://localhost:5000/api/v1/employees', {
@@ -34,76 +34,188 @@ const HrEnroll = () => {
       })
   }, [])
   console.log(allEnrollRequest)
-  console.log(modalName)
 
   return (
     <div id='pagelayout'>
-      <h5>Enrolment Request</h5>
+     
       <div className='white-bg'>
-        <div className='row header-row'>
-          <div className='col-1'>No.</div>
-          <div className='col-3'>Name</div>
-          <div className='col-3'>Course ID</div>
-          <div className='col-2'>Status</div>
-          <div className='col-3'></div>
-        </div>
+      <h5>Enrolment Request</h5>
 
         <div className='row content-row'>
-          <div className='col-1'>1</div>
-          <div className='col-3'>Elvin Chua</div>
-          <div className='col-3'>IS211</div>
-          <div className='col-2'>
-            <span className='badge status-pill'>Pending</span>
+          <div className='col'>
+            <div className='header-row'>Timestamp</div>1 Jan 2021 6:00
           </div>
-          <div className='col-3'>
-            <button className='check' onClick={() => {
-            setModalName('hello');
-            setModalCourse('IS333');
-            setModalShow(true);}
-            }>
+          <div className='col'>
+            <div className='header-row'>Engineer ID</div>
+            E4567
+          </div>
+          <div className='col'>
+            <div className='header-row'>Course ID</div>
+            IS211
+          </div>
+          <div className='col'>
+            <div className='header-row'>Trainer ID</div>
+            T2519
+          </div>
+          <div className='col'>
+            <div className='header-row'>Start Date</div>
+            23 Mar 2022
+          </div>
+          <div className='col'>
+            <div className='header-row'>End Date</div>
+            30 Mar 2022
+          </div>
+          <div className='col'>
+          <div className='header-row'>Slots Available</div>
+          3 Left</div>
+          <div className='col'>
+          <div className='header-row action'>Action</div>
+            <button
+              className='check'
+              onClick={() => {
+                setModalEngId('E4567')
+                setModalCourseId('IS211')
+                setModalTrainerId('T2519')
+                setModalShow(true)
+              }}
+            >
               <Bs.BsCheck size={20} />
             </button>
 
-            <button className='cross' onClick={() => {
-           
-            setRejectModalShow(true);}
-            }>
+            <button
+              className='cross'
+              onClick={() => {
+                setRejectModalShow(true)
+              }}
+            >
               <Bs.BsX size={20} />
             </button>
           </div>
         </div>
+
         <div className='row content-row'>
-          <div className='col-1'>2</div>
-          <div className='col-3'>Sam Ng</div>
-          <div className='col-3'>QF124</div>
-          <div className='col-2'>
-            <span className='badge status-pill'>Pending</span>
+          <div className='col'>
+            <div className='header-row'>Timestamp</div>1 Jan 2021 6:00
           </div>
-          <div className='col-3'>
-            <span className='check'>
-              {' '}
+          <div className='col'>
+            <div className='header-row'>Engineer ID</div>
+            E4567
+          </div>
+          <div className='col'>
+            <div className='header-row'>Course ID</div>
+            IS211
+          </div>
+          <div className='col'>
+            <div className='header-row'>Trainer ID</div>
+            T2519
+          </div>
+          <div className='col'>
+            <div className='header-row'>Start Date</div>
+            23 Mar 2022
+          </div>
+          <div className='col'>
+            <div className='header-row'>End Date</div>
+            30 Mar 2022
+          </div>
+          <div className='col'>
+          <div className='header-row'>Slots Available</div>
+          3 Left</div>
+          <div className='col'>
+          <div className='header-row action'>Action</div>
+            <button
+              className='check'
+              onClick={() => {
+                setModalEngId('E4567')
+                setModalCourseId('IS211')
+                setModalTrainerId('T2519')
+                setModalShow(true)
+              }}
+            >
               <Bs.BsCheck size={20} />
-            </span>
-            <span className='cross'>
+            </button>
+
+            <button
+              className='cross'
+              onClick={() => {
+                setRejectModalShow(true)
+              }}
+            >
               <Bs.BsX size={20} />
-            </span>
+            </button>
           </div>
         </div>
+
+        <div className='row content-row'>
+          <div className='col'>
+            <div className='header-row'>Timestamp</div>1 Jan 2021 6:00
+          </div>
+          <div className='col'>
+            <div className='header-row'>Engineer ID</div>
+            E4567
+          </div>
+          <div className='col'>
+            <div className='header-row'>Course ID</div>
+            IS211
+          </div>
+          <div className='col'>
+            <div className='header-row'>Trainer ID</div>
+            T2519
+          </div>
+          <div className='col'>
+            <div className='header-row'>Start Date</div>
+            23 Mar 2022
+          </div>
+          <div className='col'>
+            <div className='header-row'>End Date</div>
+            30 Mar 2022
+          </div>
+          <div className='col col'>
+          <div className='header-row'>Slots Available</div>
+          3 Left</div>
+          <div className='col'>
+          <div className='header-row action'>Action</div>
+            <button
+              className='check'
+              onClick={() => {
+                setModalEngId('E4567')
+                setModalCourseId('IS211')
+                setModalTrainerId('T2519')
+                setModalShow(true)
+              }}
+            >
+              <Bs.BsCheck size={20} />
+            </button>
+
+            <button
+              className='cross'
+              onClick={() => {
+                setRejectModalShow(true)
+              }}
+            >
+              <Bs.BsX size={20} />
+            </button>
+          </div>
+        </div>
+
+
       </div>
 
       {/* {allEnrollRequest.map((item, i) => (
          <div>{item}{i}</div>
 ))} */}
 
-      <EnrollModal show={modalShow} onHide={() => setModalShow(false)} name={modalName} course={modalCourse} />
-      <EnrollModalReject show={rejectModalShow} onHide={() => setRejectModalShow(false)}/>
-
+      <EnrollModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        eng_id={ModalEngId}
+        course_id={modalCourseId}
+      />
+      <EnrollModalReject
+        show={rejectModalShow}
+        onHide={() => setRejectModalShow(false)}
+      />
     </div>
   )
 }
-
-// HrEnroll.propTypes={
-//   onHide: any
-// }
 
 export default HrEnroll

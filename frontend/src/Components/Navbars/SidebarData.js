@@ -29,4 +29,10 @@ export const SidebarData=[
         icon: <FaIcons.FaListAlt />,
         cName:'nav-text'
     },
+    // {
+    //     title:'HR Classes',
+    //     path:'/hrclasses',
+    //     icon: <FaIcons.FaClipboardList />,
+    //     cName:'nav-text'
+    // },
 ]
