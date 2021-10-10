@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import LectureHeader from '../../Assets/Lecture Header.jpeg'
 import * as Bs from 'react-icons/bs'
 import * as Fi from 'react-icons/fi'
+import * as Cg from 'react-icons/cg'
 import ProfileImage from '../../Assets/Profile Image.jpg'
 import './ClassDetails.css'
 import ClassList from '../../Components/ClassList/ClassList'
+import SectionFlow from '../../Components/SectionFlow/SectionFlow'
 
 const ClassDetails = () => {
   const [DetailButton, setDetailButton] = useState('top-bar-selected')
@@ -52,7 +55,7 @@ const ClassDetails = () => {
         </button>
       </div>
       {DetailButton == 'top-bar-selected' ? (
-          <div className='flex-boxx' >
+        <div className='flex-boxx' >
           <div className='white-bg class-detail'>
             <h4>Class Details</h4>
             <hr />
@@ -91,7 +94,6 @@ const ClassDetails = () => {
               <div className='col'>
                 <img src={ProfileImage} className='profile-image shadow' />
               </div>
-
               <div className='col'>
                 <h6>Daniel Parker</h6>
                 <div>
@@ -103,9 +105,23 @@ const ClassDetails = () => {
               </div>
             </div>
           </div>
+
+          <div className='white-bg sections-block'>
+            <div className="sections-title">
+              <h4> Sections </h4>
+              <Link to='/createsection'>
+                <button type="button" className="btn-sm btn-secondary">
+                  <Cg.CgMathPlus className="plus-icon" />Add a Section
+                </button>
+              </Link>
+            </div>
+            <hr />
+            <SectionFlow />
+          </div>
+
         </div>
       ) : (
-        <ClassList/>
+        <ClassList />
         // <div>not</div>
       )}
       <br />

@@ -17,6 +17,7 @@ import CourseClasses from './Pages/CourseClasses/CourseClasses'
 import CreateClass from './Pages/CreateClass/CreateClass'
 import Home from './Pages/Home/Home'
 import ClassDetails from './Pages/ClassDetails/ClassDetails'
+import CreateSection from './Pages/CreateSection/CreateSection'
 import LoginPage from './Pages/LoginPage/LoginPage'
 
 function App() {
@@ -82,6 +83,7 @@ function App() {
                       <Route path='/courseclasses' component={CourseClasses} />
                       <Route path='/createclass' component={CreateClass} />
                       <Route path='/classdetails' component={ClassDetails} />
+                      <Route path='/createsection' component={CreateSection} />
                       <Route path='/' component={Home} />
                     </Switch>
                   </div>

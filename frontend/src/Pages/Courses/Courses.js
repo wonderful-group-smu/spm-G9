@@ -3,6 +3,7 @@ import '../Pagelayout.css'
 import './Courses.css'
 import * as Cg from 'react-icons/cg'
 import * as Im from 'react-icons/im'
+import * as Bi from 'react-icons/bi';
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -40,6 +41,7 @@ const Courses = () => {
   return (
     <div id='pagelayout'>
       <div id='section-header'>
+        <button hidden={!deleteMode} onClick={handleDeleteMode}><Bi.BiArrowBack className="back-arrow" /></button>
         <h5 id='page-title'>{pageTitle}</h5>
         <Link to='/createcourse'>
           <button hidden={deleteMode} className="btn-sm btn-secondary">
@@ -47,10 +49,10 @@ const Courses = () => {
           </button>
         </Link>
         <button hidden={deleteMode} className="btn-sm btn-secondary" onClick={handleDeleteMode}>
-          <Im.ImBin className="bin-icon"/>Delete Courses
+          <Im.ImBin className="bin-icon" />Delete Courses
         </button>
         <button hidden={!deleteMode} className="btn-sm btn-secondary" onClick={handleDelete}>Delete Selected Courses</button>
-        <button hidden={!deleteMode} className="btn-sm btn-secondary" onClick={handleDeleteMode}>Exit</button>
+        {/* <button hidden={!deleteMode} className="btn-sm btn-secondary" onClick={handleDeleteMode}>Exit</button> */}
 
       </div>
 

@@ -1,0 +1,15 @@
+.form-control{
+    margin-bottom: 1rem;
+}
+
+#inputSectionTitle{
+    width: 60%;
+}
+
+#formFileMultiple{
+    width: 60%;
+}
+
+.submit{
+    margin-top: 1rem;
+}
