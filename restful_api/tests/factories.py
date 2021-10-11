@@ -8,7 +8,8 @@ from myapi.models import (
     Prereq,
     Enroll,
     CourseClass,
-    ClassSection
+    ClassSection,
+    Question
 )
 
 
@@ -79,3 +80,16 @@ class ClassSectionFactory(factory.Factory):
 
     class Meta:
         model = ClassSection
+
+
+class QuestionFactory(factory.Factory):
+    question_id = factory.Sequence(lambda n:n)
+    course_id = factory.SelfAttribute('class_section.course_id')
+    trainer_id = factory.SelfAttribute('class_section.trainer_id')
+    section_id = factory.SelfAttribute('class_section.section_id')
+    question = factory.LazyAttribute(lambda o: "question %d" % o.question_id)
+    answer = factory.LazyAttribute(lambda o: "answer %d" % o.question_id)
+    class_section = factory.SubFactory(ClassSectionFactory)
+
+    class Meta:
+        model = Question

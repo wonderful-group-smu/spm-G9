@@ -6,6 +6,7 @@ from myapi.api.schemas.course import CourseSchema, CourseStatusSchema
 from myapi.api.schemas.prereq import PrereqSchema
 from myapi.api.schemas.course_class import CourseClassSchema
 from myapi.api.schemas.class_section import ClassSectionSchema
+from myapi.api.schemas.question import QuestionSchema
 
 __all__ = [
     "UserSchema",
@@ -15,5 +16,6 @@ __all__ = [
     "EnrollSchema",
     "CourseClassSchema",
     "CourseStatusSchema",
-    "ClassSectionSchema"
+    "ClassSectionSchema", 
+    "QuestionSchema"
 ]

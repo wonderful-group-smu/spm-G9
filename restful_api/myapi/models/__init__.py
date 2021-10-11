@@ -6,6 +6,7 @@ from myapi.models.prereq import Prereq
 from myapi.models.course_class import CourseClass
 from myapi.models.class_section import ClassSection
 from myapi.models.enroll import Enroll
+from myapi.models.question import Question
 
 
 __all__ = [
@@ -16,5 +17,6 @@ __all__ = [
     "Prereq",
     "Enroll",
     "CourseClass",
-    "ClassSection"
+    "ClassSection",
+    "Question"
 ]

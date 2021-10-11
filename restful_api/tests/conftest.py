@@ -13,7 +13,8 @@ from tests.factories import (
     PrereqFactory,
     EnrollFactory,
     CourseClassFactory,
-    ClassSectionFactory
+    ClassSectionFactory,
+    QuestionFactory
 )
 
 register(UserFactory)
@@ -23,6 +24,7 @@ register(PrereqFactory)
 register(CourseFactory)
 register(CourseClassFactory)
 register(ClassSectionFactory)
+register(QuestionFactory)
 
 
 @pytest.fixture(scope="session")
