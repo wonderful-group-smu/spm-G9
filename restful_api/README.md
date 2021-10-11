@@ -120,7 +120,7 @@ To access protected resources, you will need an access token. You can generate
 an access and a refresh token using `/auth/login` endpoint, example using curl
 
 ```bash
-curl -X POST -H "Content-Type: application/json" -d '{"username": "testuser", "password": "testpassword"}' http://localhost:5000/auth/login
+curl -X POST -H "Content-Type: application/json" -d '{"name": "testengineer", "password": "testpassword"}' http://localhost:5000/auth/login
 ```
 
 You can use access_token to access protected endpoints as a Bearer Token.

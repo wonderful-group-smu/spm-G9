@@ -1,13 +1,11 @@
 import json
 import pytest
 from dotenv import load_dotenv
-from myapi.models import User
 from myapi.app import create_app
 from myapi.extensions import db as _db
 from pytest_factoryboy import register
 
 from tests.factories import (
-    UserFactory,
     EmployeeFactory,
     CourseFactory,
     PrereqFactory,
@@ -16,7 +14,6 @@ from tests.factories import (
     ClassSectionFactory
 )
 
-register(UserFactory)
 register(EmployeeFactory)
 register(EnrollFactory)
 register(PrereqFactory)
@@ -46,24 +43,20 @@ def db(app):
 
 
 @pytest.fixture
-def admin_user(db):
-    user = User(
-        username='admin',
-        email='admin@admin.com',
-        password='admin'
-    )
+def engineer_employee(db, employee_factory):
+    employee = employee_factory(user_type="ENG", password="testpassword")
 
-    db.session.add(user)
+    db.session.add(employee)
     db.session.commit()
 
-    return user
+    return employee
 
 
 @pytest.fixture
-def admin_headers(admin_user, client):
+def engineer_employee_headers(engineer_employee, client):
     data = {
-        'username': admin_user.username,
-        'password': 'admin'
+        'name': engineer_employee.name,
+        'password': 'testpassword'
     }
     rep = client.post(
         '/auth/login',
@@ -79,42 +72,19 @@ def admin_headers(admin_user, client):
 
 
 @pytest.fixture
-def admin_refresh_headers(admin_user, client):
-    data = {
-        'username': admin_user.username,
-        'password': 'admin'
-    }
-    rep = client.post(
-        '/auth/login',
-        data=json.dumps(data),
-        headers={'content-type': 'application/json'}
-    )
+def hr_employee(db, employee_factory):
+    employee = employee_factory(user_type="HR", password="testpassword")
 
-    tokens = json.loads(rep.get_data(as_text=True))
-    return {
-        'content-type': 'application/json',
-        'authorization': 'Bearer %s' % tokens['refresh_token']
-    }
-
-
-@pytest.fixture
-def test_user(db):
-    user = User(
-        username='testuser',
-        email='testuser@mail.com',
-        password='testpassword'
-    )
-
-    db.session.add(user)
+    db.session.add(employee)
     db.session.commit()
 
-    return user
+    return employee
 
 
 @pytest.fixture
-def test_user_headers(client, test_user):
+def hr_employee_headers(client, hr_employee):
     data = {
-        'username': 'testuser',
+        'name': hr_employee.name,
         'password': 'testpassword'
     }
     rep = client.post(

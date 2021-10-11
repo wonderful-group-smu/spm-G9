@@ -74,7 +74,7 @@ class EmployeeList(Resource):
                   msg:
                     type: string
                     example: Employee created
-                  user: EmployeeSchema
+                  employee: EmployeeSchema
     """
 
     method_decorators = [jwt_required()]
