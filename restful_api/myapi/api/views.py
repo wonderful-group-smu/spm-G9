@@ -39,7 +39,7 @@ api.add_resource(ClassSectionResource, "/class_section/<int:section_id>", endpoi
 api.add_resource(ClassSectionResourceList, "/class_sections/<int:course_id>", endpoint="class_sections_by_course")
 
 
-@blueprint.errorhandler(ValidationError)
+@blueprint.before_app_first_request
 def register_views():
     """Return json error for marshmallow validation errors."""
     apispec.spec.components.schema("EmployeeSchema", schema=EmployeeSchema)
