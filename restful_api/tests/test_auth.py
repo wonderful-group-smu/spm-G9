@@ -1,14 +1,21 @@
-def test_revoke_access_token(client, admin_headers):
-    resp = client.delete("/auth/revoke_access", headers=admin_headers)
-    assert resp.status_code == 200
+def test_login(
+    client,
+    db,
+    employee_factory
+):
+    employee = employee_factory(name="testengineer", password="testpassword")
+    db.session.add(employee)
+    db.session.commit()
 
-    resp = client.get("/api/v1/users", headers=admin_headers)
-    assert resp.status_code == 401
+    request_json = {'name': employee.name, 'password': "testpassword"}
+    rep = client.post('/auth/login', json=request_json)
 
+    assert rep.status_code == 200, "Incorrect response when credentials are true"
+    assert "access_token" in rep.get_json()
+    assert "refresh_token" in rep.get_json()
 
-def test_revoke_refresh_token(client, admin_refresh_headers):
-    resp = client.delete("/auth/revoke_refresh", headers=admin_refresh_headers)
-    assert resp.status_code == 200
+    request_json = {'name': employee.name, 'password': "wrong"}
+    rep = client.post('/auth/login', json=request_json)
 
-    resp = client.post("/auth/refresh", headers=admin_refresh_headers)
-    assert resp.status_code == 401
+    assert rep.status_code == 400
+    assert rep.get_json()["msg"] == "Bad credentials", "Incorrect response when wrong password given"

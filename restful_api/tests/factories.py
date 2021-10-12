@@ -2,7 +2,6 @@ import factory
 import time
 
 from myapi.models import (
-    User,
     Course,
     Employee,
     Prereq,
@@ -10,15 +9,6 @@ from myapi.models import (
     CourseClass,
     ClassSection
 )
-
-
-class UserFactory(factory.Factory):
-    username = factory.Sequence(lambda n: "user%d" % n)
-    email = factory.LazyAttribute(lambda o: o.username + "%@mail.com")
-    password = "mypwd"
-
-    class Meta:
-        model = User
 
 
 class CourseFactory(factory.Factory):
@@ -34,6 +24,7 @@ class EmployeeFactory(factory.Factory):
     id = factory.Sequence(lambda n: n)
     name = factory.LazyAttribute(lambda o: "employee %d" % o.id)
     user_type = "ENG"  # If want to test HR, declare explicit when creating
+    password = "testpassword"
 
     class Meta:
         model = Employee
@@ -56,6 +47,11 @@ class EnrollFactory(factory.Factory):
 
 
 class PrereqFactory(factory.Factory):
+    course_id = factory.SelfAttribute('current_course.course_id')
+    prereq_id = factory.SelfAttribute('prereq_course.course_id')
+    current_course = factory.SubFactory(CourseFactory)
+    prereq_course = factory.SubFactory(CourseFactory)
+
     class Meta:
         model = Prereq
 
