@@ -2,10 +2,10 @@ from flask import request
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
-from myapi.api.schemas import EnrollSchema
+from myapi.api.schemas import EnrollSchema, PrereqSchema
 from myapi.commons.pagination import paginate
 from myapi.extensions import db
-from myapi.models import Enroll
+from myapi.models import Enroll, Prereq
 
 
 class EnrollResource(Resource):
@@ -69,7 +69,7 @@ class EnrollResource(Resource):
     method_decorators = [jwt_required()]
 
     def __init__(self):
-        self.schema = EnrollSchema()
+        self.enroll_schema = EnrollSchema()
 
     def get(self, eng_id, course_id, trainer_id):
         try:
@@ -86,10 +86,15 @@ class EnrollResource(Resource):
             else:
                 raise error
 
-        return {"msg": "enrollment record retrieved", "enrollment": self.schema.dump(query)}, 200
+        return {"msg": "enrollment record retrieved", "enrollment": self.enroll_schema.dump(query)}, 200
 
     def post(self, eng_id, course_id, trainer_id):
-        new_enrollment = self.schema.load(request.json)
+        new_enrollment = self.enroll_schema.load(request.json)
+
+        is_eligible = self.check_eligibility(new_enrollment.course_id, new_enrollment.eng_id)
+
+        if not is_eligible:
+            return {"msg": "learner is not eligible for this course"}, 400
 
         try:
             db.session.add(new_enrollment)
@@ -97,10 +102,10 @@ class EnrollResource(Resource):
         except IntegrityError as e:
             return {"msg": str(e)}, 400
 
-        return {"msg": "self enrollment created", "enrollment": self.schema.dump(new_enrollment)}, 201
+        return {"msg": "enrollment created", "enrollment": self.enroll_schema.dump(new_enrollment)}, 201
 
     def put(self, eng_id, course_id, trainer_id):
-        updated_record = self.schema.load(request.json)
+        updated_record = self.enroll_schema.load(request.json)
 
         try:
             enrollment_record = (
@@ -120,7 +125,33 @@ class EnrollResource(Resource):
         enrollment_record.is_official = updated_record.is_official
         db.session.commit()
 
-        return {"msg": "enrollment updated", "enrollment": self.schema.dump(enrollment_record)}, 201
+        return {"msg": "enrollment updated", "enrollment": self.enroll_schema.dump(enrollment_record)}, 201
+
+    @staticmethod
+    def check_eligibility(course_id, eng_id):
+        query = (
+            Prereq.query
+            .filter(Prereq.course_id == course_id)
+            .all()
+        )
+        prereqs = PrereqSchema(many=True).dump(query)
+		
+        if not prereqs:
+            return True
+
+        completed_courses = Enroll.query.filter(
+            Enroll.eng_id == eng_id,
+            Enroll.has_passed == True,
+        ).all()
+        print(prereqs)
+        fmted_completed_course = {c.course_id: c.has_passed for c in completed_courses}
+        fmted_prereqs = [p.prereq_id for p in prereqs]
+        counter = 0
+
+        for preq in fmted_prereqs:
+            counter += fmted_completed_course.get(preq.prereq_id, 0)
+
+        return len(prereqs) == counter
 
 
 class EnrollResourceList(Resource):

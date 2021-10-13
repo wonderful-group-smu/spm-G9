@@ -138,19 +138,11 @@ class CourseList(Resource):
 
         all_courses = Course.query.all()
 
-        official_enrolled_courses = Enroll.query.filter(
+        enrolled_courses = Enroll.query.filter(
             Enroll.eng_id == eng_id,
-            Enroll.is_official == True
-        ).all()
-        self_enrolled_courses = Enroll.query.filter(
-            Enroll.eng_id == eng_id,
-            Enroll.is_official == False
         ).all()
 
         course_status_schema = CourseStatusSchema(many=True)
-        enroll_schema = EnrollSchema(many=True)
-
-        enrolled_courses = enroll_schema.dump(official_enrolled_courses) + enroll_schema.dump(self_enrolled_courses)
 
         courses = self.validate_prereqs(all_courses, enrolled_courses)
 
@@ -159,7 +151,7 @@ class CourseList(Resource):
     @staticmethod
     def validate_prereqs(courses, completed_courses):
         # convert completed courses to dict for O(1) check
-        fmted_enrolled_courses = {k['course_id']: k['has_passed']
+        fmted_enrolled_courses = {k.course_id: k.has_passed
                                   for k in completed_courses}
 
         # Check the pre-reqs to see if they are done

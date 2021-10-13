@@ -16,7 +16,8 @@ def init():
         Prereq,
         Employee,
         CourseClass,
-        ClassSection
+        ClassSection,
+        Enroll
     )
 
     items_to_add = []
@@ -31,12 +32,18 @@ def init():
     click.echo("create courses")
     course_one = Course(course_id=1, description="course one description", name="course one name")
     course_two = Course(course_id=2, description="course two description", name="course two name")
+    course_three = Course(course_id=3, description="course three description", name="course three name")
     items_to_add.append(course_one)
     items_to_add.append(course_two)
+    items_to_add.append(course_three)
     click.echo("created courses")
     click.echo("create prereq")
-    prereq_one = Prereq(course_id=2, prereq_id=1)
+    prereq_one = Prereq(course_id=3, prereq_id=2)
+    prereq_two = Prereq(course_id=3, prereq_id=1)
+    prereq_three = Prereq(course_id=2, prereq_id=1)
     items_to_add.append(prereq_one)
+    items_to_add.append(prereq_two)
+    items_to_add.append(prereq_three)
     click.echo("created prereq")
     click.echo("create course class")
     course_class_one = CourseClass(course_id=2, trainer_id=2)
@@ -46,7 +53,9 @@ def init():
     class_section_one = ClassSection(course_id=2, trainer_id=2, section_name="section one name")
     items_to_add.append(class_section_one)
     click.echo("created class section")
-
+    enrollment_one = Enroll(eng_id=1, course_id=1, trainer_id=2, is_official=True, has_passed=True)
+    items_to_add.append(enrollment_one)
+    click.echo("created enrollment")
     db.session.add_all(items_to_add)
     db.session.commit()
 
