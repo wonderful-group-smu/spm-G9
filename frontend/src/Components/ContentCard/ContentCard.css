@@ -1,0 +1,45 @@
+.content-bg{
+    background-color: white;
+    box-shadow: 1px 1px 3px #ebebeb;
+    border-radius: 10px;
+    padding: 1.5rem;
+}
+
+.content-title{
+    font-size: 15px;
+    text-align: center;
+}
+
+.content-title>div{
+    font-size: 50px;
+}
+
+
+.content-subtitle{
+    color: rgb(243, 107, 130);
+    /* font-weight: bold; */
+    font-size: 20px;
+}
+
+.content-status-parent{
+    display: table;
+}
+
+.content-status-child{
+    display: table-cell;
+    vertical-align: middle;
+    /* align-content: center; */
+    text-align: center;
+}
+
+.completed{
+    color: green;
+}
+
+.incomplete{
+    color:red;
+}
+
+.row-wrapper{
+    margin-bottom: 20px;
+}

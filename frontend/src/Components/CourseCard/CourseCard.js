@@ -24,7 +24,7 @@ const CourseCard = (props) => {
 
   return (
     <>
-      <Link to='/courseclasses' className='try' style={{ textDecoration: 'none' }}
+      <Link to={props.link} className='try' style={{ textDecoration: 'none' }}
         onClick={props.deleteMode ? handleClickSelect : ""}>
         <div className='col-sm shadow-box'>
           <div className={selected && props.deleteMode ? 'card selected' : 'card'}>
@@ -74,6 +74,7 @@ CourseCard.propTypes = {
   deleteMode: bool,
   selectedArr: array,
   setSelectedArr: func,
+  link:string
 }
 
 export default CourseCard

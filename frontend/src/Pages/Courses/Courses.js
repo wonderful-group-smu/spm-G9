@@ -67,6 +67,7 @@ const Courses = () => {
               deleteMode={deleteMode}
               selectedArr={selectedArr}
               setSelectedArr={setSelectedArr}
+              link='/courseclasses'
             />
           ))}
         </div>
