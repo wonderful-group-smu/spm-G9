@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import * as Bi from 'react-icons/bi';
-import { array } from 'prop-types';
+import { Accordion } from 'react-bootstrap'
+import CreateQuestion from '../../Components/CreateQuestion/CreateQuestion';
 import '../Pagelayout.css';
 import './CreateSection.css';
 
 const CreateSection = () => {
   const [sectionTitle, setSectionTitle] = useState("");
   const [selectedFiles, setSelectedFiles] = useState([]);
+
   let history = useHistory();
 
   const handleSubmit = (event) => {
@@ -43,21 +45,28 @@ const CreateSection = () => {
           onChange={e => setSelectedFiles(e.target.files)}
         />
 
+        <Accordion id="create-quiz-accordion" >
+          <Accordion.Item eventKey="0">
+            <Accordion.Header>Section Quiz</Accordion.Header>
+            <Accordion.Body>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+              veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+              cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+              est laborum.
+              <CreateQuestion/>
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
+
         <button type="submit" className="btn btn-secondary submit">Add Section</button>
 
       </form>
+
     </div>
   )
-}
-
-CreateSection.defaultProps = {
-  trainer: ["Daniel Lim", "Brock Place", "Misty Holder"],
-  prereqs: ["IS110", "IS111", "IS112", "IS113"],
-}
-
-CreateSection.propTypes = {
-  trainer: array,
-  prereqs: array,
 }
 
 export default CreateSection
