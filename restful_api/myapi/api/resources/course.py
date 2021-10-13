@@ -66,7 +66,7 @@ class CourseResource(Resource):
         try:
             query = (
                 Course.query
-                .join(Prereq, isouter=True)
+                .join(Prereq, Course.course_id == Prereq.course_id, isouter=True)
                 .filter(Course.course_id == course_id)
                 .one()
             )

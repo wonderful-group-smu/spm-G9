@@ -6,13 +6,13 @@ def test_get_single_enrollment(
     client,
     db,
     enroll_factory,
-    admin_headers
+    engineer_employee_headers
 ):
     """Test GET request for single enrollment"""
     # 404 Test
     enrollment_url = url_for("api.enrollment", eng_id=1, course_id=1, trainer_id=1)
     # /api/v1/enroll/?eng_id=1&course_id=1&trainer_id=1
-    rep = client.get(enrollment_url, headers=admin_headers)
+    rep = client.get(enrollment_url, headers=engineer_employee_headers)
     assert rep.status_code == 404, "Backend not catching invalid params provided for single enrollment GET"
 
     # 200 Test
@@ -27,7 +27,7 @@ def test_get_single_enrollment(
         course_id=enrollments[0].course_id,
         trainer_id=enrollments[0].trainer_id
     )
-    rep = client.get(enrollment_url, headers=admin_headers)
+    rep = client.get(enrollment_url, headers=engineer_employee_headers)
     assert rep.status_code == 200, "Engineer enrollment endpoint not up"
     assert rep.get_json()["enrollment"]["eng_id"] == enrollments[0].eng_id, "Incorrect engineer id retrieved by Enroll"
     assert rep.get_json()["enrollment"]["course_id"] == enrollments[0].course_id, "Incorrect course id retrieved by Enroll"
@@ -36,7 +36,7 @@ def test_get_single_enrollment(
 
 def test_post_single_enrollment_official(
     client,
-    admin_headers,
+    engineer_employee_headers,
     enroll
 ):
     """Test POST request to create enrollment from HR perspective"""
@@ -49,7 +49,7 @@ def test_post_single_enrollment_official(
         'is_official': True,
         'created_timestamp': int(time.time())
     }
-    rep = client.post(enrollment_url, json=request_json, headers=admin_headers)
+    rep = client.post(enrollment_url, json=request_json, headers=engineer_employee_headers)
     assert rep.status_code == 201, "Incorrect status code retrieved"
     rep_json = rep.get_json()
     assert rep_json['enrollment']['eng_id'] == enroll.eng_id, "Incorrect engineer id retrieved"
@@ -62,13 +62,13 @@ def test_post_single_enrollment_official(
     request_json = {
         'eng_id': enroll.eng_id,
     }
-    rep = client.post(enrollment_url, json=request_json, headers=admin_headers)
+    rep = client.post(enrollment_url, json=request_json, headers=engineer_employee_headers)
     assert rep.status_code == 400, "Incorrect status code retrieved"
 
 
 def test_post_single_enrollment_self_enroll(
     client,
-    admin_headers,
+    engineer_employee_headers,
     enroll
 ):
     """Test POST request to create enrollment from engineer perspective"""
@@ -80,7 +80,7 @@ def test_post_single_enrollment_self_enroll(
         'trainer_id': enroll.trainer_id,
         'created_timestamp': int(time.time())
     }
-    rep = client.post(enrollment_url, json=request_json, headers=admin_headers)
+    rep = client.post(enrollment_url, json=request_json, headers=engineer_employee_headers)
     assert rep.status_code == 201, "Incorrect status code retrieved"
     rep_json = rep.get_json()
     assert rep_json['enrollment']['eng_id'] == enroll.eng_id, "Incorrect engineer id retrieved"
@@ -92,7 +92,7 @@ def test_post_single_enrollment_self_enroll(
 
 def test_put_single_enrollment(
     client,
-    admin_headers,
+    engineer_employee_headers,
     enroll_factory,
     db
 ):
@@ -118,7 +118,7 @@ def test_put_single_enrollment(
         'has_passed': False,
         'is_official': True
     }
-    rep = client.put(enrollment_url, json=request_json, headers=admin_headers)
+    rep = client.put(enrollment_url, json=request_json, headers=engineer_employee_headers)
     assert rep.status_code == 201, "Incorrect status code retrieved"
     rep_json = rep.get_json()
     assert rep_json['enrollment']['eng_id'] == enrollments[0].eng_id, "Incorrect engineer id retrieved"
@@ -134,14 +134,14 @@ def test_get_all_enrollments(
     client,
     db,
     enroll_factory,
-    admin_headers
+    engineer_employee_headers
 ):
     enrollments = enroll_factory.create_batch(3)
     db.session.add_all(enrollments)
     db.session.commit()
 
     enrollment_url = url_for("api.enrollments", eng_id=enrollments[0].eng_id)
-    res = client.get(enrollment_url, headers=admin_headers)
+    res = client.get(enrollment_url, headers=engineer_employee_headers)
     assert res.status_code == 200, "Official Enrollment endpoint not up"
 
     enrollments = [e for e in enrollments if e.eng_id == enrollments[0].eng_id]
@@ -158,7 +158,7 @@ def test_get_all_enrollments_by_course(
     client,
     db,
     enroll_factory,
-    admin_headers
+    engineer_employee_headers
 ):
     enrollments = enroll_factory.create_batch(3)
     db.session.add_all(enrollments)
@@ -166,7 +166,7 @@ def test_get_all_enrollments_by_course(
 
     # Find unavailable/ empty enrollments
     course_url = url_for('api.enrollments_by_course', course_id=9999)
-    rep = client.get(course_url, headers=admin_headers)
+    rep = client.get(course_url, headers=engineer_employee_headers)
     results = rep.get_json()
     assert rep.status_code == 200, "Enrollment endpoint not up"
     assert len(results['results']) == 0, "Incorrect number of enrollments in course"
@@ -174,7 +174,7 @@ def test_get_all_enrollments_by_course(
     # Get enrollments in course
     enrollment_url = url_for("api.enrollments_by_course", course_id=enrollments[0].course_id)
 
-    res = client.get(enrollment_url, headers=admin_headers)
+    res = client.get(enrollment_url, headers=engineer_employee_headers)
     assert res.status_code == 200, "Enrollment endpoint not up"
 
     enrollments = [e for e in enrollments if e.course_id == enrollments[0].course_id]

@@ -1,5 +1,3 @@
-from myapi.api.resources.user import UserResource, UserList
-
 from myapi.api.resources.course import CourseList, CourseResource
 from myapi.api.resources.employee import EmployeeList, EmployeeResource
 from myapi.api.resources.enroll import EnrollResourceList, EnrollResource, EnrollByCourseResourceList
@@ -9,8 +7,6 @@ from myapi.api.resources.question import QuestionResource, QuestionResourceList
 
 
 __all__ = [
-    "UserResource",
-    "UserList",
     "EmployeeList",
     "EmployeeResource",
     "EnrollResourceList",

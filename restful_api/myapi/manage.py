@@ -12,7 +12,6 @@ def cli():
 def init():
     from myapi.extensions import db
     from myapi.models import (
-        User,
         Course,
         Prereq,
         Employee,
@@ -21,17 +20,13 @@ def init():
     )
 
     items_to_add = []
-    click.echo("create user")
-    user_one = User(id=1, username="testuser", email="test@mail.com", password="testpassword", active=True)
-    user_two = User(id=2, username="testtrainer", email="trainer@mail.com", password="trainerpassword", active=True)
-    items_to_add.append(user_one)
-    items_to_add.append(user_two)
-    click.echo("created user")
     click.echo("create employee")
-    employee_one = Employee(id=1, name="testuser", user_type="ENG")
-    employee_two = Employee(id=2, name="testtrainer", user_type="ENG")
+    employee_one = Employee(id=1, name="testengineer", user_type="ENG", password="testpassword")
+    employee_two = Employee(id=2, name="testtrainer", user_type="ENG", password="testpassword")
+    employee_three = Employee(id=3, name="testhr", user_type="HR", password="testpassword")
     items_to_add.append(employee_one)
     items_to_add.append(employee_two)
+    items_to_add.append(employee_three)
     click.echo("created employee")
     click.echo("create courses")
     course_one = Course(course_id=1, description="course one description", name="course one name")
