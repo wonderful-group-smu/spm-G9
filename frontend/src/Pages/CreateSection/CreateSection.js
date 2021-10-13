@@ -3,12 +3,14 @@ import { useHistory } from "react-router-dom";
 import * as Bi from 'react-icons/bi';
 import { Accordion } from 'react-bootstrap'
 import CreateQuestion from '../../Components/CreateQuestion/CreateQuestion';
+import { bool, number, string } from "prop-types";
 import '../Pagelayout.css';
 import './CreateSection.css';
 
-const CreateSection = () => {
+const CreateSection = (props) => {
   const [sectionTitle, setSectionTitle] = useState("");
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [questions, setQuestions] = useState(props.questionArr);
 
   let history = useHistory();
 
@@ -56,17 +58,39 @@ const CreateSection = () => {
               velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
               cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
               est laborum.
-              <CreateQuestion/>
+              {
+                questions.map((question, i) => (
+                  <CreateQuestion key={i} question={question} setQuestions={setQuestions}/>
+                ))
+              }
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>
 
         <button type="submit" className="btn btn-secondary submit">Add Section</button>
-
       </form>
-
     </div>
   )
 }
 
-export default CreateSection
+CreateSection.defaultProps = {
+  questionArr: [
+    {
+      question_id: 1,
+      question_text: "",
+      question_type: true,
+    }
+  ]
+}
+
+CreateSection.propTypes = {
+  questionArr: [
+    {
+      question_id: number,
+      question_text: string,
+      question_type: bool,
+    }
+  ]
+}
+
+export default CreateSection;

@@ -1,15 +1,15 @@
 import { bool, number, string } from "prop-types";
-import { useState } from "react";
+// import { useState } from "react";
 
-const CreateQuestion = (props) => {
-    const [question, setQuestion] = useState(props)
+const CreateQuestion = () => {
 
     const changeQuestion = (e) => {
-        setQuestion({
-            question_id: props.question_id,
-            question: e.target.value,
-            question_type: props.question_type,
-        })
+        // setQuestion({
+        //     question_id: props.question_id,
+        //     question: e.target.value,
+        //     question_type: props.question_type,
+        // })
+        return(e)
     }
 
     return (
@@ -26,15 +26,9 @@ const CreateQuestion = (props) => {
     )
 }
 
-CreateQuestion.defaultProps = {
-    question_id: 1,
-    question: "",
-    question_type: true,
-}
-
 CreateQuestion.propTypes = {
     question_id: number,
-    question: string,
+    question_text: string,
     question_type: bool,
 }
 
