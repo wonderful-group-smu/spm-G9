@@ -16,6 +16,8 @@ const Enrolled = () => {
               cardTitle="IS110: Python Programming"
               cardText="Starts on 12 Jan 2021, End on 12 Mar 2021"
               instructor="Daniel Lim (Senior Engineer)"
+              link='/optionselection'
+              
             />
           ))}
         </div>
