@@ -1,6 +1,5 @@
 from flask import url_for
 import time
-import pytest
 
 
 def test_get_single_enrollment(
@@ -184,7 +183,6 @@ def test_get_all_enrollments_by_course(
         assert any(e["trainer_id"] == enrollment.trainer_id for e in results['results']), "Incorrect course id retrieved for enginer"
 
 
-@pytest.mark.bran
 def test_complex_enroll_logic(
     client,
     db,
@@ -232,3 +230,13 @@ def test_complex_enroll_logic(
     enrollment_url = url_for("api.enrollment", eng_id=employee.id, course_id=courses[1].course_id, trainer_id=employee.id + 1)
     rep = client.post(enrollment_url, headers=engineer_employee_headers, json=request_json)
     assert rep.status_code == 201
+
+    request_json = {
+        'eng_id': employee.id,
+        'course_id': courses[2].course_id,
+        'trainer_id': employee.id + 1,
+        'created_timestamp': int(time.time())
+    }
+    enrollment_url = url_for("api.enrollment", eng_id=employee.id, course_id=courses[2].course_id, trainer_id=employee.id + 1)
+    rep = client.post(enrollment_url, headers=engineer_employee_headers, json=request_json)
+    assert rep.status_code == 400

@@ -2,7 +2,7 @@
 from flask import request
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
-from myapi.api.schemas import CourseSchema, CourseStatusSchema, EnrollSchema
+from myapi.api.schemas import CourseSchema, CourseStatusSchema
 from myapi.extensions import db
 from myapi.models import Course, Prereq, Enroll
 
