@@ -11,6 +11,7 @@ from myapi.api.resources import (
     ClassSectionResourceList,
     EnrollResource,
     EnrollResourceList,
+    EnrollByEngineerSelfResourceList,
     EnrollByCourseResourceList
 )
 from myapi.api.schemas import (
@@ -31,6 +32,7 @@ api.add_resource(EmployeeList, "/employees", endpoint="employees")
 api.add_resource(EmployeeResource, "/employees/<int:employee_id>", endpoint="employee_by_id")
 api.add_resource(EnrollResource, "/enroll/<int:eng_id>&<int:course_id>&<int:trainer_id>", endpoint="enrollment")
 api.add_resource(EnrollResourceList, "/enrollments/<int:eng_id>", endpoint="enrollments")
+api.add_resource(EnrollByEngineerSelfResourceList, "/self_enrollments_by_eng/<int:eng_id>", endpoint="self_enrollments_by_eng")
 api.add_resource(EnrollByCourseResourceList, "/enrollments_by_course/<int:course_id>", endpoint="enrollments_by_course")
 api.add_resource(CourseList, "/courses/<int:eng_id>", endpoint="courses")
 api.add_resource(CourseResource, "/course/<int:course_id>", endpoint="course")
@@ -52,6 +54,7 @@ def register_views():
     apispec.spec.path(view=EmployeeList, app=current_app)
     apispec.spec.path(view=EnrollResource, app=current_app)
     apispec.spec.path(view=EnrollResourceList, app=current_app)
+    apispec.spec.path(view=EnrollByEngineerSelfResourceList, app=current_app)
     apispec.spec.path(view=EnrollByCourseResourceList, app=current_app)
     apispec.spec.path(view=CourseResource, app=current_app)
     apispec.spec.path(view=CourseClassResource, app=current_app)

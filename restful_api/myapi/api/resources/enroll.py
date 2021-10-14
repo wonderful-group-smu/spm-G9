@@ -157,7 +157,7 @@ class EnrollResource(Resource):
 
 
 class EnrollResourceList(Resource):
-    """Get all officially enrolled courses based on engineer id
+    """Get all enrolled learners based on engineer id
 
     ---
     get:
@@ -187,8 +187,39 @@ class EnrollResourceList(Resource):
         return paginate(query, self.schema)
 
 
+class EnrollByEngineerSelfResourceList(Resource):
+    """Get all self-enrolled learners based on engineer id
+
+    ---
+    get:
+      tags:
+        - api
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/PaginatedResult'
+                  - type: object
+                    properties:
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/EnrollSchema'
+    """
+    method_decorators = [jwt_required()]
+
+    def __init__(self):
+        self.schema = EnrollSchema(many=True)
+
+    def get(self, eng_id):
+        query = Enroll.query.filter_by(eng_id=eng_id).filter_by(is_official=False)
+        return paginate(query, self.schema)
+
+
 class EnrollByCourseResourceList(Resource):
-    """Get all enrolled courses based on course id
+    """Get all enrolled learners based on course id
 
     ---
     get:
