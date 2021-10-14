@@ -32,7 +32,7 @@ const CreateSection = (props) => {
 
         <label htmlFor="inputSectionTitle" className="form-label">Section Title</label>
         <input
-          className="form-control"
+          className="form-control section-form-control"
           id="inputSectionTitle"
           placeholder="Input Section Title..."
           onChange={e => setSectionTitle(e.target.value)}
@@ -40,7 +40,7 @@ const CreateSection = (props) => {
 
         <label htmlFor="inputMaterials" className="form-label">Course Materials</label>
         <input
-          className="form-control"
+          className="form-control section-form-control"
           type="file"
           id="formFileMultiple"
           multiple
@@ -51,13 +51,6 @@ const CreateSection = (props) => {
           <Accordion.Item eventKey="0">
             <Accordion.Header>Section Quiz</Accordion.Header>
             <Accordion.Body>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-              veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-              commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-              cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-              est laborum.
               {
                 questions.map((question, i) => (
                   <CreateQuestion key={i} question={question} setQuestions={setQuestions}/>

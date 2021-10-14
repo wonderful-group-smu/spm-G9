@@ -1,4 +1,4 @@
-.form-control{
+.section-form-control{
     margin-bottom: 1rem;
 }
 
@@ -11,7 +11,7 @@
 }
 
 #create-quiz-accordion{
-    width: 60%;
+    width: 80%;
 }
 
 .submit{
