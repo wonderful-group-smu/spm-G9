@@ -10,7 +10,7 @@ import './CreateSection.css';
 const CreateSection = (props) => {
   const [sectionTitle, setSectionTitle] = useState("");
   const [selectedFiles, setSelectedFiles] = useState([]);
-  
+
   const [questionCount, setQuestionCount] = useState(1);
   const [questions, setQuestions] = useState(props.questionArr);
 
@@ -69,9 +69,7 @@ const CreateSection = (props) => {
                       <hr />
                     </>
                   )
-                }
-                
-                )
+                })
               }
               <button type="button" className="btn btn-outline-primary" onClick={addQuestion}>Add Question</button>
             </Accordion.Body>
@@ -87,9 +85,9 @@ const CreateSection = (props) => {
 const questionTemplate = (questionCount) => {
   return (
     {
-      question_id: questionCount,
-      question_text: "",
-      question_type: true,
+      questionID: questionCount,
+      questionText: "",
+      questionType: true,
     }
   )
 } 

@@ -4,15 +4,11 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import './CreateQuestion.css';
 
 const CreateQuestion = (props) => {
-    const [questionType, setQuestionType] = useState(true)
-    const question_id = props.question.question_id
+    // const [questionText, setQuestionText] = useState("");
+    const [questionType, setQuestionType] = useState(true);
+    const questionID = props.question.questionID;
 
     const changeQuestion = (e) => {
-        // setQuestion({
-        //     question_id: props.question_id,
-        //     question: e.target.value,
-        //     question_type: props.question_type,
-        // })
         return (e)
     }
 
@@ -28,7 +24,7 @@ const CreateQuestion = (props) => {
     return (
         <div className="create-question-container">
             <div className="question">
-                <h6>{question_id}) Question Description</h6>
+                <h6>{questionID}) Question Description</h6>
                 <textarea
                     className="form-control"
                     id="inputQuestionDesc"
@@ -39,13 +35,13 @@ const CreateQuestion = (props) => {
                 <div className="form-check" id="question-type">
                     <label className="form-check-label" htmlFor="question-type-mcq">
                         MCQ<input className="form-check-input" type="radio"
-                            name={"question-type-" + question_id} id="question-type-mcq" onClick={changeQuestionType} />
+                            name={"question-type-" + questionID} id="question-type-mcq" onClick={changeQuestionType} />
                     </label>
                 </div>
                 <div className="form-check" id="question-type">
                     <label className="form-check-label" htmlFor="question-type-tf">
                         True/False<input className="form-check-input" type="radio"
-                            name={"question-type-" + question_id} id="question-type-tf" onClick={changeQuestionType} />
+                            name={"question-type-" + questionID} id="question-type-tf" onClick={changeQuestionType} />
                     </label>
                 </div>
             </div>
@@ -55,83 +51,32 @@ const CreateQuestion = (props) => {
                 <div className="answer-options">
                     {questionType ?
                         <>
-                            <div className="input-group">
-                                <span className="input-group-text" id="option-a">
-                                    A)
-                                </span>
-                                <input
-                                    type="text" className="form-control answer-option"
-                                    placeholder="Input Option A..." aria-label="option-a" aria-describedby="option-a"
-                                />
-                                <div className="form-check" id="correct-answer">
-                                    <OverlayTrigger placement="top" overlay={
-                                        <Tooltip>
-                                            Set A as correct answer
-                                        </Tooltip>
-                                    }>
-                                        <input className="form-check-input" type="radio"
-                                            name={"correct-answer-" + question_id} id="answer-a"
-                                        />
-                                    </OverlayTrigger>
-                                </div>
-                            </div>
-                            <div className="input-group">
-                                <span className="input-group-text" id="option-b">
-                                    B)
-                                </span>
-                                <input
-                                    type="text" className="form-control answer-option"
-                                    placeholder="Input Option B..." aria-label="option-a" aria-describedby="option-b"
-                                />
-                                <div className="form-check" id="correct-answer">
-                                    <OverlayTrigger placement="top" overlay={
-                                        <Tooltip>
-                                            Set B as correct answer
-                                        </Tooltip>
-                                    }>
-                                        <input className="form-check-input" type="radio"
-                                            name={"correct-answer-" + question_id} id="answer-b" />
-                                    </OverlayTrigger>
-                                </div>
-                            </div>
-                            <div className="input-group">
-                                <span className="input-group-text" id="option-c">
-                                    C)
-                                </span>
-                                <input
-                                    type="text" className="form-control answer-option"
-                                    placeholder="Input Option C..." aria-label="option-a" aria-describedby="option-c"
-                                />
-                                <div className="form-check" id="correct-answer">
-                                    <OverlayTrigger placement="top" overlay={
-                                        <Tooltip>
-                                            Set C as correct answer
-                                        </Tooltip>
-                                    }>
-                                        <input className="form-check-input" type="radio"
-                                            name={"correct-answer-" + question_id} id="answer-c" />
-                                    </OverlayTrigger>
-                                </div>
-                            </div>
-                            <div className="input-group">
-                                <span className="input-group-text" id="option-c">
-                                    D)
-                                </span>
-                                <input
-                                    type="text" className="form-control answer-option"
-                                    placeholder="Input Option D..." aria-label="option-a" aria-describedby="option-c"
-                                />
-                                <div className="form-check" id="correct-answer">
-                                    <OverlayTrigger placement="top" overlay={
-                                        <Tooltip>
-                                            Set D as correct answer
-                                        </Tooltip>
-                                    }>
-                                        <input className="form-check-input" type="radio"
-                                        name={"correct-answer-" + question_id} id="answer-d" />
-                                    </OverlayTrigger>
-                                </div>
-                            </div>
+                            {
+                                ["A", "B", "C", "D"].map((letter, i) => {
+                                    return (
+                                        <div className="input-group" key={i}>
+                                            <span className="input-group-text" id={"option-" + letter}>
+                                                {letter})
+                                            </span>
+                                            <input
+                                                type="text" className="form-control answer-option"
+                                                placeholder={"Input Option " + letter + "..."} aria-label={"option-" + letter} aria-describedby={"option-" + letter}
+                                            />
+                                            <div className="form-check" id="correct-answer">
+                                                <OverlayTrigger placement="top" overlay={
+                                                    <Tooltip>
+                                                        Set {letter} as correct answer
+                                                    </Tooltip>
+                                                }>
+                                                    <input className="form-check-input" type="radio"
+                                                        name={"correct-answer-" + questionID} id={"answer-" + letter}
+                                                    />
+                                                </OverlayTrigger>
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
 
                         </>
                         :
@@ -139,13 +84,13 @@ const CreateQuestion = (props) => {
                             <div className="form-check" id="correct-answer-tf">
                                 <label className="form-check-label" htmlFor="correct-answer-true">
                                     True<input className="form-check-input" type="radio"
-                                        name={"correct-answer-" + question_id} id="correct-answer-true" />
+                                        name={"correct-answer-" + questionID} id="correct-answer-true" />
                                 </label>
                             </div>
                             <div className="form-check" id="correct-answer-tf">
                                 <label className="form-check-label" htmlFor="correct-answer-false">
                                     False<input className="form-check-input" type="radio"
-                                        name={"correct-answer-" + question_id} id="correct-answer-false" />
+                                        name={"correct-answer-" + questionID} id="correct-answer-false" />
                                 </label>
                             </div>
                         </>
@@ -157,9 +102,6 @@ const CreateQuestion = (props) => {
 }
 
 CreateQuestion.propTypes = {
-    // question_id: number,
-    // question_text: string,
-    // question_type: bool,
     question: object,
 }
 
