@@ -7,7 +7,8 @@ from myapi.models import (
     Prereq,
     Enroll,
     CourseClass,
-    ClassSection
+    ClassSection,
+    SectionCompleted
 )
 
 
@@ -75,3 +76,15 @@ class ClassSectionFactory(factory.Factory):
 
     class Meta:
         model = ClassSection
+
+
+class SectionCompletedFactory(factory.Factory):
+    eng_id = factory.SelfAttribute('engineer.id')
+    section_id = factory.SelfAttribute('class_section.section_id')
+    course_id = factory.SelfAttribute('class_section.course_id')
+    trainer_id = factory.SelfAttribute('class_section.trainer_id')
+    class_section = factory.SubFactory(ClassSectionFactory)
+    engineer = factory.SubFactory(EmployeeFactory)
+
+    class Meta:
+        model = SectionCompleted

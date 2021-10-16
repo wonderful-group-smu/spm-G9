@@ -9,6 +9,8 @@ from flask_jwt_extended import (
 from myapi.models import Employee
 from myapi.extensions import pwd_context, jwt, apispec
 
+from datetime import timedelta
+
 blueprint = Blueprint("auth", __name__, url_prefix="/auth")
 
 
@@ -63,7 +65,7 @@ def login():
     if employee is None or not pwd_context.verify(password, employee.password):
         return jsonify({"msg": "Bad credentials"}), 400
 
-    access_token = create_access_token(identity=employee.id)
+    access_token = create_access_token(identity=employee.id, expires_delta=timedelta(days=7),)
     refresh_token = create_refresh_token(identity=employee.id)
 
     ret = {"access_token": access_token, "refresh_token": refresh_token}

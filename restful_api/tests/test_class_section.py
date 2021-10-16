@@ -70,22 +70,26 @@ def test_get_class_section_list(
     db,
     engineer_employee_headers,
     course_class,
-    class_section_factory
+    class_section_factory,
+    section_completed_factory,
+    employee
 ):
     count = 3
     class_sections = [class_section_factory(course_class=course_class) for _ in range(count)]
+    section_completed = section_completed_factory(class_section=class_sections[0], engineer=employee)
     db.session.add(course_class)
     db.session.add_all(class_sections)
+    db.session.add(section_completed)
     db.session.commit()
 
     # Find unavailable/ empty course class
-    course_url = url_for('api.class_sections_by_course', course_id=9999)
+    course_url = url_for('api.class_sections_by_course', course_id=9999, trainer_id=9999, eng_id=9999)
     rep = client.get(course_url, headers=engineer_employee_headers)
     assert rep.status_code == 200, "Incorrect response code"
     assert len(rep.get_json()['class_sections']) == 0, "Incorrect number of class sections in course class"
 
     # Get class sections in course class
-    course_url = url_for('api.class_sections_by_course', course_id=course_class.course_id)
+    course_url = url_for('api.class_sections_by_course', course_id=course_class.course_id, trainer_id=course_class.trainer_id, eng_id=employee.id)
     rep = client.get(course_url, headers=engineer_employee_headers)
     assert rep.status_code == 200
     rep_json = rep.get_json()
@@ -95,3 +99,9 @@ def test_get_class_section_list(
         assert class_section['course_id'] == course_class.course_id, "Incorrect course id retrieved"
         assert class_section['trainer_id'] == course_class.trainer_id, "Incorrect trainer id retrieved"
         assert class_section['section_id'] in [cs.section_id for cs in class_sections], "Incorrect section id retrieved"
+
+        # Check if completed section is correctly marked
+        if class_section['section_id'] == section_completed.section_id:
+            assert class_section['has_completed'] == True, "Incorrect completed status"
+        else:
+            assert class_section['has_completed'] == False, "Incorrect completed status"
