@@ -154,7 +154,7 @@ def test_get_all_self_enrollments_by_eng_id(
     client,
     db,
     enroll_factory,
-    hr_employee_headers
+    engineer_employee_headers
 ):
     enrollments = enroll_factory.create_batch(3)
     db.session.add_all(enrollments)
@@ -162,7 +162,7 @@ def test_get_all_self_enrollments_by_eng_id(
 
     # Find unavailable/ empty enrollments
     course_url = url_for('api.self_enrollments_by_eng', eng_id=9999)
-    rep = client.get(course_url, headers=hr_employee_headers)
+    rep = client.get(course_url, headers=engineer_employee_headers)
     results = rep.get_json()
     assert rep.status_code == 200, "Enrollment endpoint not up"
     assert len(results['results']) == 0, "Incorrect number of enrollments in course"
@@ -170,7 +170,7 @@ def test_get_all_self_enrollments_by_eng_id(
     # Get self enrollments of eng
     enrollment_url = url_for("api.self_enrollments_by_eng", eng_id=enrollments[0].eng_id)
 
-    res = client.get(enrollment_url, headers=hr_employee_headers)
+    res = client.get(enrollment_url, headers=engineer_employee_headers)
     assert res.status_code == 200, "Enrollment endpoint not up"
 
     enrollments = [e for e in enrollments if e.eng_id == enrollments[0].eng_id]
