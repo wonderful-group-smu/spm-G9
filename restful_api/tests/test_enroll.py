@@ -127,8 +127,6 @@ def test_put_single_enrollment(
     assert rep_json['enrollment']['has_passed'] == False, "Incorrect has passed retrieved"
     assert rep_json['enrollment']['is_official'] == True, "Incorrect official status retrieved"
 
-# Test Get all enrollments
-
 
 def test_get_all_enrollments(
     client,
@@ -151,8 +149,6 @@ def test_get_all_enrollments(
         assert any(e["course_id"] == enrollment.course_id for e in results['results']), "Incorrect course id retrieved for enginer"
         assert any(e["trainer_id"] == enrollment.trainer_id for e in results['results']), "Incorrect course id retrieved for enginer"
 
-
-# Test Get all self enrollments by eng_id
 
 def test_get_all_self_enrollments_by_eng_id(
     client,
@@ -188,8 +184,6 @@ def test_get_all_self_enrollments_by_eng_id(
         assert any(e["is_official"] == False for e in results['results']), "Incorrect enrollment status retrieved for enginer"
 
 
-# Test Get all enrollments by course_id
-
 def test_get_all_enrollments_by_course(
     client,
     db,
@@ -201,8 +195,8 @@ def test_get_all_enrollments_by_course(
     db.session.commit()
 
     # Find unavailable/ empty enrollments
-    course_url = url_for('api.enrollments_by_course', course_id=9999)
-    rep = client.get(course_url, headers=engineer_employee_headers)
+    enroll_url = url_for('api.enrollments_by_course', course_id=9999)
+    rep = client.get(enroll_url, headers=engineer_employee_headers)
     results = rep.get_json()
     assert rep.status_code == 200, "Enrollment endpoint not up"
     assert len(results['results']) == 0, "Incorrect number of enrollments in course"
@@ -221,3 +215,62 @@ def test_get_all_enrollments_by_course(
         assert any(e["eng_id"] == enrollment.eng_id for e in results['results']), "Incorrect engineer enrollment data retreived"
         assert any(e["course_id"] == enrollment.course_id for e in results['results']), "Incorrect course id retrieved for enginer"
         assert any(e["trainer_id"] == enrollment.trainer_id for e in results['results']), "Incorrect course id retrieved for enginer"
+
+
+def test_complex_enroll_logic(
+    client,
+    db,
+    employee,
+    engineer_employee_headers,
+    course_factory,
+    prereq_factory,
+    enroll_factory,
+):
+
+    # Configurations for test
+    num_courses = 3
+
+    # ---------
+    # NOTE: This test has 3 courses.
+    # Course 0 is completed.
+    # Course 1 is in progress, relies on course 0.
+    # Course 2 is inactive, relies on course 0 and course 1.
+    # Course 3 is inactive and has no prereqs.
+    # ---------
+    # Enroll Factory will generate enrollments, course and trainers etc.
+    courses = course_factory.create_batch(num_courses)
+    enrolment_one = enroll_factory(eng=employee, course=courses[0], has_passed=True)  # Completed
+
+    # Add the pre-reqs to the courses
+    #
+    #  Course 0 -> Course 1
+    #          \----->    \->  Course 2
+    prereq_one = prereq_factory(current_course=courses[1], prereq_course=courses[0])
+    prereq_two = prereq_factory(current_course=courses[2], prereq_course=courses[1])
+    prereq_three = prereq_factory(current_course=courses[2], prereq_course=courses[0])
+
+    db.session.add_all(courses)
+    db.session.add_all([enrolment_one])
+    db.session.add_all([prereq_one, prereq_two, prereq_three])
+    db.session.commit()
+
+    # Get all courses
+    request_json = {
+        'eng_id': employee.id,
+        'course_id': courses[1].course_id,
+        'trainer_id': employee.id + 1,
+        'created_timestamp': int(time.time())
+    }
+    enrollment_url = url_for("api.enrollment", eng_id=employee.id, course_id=courses[1].course_id, trainer_id=employee.id + 1)
+    rep = client.post(enrollment_url, headers=engineer_employee_headers, json=request_json)
+    assert rep.status_code == 201
+
+    request_json = {
+        'eng_id': employee.id,
+        'course_id': courses[2].course_id,
+        'trainer_id': employee.id + 1,
+        'created_timestamp': int(time.time())
+    }
+    enrollment_url = url_for("api.enrollment", eng_id=employee.id, course_id=courses[2].course_id, trainer_id=employee.id + 1)
+    rep = client.post(enrollment_url, headers=engineer_employee_headers, json=request_json)
+    assert rep.status_code == 400
