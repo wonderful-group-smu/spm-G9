@@ -19,6 +19,7 @@ from myapi.api.schemas import (
     CourseSchema,
     CourseClassSchema,
     ClassSectionSchema,
+    ClassSectionStatusSchema,
     PrereqSchema,
     EnrollSchema
 )
@@ -38,7 +39,7 @@ api.add_resource(CourseList, "/courses/<int:eng_id>", endpoint="courses")
 api.add_resource(CourseResource, "/course/<int:course_id>", endpoint="course")
 api.add_resource(CourseClassResource, "/course_class/<int:course_id>&<int:trainer_id>", endpoint="course_class")
 api.add_resource(ClassSectionResource, "/class_section/<int:section_id>", endpoint="class_section")
-api.add_resource(ClassSectionResourceList, "/class_sections/<int:course_id>", endpoint="class_sections_by_course")
+api.add_resource(ClassSectionResourceList, "/class_sections/<int:course_id>&<int:trainer_id>&<int:eng_id>", endpoint="class_sections_by_course")
 
 
 @blueprint.before_app_first_request
@@ -48,6 +49,7 @@ def register_views():
     apispec.spec.components.schema("CourseSchema", schema=CourseSchema)
     apispec.spec.components.schema("CourseClassSchema", schema=CourseClassSchema)
     apispec.spec.components.schema("ClassSectionSchema", schema=ClassSectionSchema)
+    apispec.spec.components.schema("ClassSectionStatusSchema", schema=ClassSectionStatusSchema)
     apispec.spec.components.schema("EnrollSchema", schema=EnrollSchema)
     apispec.spec.components.schema("PrereqSchema", schema=PrereqSchema)
     apispec.spec.path(view=EmployeeResource, app=current_app)

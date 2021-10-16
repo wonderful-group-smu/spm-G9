@@ -17,6 +17,7 @@ def init():
         Employee,
         CourseClass,
         ClassSection,
+        SectionCompleted,
         Enroll
     )
 
@@ -51,11 +52,18 @@ def init():
     click.echo("created course class")
     click.echo("create class section")
     class_section_one = ClassSection(course_id=2, trainer_id=2, section_name="section one name")
+    class_section_two = ClassSection(course_id=2, trainer_id=2, section_name="section two name")
     items_to_add.append(class_section_one)
+    items_to_add.append(class_section_two)
     click.echo("created class section")
+    click.echo("create enrollment")
     enrollment_one = Enroll(eng_id=1, course_id=1, trainer_id=2, is_official=True, has_passed=True)
     items_to_add.append(enrollment_one)
     click.echo("created enrollment")
+    click.echo("create section completed")
+    section_completed_one = SectionCompleted(section_id=1, course_id=2, trainer_id=2, eng_id=1)
+    items_to_add.append(section_completed_one)
+    click.echo("created section completed")
     db.session.add_all(items_to_add)
     db.session.commit()
 
