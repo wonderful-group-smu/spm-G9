@@ -12,7 +12,8 @@ from myapi.api.resources import (
     EnrollResource,
     EnrollResourceList,
     EnrollByEngineerSelfResourceList,
-    EnrollByCourseResourceList
+    EnrollByCourseResourceList,
+    ProgressResource
 )
 from myapi.api.schemas import (
     EmployeeSchema,
@@ -40,6 +41,7 @@ api.add_resource(CourseResource, "/course/<int:course_id>", endpoint="course")
 api.add_resource(CourseClassResource, "/course_class/<int:course_id>&<int:trainer_id>", endpoint="course_class")
 api.add_resource(ClassSectionResource, "/class_section/<int:section_id>", endpoint="class_section")
 api.add_resource(ClassSectionResourceList, "/class_sections/<int:course_id>&<int:trainer_id>&<int:eng_id>", endpoint="class_sections_by_course")
+api.add_resource(ProgressResource, "/progress/<int:eng_id>", endpoint="progress")
 
 
 @blueprint.before_app_first_request
@@ -61,6 +63,7 @@ def register_views():
     apispec.spec.path(view=CourseResource, app=current_app)
     apispec.spec.path(view=CourseClassResource, app=current_app)
     apispec.spec.path(view=ClassSectionResource, app=current_app)
+    apispec.spec.path(view=ProgressResource, app=current_app)
 
 
 @blueprint.errorhandler(ValidationError)
