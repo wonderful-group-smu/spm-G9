@@ -16,7 +16,10 @@ def init():
         Prereq,
         Employee,
         CourseClass,
-        ClassSection
+        ClassSection,
+        Quiz,
+        Question,
+        QuestionOption
     )
 
     items_to_add = []
@@ -46,6 +49,20 @@ def init():
     class_section_one = ClassSection(course_id=2, trainer_id=2, section_name="section one name")
     items_to_add.append(class_section_one)
     click.echo("created class section")
+    click.echo("create quiz")
+    quiz_one = Quiz(course_id=2, trainer_id=2, section_id=1, is_graded=False)
+    items_to_add.append(quiz_one)
+    click.echo("created quiz")
+    click.echo("create question")
+    question_one = Question(course_id=2, trainer_id=2, section_id=1, quiz_id=1, question="question one", question_type=True)
+    items_to_add.append(question_one)
+    click.echo("created question")
+    click.echo("create question's options")
+    option_one = QuestionOption(course_id=2, trainer_id=2, section_id=1, quiz_id=1, question_id=1, option_label='T', option_value='True', is_correct=True)
+    option_two = QuestionOption(course_id=2, trainer_id=2, section_id=1, quiz_id=1, question_id=1, option_label='F', option_value='False', is_correct=False)
+    items_to_add.append(option_one)
+    items_to_add.append(option_two)
+    click.echo("created question's options")
 
     db.session.add_all(items_to_add)
     db.session.commit()

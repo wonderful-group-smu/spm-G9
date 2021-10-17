@@ -12,8 +12,8 @@ from myapi.api.resources import (
     EnrollResource,
     EnrollResourceList,
     EnrollByCourseResourceList,
-    QuestionResource,
-    QuestionResourceList,
+    QuizResource,
+    QuizResourceList,
 )
 from myapi.api.schemas import (
     EmployeeSchema,
@@ -22,7 +22,9 @@ from myapi.api.schemas import (
     ClassSectionSchema,
     PrereqSchema,
     EnrollSchema,
-    QuestionSchema
+    QuizSchema,
+    QuestionSchema,
+    QuestionOptionSchema
 )
 from myapi.extensions import apispec
 
@@ -40,8 +42,8 @@ api.add_resource(CourseResource, "/course/<int:course_id>", endpoint="course")
 api.add_resource(CourseClassResource, "/course_class/<int:course_id>&<int:trainer_id>", endpoint="course_class")
 api.add_resource(ClassSectionResource, "/class_section/<int:section_id>", endpoint="class_section")
 api.add_resource(ClassSectionResourceList, "/class_sections/<int:course_id>", endpoint="class_sections_by_course")
-api.add_resource(QuestionResource, "/question/<int:question_id>", endpoint="question")
-api.add_resource(QuestionResourceList, "/questions/<int:section_id>", endpoint="questions")
+api.add_resource(QuizResource, "/quiz/<int:quiz_id>", endpoint="quiz")
+api.add_resource(QuizResourceList, "/quizzes/<int:section_id>", endpoint="quizzes")
 
 
 @blueprint.before_app_first_request
@@ -53,6 +55,9 @@ def register_views():
     apispec.spec.components.schema("ClassSectionSchema", schema=ClassSectionSchema)
     apispec.spec.components.schema("EnrollSchema", schema=EnrollSchema)
     apispec.spec.components.schema("PrereqSchema", schema=PrereqSchema)
+    apispec.spec.components.schema("QuizSchema", schema=QuizSchema)
+    apispec.spec.components.schema("QuestionSchema", schema=QuestionSchema)
+    apispec.spec.components.schema("QuestionOptionSchema", schema=QuestionOptionSchema)
     apispec.spec.path(view=EmployeeResource, app=current_app)
     apispec.spec.path(view=EmployeeList, app=current_app)
     apispec.spec.path(view=EnrollResource, app=current_app)
@@ -61,8 +66,9 @@ def register_views():
     apispec.spec.path(view=CourseResource, app=current_app)
     apispec.spec.path(view=CourseClassResource, app=current_app)
     apispec.spec.path(view=ClassSectionResource, app=current_app)
-    apispec.spec.path(view=QuestionResource, app=current_app)
-    apispec.spec.path(view=QuestionResourceList, app=current_app)
+    apispec.spec.path(view=QuizResource, app=current_app)
+    apispec.spec.path(view=QuizResourceList, app=current_app)
+
 
 @blueprint.errorhandler(ValidationError)
 def handle_marshmallow_error(e):
