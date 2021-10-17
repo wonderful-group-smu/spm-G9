@@ -27,7 +27,6 @@ class ProgressResource(Resource):
                         <course_id>:
                           no_sections: 4
                           completed_sections: 3
-                          pct_completed: 0.75
           404:
             content:
               application/json:
