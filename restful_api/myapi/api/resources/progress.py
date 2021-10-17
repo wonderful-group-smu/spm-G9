@@ -68,7 +68,6 @@ class ProgressResource(Resource):
             result[c['course_id']] = {
                 "no_sections": num_sections,
                 "completed_sections": num_completed_sections,
-                "pct_completed": num_completed_sections / num_sections
             }
 
         return {"msg": "engineer progress retrieved", "progress": json.dumps(result)}, 200
