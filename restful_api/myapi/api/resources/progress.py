@@ -24,7 +24,7 @@ class ProgressResource(Resource):
                     progress:
                       type: object
                       example:
-                        <course_id>: 
+                        <course_id>:
                           no_sections: 4
                           completed_sections: 3
                           pct_completed: 0.75
