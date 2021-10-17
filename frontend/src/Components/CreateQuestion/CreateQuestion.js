@@ -1,15 +1,23 @@
 import { useState } from 'react';
-import { object } from "prop-types";
+import { array, func, object } from "prop-types";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import * as Im from 'react-icons/im';
 import './CreateQuestion.css';
 
 const CreateQuestion = (props) => {
-    // const [questionText, setQuestionText] = useState("");
     const [questionType, setQuestionType] = useState(true);
     const questionID = props.question.questionID;
+    const questions = props.questions;
+    const setQuestions = props.setQuestions;
 
     const changeQuestion = (e) => {
-        return (e)
+        const questionIndex = questions.findIndex((obj => obj.questionID == questionID));
+        questions[questionIndex].questionText = e.target.value;
+        setQuestions(questions);
+    }
+
+    const deleteQuestion = () => {
+        setQuestions(questions.filter(question => question.questionID != questionID))
     }
 
     const changeQuestionType = (e) => {
@@ -24,7 +32,12 @@ const CreateQuestion = (props) => {
     return (
         <div className="create-question-container">
             <div className="question">
-                <h6>{questionID}) Question Description</h6>
+                <h6>
+                    Question {questionID}
+                    <button type="button" className="btn-sm btn-secondary delete-question" >
+                        <Im.ImBin className="bin-icon" onClick={deleteQuestion} /> Delete Question
+                    </button>
+                </h6>
                 <textarea
                     className="form-control"
                     id="inputQuestionDesc"
@@ -35,7 +48,7 @@ const CreateQuestion = (props) => {
                 <div className="form-check" id="question-type">
                     <label className="form-check-label" htmlFor="question-type-mcq">
                         MCQ<input className="form-check-input" type="radio"
-                            name={"question-type-" + questionID} id="question-type-mcq" onClick={changeQuestionType} />
+                            name={"question-type-" + questionID} id="question-type-mcq" onClick={changeQuestionType} defaultChecked />
                     </label>
                 </div>
                 <div className="form-check" id="question-type">
@@ -47,7 +60,9 @@ const CreateQuestion = (props) => {
             </div>
 
             <div className="answer-options-container">
-                <h6>{questionType ? "Options" : "Correct Answer"}</h6>
+                <h6>
+                    {questionType ? "Options" : "Correct Answer"}
+                </h6>
                 <div className="answer-options">
                     {questionType ?
                         <>
@@ -103,6 +118,8 @@ const CreateQuestion = (props) => {
 
 CreateQuestion.propTypes = {
     question: object,
+    questions: array,
+    setQuestions: func,
 }
 
 export default CreateQuestion;

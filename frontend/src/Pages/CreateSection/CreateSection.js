@@ -29,6 +29,10 @@ const CreateSection = (props) => {
     setQuestionCount(questionCount + 1);
   }
 
+  // const testButton = () => {
+  //   console.log(questions)
+  // }
+
   return (
     <div id='pagelayout'>
 
@@ -65,7 +69,9 @@ const CreateSection = (props) => {
                   console.log(i)
                   return (
                     <>
-                      <CreateQuestion key={i} question={question} setQuestions={setQuestions} />
+                      <CreateQuestion key={i} question={question}
+                      questions={questions} setQuestions={setQuestions}
+                      />
                       <hr />
                     </>
                   )
@@ -75,7 +81,7 @@ const CreateSection = (props) => {
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>
-
+        {/* <button type="button" className="btn btn-secondary" onClick={testButton}>test</button> */}
         <button type="submit" className="btn btn-secondary submit">Add Section</button>
       </form>
     </div>
@@ -88,6 +94,11 @@ const questionTemplate = (questionCount) => {
       questionID: questionCount,
       questionText: "",
       questionType: true,
+      optionA: "",
+      optionB: "",
+      optionC: "",
+      optionD: "",
+      correctAnswer: "",
     }
   )
 } 

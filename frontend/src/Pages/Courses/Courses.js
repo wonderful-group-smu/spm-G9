@@ -52,7 +52,6 @@ const Courses = () => {
           <Im.ImBin className="bin-icon" />Delete Courses
         </button>
         <button hidden={!deleteMode} className="btn-sm btn-secondary" onClick={handleDelete}>Delete Selected Courses</button>
-        {/* <button hidden={!deleteMode} className="btn-sm btn-secondary" onClick={handleDeleteMode}>Exit</button> */}
 
       </div>
 
@@ -63,7 +62,6 @@ const Courses = () => {
               courseID={data.courseID}
               cardTitle={data.cardTitle}
               cardText={data.cardText}
-              // trainer={data.trainer}
               deleteMode={deleteMode}
               selectedArr={selectedArr}
               setSelectedArr={setSelectedArr}
