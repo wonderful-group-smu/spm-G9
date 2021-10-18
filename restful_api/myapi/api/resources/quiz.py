@@ -8,7 +8,56 @@ from myapi.models import ClassSection, Quiz
 
 
 class QuizResource(Resource):
+    """Get, Create one quiz
+    get:
+        tags:
+        - api
+        responses:
+        200:
+            content:
+            application/json:
+                schema:
+                type: object
+                properties:
+                    msg:
+                    type: string
+                    example: quiz retrieved
+                    quiz: QuizSchema
 
+    post:
+        tags:
+        - api
+        requestBody:
+        content:
+            application/json:
+            schema:
+                QuizSchema
+        responses:
+        201:
+            content:
+            application/json:
+                schema:
+                type: object
+                properties:
+                    msg:
+                    type: string
+                    example: quiz created
+                    quiz: QuizSchema
+
+    delete:
+        tags:
+        - api
+        responses:
+        204:
+            description: The resource was deleted successfully.
+        404:
+            content:
+            application/json:
+                schema:
+                type: object
+                properties:
+                    message: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+    """
     method_decorators = [jwt_required()]
 
     def __init__(self):
@@ -50,7 +99,30 @@ class QuizResource(Resource):
 
 
 class QuizResourceList(Resource):
-
+    """Get quizzes of a section
+    get:
+        tags:
+        - api
+        parameters:
+        - name: section_id
+            in: query
+            type: integer
+            required: true
+            description: section id
+        responses:
+        400:
+            description: no section id provided
+        200:
+            content:
+            application/json:
+                schema:
+                type: object
+                properties:
+                    msg:
+                    type: string
+                    example: all quizzes retrieved
+                    result: QuizSchema
+    """
     method_decorators = [jwt_required()]
 
     def __init__(self):
