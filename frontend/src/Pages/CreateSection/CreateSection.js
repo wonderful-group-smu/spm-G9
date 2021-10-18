@@ -69,7 +69,7 @@ const CreateSection = (props) => {
                   console.log(i)
                   return (
                     <>
-                      <CreateQuestion key={i} question={question}
+                      <CreateQuestion key={i} questionID={question.questionID}
                       questions={questions} setQuestions={setQuestions}
                       />
                       <hr />
@@ -81,7 +81,7 @@ const CreateSection = (props) => {
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>
-        {/* <button type="button" className="btn btn-secondary" onClick={testButton}>test</button> */}
+        {/* <button type="button" className="btn btn-info" onClick={testButton}>test</button> */}
         <button type="submit" className="btn btn-secondary submit">Add Section</button>
       </form>
     </div>

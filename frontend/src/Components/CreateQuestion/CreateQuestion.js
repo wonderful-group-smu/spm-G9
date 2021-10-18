@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import { array, func, object } from "prop-types";
+import { array, func, number } from "prop-types";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import * as Im from 'react-icons/im';
 import './CreateQuestion.css';
 
 const CreateQuestion = (props) => {
     const [questionType, setQuestionType] = useState(true);
-    const questionID = props.question.questionID;
+    const questionID = props.questionID;
     const questions = props.questions;
     const setQuestions = props.setQuestions;
 
-    const changeQuestion = (e) => {
+    const updateQuestion = (e) => {
         const questionIndex = questions.findIndex((obj => obj.questionID == questionID));
         questions[questionIndex].questionText = e.target.value;
         setQuestions(questions);
@@ -29,6 +29,20 @@ const CreateQuestion = (props) => {
         }
     }
 
+    const updateOption = (e) => {
+        const questionIndex = questions.findIndex((obj => obj.questionID == questionID));
+        const thisOption = e.target.id; // e.target.id should be in the form "optionA", "optionB" etc.
+        questions[questionIndex][thisOption] = e.target.value;
+        setQuestions(questions);
+    }
+
+    const updateCorrectAnswer = (e) => {
+        const questionIndex = questions.findIndex((obj => obj.questionID == questionID));
+        const correctAnswer = e.target.id.slice(-1); // e.target.id should be in the form "answer-A", "answer-B" etc.
+        questions[questionIndex]["correctAnswer"] = correctAnswer;
+        setQuestions(questions);
+    }
+
     return (
         <div className="create-question-container">
             <div className="question">
@@ -43,7 +57,7 @@ const CreateQuestion = (props) => {
                     id="inputQuestionDesc"
                     placeholder="Input Question..."
                     rows="4"
-                    onChange={changeQuestion}
+                    onChange={updateQuestion}
                 />
                 <div className="form-check" id="question-type">
                     <label className="form-check-label" htmlFor="question-type-mcq">
@@ -70,12 +84,13 @@ const CreateQuestion = (props) => {
                                 ["A", "B", "C", "D"].map((letter, i) => {
                                     return (
                                         <div className="input-group" key={i}>
-                                            <span className="input-group-text" id={"option-" + letter}>
+                                            <span className="input-group-text" >
                                                 {letter})
                                             </span>
                                             <input
                                                 type="text" className="form-control answer-option"
                                                 placeholder={"Input Option " + letter + "..."} aria-label={"option-" + letter} aria-describedby={"option-" + letter}
+                                                onChange={updateOption} id={"option" + letter}
                                             />
                                             <div className="form-check" id="correct-answer">
                                                 <OverlayTrigger placement="top" overlay={
@@ -85,6 +100,7 @@ const CreateQuestion = (props) => {
                                                 }>
                                                     <input className="form-check-input" type="radio"
                                                         name={"correct-answer-" + questionID} id={"answer-" + letter}
+                                                        onClick={updateCorrectAnswer}
                                                     />
                                                 </OverlayTrigger>
                                             </div>
@@ -117,7 +133,7 @@ const CreateQuestion = (props) => {
 }
 
 CreateQuestion.propTypes = {
-    question: object,
+    questionID: number,
     questions: array,
     setQuestions: func,
 }
