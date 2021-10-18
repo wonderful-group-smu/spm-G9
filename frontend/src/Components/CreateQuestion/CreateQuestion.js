@@ -38,7 +38,7 @@ const CreateQuestion = (props) => {
 
     const updateCorrectAnswer = (e) => {
         const questionIndex = questions.findIndex((obj => obj.questionID == questionID));
-        const correctAnswer = e.target.id.slice(-1); // e.target.id should be in the form "answer-A", "answer-B" etc.
+        const correctAnswer = e.target.id.slice(-1); // e.target.id should be in the form "answer-A", "answer-B" etc. or ""
         questions[questionIndex]["correctAnswer"] = correctAnswer;
         setQuestions(questions);
     }
@@ -113,15 +113,19 @@ const CreateQuestion = (props) => {
                         :
                         <>
                             <div className="form-check" id="correct-answer-tf">
-                                <label className="form-check-label" htmlFor="correct-answer-true">
+                                <label className="form-check-label" htmlFor="answer-T">
                                     True<input className="form-check-input" type="radio"
-                                        name={"correct-answer-" + questionID} id="correct-answer-true" />
+                                        name={"correct-answer-" + questionID} id="answer-T"
+                                        onClick={updateCorrectAnswer}
+                                        />
                                 </label>
                             </div>
                             <div className="form-check" id="correct-answer-tf">
-                                <label className="form-check-label" htmlFor="correct-answer-false">
+                                <label className="form-check-label" htmlFor="answer-F">
                                     False<input className="form-check-input" type="radio"
-                                        name={"correct-answer-" + questionID} id="correct-answer-false" />
+                                        name={"correct-answer-" + questionID} id="answer-F"
+                                        onClick={updateCorrectAnswer}
+                                        />
                                 </label>
                             </div>
                         </>
