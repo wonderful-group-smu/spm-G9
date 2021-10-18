@@ -12,6 +12,7 @@ from tests.factories import (
     EnrollFactory,
     CourseClassFactory,
     ClassSectionFactory,
+    SectionCompletedFactory,
     QuizFactory,
     QuestionFactory,
     QuestionOptionFactory
@@ -23,6 +24,7 @@ register(PrereqFactory)
 register(CourseFactory)
 register(CourseClassFactory)
 register(ClassSectionFactory)
+register(SectionCompletedFactory)
 register(QuizFactory)
 register(QuestionFactory)
 register(QuestionOptionFactory)

@@ -8,6 +8,7 @@ from myapi.models import (
     Enroll,
     CourseClass,
     ClassSection,
+    SectionCompleted,
     Quiz,
     Question,
     QuestionOption
@@ -80,6 +81,18 @@ class ClassSectionFactory(factory.Factory):
         model = ClassSection
 
 
+class SectionCompletedFactory(factory.Factory):
+    eng_id = factory.SelfAttribute('engineer.id')
+    section_id = factory.SelfAttribute('class_section.section_id')
+    course_id = factory.SelfAttribute('class_section.course_id')
+    trainer_id = factory.SelfAttribute('class_section.trainer_id')
+    class_section = factory.SubFactory(ClassSectionFactory)
+    engineer = factory.SubFactory(EmployeeFactory)
+
+    class Meta:
+        model = SectionCompleted
+        
+        
 class QuizFactory(factory.Factory):
     quiz_id = factory.Sequence(lambda n: n)
     course_id = factory.SelfAttribute('class_section.course_id')

@@ -2,9 +2,9 @@ from flask import request
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
-from myapi.api.schemas import ClassSectionSchema
+from myapi.api.schemas import ClassSectionSchema, SectionCompletedSchema
 from myapi.extensions import db
-from myapi.models import ClassSection, CourseClass
+from myapi.models import ClassSection, SectionCompleted, CourseClass
 
 
 class ClassSectionResource(Resource):
@@ -68,7 +68,7 @@ class ClassSectionResource(Resource):
                     message: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
       """
 
-    # method_decorators = [jwt_required()]
+    method_decorators = [jwt_required()]
 
     def __init__(self):
         self.schema = ClassSectionSchema()
@@ -128,7 +128,7 @@ class ClassSectionResourceList(Resource):
                   courses:
                     type: array
                     items:
-                      ClassSectionSchema
+                      ClassSectionStatusSchema
 
     """
 
@@ -137,12 +137,26 @@ class ClassSectionResourceList(Resource):
     def __init__(self):
         self.schema = ClassSectionSchema(many=True)
 
-    def get(self, course_id):
+    def get(self, course_id, trainer_id, eng_id):
+        completed_section_query = (
+            SectionCompleted.query.filter(
+                SectionCompleted.eng_id == eng_id,
+                SectionCompleted.course_id == course_id,
+                SectionCompleted.trainer_id == trainer_id
+            )
+            .all()
+        )
+        completed_section_id_set = {section["section_id"] for section in SectionCompletedSchema(many=True).dump(completed_section_query)}
         query = (
             ClassSection.query
-            .filter(ClassSection.course_id == course_id)
-            .join(CourseClass, (CourseClass.course_id == ClassSection.course_id) & (CourseClass.trainer_id == ClassSection.trainer_id), isouter=True)
+            .filter(ClassSection.course_id == course_id, ClassSection.trainer_id == trainer_id)
             .all()
         )
 
-        return {"msg": "class sections retrieved", "class_sections": self.schema.dump(query)}, 200
+        raw_sections = self.schema.dump(query)
+        processed_sections = [
+            {**section, "has_completed": section["section_id"] in completed_section_id_set}
+            for section in raw_sections
+        ]
+
+        return {"msg": "class sections retrieved", "class_sections": processed_sections}, 200
