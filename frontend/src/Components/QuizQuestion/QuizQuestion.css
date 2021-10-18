@@ -1,0 +1,13 @@
+.quiz-number{
+    font-weight: bold;
+    color: rgb(69, 182, 185);
+
+}
+.quiz-question{
+    margin-bottom: 10px;
+}
+
+.quiz-option{
+    padding: 5px;
+    
+}
