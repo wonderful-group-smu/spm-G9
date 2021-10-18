@@ -1,0 +1,41 @@
+.create-question-container{
+    display: flex;
+}
+
+.question{
+    flex: 1;
+}
+
+#inputQuestionDesc{
+    width: 90%;
+}
+
+.answer-options-container{
+    flex: 1;
+}
+
+.delete-question{
+    margin-left: 2rem;
+}
+
+.bin-icon{
+    transform: translateY(-15%);
+}
+
+.answer-options{
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group{
+    margin-bottom: .5rem;
+}
+
+.answer-option{
+    margin: unset;
+}
+
+#correct-answer{
+    align-self: center;
+    margin-left: 1rem;
+}
