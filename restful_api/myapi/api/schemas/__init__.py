@@ -18,7 +18,7 @@ __all__ = [
     "CourseStatusSchema",
     "ClassSectionSchema",
     "ClassSectionStatusSchema",
-    "SectionCompletedSchema"
+    "SectionCompletedSchema",
     "QuizSchema",
     "QuestionSchema",
     "QuestionOptionSchema"

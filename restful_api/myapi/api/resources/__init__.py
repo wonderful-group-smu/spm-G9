@@ -19,6 +19,6 @@ __all__ = [
     "ClassSectionResource",
     "ClassSectionResourceList",
     "QuizResource",
-    "QuizResourceList"
+    "QuizResourceList",
     "ProgressResource"
 ]

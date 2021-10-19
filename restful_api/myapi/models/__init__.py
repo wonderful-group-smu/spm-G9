@@ -17,7 +17,7 @@ __all__ = [
     "Enroll",
     "CourseClass",
     "ClassSection",
-    "SectionCompleted"
+    "SectionCompleted",
     "Quiz",
     "Question",
     "QuestionOption"
