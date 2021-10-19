@@ -13,7 +13,9 @@ from myapi.api.resources import (
     EnrollResourceList,
     EnrollByEngineerSelfResourceList,
     EnrollByCourseResourceList,
-    ProgressResource
+    ProgressResource,
+    QuizResource,
+    QuizResourceList,
 )
 from myapi.api.schemas import (
     EmployeeSchema,
@@ -22,7 +24,10 @@ from myapi.api.schemas import (
     ClassSectionSchema,
     ClassSectionStatusSchema,
     PrereqSchema,
-    EnrollSchema
+    EnrollSchema,
+    QuizSchema,
+    QuestionSchema,
+    QuestionOptionSchema
 )
 from myapi.extensions import apispec
 
@@ -42,6 +47,8 @@ api.add_resource(CourseClassResource, "/course_class/<int:course_id>&<int:traine
 api.add_resource(ClassSectionResource, "/class_section/<int:section_id>", endpoint="class_section")
 api.add_resource(ClassSectionResourceList, "/class_sections/<int:course_id>&<int:trainer_id>&<int:eng_id>", endpoint="class_sections_by_course")
 api.add_resource(ProgressResource, "/progress/<int:eng_id>", endpoint="progress")
+api.add_resource(QuizResource, "/quiz/<int:quiz_id>", endpoint="quiz")
+api.add_resource(QuizResourceList, "/quizzes/<int:section_id>", endpoint="quizzes")
 
 
 @blueprint.before_app_first_request
@@ -54,6 +61,9 @@ def register_views():
     apispec.spec.components.schema("ClassSectionStatusSchema", schema=ClassSectionStatusSchema)
     apispec.spec.components.schema("EnrollSchema", schema=EnrollSchema)
     apispec.spec.components.schema("PrereqSchema", schema=PrereqSchema)
+    apispec.spec.components.schema("QuizSchema", schema=QuizSchema)
+    apispec.spec.components.schema("QuestionSchema", schema=QuestionSchema)
+    apispec.spec.components.schema("QuestionOptionSchema", schema=QuestionOptionSchema)
     apispec.spec.path(view=EmployeeResource, app=current_app)
     apispec.spec.path(view=EmployeeList, app=current_app)
     apispec.spec.path(view=EnrollResource, app=current_app)
@@ -64,6 +74,8 @@ def register_views():
     apispec.spec.path(view=CourseClassResource, app=current_app)
     apispec.spec.path(view=ClassSectionResource, app=current_app)
     apispec.spec.path(view=ProgressResource, app=current_app)
+    apispec.spec.path(view=QuizResource, app=current_app)
+    apispec.spec.path(view=QuizResourceList, app=current_app)
 
 
 @blueprint.errorhandler(ValidationError)

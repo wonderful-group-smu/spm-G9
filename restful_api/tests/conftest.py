@@ -12,7 +12,10 @@ from tests.factories import (
     EnrollFactory,
     CourseClassFactory,
     ClassSectionFactory,
-    SectionCompletedFactory
+    SectionCompletedFactory,
+    QuizFactory,
+    QuestionFactory,
+    QuestionOptionFactory
 )
 
 register(EmployeeFactory)
@@ -22,6 +25,9 @@ register(CourseFactory)
 register(CourseClassFactory)
 register(ClassSectionFactory)
 register(SectionCompletedFactory)
+register(QuizFactory)
+register(QuestionFactory)
+register(QuestionOptionFactory)
 
 
 @pytest.fixture(scope="session")
