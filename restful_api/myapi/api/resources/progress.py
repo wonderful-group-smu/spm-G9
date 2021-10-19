@@ -1,4 +1,3 @@
-import json
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 from myapi.api.schemas import EnrollSchema
@@ -47,14 +46,15 @@ class ProgressResource(Resource):
                                   )
                                   .count()
                                   )
-        
+
         result = {
-          "no_sections": num_sections,
-          "completed_sections": num_completed_sections
+            "no_sections": num_sections,
+            "completed_sections": num_completed_sections
         }
 
-        return {"msg": "engineer course progress retrieved", "progress": result}, 
-      
+        return {"msg": "engineer course progress retrieved", "progress": result},
+
+
 class ProgressListResource(Resource):
     """Multiple object employee progress resource
     ---

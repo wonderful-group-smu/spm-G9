@@ -1,5 +1,4 @@
 from flask import url_for
-import json
 
 
 def test_get_single_course_progress(
@@ -17,12 +16,12 @@ def test_get_single_course_progress(
     db.session.commit()
 
     progress_url = url_for(
-        'api.course_progress', 
-        eng_id=employee.id, 
-        course_id=course_class.course_id, 
+        'api.course_progress',
+        eng_id=employee.id,
+        course_id=course_class.course_id,
         trainer_id=course_class.trainer.id
     )
-    
+
     rep = client.get(progress_url, headers=engineer_employee_headers)
     assert rep.status_code == 200
     json_payload = rep.get_json()[0]['progress']
@@ -32,12 +31,13 @@ def test_get_single_course_progress(
     completed_sections = [section_completed_factory(class_section=sections[i], engineer=employee) for i in range(3)]
     db.session.add_all(completed_sections)
     db.session.commit()
-    
+
     rep = client.get(progress_url, headers=engineer_employee_headers)
     assert rep.status_code == 200
     json_payload = rep.get_json()[0]['progress']
     assert json_payload['completed_sections'] == 3
     assert json_payload['no_sections'] == 4
+
 
 def test_get_overall_progress(
     client,
