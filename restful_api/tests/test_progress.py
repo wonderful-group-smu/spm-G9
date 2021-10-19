@@ -28,7 +28,8 @@ def test_get_employee_progress(
     rep = client.get(progress_url, headers=engineer_employee_headers)
     assert rep.status_code == 200
     json_payload = json.loads(rep.get_json()['progress'])
-    assert json_payload[str(course_class.course_id)]['pct_completed'] == 3 / 4
+    assert json_payload[str(course_class.course_id)]['completed_sections'] == 3
+    assert json_payload[str(course_class.course_id)]['no_sections'] == 4
 
     completed_section_4 = section_completed_factory(class_section=sections[-1], engineer=employee)
     db.session.add(completed_section_4)
@@ -38,7 +39,8 @@ def test_get_employee_progress(
     rep = client.get(progress_url, headers=engineer_employee_headers)
     assert rep.status_code == 200
     json_payload = json.loads(rep.get_json()['progress'])
-    assert json_payload[str(course_class.course_id)]['pct_completed'] == 4 / 4
+    assert json_payload[str(course_class.course_id)]['completed_sections'] == 4
+    assert json_payload[str(course_class.course_id)]['no_sections'] == 4
 
 
 def test_get_employee_with_no_enrollment(
