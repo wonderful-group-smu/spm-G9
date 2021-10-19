@@ -48,6 +48,16 @@ def test_get_single_quiz(
     assert rep.status_code == 200
     assert len(rep.get_json()['quiz']['questions'][0]['question_options']) == 1, "Incorrect number of question options retrieved for question"
 
+    # Add question_option_two to question
+    question_option_two = question_option_factory(question=question_one)
+    db.session.add(question_option_two)
+    db.session.commit()
+
+    quiz_url = url_for('api.quiz', quiz_id=quizzes[1].quiz_id)
+    rep = client.get(quiz_url, headers=engineer_employee_headers)
+    assert rep.status_code == 200
+    assert len(rep.get_json()['quiz']['questions'][0]['question_options']) == 2, "Incorrect number of questions options retrieved for question"
+
 
 def test_create_single_quiz(
     client,

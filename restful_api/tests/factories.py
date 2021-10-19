@@ -91,8 +91,8 @@ class SectionCompletedFactory(factory.Factory):
 
     class Meta:
         model = SectionCompleted
-        
-        
+
+
 class QuizFactory(factory.Factory):
     quiz_id = factory.Sequence(lambda n: n)
     course_id = factory.SelfAttribute('class_section.course_id')

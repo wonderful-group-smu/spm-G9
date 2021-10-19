@@ -21,9 +21,3 @@ class Question(db.Model):
         primaryjoin="and_(Quiz.course_id==Question.course_id, Quiz.section_id==Question.section_id)",
         backref=db.backref('questions', lazy='joined', cascade="all,delete")
     )
-    question_option = db.relationship(
-        'QuestionOption',
-        lazy='joined',
-        primaryjoin="and_(QuestionOption.course_id==Question.course_id, QuestionOption.section_id==Question.section_id)",
-        backref=db.backref('questions', lazy='joined', cascade="all,delete")
-    )
