@@ -72,6 +72,7 @@ def register_views():
     apispec.spec.path(view=EnrollResourceList, app=current_app)
     apispec.spec.path(view=EnrollByEngineerSelfResourceList, app=current_app)
     apispec.spec.path(view=EnrollByCourseResourceList, app=current_app)
+    apispec.spec.path(view=CourseList, app=current_app)
     apispec.spec.path(view=CourseResource, app=current_app)
     apispec.spec.path(view=CourseClassResource, app=current_app)
     apispec.spec.path(view=ClassSectionResource, app=current_app)
