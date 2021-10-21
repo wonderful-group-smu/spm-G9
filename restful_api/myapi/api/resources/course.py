@@ -103,7 +103,40 @@ class CourseResource(Resource):
         return {"msg": "course deleted"}, 204
 
 
-class CourseList(Resource):
+class CourseResourceList(Resource):
+    """Get all courses
+
+    ---
+    get:
+      tags:
+        - api
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: all courses retrieved
+                  result:
+                    type: array
+                    items: CourseSchema
+
+    """
+
+    method_decorators = [jwt_required()]
+
+    def get(self):
+
+        course_schema = CourseSchema(many=True)
+        all_courses = Course.query.all()
+
+        return {"msg": "all courses retrieved", "courses": course_schema.dump(all_courses)}, 200
+
+
+class CourseStatusList(Resource):
     """Get all courses, with boolean indicating if engineer is eligible / enrolled
 
     ---

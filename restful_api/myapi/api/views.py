@@ -4,8 +4,9 @@ from marshmallow import ValidationError
 from myapi.api.resources import (
     EmployeeResource,
     EmployeeList,
-    CourseList,
+    CourseStatusList,
     CourseResource,
+    CourseResourceList,
     CourseClassResource,
     ClassSectionResource,
     ClassSectionResourceList,
@@ -42,7 +43,8 @@ api.add_resource(EnrollResource, "/enroll/<int:eng_id>&<int:course_id>&<int:trai
 api.add_resource(EnrollResourceList, "/enrollments/<int:eng_id>", endpoint="enrollments")
 api.add_resource(EnrollByEngineerSelfResourceList, "/self_enrollments_by_eng/<int:eng_id>", endpoint="self_enrollments_by_eng")
 api.add_resource(EnrollByCourseResourceList, "/enrollments_by_course/<int:course_id>", endpoint="enrollments_by_course")
-api.add_resource(CourseList, "/courses/<int:eng_id>", endpoint="courses")
+api.add_resource(CourseStatusList, "/courses/<int:eng_id>", endpoint="courses_status")
+api.add_resource(CourseResourceList, "/courses/all", endpoint="courses")
 api.add_resource(CourseResource, "/course/<int:course_id>", endpoint="course")
 api.add_resource(CourseClassResource, "/course_class/<int:course_id>&<int:trainer_id>", endpoint="course_class")
 api.add_resource(ClassSectionResource, "/class_section/<int:section_id>", endpoint="class_section")
@@ -72,7 +74,8 @@ def register_views():
     apispec.spec.path(view=EnrollResourceList, app=current_app)
     apispec.spec.path(view=EnrollByEngineerSelfResourceList, app=current_app)
     apispec.spec.path(view=EnrollByCourseResourceList, app=current_app)
-    apispec.spec.path(view=CourseList, app=current_app)
+    apispec.spec.path(view=CourseStatusList, app=current_app)
+    apispec.spec.path(view=CourseResourceList, app=current_app)
     apispec.spec.path(view=CourseResource, app=current_app)
     apispec.spec.path(view=CourseClassResource, app=current_app)
     apispec.spec.path(view=ClassSectionResource, app=current_app)
