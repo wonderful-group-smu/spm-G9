@@ -89,6 +89,31 @@ def test_delete_single_course_drop_cascade(
     assert db.session.query(Prereq.course_id).filter_by(course_id=courses[0].course_id).first() is None, "Fail to delete cascade course prereq"
 
 
+def test_get_all_courses(
+    client,
+    db,
+    engineer_employee_headers,
+    course_factory,
+):
+    # Get zero courses
+    course_url = url_for('api.courses')
+    rep = client.get(course_url, headers=engineer_employee_headers)
+    result = rep.get_json()['courses']
+    assert rep.status_code == 200, "Incorrect response code"
+    assert len(result) == 0, "Incorrect number of courses"
+
+    NUM_COURSES = 4
+    courses = course_factory.create_batch(NUM_COURSES)
+    db.session.add_all(courses)
+    db.session.commit()
+    # Get all courses success
+    rep = client.get(course_url, headers=engineer_employee_headers)
+    assert rep.status_code == 200, "Incorrect response code"
+    assert len(rep.get_json()['courses']) == NUM_COURSES, "Incorrect number of courses"
+    for course_item in rep.get_json()['courses']:
+        assert course_item['course_id'] in [course.course_id for course in courses], "Incorrect course retrieved"
+
+
 def test_get_eligible_courses(
     client,
     db,
@@ -100,7 +125,7 @@ def test_get_eligible_courses(
 ):
 
     # Configurations for test
-    num_courses = 4
+    NUM_COURSES = 4
 
     # ---------
     # NOTE: This test has 3 courses.
@@ -110,7 +135,7 @@ def test_get_eligible_courses(
     # Course 3 is inactive and has no prereqs.
     # ---------
     # Enroll Factory will generate enrollments, course and trainers etc.
-    courses = course_factory.create_batch(num_courses)
+    courses = course_factory.create_batch(NUM_COURSES)
     enrolment_one = enroll_factory(eng=employee, course=courses[0], has_passed=True)  # Completed
     enrolment_two = enroll_factory(eng=employee, course=courses[1])  # In progress
 
@@ -128,12 +153,12 @@ def test_get_eligible_courses(
     db.session.commit()
 
     # Get all courses
-    course_url = url_for('api.courses', eng_id=employee.id)
+    course_url = url_for('api.courses_status', eng_id=employee.id)
     rep = client.get(course_url, headers=engineer_employee_headers)
     result = rep.get_json()['results']
 
     assert rep.status_code == 200
-    assert len(result) == num_courses, "Incorrect number of courses"
+    assert len(result) == NUM_COURSES, "Incorrect number of courses"
     assert result[0]['isActive'] == False, "Incorrect active status for course 0"
     assert result[0]['isComplete'] == True, "Incorrect complete status for course 0"
 

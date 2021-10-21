@@ -1,4 +1,4 @@
-from myapi.api.resources.course import CourseList, CourseResource
+from myapi.api.resources.course import CourseStatusList, CourseResource, CourseResourceList
 from myapi.api.resources.employee import EmployeeList, EmployeeResource
 from myapi.api.resources.enroll import EnrollResourceList, EnrollResource, EnrollByEngineerSelfResourceList, EnrollByCourseResourceList
 from myapi.api.resources.course_class import CourseClassResource
@@ -13,7 +13,8 @@ __all__ = [
     "EnrollResource",
     "EnrollByEngineerSelfResourceList",
     "EnrollByCourseResourceList",
-    "CourseList",
+    "CourseStatusList",
+    "CourseResourceList",
     "CourseResource",
     "CourseClassResource",
     "ClassSectionResource",
