@@ -128,7 +128,9 @@ class CourseList(Resource):
                   msg:
                     type: string
                     example: all courses retrieved
-                  result: CourseSchema
+                  result:
+                    type: array
+                    items: CourseStatusSchema
 
     """
 
