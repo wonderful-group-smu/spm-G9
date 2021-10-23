@@ -4,28 +4,28 @@ import './Courses.css'
 import * as Cg from 'react-icons/cg'
 import * as Im from 'react-icons/im'
 import * as Bi from 'react-icons/bi';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { getCourseList } from "../../Apis/Api";
 
-const CourseData = () => {
-  let temp = [];
-  for (let i = 1; i < 7; i++) {
-    temp.push(
-      {
-        courseID: i,
-        cardTitle: "IS110: Python Programming",
-        cardText: "12 Jan 2021 to 31 Jan 2021"
-      },
-    )
-  }
-  return temp;
-}
+// const CourseData = () => {
+//   let temp = [];
+//   for (let i = 1; i < 7; i++) {
+//     temp.push(
+//       {
+//         courseID: i,
+//         cardTitle: "IS110: Python Programming",
+//         cardText: "12 Jan 2021 to 31 Jan 2021"
+//       },
+//     )
+//   }
+//   return temp;
+// }
 
 const Courses = () => {
   const [pageTitle, setPageTitle] = useState("Courses")
   const [deleteMode, setDeleteMode] = useState(false)
-
-  const [courseDataArr, setCourseDataArr] = useState(CourseData)
+  const [courseDataArr, setCourseDataArr] = useState([])
   const [selectedArr, setSelectedArr] = useState([])
 
   const handleDeleteMode = () => {
@@ -37,6 +37,11 @@ const Courses = () => {
     setCourseDataArr(courseDataArr.filter(item => !(selectedArr.includes(item.courseID))));
     setSelectedArr([])
   }
+
+  useEffect(async () => {
+    let response = await getCourseList();
+    setCourseDataArr(response.data.results)
+  }, [])
 
   return (
     <div id='pagelayout'>
@@ -59,9 +64,9 @@ const Courses = () => {
         <div>
           {courseDataArr.map((data, i) => (
             <CourseCard key={{ i }}
-              courseID={data.courseID}
-              cardTitle={data.cardTitle}
-              cardText={data.cardText}
+              courseID={data.course_id}
+              cardTitle={data.name}
+              cardText={data.description}
               deleteMode={deleteMode}
               selectedArr={selectedArr}
               setSelectedArr={setSelectedArr}

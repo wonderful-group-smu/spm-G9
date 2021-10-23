@@ -6,7 +6,7 @@ import CreateQuestion from '../../Components/CreateQuestion/CreateQuestion';
 import { array } from "prop-types";
 import '../Pagelayout.css';
 import './CreateSection.css';
-// import { addNewQuiz } from '../../Apis/Api';
+import { addNewSection } from '../../Apis/Api';
 
 const CreateSection = (props) => {
   const [sectionTitle, setSectionTitle] = useState("");
@@ -30,23 +30,23 @@ const CreateSection = (props) => {
     setQuestionCount(questionCount + 1);
   }
 
-  // const testButton = async () => {
-    // let response = await addNewSection({
-    //   "course_id": 2,
-    //   "materials": "string",
-    //   "section_name": "sectionX",
-    //   "trainer_id": 2
-    // })
-    // console.log(response.data);
+  const testButton = async () => {
+    let response = await addNewSection({
+      "course_id": 2,
+      "materials": "string",
+      "section_name": "sectionX",
+      "trainer_id": 2
+    })
+    console.log(response.data);
 
     // let response = await addNewQuiz({
     //   course_id: 2,
     //   section_id: 3,
     //   trainer_id: 2,
-    //   is_graded: false
+    //   is_graded: false,
     // })
     // console.log(response.data);
-  // }
+  }
 
   return (
     <div id='pagelayout'>
@@ -96,7 +96,7 @@ const CreateSection = (props) => {
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>
-        {/* <button type="button" className="btn btn-info" onClick={testButton}>test</button> */}
+        <button type="button" className="btn btn-info" onClick={testButton}>test</button>
         <button type="submit" className="btn btn-secondary submit">Add Section</button>
       </form>
     </div>
