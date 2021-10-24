@@ -32,7 +32,7 @@ jobs:
           yarn
           yarn build
         env:
-          VUE_APP_SAMPLE_ENV: ''
+          REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
 
       - name: Copy files to S3
         working-directory: ./frontend
