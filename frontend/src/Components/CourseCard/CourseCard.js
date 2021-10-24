@@ -12,6 +12,7 @@ const CourseCard = (props) => {
   const [selected, setSelected] = useState(false);
 
   const handleClickSelect = (event) => {
+    event.preventDefault();
     if (!selected) {
       props.setSelectedArr([...props.selectedArr, props.courseID]);
     }
@@ -19,7 +20,6 @@ const CourseCard = (props) => {
       props.setSelectedArr(props.selectedArr.filter((item) => { return item !== props.courseID }));
     }
     setSelected(!selected);
-    event.preventDefault();
   }
 
   function handlestring() {
@@ -30,25 +30,27 @@ const CourseCard = (props) => {
 
   return (
     <>
-      <Link to={props.link} className='try' style={{ textDecoration: 'none' }}
-        onClick={props.deleteMode ? handleClickSelect : handlestring}>
-        <div className='col-sm shadow-box'>
+      <Link
+        to={{
+          pathname: '/courseclasses',
+          state:{ courseID: props.courseID, courseName: props.courseName } 
+        }}
+        className='try' style={{ textDecoration: 'none' }}
+      >
+        <div className='col-sm shadow-box' onClick={props.deleteMode ? handleClickSelect : null}>
           <div className={selected && props.deleteMode ? 'card selected' : 'card'}>
             <img src={LectureHeader} className='card-img-top' />
             <div className="hover-overlay"/>
               <div className='card-body'>
 
                 <h5 className='card-title'>
-                  {/* <Si.SiGoogleclassroom /> */}
-                  {props.cardTitle}
+                  {props.courseName}
                 </h5>
                 <p className='card-subtitle mb-2 text-muted'>
                 </p>
                 <p className='card-text'>
-                  {/* <Bs.BsPeopleCircle size={25} /> */}
-                  {/* &nbsp;{props.trainer} */}
                   <Fi.FiCalendar className="calendar"/> Enrolment Period <br />
-                  {props.cardText}
+                  {props.description}
                   <Bs.BsCircle className="checkbox" hidden={selected || !props.deleteMode} />
                   <Bs.BsCheckCircle className="checkbox checked" hidden={!selected || !props.deleteMode} />
                 </p>
@@ -62,28 +64,16 @@ const CourseCard = (props) => {
   )
 }
 
-// CourseCard.defaultProps = {
-
-//   cardTitle: 'IS110:Python Programming',
-//   cardText: 'Starts on 12 Jan 2021, End on 12 March 2021',
-//   trainer: 'Daniel Lim (Senior Engineer)',
-//   deleteMode: false,
-
-//   // age: "45"
-// }
-
 CourseCard.propTypes = {
   courseID: number,
-  cardTitle: string,
-  cardText: string,
-  // trainer: string,
+  courseName: string,
+  description: string,
   deleteMode: bool,
   selectedArr: array,
   setSelectedArr: func,
   link:oneOfType([
     string, object
   ])
-  
 }
 
 export default CourseCard

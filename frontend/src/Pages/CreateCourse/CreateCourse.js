@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import * as Bi from 'react-icons/bi';
 // import { array } from 'prop-types'
 import '../Pagelayout.css'
 import './CreateCourse.css'
 import { addNewCourse, getCourseList } from "../../Apis/Api";
+import CreateSubmitModal from "../../Components/CreateSubmitModal/CreateSubmitModal";
+import BackArrow from "../../Components/BackArrow/BackArrow";
 
 const CreateCourse = () => {
+  const [courseID, setCourseID] = useState(0);
   const [courseName, setCourseName] = useState("");
-  const [courseDataArr, setCourseDataArr] = useState([])
+  const [courseDataArr, setCourseDataArr] = useState([]);
   const [desc, setDesc] = useState("");
   const [prereqs, setPrereqs] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   let history = useHistory();
 
   const addPrereq = (e) => {
     let prereqID = e.target.value;
-    // let prereq = courseDataArr.filter((course) => (course.prereq_id == courseID))[0]
     let prereq = {
       "course_id": 3,
       "prereq_id": prereqID,
@@ -29,31 +31,31 @@ const CreateCourse = () => {
         prereq,
       ]);
     }
-    console.log(prereq)
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(e);
     let response = await addNewCourse({
-      "course_id": 3,
+      "course_id": courseID,
       "name": courseName,
       "description": desc,
       "prereqs": prereqs,
     })
     console.log(response.data)
-    alert(`Submitted ${courseName}, ${desc}, ${prereqs}`)
+    setShowModal(true)
   }
 
   useEffect(async () => {
     let response = await getCourseList();
-    setCourseDataArr(response.data.results)
+    let results = response.data.results;
+    setCourseDataArr(results)
+    setCourseID(results[results.length-1].course_id + 1)
   }, [])
 
   return (
     <div id='pagelayout'>
       <div id='section-header'>
-        <button onClick={() => history.goBack()}><Bi.BiArrowBack className="back-arrow"/></button>
+        <BackArrow/>
         <h5 id='page-title'>Create a Course</h5>
       </div>
 
@@ -85,7 +87,11 @@ const CreateCourse = () => {
           ))}
         </div>
 
-        <button type="submit" className="btn btn-secondary submit">Create Course</button>
+        <button type="submit" className="btn btn-secondary submit" data-bs-toggle="modal" data-bs-target="create-submit-modal">Create Course</button>
+        <CreateSubmitModal
+          show={showModal} setShow={setShowModal} history={history}
+          subject="Course" title={"course " + courseName}
+        />
 
       </form>
     </div>
