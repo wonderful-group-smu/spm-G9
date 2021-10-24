@@ -42,7 +42,6 @@ const SectionFlow = (props) => {
                         <button key={i}
                             type="button"
                             title={section.title}
-                            // disabled
                             id="section-btn"
                             className="btn btn-outline-primary"
                             draggable={true}

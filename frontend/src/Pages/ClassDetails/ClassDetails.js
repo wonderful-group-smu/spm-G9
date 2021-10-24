@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import LectureHeader from '../../Assets/Lecture Header.jpeg'
 import * as Bs from 'react-icons/bs'
 import * as Fi from 'react-icons/fi'
@@ -8,8 +8,11 @@ import ProfileImage from '../../Assets/Profile Image.jpg'
 import './ClassDetails.css'
 import ClassList from '../../Components/ClassList/ClassList'
 import SectionFlow from '../../Components/SectionFlow/SectionFlow'
+// import { getClassSections } from '../../Apis/Api'
 
 const ClassDetails = () => {
+  const location = useLocation()
+  const { courseClass } = location.state
   const [DetailButton, setDetailButton] = useState('top-bar-selected')
   const [NamelistButton, setNamelistButton] = useState('top-bar')
 
@@ -25,6 +28,11 @@ const ClassDetails = () => {
       setNamelistButton('top-bar-selected')
     }
   }
+
+  // useEffect(async () => {
+  //   let response = await getClassSections(courseClass.course.course_id, courseClass.trainer.trainer_id)
+  //   console.log(response)
+  // }, [])
 
   return (
     <div id='pagelayout'>
@@ -79,8 +87,8 @@ const ClassDetails = () => {
             </div>
 
             <div className='row'>
-              <div className='col'> 4 January 2021</div>
-              <div className='col'> 21 January 2021</div>
+              <div className='col'>{courseClass.start_date}</div>
+              <div className='col'>{courseClass.end_date}</div>
               <div className='col'> 25</div>
             </div>
             <br />
@@ -95,7 +103,7 @@ const ClassDetails = () => {
                 <img src={ProfileImage} className='profile-image shadow' />
               </div>
               <div className='col'>
-                <h6>Daniel Parker</h6>
+                <h6>{courseClass.trainer.name}</h6>
                 <div>
                   <i>Senior Engineer</i>
                 </div>
