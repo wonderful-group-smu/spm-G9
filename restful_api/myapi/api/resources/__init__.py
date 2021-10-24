@@ -1,7 +1,7 @@
 from myapi.api.resources.course import CourseStatusList, CourseResource, CourseResourceList
 from myapi.api.resources.employee import EmployeeList, EmployeeResource
 from myapi.api.resources.enroll import EnrollResourceList, EnrollResource, EnrollByEngineerSelfResourceList, EnrollByCourseResourceList
-from myapi.api.resources.course_class import CourseClassResource
+from myapi.api.resources.course_class import CourseClassResource, CourseClassResourceList
 from myapi.api.resources.class_section import ClassSectionResource, ClassSectionResourceList
 from myapi.api.resources.quiz import QuizResourceList, QuizResource
 from myapi.api.resources.progress import ProgressResource, ProgressListResource
@@ -17,6 +17,7 @@ __all__ = [
     "CourseResourceList",
     "CourseResource",
     "CourseClassResource",
+    "CourseClassResourceList",
     "ClassSectionResource",
     "ClassSectionResourceList",
     "QuizResource",
