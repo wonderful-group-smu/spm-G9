@@ -39,3 +39,19 @@
   margin-top: 20px;
   border-radius: 5px;
 }
+
+.fitted-button-corner{
+  background-color: rgb(243, 107, 130);
+  /* width: 100%; */
+  padding: 8px;
+  color: white;
+  /* margin-top: 20px; */
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+
+.center-content-flexbox{
+  display: flex;
+  justify-content: center;
+}

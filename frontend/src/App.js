@@ -22,6 +22,8 @@ import OptionSelection from './Pages/OptionSelection/OptionSelection'
 import CourseContent from './Pages/CourseContent/CourseContent'
 import Quiz from './Pages/Quiz/Quiz'
 import TakeQuiz from './Pages/TakeQuiz/TakeQuiz'
+// import TakeQuiz from './Pages/QuizFeedback/QuizFeedback'
+import QuizFeedback from './Pages/QuizFeedback/QuizFeedback'
 
 function App() {
   const [leftOpen, setOpen] = useState(true)
@@ -77,6 +79,7 @@ function App() {
                       path='/courses/selfenrollmentform'
                       component={SelfEnrollmentForm}
                     />
+                    <Route path='/quizfeedback' component={QuizFeedback} />
                     <Route path='/takequiz' component={TakeQuiz} />
                     <Route path='/quiz' component={Quiz} />
                     <Route path='/coursecontent' component={CourseContent} />

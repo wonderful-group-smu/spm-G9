@@ -6,7 +6,7 @@ import * as Bs from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 import LectureHeader from "../../Assets/Lecture Header.jpeg"
 
-import { array, bool, func, number, string } from 'prop-types'
+import { array, bool, func, number, string, object, oneOfType } from 'prop-types'
 
 const CourseCard = (props) => {
   const [selected, setSelected] = useState(false);
@@ -21,6 +21,12 @@ const CourseCard = (props) => {
     }
     setSelected(!selected);
   }
+
+  // function handlestring() {
+  //   return ""
+  // }
+
+
 
   return (
     <>
@@ -65,6 +71,9 @@ CourseCard.propTypes = {
   deleteMode: bool,
   selectedArr: array,
   setSelectedArr: func,
+  link:oneOfType([
+    string, object
+  ])
 }
 
 export default CourseCard

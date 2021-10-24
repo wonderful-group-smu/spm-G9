@@ -1,4 +1,5 @@
 import axios from 'axios'
+import jwt from 'jwt-decode'
 // const BASE_URL = 'http://spmg9.herokuapp.com/'
 const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:5000/'
 
@@ -14,7 +15,16 @@ const getAuthHeaders = () => {
     return headers
 }
 
+const getEmployeeID = () => {
+    let token = localStorage.getItem('token')
+    const employeeID= jwt(token).sub
+    console.log(employeeID)
+    return employeeID
+}
+    
+
 const login = (data) => axios.post(`${BASE_URL}auth/login`, data)
+
 const getCourseList = () => {
     const headers = getAuthHeaders();
     return axios.get(`${BASE_URL}api/v1/courses/0`, {headers});
@@ -49,6 +59,21 @@ const addNewQuiz = ({ course_id, section_id, trainer_id, is_graded }) => {
     }, {headers});
 }
 
+const getEnrolledList = () => {
+    const headers = getAuthHeaders();
+    const employeeID=getEmployeeID()
+    // console.log( axios.get(`${BASE_URL}api/v1/enrollments/${employeeID}`, {headers}))
+    return axios.get(`${BASE_URL}api/v1/enrollments/${employeeID}`, {headers});
+}
+
+const getClassDetails = (course_id, trainer_id) => {
+    const headers = getAuthHeaders();
+    // console.log( axios.get(`${BASE_URL}api/v1/enrollments/${employeeID}`, {headers}))
+    return axios.get(`${BASE_URL}api/v1/course_class/${course_id}&${trainer_id}`, {headers});
+}
+
+
+
 export {
     login,
     getCourseList,
@@ -57,4 +82,7 @@ export {
     addNewCourse,
     addNewSection,
     addNewQuiz,
+    getEmployeeID,
+    getEnrolledList,
+    getClassDetails
 }

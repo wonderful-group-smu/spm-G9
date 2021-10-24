@@ -1,21 +1,23 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import ContentCard from '../../Components/ContentCard/ContentCard'
 import './CourseContent.css'
 import '../Pagelayout.css'
+import { object } from 'prop-types'
 
-const CourseContent = () => {
+const CourseContent = (props) => {
+
+  const [courseId, setCourseId] = useState()
+
+  useEffect(() => {
+    setCourseId(props.location.state.course_id)
+  }, [])
+
+  console.log(courseId)
   return (
     <div id='pagelayout'>
       <div id='section-header'>
         <h5 id='page-title'>IS111: Introduction to Python (Course Content)</h5>
 
-         {/* <div className='progress'>
-        <div
-          className='progress-bar'
-          role='progressbar'
-          style={{'width': '25%'}}>
-          25%
-        </div> */}
       </div> 
 
         Your Progress
@@ -62,4 +64,8 @@ const CourseContent = () => {
   )
 }
 
+
+CourseContent.propTypes = {
+  location: object,
+}
 export default CourseContent
