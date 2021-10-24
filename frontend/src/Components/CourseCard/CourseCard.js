@@ -6,7 +6,7 @@ import * as Bs from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 import LectureHeader from "../../Assets/Lecture Header.jpeg"
 
-import { array, bool, func, number, string } from 'prop-types'
+import { array, bool, func, number, string, object, oneOfType } from 'prop-types'
 
 const CourseCard = (props) => {
   const [selected, setSelected] = useState(false);
@@ -22,10 +22,16 @@ const CourseCard = (props) => {
     event.preventDefault();
   }
 
+  function handlestring() {
+    return ""
+  }
+
+
+
   return (
     <>
       <Link to={props.link} className='try' style={{ textDecoration: 'none' }}
-        onClick={props.deleteMode ? handleClickSelect : ""}>
+        onClick={props.deleteMode ? handleClickSelect : handlestring}>
         <div className='col-sm shadow-box'>
           <div className={selected && props.deleteMode ? 'card selected' : 'card'}>
             <img src={LectureHeader} className='card-img-top' />
@@ -74,7 +80,10 @@ CourseCard.propTypes = {
   deleteMode: bool,
   selectedArr: array,
   setSelectedArr: func,
-  link:string
+  link:oneOfType([
+    string, object
+  ])
+  
 }
 
 export default CourseCard

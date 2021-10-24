@@ -11,3 +11,16 @@
     padding: 5px;
     
 }
+
+.optionColor-Correct{
+    background-color: rgb(206, 255, 204);
+    padding: 5px;
+    border-radius: 5px;
+}
+
+
+.optionColor-Wrong{
+    background-color: rgb(255, 203, 203);
+    padding: 5px;
+    border-radius: 5px;
+}
