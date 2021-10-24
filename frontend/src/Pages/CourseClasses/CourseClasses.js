@@ -11,9 +11,7 @@ const CourseClasses = () => {
   const [courseClasses, setCourseClasses] = useState([])
 
   useEffect(async () => {
-    let response = await getCourseClasses({
-      "courseID": courseID,
-    })
+    let response = await getCourseClasses(courseID)
     setCourseClasses(response.data.course_classes)
     console.log(courseClasses)
   }, [])
