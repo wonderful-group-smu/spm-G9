@@ -29,7 +29,7 @@ const getCourseList = () => {
     const headers = getAuthHeaders();
     return axios.get(`${BASE_URL}api/v1/courses/0`, {headers});
 }
-const getCourseClasses = (course_id) => {
+const getCourseClasses = ({course_id}) => {
     const headers = getAuthHeaders();
     return axios.get(`${BASE_URL}api/v1/course_classes/` + course_id, {headers})
 }

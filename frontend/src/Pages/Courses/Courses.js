@@ -100,7 +100,7 @@ const Courses = () => {
               setSelectedArr={setSelectedArr}
               link={{
                    pathname: '/courseclasses',
-                  state:{ courseID: data.courseID, courseName: data.name } 
+                  state:{ courseID: data.course_id, courseName: data.name } 
                 }}
             />
           ))}
