@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import LectureHeader from '../../Assets/Lecture Header.jpeg'
-import * as Bs from 'react-icons/bs'
+// import * as Bs from 'react-icons/bs'
 import * as Fi from 'react-icons/fi'
 import * as Cg from 'react-icons/cg'
-import ProfileImage from '../../Assets/Profile Image.jpg'
+// import ProfileImage from '../../Assets/Profile Image.jpg'
 import './ClassDetails.css'
 import ClassList from '../../Components/ClassList/ClassList'
 import SectionFlow from '../../Components/SectionFlow/SectionFlow'
@@ -92,15 +92,19 @@ const ClassDetails = () => {
                       <Fi.FiCalendar /> End
                     </b>
                   </div>
-                  <div className='col'>
+
+
+
+                  {/* <div className='col'>
                     <b>
                       <Bs.BsPeopleCircle />
                       &nbsp; Slots Available
                     </b>
-                  </div>
+                  </div> */}
+
                 </div>
 
-                <div className='row'>
+                {/* <div className='row'>
                   <div className='col'>
                     {classDetails.course_class.start_date.slice(0, 10)}
                   </div>
@@ -108,12 +112,12 @@ const ClassDetails = () => {
                     {classDetails.course_class.end_date.slice(0, 10)}
                   </div>
                   <div className='col'>{classDetails.num_slots_remaining}</div>
-                </div>
+                </div> */}
                 <br />
               </div>
-              <div style={{ paddingLeft: '1rem' }}></div>
+              {/* <div style={{ paddingLeft: '1rem' }}></div> */}
 
-              <div className='white-bg profile-block'>
+              {/* <div className='white-bg profile-block'>
                 <h4> Our Trainer </h4>
                 <hr />
                 <div className='row'>
@@ -132,7 +136,10 @@ const ClassDetails = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
+
+
+              
 
               <div className='white-bg sections-block'>
                 <div className='sections-title'>
@@ -148,9 +155,25 @@ const ClassDetails = () => {
                 <SectionFlow />
               </div>
             </div>
-          ) : (
+          ) : 
+          
+          
+          
+          
+          (
             <ClassList />
           )}
+
+
+
+
+
+
+
+
+
+
+
           <br />
         </>
       )}
