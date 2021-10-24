@@ -63,12 +63,12 @@ class QuizResource(Resource):
     def __init__(self):
         self.schema = QuizSchema()
 
-    def get(self, quiz_id):
+    def get(self, course_id, section_id, quiz_id):
         try:
             query = (
                 Quiz.query
                 .filter(Quiz.quiz_id == quiz_id)
-                .join(ClassSection, (ClassSection.course_id == Quiz.course_id) & (ClassSection.trainer_id == Quiz.trainer_id), isouter=True)
+                .join(ClassSection, (ClassSection.course_id == course_id) & (ClassSection.section_id == section_id), isouter=True)
                 .one()
             )
         except Exception as error:
@@ -79,7 +79,7 @@ class QuizResource(Resource):
 
         return {"msg": "quiz retrieved", "quiz": self.schema.dump(query)}, 200
 
-    def post(self, quiz_id):
+    def post(self, course_id, section_id, quiz_id):
         quiz = self.schema.load(request.json)
 
         try:
@@ -90,7 +90,7 @@ class QuizResource(Resource):
 
         return {"msg": "quiz created", "quiz": self.schema.dump(quiz)}, 201
 
-    def delete(self, quiz_id):
+    def delete(self, course_id, section_id, quiz_id):
         quiz = Quiz.query.get_or_404(quiz_id)
         db.session.delete(quiz)
         db.session.commit()
