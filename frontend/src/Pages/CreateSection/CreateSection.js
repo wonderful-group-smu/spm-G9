@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import * as Bi from 'react-icons/bi';
 import { Accordion } from 'react-bootstrap'
 import CreateQuestion from '../../Components/CreateQuestion/CreateQuestion';
 import { array } from "prop-types";
 import '../Pagelayout.css';
 import './CreateSection.css';
 import { addNewSection } from '../../Apis/Api';
+import BackArrow from "../../Components/BackArrow/BackArrow";
 
 const CreateSection = (props) => {
   const [sectionTitle, setSectionTitle] = useState("");
@@ -14,8 +13,6 @@ const CreateSection = (props) => {
 
   const [questionCount, setQuestionCount] = useState(1);
   const [questions, setQuestions] = useState(props.questionArr);
-
-  let history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -52,7 +49,7 @@ const CreateSection = (props) => {
     <div id='pagelayout'>
 
       <div id='section-header'>
-        <button onClick={() => history.goBack()}><Bi.BiArrowBack className="back-arrow" /></button>
+        <BackArrow/>
         <h5 id='page-title'>Add a Section</h5>
       </div>
 
