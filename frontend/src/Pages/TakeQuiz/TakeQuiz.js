@@ -1,9 +1,10 @@
-import React, { useReducer, useState } from 'react'
+import React, { useReducer, useState, useEffect } from 'react'
 import QuizQuestion from '../../Components/QuizQuestion/QuizQuestion'
 import '../Pagelayout.css'
 import './TakeQuiz.css'
 import QuizSubmitModal from '../../Components/QuizSubmitModal/QuizSubmitModal'
 import { useHistory } from 'react-router-dom'
+import { object } from 'prop-types'
 
 const formReducer = (state, event) => {
   return {
@@ -12,7 +13,15 @@ const formReducer = (state, event) => {
   }
 }
 
-const TakeQuiz = () => {
+const TakeQuiz = (props) => {
+  const [whichQuiz, setQuiz] = useState()
+
+  useEffect(() => {
+    setQuiz(props.location.state)
+  }, [])
+
+  console.log(whichQuiz)
+
   const [formData, setFormData] = useReducer(formReducer, {})
   const [submitting, setSubmitting] = useState(false)
 
@@ -36,9 +45,8 @@ const TakeQuiz = () => {
 
   const history = useHistory()
   function handleClick() {
-    history.push('/quiz')
+    history.push('/')
   }
-
 
   const total_answered = Object.keys(formData).length
   const total_question = 2
@@ -117,6 +125,10 @@ const TakeQuiz = () => {
       </>
     </div>
   )
+}
+
+TakeQuiz.propTypes = {
+  location: object,
 }
 
 export default TakeQuiz
