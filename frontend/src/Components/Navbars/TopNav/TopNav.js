@@ -1,7 +1,7 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import * as Bs from 'react-icons/bs'
-import * as Io from 'react-icons/io'
+// import * as Io from 'react-icons/io'
 import './TopNav.css'
 import { NavDropdown } from 'react-bootstrap'
 
@@ -19,7 +19,8 @@ const TopNav = () => {
       <div>
         <div className='header'>
           <span className='TopHeader'>
-            <Io.IoMdNotifications size={25} />
+            <Bs.BsBell size={25} />
+
             <span></span>
             <NavDropdown
               title={<Bs.BsPeopleCircle size={25} />}

@@ -39,10 +39,9 @@ const SectionFlow = (props) => {
                     .map((section, i) => (
                     <>
                         {i == 0 ? "" : <Vsc.VscArrowRight className="section-link" />}
-                        <button key={i}
+                        <button key={section.title}
                             type="button"
                             title={section.title}
-                            // disabled
                             id="section-btn"
                             className="btn btn-outline-primary"
                             draggable={true}

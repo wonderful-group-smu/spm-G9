@@ -1,0 +1,17 @@
+.page-subtitle{
+    text-align: center;
+    font-size: 30px;
+
+}
+
+.progress{
+    margin-top: 5px;
+    margin-bottom: 20px;
+    /* background-color: aquamarine; */
+    /* width: 30%; */
+
+}
+
+.progress-bar{
+    background-color:rgb(243, 107, 130) !important;
+}

@@ -91,4 +91,4 @@ ENV/
 
 .flaskenv
 cookiecutter-options.yml
-sqlite.db
+sqlite.db.DS_Store

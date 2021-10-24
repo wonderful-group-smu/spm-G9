@@ -1,0 +1,26 @@
+.quiz-number{
+    font-weight: bold;
+    color: rgb(69, 182, 185);
+
+}
+.quiz-question{
+    margin-bottom: 10px;
+}
+
+.quiz-option{
+    padding: 5px;
+    
+}
+
+.optionColor-Correct{
+    background-color: rgb(206, 255, 204);
+    padding: 5px;
+    border-radius: 5px;
+}
+
+
+.optionColor-Wrong{
+    background-color: rgb(255, 203, 203);
+    padding: 5px;
+    border-radius: 5px;
+}

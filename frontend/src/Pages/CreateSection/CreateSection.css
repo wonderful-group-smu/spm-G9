@@ -1,4 +1,4 @@
-.form-control{
+.section-form-control{
     margin-bottom: 1rem;
 }
 
@@ -8,6 +8,10 @@
 
 #formFileMultiple{
     width: 60%;
+}
+
+#create-quiz-accordion{
+    width: 80%;
 }
 
 .submit{

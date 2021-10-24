@@ -34,7 +34,7 @@ const LoginPage = () => {
         if (response.data) {
           console.log(response)
           const token = response.data.access_token
-          localStorage.setItem('token', response.data.access_token)
+          localStorage.setItem('token', token)
           console.log(token)
           window.location.reload(false)
         } else {
@@ -69,7 +69,7 @@ const LoginPage = () => {
               <input
                 type='text'
                 className='form-control'
-                name='username'
+                name='name'
                 onChange={handleChange}
               />
 

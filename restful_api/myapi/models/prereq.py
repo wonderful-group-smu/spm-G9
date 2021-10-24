@@ -8,6 +8,14 @@ class Prereq(db.Model):
     __table_args__ = (db.UniqueConstraint('course_id', 'prereq_id', name='unique_course_prereq'),)
 
     course_id = db.Column(db.Integer, db.ForeignKey("course.course_id"), primary_key=True)
-    prereq_id = db.Column(db.Integer, primary_key=True)
+    prereq_id = db.Column(db.Integer, db.ForeignKey("course.course_id"), primary_key=True)
 
-    course = db.relationship('Course', backref=db.backref('prereqs', lazy='joined', cascade="all,delete"))
+    current_course = db.relationship(
+        'Course',
+        primaryjoin="Course.course_id==Prereq.course_id",
+        backref=db.backref('prereqs', lazy='joined', cascade="all,delete"))
+
+    prereq_course = db.relationship(
+        'Course',
+        primaryjoin="Course.course_id==Prereq.prereq_id",
+        backref=db.backref('postreqs', lazy='joined', cascade="all,delete"))

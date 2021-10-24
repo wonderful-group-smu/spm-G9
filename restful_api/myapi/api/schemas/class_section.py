@@ -14,3 +14,8 @@ class ClassSectionSchema(ma.SQLAlchemyAutoSchema):
         model = ClassSection
         sqla_session = db.session
         load_instance = True
+
+
+class ClassSectionStatusSchema(ClassSectionSchema):
+
+    has_completed = ma.Boolean()

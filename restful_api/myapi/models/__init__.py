@@ -1,20 +1,24 @@
-from myapi.models.user import User
-from myapi.models.blocklist import TokenBlocklist
 from myapi.models.employee import Employee
 from myapi.models.course import Course
 from myapi.models.prereq import Prereq
 from myapi.models.course_class import CourseClass
 from myapi.models.class_section import ClassSection
 from myapi.models.enroll import Enroll
+from myapi.models.section_completed import SectionCompleted
+from myapi.models.quiz import Quiz
+from myapi.models.question import Question
+from myapi.models.question_option import QuestionOption
 
 
 __all__ = [
-    "User",
-    "TokenBlocklist",
     "Employee",
     "Course",
     "Prereq",
     "Enroll",
     "CourseClass",
-    "ClassSection"
+    "ClassSection",
+    "SectionCompleted",
+    "Quiz",
+    "Question",
+    "QuestionOption"
 ]

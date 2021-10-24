@@ -2,23 +2,17 @@ import factory
 import time
 
 from myapi.models import (
-    User,
     Course,
     Employee,
     Prereq,
     Enroll,
     CourseClass,
-    ClassSection
+    ClassSection,
+    SectionCompleted,
+    Quiz,
+    Question,
+    QuestionOption
 )
-
-
-class UserFactory(factory.Factory):
-    username = factory.Sequence(lambda n: "user%d" % n)
-    email = factory.LazyAttribute(lambda o: o.username + "%@mail.com")
-    password = "mypwd"
-
-    class Meta:
-        model = User
 
 
 class CourseFactory(factory.Factory):
@@ -34,6 +28,7 @@ class EmployeeFactory(factory.Factory):
     id = factory.Sequence(lambda n: n)
     name = factory.LazyAttribute(lambda o: "employee %d" % o.id)
     user_type = "ENG"  # If want to test HR, declare explicit when creating
+    password = "testpassword"
 
     class Meta:
         model = Employee
@@ -56,6 +51,11 @@ class EnrollFactory(factory.Factory):
 
 
 class PrereqFactory(factory.Factory):
+    course_id = factory.SelfAttribute('current_course.course_id')
+    prereq_id = factory.SelfAttribute('prereq_course.course_id')
+    current_course = factory.SubFactory(CourseFactory)
+    prereq_course = factory.SubFactory(CourseFactory)
+
     class Meta:
         model = Prereq
 
@@ -79,3 +79,57 @@ class ClassSectionFactory(factory.Factory):
 
     class Meta:
         model = ClassSection
+
+
+class SectionCompletedFactory(factory.Factory):
+    eng_id = factory.SelfAttribute('engineer.id')
+    section_id = factory.SelfAttribute('class_section.section_id')
+    course_id = factory.SelfAttribute('class_section.course_id')
+    trainer_id = factory.SelfAttribute('class_section.trainer_id')
+    class_section = factory.SubFactory(ClassSectionFactory)
+    engineer = factory.SubFactory(EmployeeFactory)
+
+    class Meta:
+        model = SectionCompleted
+
+
+class QuizFactory(factory.Factory):
+    quiz_id = factory.Sequence(lambda n: n)
+    course_id = factory.SelfAttribute('class_section.course_id')
+    trainer_id = factory.SelfAttribute('class_section.trainer_id')
+    section_id = factory.SelfAttribute('class_section.section_id')
+    is_graded = factory.LazyAttribute(lambda n: False)
+    class_section = factory.SubFactory(ClassSectionFactory)
+
+    class Meta:
+        model = Quiz
+
+
+class QuestionFactory(factory.Factory):
+    question_id = factory.Sequence(lambda n: n)
+    course_id = factory.SelfAttribute('quiz.course_id')
+    trainer_id = factory.SelfAttribute('quiz.trainer_id')
+    section_id = factory.SelfAttribute('quiz.section_id')
+    quiz_id = factory.SelfAttribute('quiz.quiz_id')
+    question = factory.LazyAttribute(lambda o: "question %d" % o.question_id)
+    question_type = factory.LazyAttribute(lambda n: True)
+    quiz = factory.SubFactory(QuizFactory)
+
+    class Meta:
+        model = Question
+
+
+class QuestionOptionFactory(factory.Factory):
+    course_id = factory.SelfAttribute('question.course_id')
+    trainer_id = factory.SelfAttribute('question.trainer_id')
+    section_id = factory.SelfAttribute('question.section_id')
+    quiz_id = factory.SelfAttribute('question.quiz_id')
+    question_id = factory.SelfAttribute('question.question_id')
+    option_id = factory.Sequence(lambda n: n)
+    option_label = factory.LazyAttribute(lambda o: "option label %d" % o.question_id)
+    option_value = factory.LazyAttribute(lambda o: "option value %d" % o.question_id)
+    is_correct = factory.LazyAttribute(lambda n: False)
+    question = factory.SubFactory(QuestionFactory)
+
+    class Meta:
+        model = QuestionOption

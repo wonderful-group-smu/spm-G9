@@ -1,23 +1,27 @@
-from myapi.api.resources.user import UserResource, UserList
-
-from myapi.api.resources.course import CourseList, CourseResource
+from myapi.api.resources.course import CourseStatusList, CourseResource, CourseResourceList
 from myapi.api.resources.employee import EmployeeList, EmployeeResource
-from myapi.api.resources.enroll import EnrollResourceList, EnrollResource, EnrollByCourseResourceList
-from myapi.api.resources.course_class import CourseClassResource
+from myapi.api.resources.enroll import EnrollResourceList, EnrollResource, EnrollByEngineerSelfResourceList, EnrollByCourseResourceList
+from myapi.api.resources.course_class import CourseClassResource, CourseClassResourceList
 from myapi.api.resources.class_section import ClassSectionResource, ClassSectionResourceList
-
+from myapi.api.resources.quiz import QuizResourceList, QuizResource
+from myapi.api.resources.progress import ProgressResource, ProgressListResource
 
 __all__ = [
-    "UserResource",
-    "UserList",
     "EmployeeList",
     "EmployeeResource",
     "EnrollResourceList",
     "EnrollResource",
+    "EnrollByEngineerSelfResourceList",
     "EnrollByCourseResourceList",
-    "CourseList",
+    "CourseStatusList",
+    "CourseResourceList",
     "CourseResource",
     "CourseClassResource",
+    "CourseClassResourceList",
     "ClassSectionResource",
-    "ClassSectionResourceList"
+    "ClassSectionResourceList",
+    "QuizResource",
+    "QuizResourceList",
+    "ProgressResource",
+    "ProgressListResource"
 ]
