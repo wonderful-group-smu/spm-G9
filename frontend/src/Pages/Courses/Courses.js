@@ -98,6 +98,10 @@ const Courses = () => {
               deleteMode={deleteMode}
               selectedArr={selectedArr}
               setSelectedArr={setSelectedArr}
+              link={{
+                   pathname: '/courseclasses',
+                  state:{ courseID: data.courseID, courseName: data.name } 
+                }}
             />
           ))}
         </div>
