@@ -3,7 +3,7 @@ from flask_jwt_extended import (
     create_access_token,
     create_refresh_token,
     jwt_required,
-    get_jwt_identity,
+    get_current_user,
 )
 
 from myapi.models import Employee
@@ -65,7 +65,11 @@ def login():
     if employee is None or not pwd_context.verify(password, employee.password):
         return jsonify({"msg": "Bad credentials"}), 400
 
-    access_token = create_access_token(identity=employee.id, expires_delta=timedelta(days=7),)
+    access_token = create_access_token(
+        identity=employee.id,
+        expires_delta=timedelta(days=7),
+        additional_claims={'user_type': employee.user_type}
+    )
     refresh_token = create_refresh_token(identity=employee.id)
 
     ret = {"access_token": access_token, "refresh_token": refresh_token}
@@ -101,8 +105,12 @@ def refresh():
         401:
           description: unauthorized
     """
-    current_employee_id = get_jwt_identity()
-    access_token = create_access_token(identity=current_employee_id)
+    employee = get_current_user()
+    access_token = create_access_token(
+        identity=employee.id,
+        expires_delta=timedelta(days=7),
+        additional_claims={'user_type': employee.user_type}
+    )
     ret = {"access_token": access_token}
     return jsonify(ret), 200
 
