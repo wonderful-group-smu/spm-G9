@@ -135,3 +135,46 @@ class CourseClassResource(Resource):
                 raise error
 
         return {"num_enrolled": query_count}
+
+
+class CourseClassResourceList(Resource):
+    """Get course classes by course
+
+    ---
+    get:
+      tags:
+        - api
+      parameters:
+        - name: course_id
+          in: query
+          type: integer
+          required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: course classes retrieved
+                  result:
+                    type: array
+                    items: CourseClassSchema
+
+    """
+
+    # method_decorators = [jwt_required()]
+
+    def get(self, course_id):
+
+        course_class_schema = CourseClassSchema(many=True)
+        query = (
+            CourseClass.query
+            .filter(CourseClass.course_id == course_id)
+            .join(Course, isouter=True)
+            .all()
+        )
+
+        return {"msg": "course classes retrieved", "course_classes": course_class_schema.dump(query)}, 200

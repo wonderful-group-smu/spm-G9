@@ -1,15 +1,13 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import * as Bi from 'react-icons/bi';
 import { array } from 'prop-types';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import '../Pagelayout.css';
 import './CreateClass.css';
+import BackArrow from "../../Components/BackArrow/BackArrow";
 
 const CreateClass = (props) => {
   const [trainer, setTrainer] = useState("");
-  let history = useHistory();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -21,7 +19,7 @@ const CreateClass = (props) => {
     <div id='pagelayout'>
 
       <div id='section-header'>
-        <button onClick={() => history.goBack()}><Bi.BiArrowBack className="back-arrow" /></button>
+        <BackArrow/>
         <h5 id='page-title'>Create a Class</h5>
       </div>
 

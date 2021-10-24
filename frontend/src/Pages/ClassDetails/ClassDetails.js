@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import LectureHeader from '../../Assets/Lecture Header.jpeg'
 // import * as Bs from 'react-icons/bs'
 import * as Fi from 'react-icons/fi'
@@ -8,24 +8,12 @@ import * as Cg from 'react-icons/cg'
 import './ClassDetails.css'
 import ClassList from '../../Components/ClassList/ClassList'
 import SectionFlow from '../../Components/SectionFlow/SectionFlow'
-import { getClassDetails } from '../../Apis/Api'
-import Spinner from '../../Components/Spinner/Spinner'
+
+// import { getClassSections } from '../../Apis/Api'
 
 const ClassDetails = () => {
-  const [isLoading, setLoading] = useState(true)
-
-  useEffect(() => {
-    getClassDetails(2, 2)
-      .then((response) => {
-        setClassDetails(response.data)
-      })
-      .then(() => {
-        setLoading(false)
-      })
-  }, [])
-
-  const [classDetails, setClassDetails] = useState()
-
+  const location = useLocation()
+  const { courseClass } = location.state
   const [DetailButton, setDetailButton] = useState('top-bar-selected')
   const [NamelistButton, setNamelistButton] = useState('top-bar')
 
@@ -42,21 +30,67 @@ const ClassDetails = () => {
     }
   }
 
+  // useEffect(async () => {
+  //   let response = await getClassSections(courseClass.course.course_id, courseClass.trainer.trainer_id)
+  //   console.log(response)
+  // }, [])
+
   return (
     <div id='pagelayout'>
-      {isLoading ? (
-        <Spinner/>
-      ) : (
-        <>
-          <div className='gfg'>
-            <img src={LectureHeader} className='HeaderImage' />
-            <div className='Overlay'>
-              <h3 className='first-txt'>
-                {classDetails.course_class.course.name}
-                <div className='sub-txt'>
-                  Application closes on 1 January 2021
-                </div>
-              </h3>
+      <div className='gfg'>
+        <img src={LectureHeader} className='HeaderImage' />
+        <div className='Overlay'>
+          <h3 className='first-txt'>
+            Introduction to programming (IS111)
+            <div className='sub-txt'>Application closes on 1 January 2021</div>
+          </h3>
+        </div>
+      </div>
+      <br />
+      <div>
+        <button
+          type='submit'
+          className={DetailButton}
+          onClick={showDetailButton}
+        >
+          Details
+        </button>
+        <button
+          type='submit'
+          className={NamelistButton}
+          onClick={showNamelistButton}
+        >
+          Students Namelist
+        </button>
+      </div>
+      {DetailButton == 'top-bar-selected' ? (
+        <div className='flex-boxx' >
+          <div className='white-bg class-detail'>
+            <h4>Class Details</h4>
+            <hr />
+            <div className='row'>
+              <div className='col'>
+                <b>
+                  <Fi.FiCalendar /> Start
+                </b>
+              </div>
+              <div className='col'>
+                <b>
+                  <Fi.FiCalendar /> End
+                </b>
+              </div>
+              <div className='col'>
+                <b>
+                  <Bs.BsPeopleCircle />
+                  &nbsp; Slots Available
+                </b>
+              </div>
+            </div>
+
+            <div className='row'>
+              <div className='col'>{courseClass.start_date}</div>
+              <div className='col'>{courseClass.end_date}</div>
+              <div className='col'> 25</div>
             </div>
           </div>
           <br />
@@ -113,6 +147,18 @@ const ClassDetails = () => {
                   </div>
                   <div className='col'>{classDetails.num_slots_remaining}</div>
                 </div> */}
+          <div className='white-bg profile-block'>
+            <h4> Our Trainer </h4>
+            <hr />
+            <div className='row'>
+              <div className='col'>
+                <img src={ProfileImage} className='profile-image shadow' />
+              </div>
+              <div className='col'>
+                <h6>{courseClass.trainer.name}</h6>
+                <div>
+                  <i>Senior Engineer</i>
+                </div>
                 <br />
               </div>
               {/* <div style={{ paddingLeft: '1rem' }}></div> */}

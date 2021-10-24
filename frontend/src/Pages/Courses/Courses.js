@@ -93,12 +93,11 @@ const Courses = () => {
             <CourseCard
               key={data.course_id}
               courseID={data.course_id}
-              cardTitle={data.name}
-              cardText={data.description}
+              courseName={data.name}
+              description={data.description}
               deleteMode={deleteMode}
               selectedArr={selectedArr}
               setSelectedArr={setSelectedArr}
-              link='/courseclasses'
             />
           ))}
         </div>
