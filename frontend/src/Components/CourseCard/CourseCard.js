@@ -22,9 +22,9 @@ const CourseCard = (props) => {
     setSelected(!selected);
   }
 
-  function handlestring() {
-    return ""
-  }
+  // function handlestring() {
+  //   return ""
+  // }
 
 
 
