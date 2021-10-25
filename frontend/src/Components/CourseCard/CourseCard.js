@@ -38,8 +38,6 @@ const CourseCard = (props) => {
         //   state:{ courseID: props.courseID, courseName: props.courseName } 
         // }}
 
-
-
         className='try' style={{ textDecoration: 'none' }}
       >
         <div className='col-sm shadow-box' onClick={props.deleteMode ? handleClickSelect : null}>

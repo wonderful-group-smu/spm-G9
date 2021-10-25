@@ -12,7 +12,7 @@ const CourseClasses = () => {
 
   useEffect(async () => {
     let response = await getCourseClasses({
-      "courseID": courseID,
+      "course_id": courseID
     })
     setCourseClasses(response.data.course_classes)
     console.log(courseClasses)
@@ -43,11 +43,11 @@ const CourseClasses = () => {
             </div>
             <div className='col'>
               <div className='header-row'>Start Date</div>
-              {courseClass.start_date}
+              {courseClass.start_date.slice(0,10)}
             </div>
             <div className='col'>
               <div className='header-row'>End Date</div>
-              {courseClass.end_date}
+              {courseClass.end_date.slice(0,10)}
             </div>
 
             <div className='col'>
