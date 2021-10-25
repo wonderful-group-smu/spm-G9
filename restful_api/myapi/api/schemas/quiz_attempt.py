@@ -1,8 +1,6 @@
 from myapi.models import QuizAttempt
 from myapi.extensions import ma, db
-from .quiz import QuizSchema
 from .question import QuestionSchema
-from .employee import EmployeeSchema
 
 
 class QuizAttemptSchema(ma.SQLAlchemyAutoSchema):
