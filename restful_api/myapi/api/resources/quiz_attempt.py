@@ -4,7 +4,7 @@ from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from myapi.api.schemas import QuizAttemptSchema, SectionCompletedSchema
 from myapi.extensions import db
-from myapi.models import Quiz, QuizAttempt, Employee, SectionCompleted
+from myapi.models import Quiz, QuizAttempt, Employee
 
 
 class QuizAttemptResource(Resource):
