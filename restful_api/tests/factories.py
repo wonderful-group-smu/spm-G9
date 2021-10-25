@@ -140,6 +140,7 @@ class QuizAttemptFactory(factory.Factory):
     quiz_id = factory.SelfAttribute('quiz.quiz_id')
     course_id = factory.SelfAttribute('quiz.course_id')
     section_id = factory.SelfAttribute('quiz.section_id')
+    trainer_id = factory.SelfAttribute('quiz.trainer_id')
     eng_id = factory.SelfAttribute('engineer.id')
     quiz = factory.SubFactory(QuizFactory)
     engineer = factory.SubFactory(EmployeeFactory)

@@ -9,6 +9,7 @@ class QuizAttempt(db.Model):
 
     course_id = db.Column(db.Integer, db.ForeignKey("quiz.course_id"), primary_key=True)
     section_id = db.Column(db.Integer, db.ForeignKey('quiz.section_id'), primary_key=True)
+    trainer_id = db.Column(db.Integer, db.ForeignKey("quiz.trainer_id"), primary_key=True)
     quiz_id = db.Column(db.Integer, db.ForeignKey("quiz.quiz_id"), primary_key=True)
     eng_id = db.Column(db.Integer, db.ForeignKey("employee.id"), primary_key=True)
 

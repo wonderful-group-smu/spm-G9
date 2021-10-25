@@ -57,7 +57,7 @@ api.add_resource(ProgressResource, "/course_progress/<int:course_id>&<int:traine
 api.add_resource(ProgressListResource, "/overall_progress/<int:eng_id>", endpoint="overall_progress")
 api.add_resource(QuizResource, "/quiz/<int:course_id>&<int:section_id>&<int:quiz_id>", endpoint="quiz")
 api.add_resource(QuizResourceList, "/quizzes/<int:section_id>", endpoint="quizzes")
-api.add_resource(QuizAttemptResource, "/quiz_attempt/<int:course_id>&<int:section_id>&<int:quiz_id>&<int:eng_id>", endpoint="quiz_attempt")
+api.add_resource(QuizAttemptResource, "/quiz_attempt/<int:course_id>&<int:section_id>&<int:trainer_id>&<int:quiz_id>&<int:eng_id>", endpoint="quiz_attempt")
 
 
 @blueprint.before_app_first_request
