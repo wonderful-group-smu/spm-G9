@@ -19,6 +19,7 @@ from myapi.api.resources import (
     ProgressListResource,
     QuizResource,
     QuizResourceList,
+    QuizAttemptResource
 )
 from myapi.api.schemas import (
     EmployeeSchema,
@@ -30,7 +31,8 @@ from myapi.api.schemas import (
     EnrollSchema,
     QuizSchema,
     QuestionSchema,
-    QuestionOptionSchema
+    QuestionOptionSchema,
+    QuizAttemptSchema
 )
 from myapi.extensions import apispec
 
@@ -55,6 +57,7 @@ api.add_resource(ProgressResource, "/course_progress/<int:course_id>&<int:traine
 api.add_resource(ProgressListResource, "/overall_progress/<int:eng_id>", endpoint="overall_progress")
 api.add_resource(QuizResource, "/quiz/<int:course_id>&<int:section_id>&<int:quiz_id>", endpoint="quiz")
 api.add_resource(QuizResourceList, "/quizzes/<int:section_id>", endpoint="quizzes")
+api.add_resource(QuizAttemptResource, "/quiz_attempt/<int:course_id>&<int:section_id>&<int:quiz_id>&<int:eng_id>", endpoint="quiz_attempt")
 
 
 @blueprint.before_app_first_request
@@ -70,6 +73,7 @@ def register_views():
     apispec.spec.components.schema("QuizSchema", schema=QuizSchema)
     apispec.spec.components.schema("QuestionSchema", schema=QuestionSchema)
     apispec.spec.components.schema("QuestionOptionSchema", schema=QuestionOptionSchema)
+    apispec.spec.components.schema("QuizAttemptSchema", schema=QuizAttemptSchema)
     apispec.spec.path(view=EmployeeResource, app=current_app)
     apispec.spec.path(view=EmployeeList, app=current_app)
     apispec.spec.path(view=EnrollResource, app=current_app)
@@ -86,6 +90,7 @@ def register_views():
     apispec.spec.path(view=ProgressListResource, app=current_app)
     apispec.spec.path(view=QuizResource, app=current_app)
     apispec.spec.path(view=QuizResourceList, app=current_app)
+    apispec.spec.path(view=QuizAttemptResource, app=current_app)
 
 
 @blueprint.errorhandler(ValidationError)

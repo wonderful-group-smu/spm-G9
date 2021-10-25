@@ -5,6 +5,7 @@ from myapi.api.resources.course_class import CourseClassResource, CourseClassRes
 from myapi.api.resources.class_section import ClassSectionResource, ClassSectionResourceList
 from myapi.api.resources.quiz import QuizResourceList, QuizResource
 from myapi.api.resources.progress import ProgressResource, ProgressListResource
+from myapi.api.resources.quiz_attempt import QuizAttemptResource
 
 __all__ = [
     "EmployeeList",
@@ -23,5 +24,6 @@ __all__ = [
     "QuizResource",
     "QuizResourceList",
     "ProgressResource",
-    "ProgressListResource"
+    "ProgressListResource",
+    "QuizAttemptResource"
 ]
