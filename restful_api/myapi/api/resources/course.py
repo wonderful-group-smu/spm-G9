@@ -240,7 +240,14 @@ class CourseEligibleEngineerList(Resource):
     def get(self, course_id):
         all_engineers = Employee.query.filter(Employee.user_type == 'ENG').all()
 
-        course = Course.query.filter(Course.course_id == course_id).one()
+        try:
+            course = Course.query.filter(Course.course_id == course_id).one()
+        except Exception as error:
+            if "No row was found" in str(error):
+                return {"msg": "not found"}, 404
+            else:
+                raise error
+
         # convert engineers to dict for O(1) check
         engineers = {k.id: k.name for k in all_engineers}
         eligible_engineers = []
