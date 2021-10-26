@@ -2,7 +2,7 @@ import React, { useReducer, useState, useEffect } from 'react'
 import QuizQuestion from '../../Components/QuizQuestion/QuizQuestion'
 import '../Pagelayout.css'
 import './TakeQuiz.css'
-import QuizSubmitModal from '../../Components/QuizSubmitModal/QuizSubmitModal'
+import GeneralModal from '../../Components/GeneralModal/GeneralModal'
 import { useHistory } from 'react-router-dom'
 import { object } from 'prop-types'
 
@@ -101,7 +101,7 @@ const TakeQuiz = (props) => {
       <>
         {total_answered == total_question ? (
           <>
-            <QuizSubmitModal
+            <GeneralModal
               show={confirmSubmission}
               onHide={() => setConfirmSubmission(false)}
               modal_title='Submit Quiz'
@@ -112,7 +112,7 @@ const TakeQuiz = (props) => {
           </>
         ) : (
           <>
-            <QuizSubmitModal
+            <GeneralModal
               show={confirmSubmission}
               onHide={() => setConfirmSubmission(false)}
               modal_title='Quiz not completed'

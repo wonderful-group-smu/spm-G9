@@ -15,7 +15,6 @@ const ContentModal = (props) => {
           </button>
         </h5>
         <hr />
-
         {props.sessionContent}
         <button
           type='submit'

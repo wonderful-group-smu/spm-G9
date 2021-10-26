@@ -4,7 +4,7 @@ import { func, string } from 'prop-types'
 import '../EnrollModal/EnrollModal.css'
 import * as Bs from 'react-icons/bs'
 
-const QuizSubmitModal = (props) => {
+const GeneralModal = (props) => {
 
 
   return (
@@ -29,7 +29,7 @@ const QuizSubmitModal = (props) => {
     </Modal>
   )
 }
-QuizSubmitModal.propTypes = {
+GeneralModal.propTypes = {
   onHide: func,
   modal_content: string,
   modal_title: string,
@@ -37,4 +37,4 @@ QuizSubmitModal.propTypes = {
   button_action: func,
 }
 
-export default QuizSubmitModal
+export default GeneralModal

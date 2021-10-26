@@ -18,11 +18,11 @@ import Home from './Pages/Home/Home'
 import ClassDetails from './Pages/ClassDetails/ClassDetails'
 import CreateSection from './Pages/CreateSection/CreateSection'
 import LoginPage from './Pages/LoginPage/LoginPage'
-import OptionSelection from './Pages/OptionSelection/OptionSelection'
+
 import CourseContent from './Pages/CourseContent/CourseContent'
 import Quiz from './Pages/Quiz/Quiz'
 import TakeQuiz from './Pages/TakeQuiz/TakeQuiz'
-// import TakeQuiz from './Pages/QuizFeedback/QuizFeedback'
+
 import QuizFeedback from './Pages/QuizFeedback/QuizFeedback'
 
 function App() {
@@ -83,10 +83,7 @@ function App() {
                     <Route path='/takequiz' component={TakeQuiz} />
                     <Route path='/quiz' component={Quiz} />
                     <Route path='/coursecontent' component={CourseContent} />
-                    <Route
-                      path='/optionselection'
-                      component={OptionSelection}
-                    />
+                   
                     <Route path='/courses' component={Courses} />
                     <Route path='/records' component={Records} />
                     <Route path='/enrolled' component={Enrolled} />
