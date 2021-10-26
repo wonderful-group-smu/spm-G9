@@ -260,7 +260,7 @@ class CourseEligibleEngineerList(Resource):
 
     @staticmethod
     def validate_eligibility(course, completed_courses):
-      # convert completed courses to dict for O(1) check
+        # convert completed courses to dict for O(1) check
         fmted_enrolled_courses = {k.course_id: k.has_passed
                                   for k in completed_courses}
         completed = 0
