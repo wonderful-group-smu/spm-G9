@@ -9,6 +9,7 @@ from myapi.api.resources import (
     CourseResourceList,
     CourseClassResource,
     CourseClassResourceList,
+    CourseEligibleEngineerList,
     ClassSectionResource,
     ClassSectionResourceList,
     EnrollResource,
@@ -51,6 +52,7 @@ api.add_resource(CourseResourceList, "/courses/all", endpoint="courses")
 api.add_resource(CourseResource, "/course/<int:course_id>", endpoint="course")
 api.add_resource(CourseClassResource, "/course_class/<int:course_id>&<int:trainer_id>", endpoint="course_class")
 api.add_resource(CourseClassResourceList, "/course_classes/<int:course_id>", endpoint="course_classes_by_course")
+api.add_resource(CourseEligibleEngineerList, "/course_eligible_engineers/<int:course_id>", endpoint="course_eligible_engineers")
 api.add_resource(ClassSectionResource, "/class_section/<int:section_id>", endpoint="class_section")
 api.add_resource(ClassSectionResourceList, "/class_sections/<int:course_id>&<int:trainer_id>&<int:eng_id>", endpoint="class_sections_by_course")
 api.add_resource(ProgressResource, "/course_progress/<int:course_id>&<int:trainer_id>&<int:eng_id>", endpoint="course_progress")
@@ -85,6 +87,7 @@ def register_views():
     apispec.spec.path(view=CourseResource, app=current_app)
     apispec.spec.path(view=CourseClassResource, app=current_app)
     apispec.spec.path(view=CourseClassResourceList, app=current_app)
+    apispec.spec.path(view=CourseEligibleEngineerList, app=current_app)
     apispec.spec.path(view=ClassSectionResource, app=current_app)
     apispec.spec.path(view=ProgressResource, app=current_app)
     apispec.spec.path(view=ProgressListResource, app=current_app)

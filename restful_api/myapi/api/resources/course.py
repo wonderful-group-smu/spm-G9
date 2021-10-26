@@ -2,9 +2,9 @@
 from flask import request
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
-from myapi.api.schemas import CourseSchema, CourseStatusSchema
+from myapi.api.schemas import CourseSchema, CourseStatusSchema, EmployeeSchema
 from myapi.extensions import db
-from myapi.models import Course, Prereq, Enroll
+from myapi.models import Course, Prereq, Enroll, Employee
 
 
 class CourseResource(Resource):
@@ -202,3 +202,76 @@ class CourseStatusList(Resource):
                 course.has_passed = fmted_enrolled_courses.get(course.course_id, None)
 
         return courses
+
+
+class CourseEligibleEngineerList(Resource):
+    """Get all engineers eligible for a course
+
+    ---
+    get:
+      tags:
+        - api
+      parameters:
+        - name: course_id
+          in: query
+          type: integer
+          required: true
+          description: course id
+      responses:
+        400:
+          description: no course id provided
+        200:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: all eligible engineers retrieved
+                  result:
+                    type: array
+                    items: EmployeeSchema
+
+    """
+
+    method_decorators = [jwt_required()]
+
+    def get(self, course_id):
+        all_engineers = Employee.query.filter(Employee.user_type == 'ENG').all()
+
+        try:
+            course = Course.query.filter(Course.course_id == course_id).one()
+        except Exception as error:
+            if "No row was found" in str(error):
+                return {"msg": "not found"}, 404
+            else:
+                raise error
+
+        # convert engineers to dict for O(1) check
+        engineers = {k.id: k.name for k in all_engineers}
+        eligible_engineers = []
+        for id in engineers:
+            enrolled_courses = Enroll.query.filter(
+                Enroll.eng_id == id
+            ).all()
+
+            is_eligible = self.validate_eligibility(course, enrolled_courses)
+            if is_eligible:
+                engineer = Employee.query.filter(Employee.id == id).one()
+                eligible_engineers.append(engineer)
+
+        employee_schema = EmployeeSchema(many=True)
+
+        return {"msg": "all eligible engineers retrieved", "results": employee_schema.dump(eligible_engineers)}, 200
+
+    @staticmethod
+    def validate_eligibility(course, completed_courses):
+        # convert completed courses to dict for O(1) check
+        fmted_enrolled_courses = {k.course_id: k.has_passed
+                                  for k in completed_courses}
+        completed = 0
+        for preq in course.prereqs:
+            completed += fmted_enrolled_courses.get(preq.prereq_id, 0)
+
+        return completed == len(course.prereqs)

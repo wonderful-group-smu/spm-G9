@@ -173,3 +173,65 @@ def test_get_eligible_courses(
     assert result[3]['isActive'] == False, "Incorrect active status for course 3"
     assert result[3]['isComplete'] == False, "Incorrect complete status for course 3"
     assert result[3]['isEligible'] == True, "Incorrect eligible status for course 3"
+
+
+def test_get_course_eligible_engineers(
+    client,
+    db,
+    engineer_employee_headers,
+    course_factory,
+    employee_factory,
+    enroll_factory,
+    prereq_factory
+):
+    employees = employee_factory.create_batch(2)
+    db.session.add_all(employees)
+    db.session.commit()
+
+    # Configurations for test
+    NUM_COURSES = 4
+
+    # ---------
+    # NOTE: This test has 2 employees.
+    # Employee 0 has completed Course 0.
+    # Employee 1 is still taking Course 0.
+
+    # ---------
+    # Enroll Factory will generate enrollments, course and trainers etc.
+    courses = course_factory.create_batch(NUM_COURSES)
+    enrolment_one = enroll_factory(eng=employees[0], course=courses[0], has_passed=True)  # Completed
+    enrolment_two = enroll_factory(eng=employees[1], course=courses[0])  # In progress
+
+    # Add the pre-reqs to the courses
+    # Course 1 relies on course 0.
+    # Course 2 relies on course 0 and course 1.
+    # Course 3 has no pre-reqs.
+    prereq_one = prereq_factory(current_course=courses[1], prereq_course=courses[0])
+    prereq_two = prereq_factory(current_course=courses[2], prereq_course=courses[1])
+    prereq_three = prereq_factory(current_course=courses[2], prereq_course=courses[0])
+
+    # Only Employee 0 should be eligible for Course 1.
+    db.session.add_all(courses)
+    db.session.add_all([enrolment_one, enrolment_two])
+    db.session.add_all([prereq_one, prereq_two, prereq_three])
+    db.session.commit()
+    course_url = url_for('api.course_eligible_engineers', course_id=courses[1].course_id)
+    rep = client.get(course_url, headers=engineer_employee_headers)
+    result = rep.get_json()['results']
+    assert rep.status_code == 200, "Incorrect response code"
+    assert len(result) == 1, "Incorrect number of eligible engineers"
+    assert result[0]['id'] == employees[0].id, "Incorrect eligible engineer"
+
+    # No employee should be eligible for Course 2
+    course_url = url_for('api.course_eligible_engineers', course_id=courses[2].course_id)
+    rep = client.get(course_url, headers=engineer_employee_headers)
+    result = rep.get_json()['results']
+    assert rep.status_code == 200, "Incorrect response code"
+    assert len(result) == 0, "Incorrect number of eligible engineers"
+
+    # Employees 0 and 1 should be eligible for Course 3
+    course_url = url_for('api.course_eligible_engineers', course_id=courses[3].course_id)
+    rep = client.get(course_url, headers=engineer_employee_headers)
+    result = rep.get_json()['results']
+    assert rep.status_code == 200, "Incorrect response code"
+    assert len(result) == 5, "Incorrect number of eligible engineers"
