@@ -14,12 +14,12 @@ def test_get_single_quiz(
     db.session.commit()
 
     # Find unavailable quiz
-    quiz_url = url_for('api.quiz', quiz_id=9999)
+    quiz_url = url_for('api.quiz', quiz_id=9999, course_id=9999, section_id=9999)
     rep = client.get(quiz_url, headers=engineer_employee_headers)
     assert rep.status_code == 404
 
     # Get quiz without question
-    quiz_url = url_for('api.quiz', quiz_id=quizzes[0].quiz_id)
+    quiz_url = url_for('api.quiz', quiz_id=quizzes[0].quiz_id, course_id=quizzes[0].course_id, section_id=quizzes[0].section_id)
     rep = client.get(quiz_url, headers=engineer_employee_headers)
 
     assert rep.status_code == 200
@@ -32,7 +32,7 @@ def test_get_single_quiz(
     db.session.add(question_one)
     db.session.commit()
 
-    quiz_url = url_for('api.quiz', quiz_id=quizzes[1].quiz_id)
+    quiz_url = url_for('api.quiz', quiz_id=quizzes[1].quiz_id, course_id=quizzes[0].course_id, section_id=quizzes[0].section_id)
     rep = client.get(quiz_url, headers=engineer_employee_headers)
 
     assert rep.status_code == 200
@@ -43,7 +43,7 @@ def test_get_single_quiz(
     db.session.add(question_option_one)
     db.session.commit()
 
-    quiz_url = url_for('api.quiz', quiz_id=quizzes[1].quiz_id)
+    quiz_url = url_for('api.quiz', quiz_id=quizzes[1].quiz_id, course_id=quizzes[0].course_id, section_id=quizzes[0].section_id)
     rep = client.get(quiz_url, headers=engineer_employee_headers)
     assert rep.status_code == 200
     assert len(rep.get_json()['quiz']['questions'][0]['question_options']) == 1, "Incorrect number of question options retrieved for question"
@@ -53,7 +53,7 @@ def test_get_single_quiz(
     db.session.add(question_option_two)
     db.session.commit()
 
-    quiz_url = url_for('api.quiz', quiz_id=quizzes[1].quiz_id)
+    quiz_url = url_for('api.quiz', quiz_id=quizzes[1].quiz_id, course_id=quizzes[0].course_id, section_id=quizzes[0].section_id)
     rep = client.get(quiz_url, headers=engineer_employee_headers)
     assert rep.status_code == 200
     assert len(rep.get_json()['quiz']['questions'][0]['question_options']) == 2, "Incorrect number of questions options retrieved for question"
@@ -66,7 +66,7 @@ def test_create_single_quiz(
 ):
     """Test creating quiz for an existing class section"""
 
-    quiz_url = url_for('api.quiz', quiz_id=0)
+    quiz_url = url_for('api.quiz', quiz_id=0, course_id=0, section_id=0)
 
     request_json = {'course_id': class_section.course_id, 'trainer_id': class_section.trainer_id, 'section_id': class_section.section_id, "is_graded": False}
     rep = client.post(quiz_url, json=request_json, headers=engineer_employee_headers)
@@ -81,12 +81,12 @@ def test_delete_single_quiz(client, db, quiz, engineer_employee_headers):
     db.session.commit()
 
     # Delete quiz success
-    quiz_url = url_for('api.quiz', quiz_id=quiz.quiz_id)
+    quiz_url = url_for('api.quiz', quiz_id=quiz.quiz_id, course_id=quiz.course_id, section_id=quiz.section_id)
     rep = client.delete(quiz_url, headers=engineer_employee_headers)
     assert rep.status_code == 204, "Incorrect response code"
 
     # Delete quiz failure
-    quiz_url = url_for('api.quiz', quiz_id=9999)
+    quiz_url = url_for('api.quiz', quiz_id=9999, course_id=9999, section_id=9999)
     rep = client.delete(quiz_url, headers=engineer_employee_headers)
     assert rep.status_code == 404, "Incorrect response code"
 

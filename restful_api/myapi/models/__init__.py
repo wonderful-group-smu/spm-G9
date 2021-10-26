@@ -8,6 +8,7 @@ from myapi.models.section_completed import SectionCompleted
 from myapi.models.quiz import Quiz
 from myapi.models.question import Question
 from myapi.models.question_option import QuestionOption
+from myapi.models.quiz_attempt import QuizAttempt
 
 
 __all__ = [
@@ -20,5 +21,6 @@ __all__ = [
     "SectionCompleted",
     "Quiz",
     "Question",
-    "QuestionOption"
+    "QuestionOption",
+    "QuizAttempt"
 ]
