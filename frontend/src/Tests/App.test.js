@@ -2,14 +2,44 @@ import { render, screen } from '@testing-library/react';
 import axios from 'axios';
 import { MemoryRouter, BrowserRouter as Router } from 'react-router-dom';
 import { BASE_URL, getAuthHeaders, getCourseList } from '../Apis/Api';
-import { expectAllInDocument, storageMock } from './testMethods.js';
 
 import App from '../App';
 import Courses from '../Pages/Courses/Courses';
 import CourseClasses from '../Pages/CourseClasses/CourseClasses';
-import { element } from 'prop-types';
 
 jest.mock("axios");
+// method to verify that all HTMLElements are in document 
+const expectAllInDocument = (elementArray) => {
+  elementArray.map((target) => {
+    expect(target).toBeInTheDocument();
+  })
+}
+
+// mock local storage
+const storageMock = () => {
+let storage = {};
+return {
+  setItem: (key, value) => {
+    storage[key] = value || '';
+  },
+  getItem: (key) => {
+    return storage[key] || null;
+  },
+  removeItem: (key) => {
+    delete storage[key];
+  },
+  clear: function () {
+    storage = {};
+  },
+  getLength: () => {
+    return Object.keys(storage).length;
+  },
+  key: function (i) {
+    const keys = Object.keys(storage);
+    return keys[i] || null;
+  }
+}
+}
 
 describe('Login', () => {
   test('Login Form', () => {
