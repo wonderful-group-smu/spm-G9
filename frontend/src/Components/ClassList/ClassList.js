@@ -1,32 +1,21 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import './ClassList.css'
 import * as Md from 'react-icons/md'
 import * as Bs from 'react-icons/bs'
 import HrAssignModal from '../HrAssignModal/HrAssignModal'
+import { number } from 'prop-types'
 
-const ClassList = () => {
-//   const [modalShow, setModalShow] = useState(false)
-const [modalShow, setModalShow] = useState(false);
+const ClassList = (props) => {
+  //   const [modalShow, setModalShow] = useState(false)
+  const [modalShow, setModalShow] = useState(false)
 
   return (
     <>
       <div style={{ textAlign: 'right' }}>
-        <button className='add-engineer'  onClick={() => setModalShow(true)}>
+        <button className='add-engineer' onClick={() => setModalShow(true)}>
           <Md.MdAdd size={20} /> ADD ENGINEERS
         </button>
       </div>
-
-      {/* <button variant="primary" onClick={() => setModalShow(true)}>
-        Launch vertically centered modal
-      </button>
-
-      <HrAssignModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-      /> */}
-    
-
-
 
       <div className='white-bg'>
         <div className='row header-row-class'>
@@ -82,11 +71,16 @@ const [modalShow, setModalShow] = useState(false);
       <HrAssignModal
         show={modalShow}
         onHide={() => setModalShow(false)}
+        course_id={props.course_id}
+        trainer_id={props.trainer_id}
       />
-    
-
-     </>
+    </>
   )
+}
+
+ClassList.propTypes = {
+  course_id: number,
+  trainer_id: number,
 }
 
 export default ClassList
