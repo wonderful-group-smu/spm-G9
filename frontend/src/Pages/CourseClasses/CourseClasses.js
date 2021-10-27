@@ -25,7 +25,10 @@ const CourseClasses = () => {
           <BackArrow/>
           <h5 id="page-title">Classes for {courseName}</h5>
           <Link to='/createclass'>
-            <button type="button" className="btn-sm btn-secondary">
+            <button
+              type="button" className="btn-sm btn-secondary"
+              role="button" aria-label="createCourseClass"
+            >
               <Cg.CgMathPlus className="plus-icon" />Create a Class
             </button>
           </Link>
@@ -43,11 +46,11 @@ const CourseClasses = () => {
             </div>
             <div className='col'>
               <div className='header-row'>Start Date</div>
-              {courseClass.start_date.slice(0,10)}
+              {courseClass.start_date ? courseClass.start_date.slice(0,10): "NIL"}
             </div>
             <div className='col'>
               <div className='header-row'>End Date</div>
-              {courseClass.end_date.slice(0,10)}
+              {courseClass.end_date ? courseClass.start_date.slice(0,10): "NIL"}
             </div>
 
             <div className='col'>

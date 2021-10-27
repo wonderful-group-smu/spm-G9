@@ -129,6 +129,8 @@ const getSelfEnroll = (course_id, trainer_id) => {
 
 
 export {
+  BASE_URL,
+  getAuthHeaders,
   login,
   getCourseList,
   getCourseClasses,

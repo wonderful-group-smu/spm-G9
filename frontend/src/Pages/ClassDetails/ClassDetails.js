@@ -136,8 +136,8 @@ const ClassDetails = () => {
             </div>
 
             <div className='row'>
-              <div className='col'>{courseClass.start_date.slice(0, 10)}</div>
-              <div className='col'>{courseClass.end_date.slice(0, 10)}</div>
+              <div className='col'>{courseClass.start_date ? courseClass.start_date.slice(0,10): "NIL"}</div>
+              <div className='col'>{courseClass.end_date ? courseClass.end_date.slice(0,10): "NIL"}</div>
               <div className='col'>{courseClass.class_size}</div>
             </div>
             <br />

@@ -60,6 +60,8 @@ const Courses = () => {
               hidden={deleteMode}
               className='fitted-button-corner'
               // className='btn-sm btn-secondary'
+              role="button"
+              aria-label="createCourse"
             >
               <Cg.CgMathPlus className='plus-icon' />
               Create a Course
@@ -71,6 +73,8 @@ const Courses = () => {
             className='fitted-button-corner'
             // className='btn-sm btn-secondary'
             onClick={handleDeleteMode}
+            role="button"
+            aria-label="deleteCourses"
           >
             <Im.ImBin className='bin-icon' />
             Delete Courses
@@ -81,6 +85,8 @@ const Courses = () => {
             className='fitted-button-corner'
             // className='btn-sm btn-secondary'
             onClick={handleDelete}
+            role="button"
+            aria-label="deleteSelectedCourses"
           >
             Delete Selected Courses
           </button>
