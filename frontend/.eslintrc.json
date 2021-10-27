@@ -3,8 +3,7 @@
     "browser": true,
     "node": true, // removes 'process is not defined' error in API.js
     "commonjs": true,
-    "es6": true,
-    "jest": true
+    "es6": true
   },
   "parser": "babel-eslint",
   "extends": [
@@ -45,5 +44,16 @@
     ],
     "react/display-name": 1
     // "react/prop-types": "off"
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.test.js",
+        "test*.js" // overrides eslint for test files using jest syntax
+      ],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
 }

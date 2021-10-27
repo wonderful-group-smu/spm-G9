@@ -2,27 +2,30 @@ import { render, screen } from '@testing-library/react';
 import axios from 'axios';
 import { MemoryRouter, BrowserRouter as Router } from 'react-router-dom';
 import { BASE_URL, getAuthHeaders, getCourseList } from '../Apis/Api';
+
 import { expectAllInDocument, storageMock } from './testMethods.js';
+import { testCourse, testCourseClass } from './testProps.js';
 
 import App from '../App';
 import Courses from '../Pages/Courses/Courses';
 import CourseClasses from '../Pages/CourseClasses/CourseClasses';
+import ClassDetails from '../Pages/ClassDetails/ClassDetails';
 
 jest.mock("axios");
 
 describe('Login', () => {
   test('Login Form', () => {
     render(<App />);
-    const elementArray = screen.getAllByText(/Wonderful Group/);
-    elementArray.push(screen.getByText(/Username/));
+    const elementArray = screen.getAllByText(/Wonderful Group/i);
+    elementArray.push(screen.getByText(/Username/i));
     elementArray.push(screen.getByRole('textbox', {
       name: 'name'
     }));
-    elementArray.push(screen.getByText(/Password/));
+    elementArray.push(screen.getByText(/Password/i));
     elementArray.push(screen.getByRole('textbox', {
       name: 'password'
     }));
-    elementArray.push(screen.getByText(/Submit/));
+    elementArray.push(screen.getByText(/Submit/i));
     elementArray.push(screen.getByRole('button', {
       name: 'submit'
     }));
@@ -41,12 +44,12 @@ describe('Courses', () => {
         <Courses />
       </Router>
     );
-    const elementArray = screen.getAllByText(/Courses/)
-    elementArray.push(screen.getByText(/Create a Course/))
+    const elementArray = screen.getAllByText(/Courses/i)
+    elementArray.push(screen.getByText(/Create a Course/i))
     elementArray.push(screen.getByRole('button', {
       name: 'createCourse'
     }))
-    elementArray.push(screen.getByText(/Delete Courses/))
+    elementArray.push(screen.getByText(/Delete Courses/i))
     elementArray.push(screen.getByRole('button', {
       name: 'deleteCourses'
     }))
@@ -55,17 +58,7 @@ describe('Courses', () => {
 
   test('getCourseList', async () => {
     const testCourseList = [
-      {
-        course_id: 1,
-        description: "Course one description",
-        isActive: false,
-        isComplete: false,
-        isEligible: true,
-        name: "course one name",
-        self_enrollment_start_date: null,
-        self_enrollment_end_date: null,
-        prereqs: [],
-      }
+      testCourse,
     ]
 
     const headers = getAuthHeaders();
@@ -79,15 +72,34 @@ describe('Courses', () => {
 describe('CourseClasses', () => {
   test('CourseClasses', () => {
     render(
-      <MemoryRouter initialEntries={[{pathname: "/courseclasses", state: {course_id: 1, courseName: "test course"}}]}>
+      <MemoryRouter initialEntries={[{pathname: "/courseclasses", state: {course_id: testCourse.course_id, courseName: testCourse.name}}]}>
         <CourseClasses />
       </MemoryRouter>
     );
 
     const elementArray = [];
-    elementArray.push(screen.getByText(/Create a Class/));
+    elementArray.push(screen.getByText(testCourse.name));
+    elementArray.push(screen.getByText(/Create a Class/i));
     elementArray.push(screen.getByRole('button', {
       name: 'createCourseClass'
+    }))
+    expectAllInDocument(elementArray)
+  })
+})
+
+describe('ClassDetails', () => {
+  test('ClassDetails', () => {
+    render(
+      <MemoryRouter initialEntries={[{pathname: "/courseclasses", state:{ courseClass: testCourseClass }}]}>
+        <ClassDetails />
+      </MemoryRouter>
+    );
+
+    const elementArray = [];
+    elementArray.push(screen.getByText(testCourseClass.course.name));
+    elementArray.push(screen.getByText(/Enroll Now/i));
+    elementArray.push(screen.getByRole('button', {
+      name: 'selfEnroll'
     }))
     expectAllInDocument(elementArray)
   })

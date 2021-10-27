@@ -1,9 +1,9 @@
 // method to verify that all HTMLElements are in document 
 const expectAllInDocument = (elementArray) => {
-    elementArray.map((target) => {
-      expect(target).toBeInTheDocument();
-    })
-  }
+  elementArray.map((target) => {
+    expect(target).toBeInTheDocument();
+  })
+}
 
 // mock local storage
 const storageMock = () => {
@@ -31,7 +31,7 @@ const storageMock = () => {
   }
 }
 
-export { 
+export {
   expectAllInDocument,
   storageMock,
 }

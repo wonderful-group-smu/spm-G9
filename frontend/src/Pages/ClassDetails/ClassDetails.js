@@ -21,6 +21,7 @@ const ClassDetails = () => {
     'fitted-button button-padding',
     'ENROLL NOW',
   ])
+  console.log(courseClass)
 
   const showDetailButton = () => {
     if (DetailButton == 'top-bar') {
@@ -86,6 +87,8 @@ const ClassDetails = () => {
                     courseClass.trainer.id
                   )
                 }}
+                role="button"
+                aria-label="selfEnroll"
               >
                 {disableButton[2]}
               </button>
