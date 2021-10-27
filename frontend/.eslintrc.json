@@ -3,7 +3,8 @@
     "browser": true,
     "node": true, // removes 'process is not defined' error in API.js
     "commonjs": true,
-    "es6": true
+    "es6": true,
+    "jest": true
   },
   "parser": "babel-eslint",
   "extends": [
