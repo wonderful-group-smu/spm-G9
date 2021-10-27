@@ -170,7 +170,10 @@ const ClassDetails = () => {
             <div className='sections-title'>
               <h4> Sections </h4>
               <Link to='/createsection'>
-                <button type='button' className='btn-sm btn-secondary'>
+                <button
+                  type='button' className='btn-sm btn-secondary'
+                  role="button" aria-label="createSection"
+                >
                   <Cg.CgMathPlus className='plus-icon' />
                   Add a Section
                 </button>

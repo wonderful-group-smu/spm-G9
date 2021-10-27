@@ -29,7 +29,7 @@ describe('Login', () => {
     elementArray.push(screen.getByRole('button', {
       name: 'submit'
     }));
-    expectAllInDocument(elementArray)
+    expectAllInDocument(elementArray) // verifies that all elements are in document
 
     // after logging in, create token in mock local storage
     window.localStorage = storageMock();
@@ -78,7 +78,7 @@ describe('CourseClasses', () => {
     );
 
     const elementArray = [];
-    elementArray.push(screen.getByText(testCourse.name));
+    elementArray.push(screen.getByText(RegExp(testCourse.name)));
     elementArray.push(screen.getByText(/Create a Class/i));
     elementArray.push(screen.getByRole('button', {
       name: 'createCourseClass'
@@ -96,11 +96,26 @@ describe('ClassDetails', () => {
     );
 
     const elementArray = [];
-    elementArray.push(screen.getByText(testCourseClass.course.name));
+    elementArray.push(screen.getByText(RegExp(testCourseClass.course.name)));
     elementArray.push(screen.getByText(/Enroll Now/i));
     elementArray.push(screen.getByRole('button', {
       name: 'selfEnroll'
     }))
+
+    elementArray.push(screen.getByText(/Class Details/i));
+    elementArray.push(screen.getByText(RegExp(testCourseClass.start_date.slice(0,10))));
+    elementArray.push(screen.getByText(RegExp(testCourseClass.end_date.slice(0,10))));
+    elementArray.concat(screen.getAllByText(RegExp(testCourseClass.class_size)));
+
+    elementArray.push(screen.getByText(/Our Trainer/i));
+    elementArray.concat(screen.getAllByText(RegExp(testCourseClass.trainer.name)));
+    
+    elementArray.push(screen.getByText(/Sections/i));
+    elementArray.push(screen.getByText(/Add a Section/i));
+    elementArray.push(screen.getByRole('button', {
+      name: 'createSection'
+    }))
+
     expectAllInDocument(elementArray)
   })
 })

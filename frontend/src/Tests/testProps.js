@@ -6,8 +6,8 @@ const testCourse = {
     isComplete: false,
     isEligible: true,
     name: "course one name",
-    self_enrollment_start_date: null,
-    self_enrollment_end_date: null,
+    self_enrollment_start_date: new Date(2021, 12, 1).toISOString(),
+    self_enrollment_end_date: new Date(2021, 12, 30).toISOString(),
     prereqs: [],
 }
 const testTrainer = {
@@ -18,8 +18,8 @@ const testTrainer = {
 const testCourseClass = {
     class_size: 20,
     course: testCourse,
-    start_date: null,
-    end_date: null,
+    start_date: new Date(2021, 12, 1).toISOString(),
+    end_date: new Date(2021, 12, 30).toISOString(),
     trainer: testTrainer,
     trainer_id: testTrainer.trainer_id
 }
