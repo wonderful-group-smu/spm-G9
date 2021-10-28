@@ -42,7 +42,7 @@ const Enrolled = () => {
                   description={data.course.description}
                   link={{
                       pathname: '/coursecontent',
-                      state: { course_id: data.course.course_id },
+                      state: { course_id: data.course.course_id , trainer_id: data.trainer.id},
                      }}
                 />
 
