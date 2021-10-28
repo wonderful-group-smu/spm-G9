@@ -53,6 +53,7 @@ const CourseClasses = () => {
             <div className='col'>
               <div className='header-row action'>Action</div>
               <Link
+                id='classbutton'
                 to={{
                   pathname: '/classdetails',
                   state:{ courseClass } 
