@@ -139,10 +139,10 @@ def test_delete_single_enrollment(
 
     # Delete enrollment success
     enrollment_url = url_for('api.enrollment',
-                            eng_id=enroll.eng_id,
-                            course_id=enroll.course_id,
-                            trainer_id=enroll.trainer_id
-                            )
+                             eng_id=enroll.eng_id,
+                             course_id=enroll.course_id,
+                             trainer_id=enroll.trainer_id
+                             )
     rep = client.delete(enrollment_url, headers=engineer_employee_headers)
     assert rep.status_code == 204, "Incorrect response code"
 

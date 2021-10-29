@@ -139,7 +139,7 @@ class EnrollResource(Resource):
         db.session.commit()
 
         return {"msg": "enrollment updated", "enrollment": self.enroll_schema.dump(enrollment_record)}, 201
-    
+
     def delete(self, eng_id, course_id, trainer_id):
         try:
             query = (
@@ -219,7 +219,7 @@ class EnrollResourceList(Resource):
 
 
 class EnrollByEngineerSelfResourceList(Resource):
-    """Get all self-enrolled learners 
+    """Get all self-enrolled learners
 
     ---
     get:
