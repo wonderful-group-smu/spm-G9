@@ -4,6 +4,8 @@ import * as Bs from 'react-icons/bs'
 import axios from 'axios'
 import EnrollModal from '../../Components/EnrollModal/EnrollModal'
 import EnrollModalReject from '../../Components/EnrollModal/EnrollModalReject'
+// import { getEmployeeID } from '../../Apis/Api'
+
 
 const HrEnroll = () => {
   const [allEnrollRequest, setAllEnrollRequest] = useState([
@@ -34,6 +36,11 @@ const HrEnroll = () => {
       })
   }, [])
   console.log(allEnrollRequest)
+
+
+
+
+
 
   return (
     <div id='pagelayout'>

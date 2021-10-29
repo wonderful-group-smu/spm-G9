@@ -6,7 +6,6 @@ import time
 # pip install webdriver-manager
 # pip install selenium
 
-
 class WonderfulGroup(unittest.TestCase):
     
     def setUp(self):

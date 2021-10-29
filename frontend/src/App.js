@@ -6,7 +6,6 @@ import React, { useState, useEffect } from 'react'
 
 import Navbar from './Components/Navbars/Navbar'
 import Courses from './Pages/Courses/Courses'
-import Records from './Pages/Records/Records'
 import EnrolmentRequest from './Pages/EnrolmentRequest/EnrolmentRequest'
 import Enrolled from './Pages/Enrolled/Enrolled'
 import CreateCourse from './Pages/CreateCourse/CreateCourse'
@@ -14,15 +13,13 @@ import SelfEnrollmentForm from './Pages/SelfEnrollmentForm/SelfEnrollmentForm'
 import TopNav from './Components/Navbars/TopNav/TopNav'
 import CourseClasses from './Pages/CourseClasses/CourseClasses'
 import CreateClass from './Pages/CreateClass/CreateClass'
-import Home from './Pages/Home/Home'
+// import Home from './Pages/Home/Home'
 import ClassDetails from './Pages/ClassDetails/ClassDetails'
 import CreateSection from './Pages/CreateSection/CreateSection'
 import LoginPage from './Pages/LoginPage/LoginPage'
-
 import CourseContent from './Pages/CourseContent/CourseContent'
 import Quiz from './Pages/Quiz/Quiz'
 import TakeQuiz from './Pages/TakeQuiz/TakeQuiz'
-
 import QuizFeedback from './Pages/QuizFeedback/QuizFeedback'
 
 function App() {
@@ -75,6 +72,7 @@ function App() {
                       path='/enrolmentrequest'
                       component={EnrolmentRequest}
                     />
+                    
                     <Route
                       path='/courses/selfenrollmentform'
                       component={SelfEnrollmentForm}
@@ -83,16 +81,17 @@ function App() {
                     <Route path='/takequiz' component={TakeQuiz} />
                     <Route path='/quiz' component={Quiz} />
                     <Route path='/coursecontent' component={CourseContent} />
-                   
-                    <Route path='/courses' component={Courses} />
-                    <Route path='/records' component={Records} />
+                    {/* <Route path='/courses' component={Courses} />   */}
                     <Route path='/enrolled' component={Enrolled} />
                     <Route path='/createcourse' component={CreateCourse} />
                     <Route path='/courseclasses' component={CourseClasses} />
                     <Route path='/createclass' component={CreateClass} />
                     <Route path='/classdetails' component={ClassDetails} />
                     <Route path='/createsection' component={CreateSection} />
-                    <Route path='/' component={Home} />
+
+                    <Route path='/' component={Courses} />  
+
+                    {/* <Route path='/' component={Home} /> */}
                   </Switch>
                 </div>
               </div>
