@@ -9,39 +9,40 @@ from myapi.models import Quiz, QuizAttempt, Employee
 
 class QuizAttemptResource(Resource):
     """Get, Create one quiz attempt
+    ---
     get:
         tags:
-        - api
+            - api
         responses:
-        200:
-            content:
-            application/json:
-                schema:
-                type: object
-                properties:
-                    msg:
-                    type: string
-                    example: quiz attempt retrieved
-                    quiz: QuizAttemptSchema
+            200:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                msg:
+                                    type: string
+                                    example: quiz attempt retrieved
+                                quiz: QuizAttemptSchema
     post:
         tags:
-        - api
+            - api
         requestBody:
-        content:
-            application/json:
-            schema:
-                QuizAttemptSchema
-        responses:
-        201:
             content:
-            application/json:
-                schema:
-                type: object
-                properties:
-                    msg:
-                    type: string
-                    example: quiz attempt created
-                    quiz: QuizAttemptSchema
+                application/json:
+                    schema:
+                        QuizAttemptSchema
+        responses:
+            201:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                msg:
+                                    type: string
+                                    example: quiz attempt created
+                                quiz: QuizAttemptSchema
 
     """
     method_decorators = [jwt_required()]
