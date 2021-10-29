@@ -19,7 +19,7 @@ const EnrollModal = (props) => {
         <button
           type='submit'
           className='confirm-enroll col'
-          onClick={props.onHide}
+          onClick={props.reject_request}
         >
           Yes
         </button>
@@ -29,6 +29,7 @@ const EnrollModal = (props) => {
 }
 EnrollModal.propTypes = {
   onHide: func,
+  reject_request: func,
 }
 
 export default EnrollModal

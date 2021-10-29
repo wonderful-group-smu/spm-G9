@@ -1,6 +1,6 @@
 import React from 'react'
 import Modal from 'react-bootstrap/Modal'
-import { func, string } from 'prop-types'
+import { func, number, string } from 'prop-types'
 import * as Bs from 'react-icons/bs'
 
 
@@ -29,7 +29,7 @@ const ContentModal = (props) => {
 }
 ContentModal.propTypes = {
   onHide: func,
-  sessionNumber: string,
+  sessionNumber: number,
   sessionContent: string,
 }
 

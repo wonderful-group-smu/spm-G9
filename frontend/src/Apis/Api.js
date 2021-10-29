@@ -18,7 +18,7 @@ const getAuthHeaders = () => {
 const getEmployeeID = () => {
   let token = localStorage.getItem('token')
   const employeeID = jwt(token).sub
-  console.log(jwt(token))
+  // console.log(jwt(token))
   return employeeID
 }
 
@@ -112,6 +112,32 @@ const addSelfEnroll = (course_id, trainer_id) => {
   )
 }
 
+const acceptSelfEnroll = (course_id, trainer_id) => {
+  const employeeID = getEmployeeID()
+
+  const detail_input = {
+    eng_id: employeeID,
+    course_id: course_id,
+    trainer_id: trainer_id,
+    is_official: true,
+  }
+  const headers = getAuthHeaders()
+  return axios.post(
+    `${BASE_URL}api/v1/enroll/${employeeID}&${course_id}&${trainer_id}`,
+    detail_input,
+    { headers }
+  )
+}
+
+const deleteSelfEnroll = (course_id, trainer_id) => {
+  const employeeID = getEmployeeID()
+  const headers = getAuthHeaders()
+  return axios.delete(
+    `${BASE_URL}api/v1/enroll/${employeeID}&${course_id}&${trainer_id}`,
+    { headers }
+  )
+}
+
 
 const getSelfEnroll = (course_id, trainer_id) => {
   const employeeID = getEmployeeID()
@@ -157,6 +183,23 @@ const getCourseProgress = (course_id, trainer_id) => {
 }
 
 
+const getClassContent = (course_id, trainer_id) => {
+  const employeeID = getEmployeeID()
+  const headers = getAuthHeaders()
+  return axios.get(
+    `${BASE_URL}api/v1/class_sections/${course_id}&${trainer_id}&${employeeID}`,
+    { headers }
+  )
+}
+
+const getAllSelfEnrolled = () => {
+  const headers = getAuthHeaders()
+  return axios.get(
+    `${BASE_URL}api/v1/self_enrollments`,
+    { headers }
+  )
+}
+
 
 export {
   login,
@@ -172,6 +215,10 @@ export {
   getSelfEnroll,
   getCourseEligibleEngineers,
   addHrEnroll,
-  getCourseProgress
+  getCourseProgress,
+  getClassContent,
+  getAllSelfEnrolled,
+  acceptSelfEnroll,
+  deleteSelfEnroll
 
 }
