@@ -18,7 +18,7 @@ function Navbar(props){
           </div>
           <div className={`sidebar ${props.leftOpen}`}>
             <div className='header'>
-              <h3 className='title'>Wonderful Group</h3>
+              <h3 className='title' id='logo_name'>Wonderful Group</h3>
             </div>
             {/* <hr/> */}
             <div className='content'>
@@ -26,7 +26,7 @@ function Navbar(props){
               <ul className='nav-menu-items'>
                 {SidebarData.map((item, index) => {
                   return (
-                    <li key={index} className={item.cName}>
+                    <li key={index} className={item.cName} id={item.title}>
                       <Link to={item.path} >
                         {item.icon}
                         <span className='item-title'>{item.title}</span>

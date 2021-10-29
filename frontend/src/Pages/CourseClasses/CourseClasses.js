@@ -1,73 +1,86 @@
 import React, { useEffect, useState } from 'react'
-import "./CourseClasses.css"
+import './CourseClasses.css'
 import * as Cg from 'react-icons/cg'
 import { Link, useLocation } from 'react-router-dom'
 import { getCourseClasses } from '../../Apis/Api'
 import BackArrow from '../../Components/BackArrow/BackArrow'
+import Spinner from '../../Components/Spinner/Spinner'
 
 const CourseClasses = () => {
-  const location = useLocation();
+  const location = useLocation()
   const { courseID, courseName } = location.state
   const [courseClasses, setCourseClasses] = useState([])
+  const [isLoading, setLoading] = useState(true)
 
-  useEffect(async () => {
-    let response = await getCourseClasses({
-      "course_id": courseID
+  useEffect(() => {
+    getCourseClasses({
+      course_id: courseID,
     })
-    setCourseClasses(response.data.course_classes)
-    console.log(courseClasses)
+      .then((response) => {
+        setCourseClasses(response.data.course_classes)
+      })
+      .then(() => {
+        setLoading(false)
+      })
   }, [])
 
   return (
     <div id='pagelayout'>
-      <div className='white-bg'>
-        <div className="title">
-          <BackArrow/>
-          <h5 id="page-title">Classes for {courseName}</h5>
-          <Link to='/createclass'>
-            <button type="button" className="btn-sm btn-secondary">
-              <Cg.CgMathPlus className="plus-icon" />Create a Class
-            </button>
-          </Link>
-        </div>
-
-        {courseClasses.map((courseClass, i) => (
-          <div className='row content-row' key={i}>
-            <div className='col'>
-              <div className='header-row'>Trainer ID</div>
-              {courseClass.trainer.id}
-            </div>
-            <div className='col'>
-              <div className='header-row'>Trainer Name</div>
-              {courseClass.trainer.name}
-            </div>
-            <div className='col'>
-              <div className='header-row'>Start Date</div>
-              {courseClass.start_date.slice(0,10)}
-            </div>
-            <div className='col'>
-              <div className='header-row'>End Date</div>
-              {courseClass.end_date.slice(0,10)}
-            </div>
-
-            <div className='col'>
-              <div className='header-row action'>Action</div>
-              <Link
-                to={{
-                  pathname: '/classdetails',
-                  state:{ courseClass } 
-                }}
-                className='arrow'
-                >
-                <Cg.CgArrowLongRight size={20} />
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <>
+          <div className='white-bg'>
+            <div className='title'>
+              <BackArrow />
+              <h5 id='page-title'>Classes for {courseName}</h5>
+              <Link to='/createclass'>
+                <button type='button' className='btn-sm btn-secondary'>
+                  <Cg.CgMathPlus className='plus-icon' />
+                  Create a Class
+                </button>
               </Link>
             </div>
-          </div>
-        ))}
 
-      </div>
-    </div >
+            {courseClasses.map((courseClass, i) => (
+              <div className='row content-row' key={i}>
+                <div className='col'>
+                  <div className='header-row'>Trainer ID</div>
+                  {courseClass.trainer.id}
+                </div>
+                <div className='col'>
+                  <div className='header-row'>Trainer Name</div>
+                  {courseClass.trainer.name}
+                </div>
+                <div className='col'>
+                  <div className='header-row'>Start Date</div>
+                  {courseClass.start_date.slice(0, 10)}
+                </div>
+                <div className='col'>
+                  <div className='header-row'>End Date</div>
+                  {courseClass.end_date.slice(0, 10)}
+                </div>
+
+                <div className='col'>
+                  <div className='header-row action'>Action</div>
+                  <Link
+                    id='classbutton'
+                    to={{
+                      pathname: '/classdetails',
+                      state: { courseClass },
+                    }}
+                    className='arrow'
+                  >
+                    <Cg.CgArrowLongRight size={20} />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
   )
 }
 
-export default CourseClasses;
+export default CourseClasses

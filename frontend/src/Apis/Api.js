@@ -18,7 +18,7 @@ const getAuthHeaders = () => {
 const getEmployeeID = () => {
   let token = localStorage.getItem('token')
   const employeeID = jwt(token).sub
-  console.log(token)
+  console.log(jwt(token))
   return employeeID
 }
 
@@ -111,7 +111,6 @@ const addSelfEnroll = (course_id, trainer_id) => {
     { headers }
   )
 }
-
 
 
 const getSelfEnroll = (course_id, trainer_id) => {

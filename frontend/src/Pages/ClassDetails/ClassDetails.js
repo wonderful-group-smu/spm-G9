@@ -88,6 +88,7 @@ const ClassDetails = () => {
 
             <div className={role != 'engineer' ? 'hidebutton' : ''}>
               <button
+                id='engineer_enroll_button'
                 disabled={disableButton[0]}
                 className={disableButton[1]}
                 onClick={() => {
@@ -202,6 +203,7 @@ const ClassDetails = () => {
         modal_content='Thank you for signing up for the course. We are reviewing your request and will get back to you ASAP!'
         button_content='Ok'
         button_action={() => setConfirmSubmission(false)}
+        
       />
     </div>
   )

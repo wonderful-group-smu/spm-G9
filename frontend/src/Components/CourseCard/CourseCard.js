@@ -32,6 +32,7 @@ const CourseCard = (props) => {
     <>
       <Link
 
+      id={props.courseName}
       to={props.link}
         // to={{
         //   pathname: '/courseclasses',
