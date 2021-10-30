@@ -4,7 +4,7 @@ from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from myapi.api.schemas import QuizSchema
 from myapi.extensions import db
-from myapi.models import ClassSection, Quiz
+from myapi.models import CourseClass, Quiz
 
 
 class QuizResource(Resource):
@@ -63,14 +63,9 @@ class QuizResource(Resource):
     def __init__(self):
         self.schema = QuizSchema()
 
-    def get(self, course_id, section_id, quiz_id):
+    def get(self, course_id, section_id, trainer_id):
         try:
-            query = (
-                Quiz.query
-                .filter(Quiz.quiz_id == quiz_id)
-                .join(ClassSection, (ClassSection.course_id == course_id) & (ClassSection.section_id == section_id), isouter=True)
-                .one()
-            )
+            query = Quiz.query.filter(Quiz.course_id == course_id, Quiz.section_id == section_id, Quiz.trainer_id == trainer_id).one()
         except Exception as error:
             if "No row was found" in str(error):
                 return {"msg": "not found"}, 404
@@ -79,7 +74,7 @@ class QuizResource(Resource):
 
         return {"msg": "quiz retrieved", "quiz": self.schema.dump(query)}, 200
 
-    def post(self, course_id, section_id, quiz_id):
+    def post(self, course_id, section_id, trainer_id):
         quiz = self.schema.load(request.json)
 
         try:
@@ -90,28 +85,34 @@ class QuizResource(Resource):
 
         return {"msg": "quiz created", "quiz": self.schema.dump(quiz)}, 201
 
-    def delete(self, course_id, section_id, quiz_id):
-        quiz = Quiz.query.get_or_404(quiz_id)
-        db.session.delete(quiz)
+    def delete(self, course_id, section_id, trainer_id):
+        try:
+            query = Quiz.query.filter(Quiz.course_id == course_id, Quiz.section_id == section_id, Quiz.trainer_id == trainer_id).one()
+        except Exception as error:
+            if "No row was found" in str(error):
+                return {"msg": "not found"}, 404
+            else:
+                raise error
+        db.session.delete(query)
         db.session.commit()
 
         return {"msg": "quiz deleted"}, 204
 
 
 class QuizResourceList(Resource):
-    """Get quizzes of a section
+    """Get all quizzes of a CourseClass
     get:
         tags:
         - api
         parameters:
-        - name: section_id
+        - name: course_id, trainer_id
             in: query
             type: integer
             required: true
-            description: section id
+            description: course id, trainer id
         responses:
         400:
-            description: no section id provided
+            description: no course id or trainer id provided
         200:
             content:
             application/json:
@@ -128,11 +129,11 @@ class QuizResourceList(Resource):
     def __init__(self):
         self.schema = QuizSchema(many=True)
 
-    def get(self, section_id):
+    def get(self, course_id, trainer_id):
         query = (
             Quiz.query
-            .filter(Quiz.section_id == section_id)
-            .join(ClassSection, (ClassSection.section_id == Quiz.section_id) & (ClassSection.trainer_id == Quiz.trainer_id), isouter=True)
+            .filter(Quiz.course_id == course_id, Quiz.trainer_id == trainer_id)
+            .join(CourseClass, (CourseClass.trainer_id == Quiz.trainer_id) & (CourseClass.course_id == Quiz.course_id), isouter=True)
             .all()
         )
 

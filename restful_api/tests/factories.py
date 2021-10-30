@@ -95,7 +95,6 @@ class SectionCompletedFactory(factory.Factory):
 
 
 class QuizFactory(factory.Factory):
-    quiz_id = factory.Sequence(lambda n: n)
     course_id = factory.SelfAttribute('class_section.course_id')
     trainer_id = factory.SelfAttribute('class_section.trainer_id')
     section_id = factory.SelfAttribute('class_section.section_id')
@@ -111,7 +110,6 @@ class QuestionFactory(factory.Factory):
     course_id = factory.SelfAttribute('quiz.course_id')
     trainer_id = factory.SelfAttribute('quiz.trainer_id')
     section_id = factory.SelfAttribute('quiz.section_id')
-    quiz_id = factory.SelfAttribute('quiz.quiz_id')
     question = factory.LazyAttribute(lambda o: "question %d" % o.question_id)
     question_type = factory.LazyAttribute(lambda n: True)
     quiz = factory.SubFactory(QuizFactory)
@@ -124,7 +122,6 @@ class QuestionOptionFactory(factory.Factory):
     course_id = factory.SelfAttribute('question.course_id')
     trainer_id = factory.SelfAttribute('question.trainer_id')
     section_id = factory.SelfAttribute('question.section_id')
-    quiz_id = factory.SelfAttribute('question.quiz_id')
     question_id = factory.SelfAttribute('question.question_id')
     option_id = factory.Sequence(lambda n: n)
     option_label = factory.LazyAttribute(lambda o: "option label %d" % o.question_id)
@@ -137,7 +134,6 @@ class QuestionOptionFactory(factory.Factory):
 
 
 class QuizAttemptFactory(factory.Factory):
-    quiz_id = factory.SelfAttribute('quiz.quiz_id')
     course_id = factory.SelfAttribute('quiz.course_id')
     section_id = factory.SelfAttribute('quiz.section_id')
     trainer_id = factory.SelfAttribute('quiz.trainer_id')

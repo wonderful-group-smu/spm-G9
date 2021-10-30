@@ -9,8 +9,7 @@ class QuizSchema(ma.SQLAlchemyAutoSchema):
     course_id = ma.Int()
     trainer_id = ma.Int()
     section_id = ma.Int()
-    quiz_id = ma.Int(required=False)
-    class_section = ma.Nested(ClassSectionSchema, required=False)
+    is_graded = ma.Boolean()
     questions = ma.List(ma.Nested(QuestionSchema), required=False)
 
     class Meta:
