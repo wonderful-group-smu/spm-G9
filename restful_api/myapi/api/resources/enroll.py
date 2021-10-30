@@ -15,6 +15,19 @@ class EnrollResource(Resource):
       get:
         tags:
           - api
+        parameters:
+        - name: eng_id
+          in: query
+          type: integer
+          required: true
+        - name: course_id
+          in: query
+          type: integer
+          required: true
+        - name: trainer_id
+          in: query
+          type: integer
+          required: true
         responses:
           200:
             content:

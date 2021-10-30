@@ -32,7 +32,7 @@ def test_get_single_enrollment(
     assert rep.get_json()["enrollment"]["eng_id"] == enrollments[0].eng_id, "Incorrect engineer id retrieved by Enroll"
     assert rep.get_json()["enrollment"]["course_id"] == enrollments[0].course_id, "Incorrect course id retrieved by Enroll"
     assert rep.get_json()["enrollment"]["trainer_id"] == enrollments[0].trainer_id, "Incorrect trainer id retrieved by Enroll"
-    assert rep.get_json()["enrollment"]["is_approved"] == None, "Incorrect approval status retrieved by Enroll"
+    assert rep.get_json()["enrollment"]["is_approved"] is None, "Incorrect approval status retrieved by Enroll"
 
 
 def test_post_single_enrollment_official(
@@ -58,7 +58,7 @@ def test_post_single_enrollment_official(
     assert rep_json['enrollment']['trainer_id'] == enroll.trainer_id, "Incorrect trainer id retrieved"
     assert rep_json['enrollment']['has_passed'] == False, "Incorrect has passed retrieved"
     assert rep_json['enrollment']['is_official'] == True, "Incorrect official status retrieved"
-    assert rep_json['enrollment']['is_approved'] == None, "Incorrect approval status retrieved"
+    assert rep_json['enrollment']['is_approved'] is None, "Incorrect approval status retrieved"
 
     # Create enrollment failure due to missing attributes
     request_json = {
