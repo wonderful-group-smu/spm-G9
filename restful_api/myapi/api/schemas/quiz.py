@@ -1,6 +1,5 @@
 from myapi.models import Quiz
 from myapi.extensions import ma, db
-from .class_section import ClassSectionSchema
 from .question import QuestionSchema
 
 
