@@ -64,6 +64,19 @@ class EnrollResource(Resource):
                       type: string
                       example: Enrollment passed record updated
                     enrollment: EnrollSchema
+      delete:
+        tags:
+          - api
+        responses:
+          204:
+            description: The resource was deleted successfully.
+          404:
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
       """
 
     method_decorators = [jwt_required()]
@@ -127,6 +140,24 @@ class EnrollResource(Resource):
 
         return {"msg": "enrollment updated", "enrollment": self.enroll_schema.dump(enrollment_record)}, 201
 
+    def delete(self, eng_id, course_id, trainer_id):
+        try:
+            query = (
+                Enroll.query
+                .filter(Enroll.eng_id == eng_id)
+                .filter(Enroll.course_id == course_id)
+                .filter(Enroll.trainer_id == trainer_id)
+                .one()
+            )
+        except Exception as error:
+            if "No row was found" in str(error):
+                return {"msg": "not found"}, 404
+            else:
+                raise error
+        db.session.delete(query)
+        db.session.commit()
+        return {"msg": "enrollment record deleted"}, 204
+
     @staticmethod
     def check_eligibility(course_id, eng_id):
         query = (
@@ -188,7 +219,7 @@ class EnrollResourceList(Resource):
 
 
 class EnrollByEngineerSelfResourceList(Resource):
-    """Get all self-enrolled learners based on engineer id
+    """Get all self-enrolled learners
 
     ---
     get:
@@ -213,8 +244,8 @@ class EnrollByEngineerSelfResourceList(Resource):
     def __init__(self):
         self.schema = EnrollSchema(many=True)
 
-    def get(self, eng_id):
-        query = Enroll.query.filter_by(eng_id=eng_id).filter_by(is_official=False)
+    def get(self):
+        query = Enroll.query.filter_by(is_official=False)
         return paginate(query, self.schema)
 
 

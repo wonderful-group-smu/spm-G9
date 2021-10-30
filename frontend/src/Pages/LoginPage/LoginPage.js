@@ -71,6 +71,7 @@ const LoginPage = () => {
                 className='form-control'
                 name='name'
                 onChange={handleChange}
+                id='loginUsername'
               />
 
               <label className='form-label'>Password</label>
@@ -79,9 +80,10 @@ const LoginPage = () => {
                 className='form-control'
                 name='password'
                 onChange={handleChange}
+                id='loginPassword'
               />
 
-              <button className='confirm-enroll' onClick={handleSubmit}>
+              <button className='confirm-enroll' onClick={handleSubmit} id='loginButton'>
                 Submit
               </button>
             </div>

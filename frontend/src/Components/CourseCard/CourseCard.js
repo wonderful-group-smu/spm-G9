@@ -31,10 +31,14 @@ const CourseCard = (props) => {
   return (
     <>
       <Link
-        to={{
-          pathname: '/courseclasses',
-          state:{ courseID: props.courseID, courseName: props.courseName } 
-        }}
+
+      id={props.courseName}
+      to={props.link}
+        // to={{
+        //   pathname: '/courseclasses',
+        //   state:{ courseID: props.courseID, courseName: props.courseName } 
+        // }}
+
         className='try' style={{ textDecoration: 'none' }}
       >
         <div className='col-sm shadow-box' onClick={props.deleteMode ? handleClickSelect : null}>
