@@ -136,6 +136,7 @@ class EnrollResource(Resource):
 
         enrollment_record.has_passed = updated_record.has_passed
         enrollment_record.is_official = updated_record.is_official
+        enrollment_record.is_approved = updated_record.is_approved
         db.session.commit()
 
         return {"msg": "enrollment updated", "enrollment": self.enroll_schema.dump(enrollment_record)}, 201
@@ -188,7 +189,7 @@ class EnrollResource(Resource):
 
 
 class EnrollResourceList(Resource):
-    """Get all enrolled learners based on engineer id
+    """Get all enrollement records based on engineer id
 
     ---
     get:
