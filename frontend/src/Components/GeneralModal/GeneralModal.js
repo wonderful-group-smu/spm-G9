@@ -4,13 +4,13 @@ import { func, string } from 'prop-types'
 import '../EnrollModal/EnrollModal.css'
 import * as Bs from 'react-icons/bs'
 
-const QuizSubmitModal = (props) => {
+const GeneralModal = (props) => {
 
 
   return (
     <Modal {...props} centered>
       <div className='modal-box'>
-        <h5>
+        <h5 id={props.modal_title}>
           {props.modal_title}
           <button className='closing-icon' onClick={props.onHide}>
             <Bs.BsX size={30} />
@@ -29,12 +29,13 @@ const QuizSubmitModal = (props) => {
     </Modal>
   )
 }
-QuizSubmitModal.propTypes = {
+GeneralModal.propTypes = {
   onHide: func,
   modal_content: string,
   modal_title: string,
   button_content: string,
   button_action: func,
+ 
 }
 
-export default QuizSubmitModal
+export default GeneralModal

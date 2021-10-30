@@ -12,12 +12,15 @@ const Enrolled = () => {
   useEffect(() => {
     getEnrolledList()
       .then((response) => {
+        console.log(response.data.results[0].course.name)
         setEnrolledCourses(response.data.results)
       })
       .then(() => {
         setLoading(false)
       })
   }, [])
+
+  // console.log(enrolledCourses)
 
   return (
     <div id='pagelayout'>
@@ -31,17 +34,18 @@ const Enrolled = () => {
 
           <div className='row'>
             <div className='center-content-flexbox'>
-              {enrolledCourses.map((data, i) => (
+              {enrolledCourses.map((data) => (
                 <CourseCard
-                  key={{ i }}
+                  key={data.course.course_id}
                   courseID={data.course.course_id}
-                  cardTitle={data.course.name}
-                  cardText={data.course.description}
+                  courseName={data.course.name}
+                  description={data.course.description}
                   link={{
-                    pathname: '/optionselection',
-                    state: { course_id: data.course.course_id },
-                  }}
+                      pathname: '/coursecontent',
+                      state: { course_id: data.course.course_id , trainer_id: data.trainer.id},
+                     }}
                 />
+
               ))}
             </div>
           </div>

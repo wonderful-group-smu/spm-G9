@@ -9,54 +9,55 @@ from myapi.models import CourseClass, Quiz
 
 class QuizResource(Resource):
     """Get, Create one quiz
+    ---
     get:
         tags:
-        - api
+            - api
         responses:
-        200:
-            content:
-            application/json:
-                schema:
-                type: object
-                properties:
-                    msg:
-                    type: string
-                    example: quiz retrieved
-                    quiz: QuizSchema
+            200:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                msg:
+                                    type: string
+                                    example: quiz retrieved
+                                quiz: QuizSchema
 
     post:
         tags:
-        - api
+            - api
         requestBody:
-        content:
-            application/json:
-            schema:
-                QuizSchema
-        responses:
-        201:
             content:
-            application/json:
-                schema:
-                type: object
-                properties:
-                    msg:
-                    type: string
-                    example: quiz created
-                    quiz: QuizSchema
+                application/json:
+                    schema:
+                        QuizSchema
+        responses:
+            201:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                msg:
+                                    type: string
+                                    example: quiz created
+                                quiz: QuizSchema
 
     delete:
         tags:
-        - api
+            - api
         responses:
-        204:
-            description: The resource was deleted successfully.
-        404:
-            content:
-            application/json:
-                schema:
-                type: object
-                properties:
-                    message: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+            204:
+                description: The resource was deleted successfully.
+            404:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                message: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
     """
     method_decorators = [jwt_required()]
 

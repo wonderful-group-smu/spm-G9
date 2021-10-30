@@ -9,6 +9,7 @@ from myapi.api.resources import (
     CourseResourceList,
     CourseClassResource,
     CourseClassResourceList,
+    CourseEligibleEngineerList,
     ClassSectionResource,
     ClassSectionResourceList,
     EnrollResource,
@@ -44,13 +45,14 @@ api.add_resource(EmployeeList, "/employees", endpoint="employees")
 api.add_resource(EmployeeResource, "/employees/<int:employee_id>", endpoint="employee_by_id")
 api.add_resource(EnrollResource, "/enroll/<int:eng_id>&<int:course_id>&<int:trainer_id>", endpoint="enrollment")
 api.add_resource(EnrollResourceList, "/enrollments/<int:eng_id>", endpoint="enrollments")
-api.add_resource(EnrollByEngineerSelfResourceList, "/self_enrollments_by_eng/<int:eng_id>", endpoint="self_enrollments_by_eng")
+api.add_resource(EnrollByEngineerSelfResourceList, "/self_enrollments", endpoint="self_enrollments")
 api.add_resource(EnrollByCourseResourceList, "/enrollments_by_course/<int:course_id>", endpoint="enrollments_by_course")
 api.add_resource(CourseStatusList, "/courses/<int:eng_id>", endpoint="courses_status")
 api.add_resource(CourseResourceList, "/courses/all", endpoint="courses")
 api.add_resource(CourseResource, "/course/<int:course_id>", endpoint="course")
 api.add_resource(CourseClassResource, "/course_class/<int:course_id>&<int:trainer_id>", endpoint="course_class")
 api.add_resource(CourseClassResourceList, "/course_classes/<int:course_id>", endpoint="course_classes_by_course")
+api.add_resource(CourseEligibleEngineerList, "/course_eligible_engineers/<int:course_id>", endpoint="course_eligible_engineers")
 api.add_resource(ClassSectionResource, "/class_section/<int:section_id>", endpoint="class_section")
 api.add_resource(ClassSectionResourceList, "/class_sections/<int:course_id>&<int:trainer_id>&<int:eng_id>", endpoint="class_sections_by_course")
 api.add_resource(ProgressResource, "/course_progress/<int:course_id>&<int:trainer_id>&<int:eng_id>", endpoint="course_progress")
@@ -58,7 +60,6 @@ api.add_resource(ProgressListResource, "/overall_progress/<int:eng_id>", endpoin
 api.add_resource(QuizResource, "/quiz/<int:course_id>&<int:section_id>&<int:trainer_id>", endpoint="quiz")
 api.add_resource(QuizResourceList, "/quizzes/<int:course_id>&<int:trainer_id>", endpoint="quizzes")
 api.add_resource(QuizAttemptResource, "/quiz_attempt/<int:course_id>&<int:section_id>&<int:trainer_id>&<int:eng_id>", endpoint="quiz_attempt")
-
 
 @blueprint.before_app_first_request
 def register_views():
@@ -85,7 +86,9 @@ def register_views():
     apispec.spec.path(view=CourseResource, app=current_app)
     apispec.spec.path(view=CourseClassResource, app=current_app)
     apispec.spec.path(view=CourseClassResourceList, app=current_app)
+    apispec.spec.path(view=CourseEligibleEngineerList, app=current_app)
     apispec.spec.path(view=ClassSectionResource, app=current_app)
+    apispec.spec.path(view=ClassSectionResourceList, app=current_app)
     apispec.spec.path(view=ProgressResource, app=current_app)
     apispec.spec.path(view=ProgressListResource, app=current_app)
     apispec.spec.path(view=QuizResource, app=current_app)
