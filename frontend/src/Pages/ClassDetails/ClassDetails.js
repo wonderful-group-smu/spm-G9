@@ -21,6 +21,7 @@ const ClassDetails = () => {
     'fitted-button button-padding',
     'ENROLL NOW',
   ])
+  console.log(courseClass)
 
   const showDetailButton = () => {
     if (DetailButton == 'top-bar') {
@@ -98,6 +99,8 @@ const ClassDetails = () => {
                     courseClass.trainer.id
                   )
                 }}
+                role="button"
+                aria-label="selfEnroll"
               >
                 {disableButton[2]}
               </button>
@@ -148,8 +151,8 @@ const ClassDetails = () => {
             </div>
 
             <div className='row'>
-              <div className='col'>{courseClass.start_date.slice(0, 10)}</div>
-              <div className='col'>{courseClass.end_date.slice(0, 10)}</div>
+              <div className='col'>{courseClass.start_date ? courseClass.start_date.slice(0,10): "NIL"}</div>
+              <div className='col'>{courseClass.end_date ? courseClass.end_date.slice(0,10): "NIL"}</div>
               <div className='col'>{courseClass.class_size}</div>
             </div>
             <br />
@@ -179,7 +182,10 @@ const ClassDetails = () => {
             <div className='sections-title'>
               <h4> Sections </h4>
               <Link to='/createsection'>
-                <button type='button' className='btn-sm btn-secondary'>
+                <button
+                  type='button' className='btn-sm btn-secondary'
+                  role="button" aria-label="createSection"
+                >
                   <Cg.CgMathPlus className='plus-icon' />
                   Add a Section
                 </button>

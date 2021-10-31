@@ -1,3 +1,7 @@
+.column{
+    display: flex;
+}
+
 .section-link{
     transform: scale(1.25);
     margin: 0 1rem;

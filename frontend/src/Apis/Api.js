@@ -201,6 +201,8 @@ const getAllSelfEnrolled = () => {
 
 
 export {
+  BASE_URL,
+  getAuthHeaders,
   login,
   getCourseList,
   getCourseClasses,
