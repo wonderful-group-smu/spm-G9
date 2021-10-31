@@ -35,6 +35,7 @@ const ClassDetails = () => {
     }
   }
 
+  
   // useEffect(async () => {
   //   let response = await getSelfEnroll(
   //     courseClass.course.course_id,
