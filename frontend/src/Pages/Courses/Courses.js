@@ -7,6 +7,7 @@ import * as Bi from 'react-icons/bi'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getCourseList } from '../../Apis/Api'
+import Spinner from '../../Components/Spinner/Spinner'
 
 // const CourseData = () => {
 //   let temp = [];
@@ -27,6 +28,7 @@ const Courses = () => {
   const [deleteMode, setDeleteMode] = useState(false)
   const [courseDataArr, setCourseDataArr] = useState([])
   const [selectedArr, setSelectedArr] = useState([])
+  const [isLoading, setLoading] = useState(true)
 
   const handleDeleteMode = () => {
     setPageTitle(deleteMode ? 'Courses' : 'Delete Course')
@@ -40,78 +42,94 @@ const Courses = () => {
     setSelectedArr([])
   }
 
-  useEffect(async () => {
-    let response = await getCourseList()
-    console.log(response)
-    setCourseDataArr(response.data.results)
+  // useEffect(async () => {
+  //   let response = await getCourseList()
+  //   console.log(response)
+  //   setCourseDataArr(response.data.results)
+  // }, [])
+
+  useEffect(() => {
+    getCourseList()
+      .then((response) => {
+        setCourseDataArr(response.data.results)
+      })
+      .then(() => {
+        setLoading(false)
+      })
   }, [])
 
   return (
     <div id='pagelayout'>
-      <div id='section-header'>
-        <button hidden={!deleteMode} onClick={handleDeleteMode}>
-          <Bi.BiArrowBack className='back-arrow' />
-        </button>
-        <h5 id='page-title'>{pageTitle}</h5>
-
-        <div className='button-alignment'>
-          <Link to='/createcourse'>
-            <button
-              hidden={deleteMode}
-              className='fitted-button-corner'
-              // className='btn-sm btn-secondary'
-              role="button"
-              aria-label="createCourse"
-            >
-              <Cg.CgMathPlus className='plus-icon' />
-              Create a Course
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <>
+          <div id='section-header'>
+            <button hidden={!deleteMode} onClick={handleDeleteMode}>
+              <Bi.BiArrowBack className='back-arrow' />
             </button>
-          </Link>
+            <h5 id='page-title'>{pageTitle}</h5>
 
-          <button
-            hidden={deleteMode}
-            className='fitted-button-corner'
-            // className='btn-sm btn-secondary'
-            onClick={handleDeleteMode}
-            role="button"
-            aria-label="deleteCourses"
-          >
-            <Im.ImBin className='bin-icon' />
-            Delete Courses
-          </button>
+            <div className='button-alignment'>
+              <Link to='/createcourse'>
+                <button
+                  hidden={deleteMode}
+                  className='fitted-button-corner'
+                  // className='btn-sm btn-secondary'
+                  role="button"
+                  aria-label="createCourse"
+                >
+                  <Cg.CgMathPlus className='plus-icon' />
+                  Create a Course
+                </button>
+              </Link>
 
-          <button
-            hidden={!deleteMode}
-            className='fitted-button-corner'
-            // className='btn-sm btn-secondary'
-            onClick={handleDelete}
-            role="button"
-            aria-label="deleteSelectedCourses"
-          >
-            Delete Selected Courses
-          </button>
-        </div>
-      </div>
+              <button
+                hidden={deleteMode}
+                className='fitted-button-corner'
+                // className='btn-sm btn-secondary'
+                onClick={handleDeleteMode}
+                role="button"
+                aria-label="deleteCourses"
+              >
+                <Im.ImBin className='bin-icon' />
+                Delete Courses
+              </button>
 
-      <div className='center-content-flexbox'>
-        <div>
-          {courseDataArr.map((data) => (
-            <CourseCard
-              key={data.course_id}
-              courseID={data.course_id}
-              courseName={data.name}
-              description={data.description}
-              deleteMode={deleteMode}
-              selectedArr={selectedArr}
-              setSelectedArr={setSelectedArr}
-              link={{
-                   pathname: '/courseclasses',
-                  state:{ courseID: data.course_id, courseName: data.name } 
-                }}
-            />
-          ))}
-        </div>
-      </div>
+              <button
+                hidden={!deleteMode}
+                className='fitted-button-corner'
+                // className='btn-sm btn-secondary'
+                onClick={handleDelete}
+                role="button"
+                aria-label="deleteSelectedCourses"
+              >
+                Delete Selected Courses
+              </button>
+            </div>
+          </div>
+
+          <div className='center-content-flexbox'>
+            <div>
+              {courseDataArr.map((data) => (
+                <CourseCard
+                  key={data.course_id}
+                  courseID={data.course_id}
+                  courseName={data.name}
+                  description={data.description}
+                  deleteMode={deleteMode}
+                  selectedArr={selectedArr}
+                  setSelectedArr={setSelectedArr}
+                  link={{
+                    pathname: '/courseclasses',
+                    state: { courseID: data.course_id, courseName: data.name },
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }

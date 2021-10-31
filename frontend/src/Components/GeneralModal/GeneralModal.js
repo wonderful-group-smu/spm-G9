@@ -10,7 +10,7 @@ const GeneralModal = (props) => {
   return (
     <Modal {...props} centered>
       <div className='modal-box'>
-        <h5>
+        <h5 id={props.modal_title}>
           {props.modal_title}
           <button className='closing-icon' onClick={props.onHide}>
             <Bs.BsX size={30} />
@@ -35,6 +35,7 @@ GeneralModal.propTypes = {
   modal_title: string,
   button_content: string,
   button_action: func,
+ 
 }
 
 export default GeneralModal

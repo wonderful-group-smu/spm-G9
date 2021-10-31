@@ -1,16 +1,16 @@
 import React from 'react'
 import * as FaIcons from 'react-icons/fa'
-import * as AiIcons from 'react-icons/ai'
+// import * as AiIcons from 'react-icons/ai'
 import {RiArtboardFill} from "react-icons/ri"
 
 
 export const SidebarData=[
-    {
-        title:'Home',
-        path:'/',
-        icon: <AiIcons.AiFillHome />,
-        cName:'nav-text'
-    },
+    // {
+    //     title:'Home',
+    //     path:'/',
+    //     icon: <AiIcons.AiFillHome />,
+    //     cName:'nav-text'
+    // },
     {
         title:'Courses',
         path:'/courses',
@@ -23,12 +23,19 @@ export const SidebarData=[
         icon: <FaIcons.FaTasks />,
         cName:'nav-text'
     },
+    // {
+    //     title:'Records',
+    //     path:'/records',
+    //     icon: <FaIcons.FaListAlt />,
+    //     cName:'nav-text'
+    // },
     {
-        title:'Records',
-        path:'/records',
+        title:'Enrolment Request',
+        path:'/enrolmentrequest',
         icon: <FaIcons.FaListAlt />,
         cName:'nav-text'
     },
+
     // {
     //     title:'HR Classes',
     //     path:'/hrclasses',

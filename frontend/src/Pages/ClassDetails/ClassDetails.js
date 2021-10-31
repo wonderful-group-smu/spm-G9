@@ -36,26 +36,37 @@ const ClassDetails = () => {
     }
   }
 
-  useEffect(async () => {
-    let response = await getSelfEnroll(
-      courseClass.course.course_id,
-      courseClass.trainer.id
+  
+  // useEffect(async () => {
+  //   let response = await getSelfEnroll(
+  //     courseClass.course.course_id,
+  //     courseClass.trainer.id
+  //   )
+  //   if (response.data.msg == 'enrollment record retrieved') {
+  //     setDisableButton([
+  //       true,
+  //       'fitted-button button-padding button_masked',
+  //       'APPLIED/ENROLLED',
+  //     ])
+  //   }
+  // }, [])
+
+  
+  useEffect(() => {
+    getSelfEnroll(courseClass.course.course_id, courseClass.trainer.id).then(
+      (response) => {
+        if (response.data.msg == 'enrollment record retrieved') {
+          setDisableButton([
+            true,
+            'fitted-button button-padding button_masked',
+            'APPLIED/ENROLLED',
+          ])
+        }
+      }
     )
-    if (response.data.msg == 'enrollment record retrieved') {
-      setDisableButton([
-        true,
-        'fitted-button button-padding button_masked',
-        'APPLIED/ENROLLED',
-      ])
-    }
   }, [])
 
-  console.log(disableButton)
-
   const role = 'engineer'
-  console.log(courseClass.course.course_id)
-  console.log(courseClass.trainer.id)
-
   const [confirmSubmission, setConfirmSubmission] = React.useState(false)
   function submitSelfEnroll(course_id, trainer_id) {
     console.log('hi')
@@ -79,6 +90,7 @@ const ClassDetails = () => {
 
             <div className={role != 'engineer' ? 'hidebutton' : ''}>
               <button
+                id='engineer_enroll_button'
                 disabled={disableButton[0]}
                 className={disableButton[1]}
                 onClick={() => {
@@ -184,7 +196,10 @@ const ClassDetails = () => {
           </div>
         </div>
       ) : (
-        <ClassList />
+        <ClassList
+          course_id={courseClass.course.course_id}
+          trainer_id={courseClass.trainer.id}
+        />
       )}
 
       <br />
@@ -195,6 +210,7 @@ const ClassDetails = () => {
         modal_content='Thank you for signing up for the course. We are reviewing your request and will get back to you ASAP!'
         button_content='Ok'
         button_action={() => setConfirmSubmission(false)}
+        
       />
     </div>
   )
