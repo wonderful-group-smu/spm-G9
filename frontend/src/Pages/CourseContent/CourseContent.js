@@ -36,7 +36,6 @@ const CourseContent = () => {
         console.log(response.data.class_sections)
         setCourseSections(response.data.class_sections)
       })
-
       .then(() => {
         setLoading(false)
       })
@@ -91,6 +90,7 @@ const CourseContent = () => {
                   trainerId={trainer_id}
                 />
               ))}
+
             </div>
           </div>
         </>

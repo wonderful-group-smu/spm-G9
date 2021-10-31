@@ -138,7 +138,6 @@ const deleteSelfEnroll = (course_id, trainer_id) => {
   )
 }
 
-
 const getSelfEnroll = (course_id, trainer_id) => {
   const employeeID = getEmployeeID()
   const headers = getAuthHeaders()
