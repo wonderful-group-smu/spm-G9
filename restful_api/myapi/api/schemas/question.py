@@ -8,8 +8,7 @@ class QuestionSchema(ma.SQLAlchemyAutoSchema):
     course_id = ma.Int(required=False)
     trainer_id = ma.Int(required=False)
     section_id = ma.Int(required=False)
-    quiz_id = ma.Int()
-    question_id = ma.Int(required=False)
+    question_id = ma.Int()
     question_options = ma.List(ma.Nested(QuestionOptionSchema), required=False)
 
     class Meta:
