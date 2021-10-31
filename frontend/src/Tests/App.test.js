@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import axios from 'axios';
 import { MemoryRouter, BrowserRouter as Router } from 'react-router-dom';
-import { BASE_URL, getAuthHeaders, getCourseList } from '../Apis/Api';
+import { BASE_URL, getAuthHeaders, getCourseList, getCourseClasses } from '../Apis/Api';
 
 import { expectAllInDocument, storageMock } from './testMethods.js';
 import { testCourse, testCourseClass } from './testProps.js';
@@ -84,6 +84,18 @@ describe('CourseClasses', () => {
       name: 'createCourseClass'
     }))
     expectAllInDocument(elementArray)
+  })
+
+  test('getCourseClasses', async () => {
+    const testCourseClasses = [
+      testCourseClass,
+    ]
+
+    const headers = getAuthHeaders();
+    axios.get.mockResolvedValueOnce(testCourseClasses);
+    const result = await getCourseClasses({ "course_id": testCourse.course_id });
+    expect(axios.get).toHaveBeenCalledWith(`${BASE_URL}api/v1/course_classes/` + testCourse.course_id, { headers });
+    expect(result).toEqual(testCourseClasses);
   })
 })
 
