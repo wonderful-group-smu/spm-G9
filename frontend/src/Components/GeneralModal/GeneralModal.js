@@ -5,8 +5,6 @@ import '../EnrollModal/EnrollModal.css'
 import * as Bs from 'react-icons/bs'
 
 const GeneralModal = (props) => {
-
-
   return (
     <Modal {...props} centered>
       <div className='modal-box'>
@@ -35,7 +33,6 @@ GeneralModal.propTypes = {
   modal_title: string,
   button_content: string,
   button_action: func,
- 
 }
 
 export default GeneralModal
