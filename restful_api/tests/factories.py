@@ -12,7 +12,8 @@ from myapi.models import (
     Quiz,
     Question,
     QuestionOption,
-    QuizAttempt
+    QuizAttempt,
+    Answer
 )
 
 
@@ -143,3 +144,15 @@ class QuizAttemptFactory(factory.Factory):
 
     class Meta:
         model = QuizAttempt
+
+class AnswerFactory(factory.Factory):
+    question_id = factory.Sequence(lambda n: n)
+    course_id = factory.SelfAttribute('quiz_attempt.course_id')
+    trainer_id = factory.SelfAttribute('quiz_attempt.trainer_id')
+    section_id = factory.SelfAttribute('quiz_attempt.section_id')
+    eng_id = factory.SelfAttribute('quiz_attempt.eng_id')
+    answer_label = factory.LazyAttribute(lambda o: "answer label %d" % o.question_id)
+    quiz_attempt = factory.SubFactory(QuizAttemptFactory)
+
+    class Meta:
+        model = Answer
