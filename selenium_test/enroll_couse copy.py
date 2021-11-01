@@ -19,23 +19,41 @@ loginPassword.send_keys("testpassword")
 loginButton= driver.find_element_by_id('loginButton')
 loginButton.click()
 
-# Navigate to Course Page
-courses_nav=driver.find_element_by_id('Courses')
-courses_nav.click()
 
+enrolled_nav=driver.find_element_by_id('Enrolled')
+enrolled_nav.click()
 select_course= driver.find_element_by_id('course two name')
 select_course.click()
 
-select_class= driver.find_element_by_id('classbutton')
-select_class.click()
+select_quiz= driver.find_elements_by_class_name('quiz-link')[0]
+select_quiz.click()
 
-self_enroll= driver.find_element_by_id('engineer_enroll_button')
-time.sleep(1)
-if self_enroll.is_enabled():
-    print('enabled')
-    self_enroll.click()
-else:
-    print('button not clickable')
+all_quiz_question= driver.find_elements_by_id('quiz_question')
+
+# all_quiz_question.find_elements_by_class_name('form-check-label')[0].click()
+
+
+for i in range(len(all_quiz_question)):
+    question_options=all_quiz_question[i].find_elements_by_id('quiz_option')
+    question_options[0].click()
+
+submit_button= driver.find_element_by_id('submit_quiz')
+submit_button.click()
+
+submit_modal= driver.find_element_by_id('Submit Quiz')
+
+
+
+# select_class= driver.find_element_by_id('classbutton')
+# select_class.click()
+
+# self_enroll= driver.find_element_by_id('engineer_enroll_button')
+# time.sleep(1)
+# if self_enroll.is_enabled():
+#     print('enabled')
+#     self_enroll.click()
+# else:
+#     print('button not clickable')
 
 # modal_title= driver.find_element_by_id('Self-Enrollment Request Received')
 # print(modal_title)

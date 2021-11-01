@@ -7,58 +7,75 @@ import time
 # pip install selenium
 
 class WonderfulGroup(unittest.TestCase):
-    
+
     def setUp(self):
         self.driver = webdriver.Chrome(ChromeDriverManager().install())
         self.driver.get("http://localhost:3000/")
         self.driver.implicitly_wait(20)
-        self.driver.find_element_by_id("loginUsername").send_keys("testengineer")
-        self.driver.find_element_by_id('loginPassword').send_keys("testpassword")
+        self.driver.find_element_by_id(
+            "loginUsername").send_keys("testengineer")
+        self.driver.find_element_by_id(
+            'loginPassword').send_keys("testpassword")
         self.driver.find_element_by_id('loginButton').click()
 
     # test function to test equality of two value
     def test_engineer_self_enroll(self):
         driver = self.driver
-        courses_nav=driver.find_element_by_id('Courses')
+        courses_nav = driver.find_element_by_id('Courses')
         courses_nav.click()
-        select_course= driver.find_element_by_id('course two name')
+        select_course = driver.find_element_by_id('course two name')
         select_course.click()
-        select_class= driver.find_element_by_id('classbutton')
+        select_class = driver.find_element_by_id('classbutton')
         select_class.click()
-        self_enroll= driver.find_element_by_id('engineer_enroll_button')
+        self_enroll = driver.find_element_by_id('engineer_enroll_button')
         time.sleep(1)
         if self_enroll.is_enabled():
             print('enabled')
             self_enroll.click()
-            modal_title= driver.find_element_by_id('Self-Enrollment Request Received').text
+            modal_title = driver.find_element_by_id(
+                'Self-Enrollment Request Received').text
             print(modal_title)
-            self.assertEqual("Self-Enrollment Request Received",modal_title, 'Does not match' )
+            self.assertEqual("Self-Enrollment Request Received",
+                             modal_title, 'Does not match')
         else:
-            self.assertEqual("APPLIED/ENROLLED", self_enroll.text, 'Does not match' )
+            self.assertEqual("APPLIED/ENROLLED",
+                             self_enroll.text, 'Does not match')
 
     def test_testing(self):
         driver = self.driver
-        courses_nav=driver.find_element_by_id('Courses')
-        courses_nav.click()
-        select_course= driver.find_element_by_id('course two name')
+        enrolled_nav = driver.find_element_by_id('Enrolled')
+        enrolled_nav.click()
+        select_course = driver.find_element_by_id('course two name')
         select_course.click()
-        select_class= driver.find_element_by_id('classbutton')
-        select_class.click()
-        self_enroll= driver.find_element_by_id('engineer_enroll_button')
-        time.sleep(1)
-        if self_enroll.is_enabled():
-            print('enabled')
-            self_enroll.click()
-            modal_title= driver.find_element_by_id('Self-Enrollment Request Received').text
-            print(modal_title)
-            self.assertEqual("Self-Enrollment Request Received",modal_title, 'Does not match' )
-        else:
-            self.assertEqual("APPLIED/ENROLLED", self_enroll.text, 'Does not match' )
+
+        select_quiz = driver.find_elements_by_class_name('quiz-link')[0]
+        select_quiz.click()
+
+        all_quiz_question = driver.find_elements_by_id('quiz_question')
+
+        for i in range(len(all_quiz_question)):
+            question_options = all_quiz_question[i].find_elements_by_id(
+                'quiz_option')
+            question_options[0].click()
+
+        submit_button = driver.find_element_by_id('submit_quiz')
+        submit_button.click()
+
+        submit_modal = driver.find_element_by_id('Submit Quiz').text
+        self.assertEqual("Submit Quiz", submit_modal, 'Does not match')
+        submit_request = driver.find_element_by_class_name(
+            'confirm-enroll')
+        submit_request.click()
+
+        time.sleep(2)
+
+        page_title = driver.find_element_by_id('page-title').text
+        self.assertEqual("Courses", page_title, 'Does not match')
 
     def tearDown(self):
         # to close the browser
         self.driver.close()
 
-  
+
 if __name__ == '__main__':
     unittest.main()
