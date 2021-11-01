@@ -1,6 +1,7 @@
 from myapi.models import Answer
 from myapi.extensions import ma, db
 
+
 class AnswerSchema(ma.SQLAlchemyAutoSchema):
 
     course_id = ma.Int(required=False)

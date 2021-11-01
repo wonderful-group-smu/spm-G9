@@ -2,9 +2,9 @@ from flask import request
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
-from myapi.api.schemas import QuizAttemptSchema, SectionCompletedSchema, QuizSchema
+from myapi.api.schemas import QuizAttemptSchema, SectionCompletedSchema, QuizSchema, EnrollSchema
 from myapi.extensions import db
-from myapi.models import Quiz, QuizAttempt, Employee
+from myapi.models import Quiz, QuizAttempt, Employee, Enroll
 
 
 class QuizAttemptResource(Resource):
@@ -82,20 +82,29 @@ class QuizAttemptResource(Resource):
                 return {"msg": "not found"}, 404
             else:
                 raise error
-        
+
         quiz_schema = QuizSchema()
         fmted_quiz = quiz_schema.dump(quiz)
         is_graded = fmted_quiz['is_graded']
-        passing_mark = fmted_quiz['passing_mark']
 
         quiz_attempt = self.schema.load(request.json)
-        
+
         section_completed_schema = SectionCompletedSchema()
         # slice request.json because section_completed doesn't take in quiz_id
         request_json = {k: v for (k, v) in request.json.items() if k in ['course_id', 'section_id', 'trainer_id', 'eng_id']}
         section_completed = section_completed_schema.load(request_json)
 
-        if not is_graded:          
+        answers = request.json['answers']
+        results = self.grade_quiz(fmted_quiz, answers)
+        num_correct = results[0]
+        wrong = results[1]
+        score = str(num_correct) + "/" + str(len(fmted_quiz['questions']))
+        if fmted_quiz['passing_mark'] is None:
+            passing_mark = 0
+        else:
+            passing_mark = fmted_quiz['passing_mark']
+
+        if not is_graded:
             try:
                 db.session.add(quiz_attempt)
                 db.session.add(section_completed)
@@ -103,18 +112,29 @@ class QuizAttemptResource(Resource):
             except IntegrityError as e:
                 return {"msg": str(e)}, 400
 
-            return {"msg": "quiz attempt created", "quiz_attempt": self.schema.dump(quiz_attempt), "section_completed": section_completed_schema.dump(section_completed)}, 201
-        
-        else:
-            # Check if quiz_attempt passes, then create section_completed record
-            answers = request.json['answers']
-            results = self.grade_quiz(fmted_quiz, answers)
-            num_correct = results[0]
-            wrong = results[1]
-            score = str(num_correct) + "/" + str(len(fmted_quiz['questions']))
+            return {
+                "msg": "quiz attempt created",
+                "grade": "completed",
+                "score": score,
+                "quiz_attempt": self.schema.dump(quiz_attempt),
+                "wrong_answers": wrong,
+                "section_completed": section_completed_schema.dump(section_completed),
+            }, 201
 
+        else:
+            # Check if quiz_attempt passes
             if num_correct >= passing_mark:
-                # add to section completed record 
+                # Add section completed record AND update Enrol table has_passed if passed
+                enroll_schema = EnrollSchema()
+                enrollment = (
+                    Enroll.query
+                    .filter(Enroll.eng_id == eng_id)
+                    .filter(Enroll.course_id == course_id)
+                    .filter(Enroll.trainer_id == trainer_id)
+                    .one()
+                )
+                enrollment.has_passed = True
+                db.session.commit()
                 try:
                     db.session.add(quiz_attempt)
                     db.session.add(section_completed)
@@ -123,18 +143,20 @@ class QuizAttemptResource(Resource):
                     return {"msg": str(e)}, 400
 
                 return {
-                    "msg": "quiz attempt created", 
-                    "grade": "passed", 
-                    "score": score, 
-                    "quiz_attempt": self.schema.dump(quiz_attempt), "section_completed": section_completed_schema.dump(section_completed), 
-                    "wrong_answers": wrong
+                    "msg": "quiz attempt created",
+                    "grade": "passed",
+                    "score": score,
+                    "quiz_attempt": self.schema.dump(quiz_attempt),
+                    "wrong_answers": wrong,
+                    "section_completed": section_completed_schema.dump(section_completed),
+                    "updated_enrollment": enroll_schema.dump(enrollment)
                 }, 201
 
             else:
                 return {
-                    "msg": "quiz attempt created", 
-                    "grade": "failed", 
-                    "score": score, 
+                    "msg": "quiz attempt created",
+                    "grade": "failed",
+                    "score": score,
                     "wrong_answers": wrong
                 }, 201
 
@@ -154,25 +176,23 @@ class QuizAttemptResource(Resource):
         # Sort fmted_questions and answers by question_id
         fmted_questions = sorted(fmted_questions.items(), key=lambda d: d[0])
         answers = sorted(answers, key=lambda d: d['question_id'])
+
         # If quiz_attempt incomplete, set answer_labels for unattempted questions to be None
         if len(answers) < len(fmted_questions):
-            for i in range(len(fmted_questions)-len(answers)):
+            for i in range(len(fmted_questions) - len(answers)):
                 answers.append({"answer_label": None})
-        # Check how many answers are correct
+
+        wrong = []
         num_correct = 0
         for i in range(len(fmted_questions)):
             if fmted_questions[i][1] == answers[i]['answer_label']:
-                answers[i]['is_correct'] = True
                 num_correct += 1
             else:
-                answers[i]['is_correct'] = False
-        # wrong = {question_id : [wrong_option_selected, correct_answer]}
-        wrong = [] 
-        for i in range(len(answers)):
-            if not answers[i]['is_correct']:
                 wrong.append({
-                    "question_id": i+1,
+                    "question_id": i + 1,
                     "option_selected": answers[i]['answer_label'],
                     "correct_answer": fmted_questions[i][1]
                 })
+                answers[i]['is_correct'] = False
+
         return num_correct, wrong

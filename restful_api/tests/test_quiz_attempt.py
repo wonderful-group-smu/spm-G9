@@ -45,10 +45,16 @@ def test_get_single_quiz_attempt(
     db.session.add(answer_one)
     db.session.commit()
 
-    quiz_attempt_url = url_for('api.quiz_attempt', course_id=quiz_attempts[1].course_id, section_id=quiz_attempts[1].section_id, trainer_id=quiz_attempts[1].trainer_id ,eng_id=quiz_attempts[1].eng_id)
+    quiz_attempt_url = url_for(
+        'api.quiz_attempt',
+        course_id=quiz_attempts[1].course_id,
+        section_id=quiz_attempts[1].section_id,
+        trainer_id=quiz_attempts[1].trainer_id,
+        eng_id=quiz_attempts[1].eng_id)
     rep = client.get(quiz_attempt_url, headers=engineer_employee_headers)
     assert rep.status_code == 200
     assert len(rep.get_json()['quiz_attempt']['answers']) == 1, "Incorrect number of answers retrieved for quiz attempt"
+    assert rep.get_json()['quiz_attempt']['answers'][0]['answer_label'] == answer_one.answer_label, "Incorrect answer label retrieved for quiz attempt"
 
 
 def test_create_single_quiz_attempt(
@@ -67,17 +73,17 @@ def test_create_single_quiz_attempt(
     quiz_attempt_url = url_for('api.quiz_attempt', course_id=quiz.course_id, section_id=quiz.section_id, trainer_id=quiz.trainer_id, eng_id=employee.id)
 
     request_json = {
-        'course_id': quiz.course_id, 
-        'section_id': quiz.section_id, 
-        "trainer_id": quiz.trainer_id, 
-        "eng_id": employee.id, 
+        'course_id': quiz.course_id,
+        'section_id': quiz.section_id,
+        "trainer_id": quiz.trainer_id,
+        "eng_id": employee.id,
         "answers": [{
-            "question_id": answer.question_id, 
-            "answer_label": answer.answer_label, 
-            "course_id": answer.course_id, 
-            "section_id": answer.section_id, 
+            "question_id": answer.question_id,
+            "answer_label": answer.answer_label,
+            "course_id": answer.course_id,
+            "section_id": answer.section_id,
             "trainer_id": answer.trainer_id}]
-        }
+    }
     rep = client.post(quiz_attempt_url, json=request_json, headers=engineer_employee_headers)
     assert rep.status_code == 201, "Incorrect status code retrieved"
     rep_json = rep.get_json()

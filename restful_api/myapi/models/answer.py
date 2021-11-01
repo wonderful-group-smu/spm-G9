@@ -6,7 +6,7 @@ class Answer(db.Model):
 
     __tablename__ = 'answer'
     __table_args__ = (db.UniqueConstraint('course_id', 'section_id', 'trainer_id', 'eng_id', 'question_id', name='unique_answer'),)
-    
+
     question_id = db.Column(db.Integer, primary_key=True)
     course_id = db.Column(db.Integer, db.ForeignKey("quiz_attempt.course_id"), primary_key=True)
     section_id = db.Column(db.Integer, db.ForeignKey('quiz_attempt.section_id'), primary_key=True)

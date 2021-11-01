@@ -145,6 +145,7 @@ class QuizAttemptFactory(factory.Factory):
     class Meta:
         model = QuizAttempt
 
+
 class AnswerFactory(factory.Factory):
     question_id = factory.Sequence(lambda n: n)
     course_id = factory.SelfAttribute('quiz_attempt.course_id')
