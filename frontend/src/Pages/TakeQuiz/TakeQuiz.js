@@ -1,9 +1,9 @@
-import React, { useReducer, useState, useEffect } from 'react'
+import React, { useReducer, useState } from 'react'
 import QuizQuestion from '../../Components/QuizQuestion/QuizQuestion'
 import '../Pagelayout.css'
 import './TakeQuiz.css'
 import GeneralModal from '../../Components/GeneralModal/GeneralModal'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { object } from 'prop-types'
 
 const formReducer = (state, event) => {
@@ -13,14 +13,16 @@ const formReducer = (state, event) => {
   }
 }
 
-const TakeQuiz = (props) => {
-  const [whichQuiz, setQuiz] = useState()
+const TakeQuiz = () => {
 
-  useEffect(() => {
-    setQuiz(props.location.state)
-  }, [])
+  const location = useLocation()
+  // const { course_id, trainer_id } = location.state
+  const { course_id, trainer_id, session_id} = location.state
+  // const location = useLocation()
+  // const { course_id,trainer_id } = location.state
+  console.log(course_id, trainer_id,session_id,'hi')
+  // console.log(hi)
 
-  console.log(whichQuiz)
 
   const [formData, setFormData] = useReducer(formReducer, {})
   const [submitting, setSubmitting] = useState(false)

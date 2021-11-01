@@ -69,6 +69,7 @@ class QuizAttemptResource(Resource):
         return {"msg": "quiz attempt retrieved", "quiz_attempt": self.schema.dump(query)}, 200
 
     def post(self, course_id, section_id, trainer_id, eng_id):
+
         try:
             quiz = (
                 Quiz.query
