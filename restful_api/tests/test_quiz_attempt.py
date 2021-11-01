@@ -84,6 +84,7 @@ def test_create_single_quiz_attempt(
             "section_id": answer.section_id,
             "trainer_id": answer.trainer_id}]
     }
+
     rep = client.post(quiz_attempt_url, json=request_json, headers=engineer_employee_headers)
     assert rep.status_code == 201, "Incorrect status code retrieved"
     rep_json = rep.get_json()

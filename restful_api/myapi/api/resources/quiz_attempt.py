@@ -48,6 +48,9 @@ class QuizAttemptResource(Resource):
 
     def __init__(self):
         self.schema = QuizAttemptSchema()
+        self.section_completed_schema = SectionCompletedSchema()
+        self.enroll_schema = EnrollSchema()
+        self.quiz_schema = QuizSchema()
 
     def get(self, course_id, section_id, trainer_id, eng_id):
         try:
@@ -83,22 +86,22 @@ class QuizAttemptResource(Resource):
             else:
                 raise error
 
-        quiz_schema = QuizSchema()
-        fmted_quiz = quiz_schema.dump(quiz)
+        fmted_quiz = self.quiz_schema.dump(quiz)
         is_graded = fmted_quiz['is_graded']
 
         quiz_attempt = self.schema.load(request.json)
 
-        section_completed_schema = SectionCompletedSchema()
         # slice request.json because section_completed doesn't take in quiz_id
         request_json = {k: v for (k, v) in request.json.items() if k in ['course_id', 'section_id', 'trainer_id', 'eng_id']}
-        section_completed = section_completed_schema.load(request_json)
+        section_completed = self.section_completed_schema.load(request_json)
 
         answers = request.json['answers']
         results = self.grade_quiz(fmted_quiz, answers)
         num_correct = results[0]
         wrong = results[1]
         score = str(num_correct) + "/" + str(len(fmted_quiz['questions']))
+        base_output = [score, wrong, quiz_attempt]
+
         if fmted_quiz['passing_mark'] is None:
             passing_mark = 0
         else:
@@ -112,20 +115,12 @@ class QuizAttemptResource(Resource):
             except IntegrityError as e:
                 return {"msg": str(e)}, 400
 
-            return {
-                "msg": "quiz attempt created",
-                "grade": "completed",
-                "score": score,
-                "quiz_attempt": self.schema.dump(quiz_attempt),
-                "wrong_answers": wrong,
-                "section_completed": section_completed_schema.dump(section_completed),
-            }, 201
+            return self.return_output_completed(self, base_output, section_completed)
 
         else:
             # Check if quiz_attempt passes
             if num_correct >= passing_mark:
                 # Add section completed record AND update Enrol table has_passed if passed
-                enroll_schema = EnrollSchema()
                 enrollment = (
                     Enroll.query
                     .filter(Enroll.eng_id == eng_id)
@@ -142,23 +137,43 @@ class QuizAttemptResource(Resource):
                 except IntegrityError as e:
                     return {"msg": str(e)}, 400
 
-                return {
-                    "msg": "quiz attempt created",
-                    "grade": "passed",
-                    "score": score,
-                    "quiz_attempt": self.schema.dump(quiz_attempt),
-                    "wrong_answers": wrong,
-                    "section_completed": section_completed_schema.dump(section_completed),
-                    "updated_enrollment": enroll_schema.dump(enrollment)
-                }, 201
+                return self.return_output_passed(self, base_output, section_completed, enrollment)
 
             else:
-                return {
-                    "msg": "quiz attempt created",
-                    "grade": "failed",
-                    "score": score,
-                    "wrong_answers": wrong
-                }, 201
+                return self.return_output_failed(self, base_output)
+
+    @staticmethod
+    def return_output_completed(self, base_output, section_completed):
+        return {
+            "msg": "quiz attempt created",
+            "grade": "completed",
+            "score": base_output[0],
+            "quiz_attempt": self.schema.dump(base_output[2]),
+            "wrong_answers": base_output[1],
+            "section_completed": self.section_completed_schema.dump(section_completed),
+        }, 201
+
+    @staticmethod
+    def return_output_passed(self, base_output, section_completed, enrollment):
+        return {
+            "msg": "quiz attempt created",
+            "grade": "passed",
+            "score": base_output[0],
+            "quiz_attempt": self.schema.dump(base_output[2]),
+            "wrong_answers": base_output[1],
+            "section_completed": self.section_completed_schema.dump(section_completed),
+            "updated_enrollment": self.enroll_schema.dump(enrollment)
+        }, 201
+
+    @staticmethod
+    def return_output_failed(self, base_output):
+        return {
+            "msg": "quiz attempt created",
+            "grade": "failed",
+            "score": base_output[0],
+            "quiz_attempt": self.schema.dump(base_output[2]),
+            "wrong_answers": base_output[1]
+        }, 201
 
     @staticmethod
     def grade_quiz(quiz, answers):
