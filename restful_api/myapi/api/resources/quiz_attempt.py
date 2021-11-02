@@ -57,10 +57,10 @@ class QuizAttemptResource(Resource):
             query = (
                 QuizAttempt.query
                 .join(Employee, isouter=True)
-                .filter((Employee.id == eng_id) 
-                        & (QuizAttempt.course_id == course_id)
-                        & (QuizAttempt.section_id == section_id)
-                        & (QuizAttempt.trainer_id == trainer_id))
+                .filter(Employee.id == eng_id)
+                .filter(QuizAttempt.course_id == course_id)
+                .filter(QuizAttempt.section_id == section_id)
+                .filter(QuizAttempt.trainer_id == trainer_id)
                 .one()
             )
         except Exception as error:
@@ -114,8 +114,8 @@ class QuizAttemptResource(Resource):
                 quiz = (
                     Quiz.query
                     .filter((Quiz.course_id == course_id)
-                            & (Quiz.section_id == section_id)
-                            & (Quiz.trainer_id == trainer_id))
+                    .filter(Quiz.section_id == section_id)
+                    .filter(Quiz.trainer_id == trainer_id))
                     .one()
                 )
             except Exception as error:
@@ -130,8 +130,8 @@ class QuizAttemptResource(Resource):
                 enrollment = (
                     Enroll.query
                     .filter((Enroll.eng_id == eng_id)
-                            & (Enroll.course_id == course_id)
-                            & (Enroll.trainer_id == trainer_id))
+                    .filter(Enroll.course_id == course_id)
+                    .filter(Enroll.trainer_id == trainer_id))
                     .one()
                 )
             except Exception as error:
