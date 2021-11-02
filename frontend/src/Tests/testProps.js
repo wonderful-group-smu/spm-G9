@@ -10,6 +10,9 @@ const testCourse = {
     self_enrollment_end_date: new Date(2021, 12, 30).toISOString(),
     prereqs: [],
 }
+const testCourseList = [
+    testCourse,
+]
 const testTrainer = {
     id: 2,
     name: "test trainer",
@@ -23,8 +26,13 @@ const testCourseClass = {
     trainer: testTrainer,
     trainer_id: testTrainer.trainer_id
 }
+const testCourseClasses = [
+    testCourseClass,
+]
 
 export {
     testCourse,
-    testCourseClass
+    testCourseList,
+    testCourseClass,
+    testCourseClasses
 }
