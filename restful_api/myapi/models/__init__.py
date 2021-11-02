@@ -9,7 +9,7 @@ from myapi.models.quiz import Quiz
 from myapi.models.question import Question
 from myapi.models.question_option import QuestionOption
 from myapi.models.quiz_attempt import QuizAttempt
-
+from myapi.models.answer import Answer
 
 __all__ = [
     "Employee",
@@ -22,5 +22,6 @@ __all__ = [
     "Quiz",
     "Question",
     "QuestionOption",
-    "QuizAttempt"
+    "QuizAttempt",
+    "Answer"
 ]

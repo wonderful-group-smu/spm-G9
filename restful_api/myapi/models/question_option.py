@@ -18,6 +18,7 @@ class QuestionOption(db.Model):
 
     question = db.relationship(
         'Question',
-        primaryjoin="and_(Question.course_id==QuestionOption.course_id, Question.section_id==QuestionOption.section_id)",
+        primaryjoin="and_(Question.course_id==QuestionOption.course_id, Question.section_id==QuestionOption.section_id, "
+        "Question.trainer_id==QuestionOption.trainer_id, Question.question_id==QuestionOption.question_id)",
         backref=db.backref('question_options', lazy='joined', cascade="all,delete")
     )
