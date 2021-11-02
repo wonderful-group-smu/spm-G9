@@ -1,10 +1,11 @@
 import { render, screen } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 import axios from 'axios';
 import { MemoryRouter, BrowserRouter as Router } from 'react-router-dom';
 import { BASE_URL, getAuthHeaders, getCourseList, getCourseClasses } from '../Apis/Api';
 
 import { expectAllInDocument, storageMock } from './testMethods.js';
-import { testCourse, testCourseClass } from './testProps.js';
+import { testCourse, testCourseList, testCourseClass, testCourseClasses } from './testProps.js';
 
 import App from '../App';
 import Courses from '../Pages/Courses/Courses';
@@ -38,13 +39,29 @@ describe('Login', () => {
 })
 
 describe('Courses', () => {
-  test('Courses', () => {
+  test('getCourseList API', async () => {
+    const headers = getAuthHeaders();
+    axios.get.mockResolvedValueOnce(testCourseList);
+    const result = await getCourseList();
+    expect(axios.get).toHaveBeenCalledWith(`${BASE_URL}api/v1/courses/0`, { headers });
+    expect(result).toEqual(testCourseList);
+  })
+
+  test('Courses UI', async () => {
+    axios.get.mockResolvedValueOnce({
+      data:
+      {
+        results: testCourseList
+      }
+    });
+
     render(
       <Router>
         <Courses />
       </Router>
     );
-    const elementArray = screen.getAllByText(/Courses/i)
+
+    const elementArray = await screen.findAllByText(/Courses/i)
     elementArray.push(screen.getByText(/Create a Course/i))
     elementArray.push(screen.getByRole('button', {
       name: 'createCourse'
@@ -56,21 +73,25 @@ describe('Courses', () => {
     expectAllInDocument(elementArray)
   })
 
-  test('getCourseList', async () => {
-    const testCourseList = [
-      testCourse,
-    ]
 
-    const headers = getAuthHeaders();
-    axios.get.mockResolvedValueOnce(testCourseList);
-    const result = await getCourseList();
-    expect(axios.get).toHaveBeenCalledWith(`${BASE_URL}api/v1/courses/0`, { headers });
-    expect(result).toEqual(testCourseList);
-  })
 })
 
 describe('CourseClasses', () => {
-  test('CourseClasses', () => {
+  test('getCourseClasses API', async () => {
+    const headers = getAuthHeaders();
+    axios.get.mockResolvedValueOnce(testCourseClasses);
+    const result = await getCourseClasses({ "course_id": testCourse.course_id });
+    expect(axios.get).toHaveBeenCalledWith(`${BASE_URL}api/v1/course_classes/` + testCourse.course_id, { headers });
+    expect(result).toEqual(testCourseClasses);
+  })
+
+  test('CourseClasses UI', async () => {
+    axios.get.mockResolvedValueOnce({
+      data:
+      {
+        course_classes: testCourseClasses
+      }
+    });
     render(
       <MemoryRouter initialEntries={[{pathname: "/courseclasses", state: {course_id: testCourse.course_id, courseName: testCourse.name}}]}>
         <CourseClasses />
@@ -78,7 +99,7 @@ describe('CourseClasses', () => {
     );
 
     const elementArray = [];
-    elementArray.push(screen.getByText(RegExp(testCourse.name)));
+    elementArray.push(await screen.findByText(RegExp(testCourse.name)));
     elementArray.push(screen.getByText(/Create a Class/i));
     elementArray.push(screen.getByRole('button', {
       name: 'createCourseClass'
@@ -86,26 +107,25 @@ describe('CourseClasses', () => {
     expectAllInDocument(elementArray)
   })
 
-  test('getCourseClasses', async () => {
-    const testCourseClasses = [
-      testCourseClass,
-    ]
-
-    const headers = getAuthHeaders();
-    axios.get.mockResolvedValueOnce(testCourseClasses);
-    const result = await getCourseClasses({ "course_id": testCourse.course_id });
-    expect(axios.get).toHaveBeenCalledWith(`${BASE_URL}api/v1/course_classes/` + testCourse.course_id, { headers });
-    expect(result).toEqual(testCourseClasses);
-  })
+  
 })
 
 describe('ClassDetails', () => {
-  test('ClassDetails', () => {
-    render(
-      <MemoryRouter initialEntries={[{pathname: "/courseclasses", state:{ courseClass: testCourseClass }}]}>
-        <ClassDetails />
-      </MemoryRouter>
-    );
+  test('ClassDetails UI', () => {
+    act(() => {
+      axios.get.mockResolvedValueOnce({
+        data:
+        {
+          msg: 'enrollment record retrieved'
+        }
+      });
+      
+      render(
+        <MemoryRouter initialEntries={[{pathname: "/courseclasses", state:{ courseClass: testCourseClass }}]}>
+          <ClassDetails />
+        </MemoryRouter>
+      );
+    })
 
     const elementArray = [];
     elementArray.push(screen.getByText(RegExp(testCourseClass.course.name)));
@@ -121,7 +141,7 @@ describe('ClassDetails', () => {
 
     elementArray.push(screen.getByText(/Our Trainer/i));
     elementArray.concat(screen.getAllByText(RegExp(testCourseClass.trainer.name)));
-    
+
     elementArray.push(screen.getByText(/Sections/i));
     elementArray.push(screen.getByText(/Add a Section/i));
     elementArray.push(screen.getByRole('button', {

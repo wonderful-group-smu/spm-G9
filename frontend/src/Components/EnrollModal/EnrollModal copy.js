@@ -50,7 +50,7 @@ const EnrollModal = (props) => {
 
   console.log(formData)
   return (
-    <Modal {...props} size='lg' centered>
+    <Modal  size='lg' centered>
       <div className='modal-box'>
         <h5>
           Course Validity Period{' '}
