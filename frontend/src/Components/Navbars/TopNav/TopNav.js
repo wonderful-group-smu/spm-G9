@@ -4,6 +4,7 @@ import * as Bs from 'react-icons/bs'
 // import * as Io from 'react-icons/io'
 import './TopNav.css'
 import { NavDropdown } from 'react-bootstrap'
+import { getEmployeeRole } from '../../../Apis/Api'
 
 const TopNav = () => {
   let history = useHistory()
@@ -14,6 +15,8 @@ const TopNav = () => {
     window.location.reload(false)
   }
 
+
+
   return (
     <div>
       <div>
@@ -22,6 +25,7 @@ const TopNav = () => {
             <Bs.BsBell size={25} />
 
             <span></span>
+            <b>{getEmployeeRole()}&nbsp;</b>
             <NavDropdown
               title={<Bs.BsPeopleCircle size={25} />}
               id='profile-dropdown'

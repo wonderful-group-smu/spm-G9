@@ -2,32 +2,34 @@ import './App.css'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import React, { useState, useEffect } from 'react'
-// import React from 'react'
-
 import Navbar from './Components/Navbars/Navbar'
 import Courses from './Pages/Courses/Courses'
 import EnrolmentRequest from './Pages/EnrolmentRequest/EnrolmentRequest'
 import Enrolled from './Pages/Enrolled/Enrolled'
 import CreateCourse from './Pages/CreateCourse/CreateCourse'
-import SelfEnrollmentForm from './Pages/SelfEnrollmentForm/SelfEnrollmentForm'
 import TopNav from './Components/Navbars/TopNav/TopNav'
 import CourseClasses from './Pages/CourseClasses/CourseClasses'
 import CreateClass from './Pages/CreateClass/CreateClass'
-// import Home from './Pages/Home/Home'
 import ClassDetails from './Pages/ClassDetails/ClassDetails'
 import CreateSection from './Pages/CreateSection/CreateSection'
 import LoginPage from './Pages/LoginPage/LoginPage'
 import CourseContent from './Pages/CourseContent/CourseContent'
-import Quiz from './Pages/Quiz/Quiz'
 import TakeQuiz from './Pages/TakeQuiz/TakeQuiz'
 import QuizFeedback from './Pages/QuizFeedback/QuizFeedback'
+// import Empty from './Components/Empty/Empty'
+
+import { getEmployeeRole } from './Apis/Api'
+
+// import Home from './Pages/Home/Home'
+// import Quiz from './Pages/Quiz/Quiz'
+// import SelfEnrollmentForm from './Pages/SelfEnrollmentForm/SelfEnrollmentForm'
 
 function App() {
   const [leftOpen, setOpen] = useState(true)
   const [showNavbar, setNavbar] = useState('open')
   const [iconColor, setIconColor] = useState('icon')
-
   const [loginStatus, setLoginStatus] = useState(false)
+  const [employeeRole, setEmployeeRole] = useState()
 
   // const loginStatus = false
 
@@ -44,12 +46,14 @@ function App() {
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
+      setEmployeeRole(getEmployeeRole())
       setLoginStatus(true)
     } else {
       setLoginStatus(false)
     }
   }, [])
 
+  console.log(employeeRole)
   return (
     <>
       <div id='layout'>
@@ -68,30 +72,37 @@ function App() {
                 <TopNav />
                 <div className='content'>
                   <Switch>
+                    {/* ONLYHR */}
                     <Route
                       path='/enrolmentrequest'
                       component={EnrolmentRequest}
                     />
-                    
-                    <Route
-                      path='/courses/selfenrollmentform'
-                      component={SelfEnrollmentForm}
-                    />
-                    <Route path='/quizfeedback' component={QuizFeedback} />
-                    <Route path='/takequiz' component={TakeQuiz} />
-                    <Route path='/quiz' component={Quiz} />
-                    <Route path='/coursecontent' component={CourseContent} />
-                    {/* <Route path='/courses' component={Courses} />   */}
-                    <Route path='/enrolled' component={Enrolled} />
                     <Route path='/createcourse' component={CreateCourse} />
-                    <Route path='/courseclasses' component={CourseClasses} />
                     <Route path='/createclass' component={CreateClass} />
-                    <Route path='/classdetails' component={ClassDetails} />
                     <Route path='/createsection' component={CreateSection} />
 
-                    <Route path='/' component={Courses} />  
+                    {/* OnlyEngineers */}
+                    <Route path='/quizfeedback' component={QuizFeedback} />
+                    <Route path='/takequiz' component={TakeQuiz} />
+                    <Route path='/enrolled' component={Enrolled} />
 
-                    {/* <Route path='/' component={Home} /> */}
+                    {/* ALL */}
+
+                    <Route path='/coursecontent' component={CourseContent} />
+                    <Route path='/courseclasses' component={CourseClasses} />
+                    <Route path='/classdetails' component={ClassDetails} />
+                    <Route path='/' component={Courses} />
+
+                    {/* Notneed */}
+
+                    {/* <Route path='/' component={Home} />
+
+                    {/* <Route
+                      path='/courses/selfenrollmentform'
+                      component={SelfEnrollmentForm}
+                    /> */}
+                    {/* <Route path='/quiz' component={Quiz} /> */}
+                    {/* <Route path='/courses' component={Courses} />   */}
                   </Switch>
                 </div>
               </div>

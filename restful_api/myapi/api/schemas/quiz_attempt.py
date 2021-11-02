@@ -1,6 +1,6 @@
 from myapi.models import QuizAttempt
 from myapi.extensions import ma, db
-from .question import QuestionSchema
+from .answer import AnswerSchema
 
 
 class QuizAttemptSchema(ma.SQLAlchemyAutoSchema):
@@ -9,7 +9,7 @@ class QuizAttemptSchema(ma.SQLAlchemyAutoSchema):
     section_id = ma.Int()
     trainer_id = ma.Int()
     eng_id = ma.Int()
-    questions = ma.List(ma.Nested(QuestionSchema), required=False)
+    answers = ma.List(ma.Nested(AnswerSchema), required=False)
 
     class Meta:
         model = QuizAttempt

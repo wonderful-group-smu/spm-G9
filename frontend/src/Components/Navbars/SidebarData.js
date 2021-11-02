@@ -13,7 +13,7 @@ export const SidebarData=[
     // },
     {
         title:'Courses',
-        path:'/courses',
+        path:'/',
         icon: <RiArtboardFill />,
         cName:'nav-text'
     },

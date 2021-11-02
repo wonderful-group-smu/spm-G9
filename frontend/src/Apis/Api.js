@@ -18,8 +18,15 @@ const getAuthHeaders = () => {
 const getEmployeeID = () => {
   let token = localStorage.getItem('token')
   const employeeID = jwt(token).sub
-  // console.log(jwt(token))
+  console.log(jwt(token))
   return employeeID
+}
+
+const getEmployeeRole = () => {
+  let token = localStorage.getItem('token')
+  const employeeRole = jwt(token).user_type
+  console.log(jwt(token))
+  return employeeRole
 }
 
 const login = (data) => axios.post(`${BASE_URL}auth/login`, data)
@@ -227,6 +234,15 @@ const getAllSelfEnrolled = () => {
 }
 
 
+const getQuiz = (course_id, section_id, trainer_id) => {
+  const headers = getAuthHeaders()
+  return axios.get(
+    `${BASE_URL}api/v1/quiz/${course_id}&${section_id}&${trainer_id}`,
+    { headers }
+  )
+}
+
+
 export {
   BASE_URL,
   getAuthHeaders,
@@ -249,6 +265,8 @@ export {
   getClassContent,
   getAllSelfEnrolled,
   acceptSelfEnroll,
-  deleteSelfEnroll,
+  deleteSelfEnroll, 
   deleteCourse,
+  getQuiz,
+  getEmployeeRole
 }
