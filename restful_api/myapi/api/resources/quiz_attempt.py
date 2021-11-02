@@ -113,9 +113,9 @@ class QuizAttemptResource(Resource):
             try:
                 quiz = (
                     Quiz.query
-                    .filter((Quiz.course_id == course_id)
+                    .filter(Quiz.course_id == course_id)
                     .filter(Quiz.section_id == section_id)
-                    .filter(Quiz.trainer_id == trainer_id))
+                    .filter(Quiz.trainer_id == trainer_id)
                     .one()
                 )
             except Exception as error:
@@ -129,9 +129,9 @@ class QuizAttemptResource(Resource):
             try:
                 enrollment = (
                     Enroll.query
-                    .filter((Enroll.eng_id == eng_id)
+                    .filter(Enroll.eng_id == eng_id)
                     .filter(Enroll.course_id == course_id)
-                    .filter(Enroll.trainer_id == trainer_id))
+                    .filter(Enroll.trainer_id == trainer_id)
                     .one()
                 )
             except Exception as error:
