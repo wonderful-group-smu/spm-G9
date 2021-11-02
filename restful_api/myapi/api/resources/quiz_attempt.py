@@ -57,10 +57,10 @@ class QuizAttemptResource(Resource):
             query = (
                 QuizAttempt.query
                 .join(Employee, isouter=True)
-                .filter(Employee.id == eng_id)
-                .filter(QuizAttempt.course_id == course_id)
-                .filter(QuizAttempt.section_id == section_id)
-                .filter(QuizAttempt.trainer_id == trainer_id)
+                .filter((Employee.id == eng_id) & 
+                        (QuizAttempt.course_id == course_id) & 
+                        (QuizAttempt.section_id == section_id) & 
+                        (QuizAttempt.trainer_id == trainer_id))
                 .one()
             )
         except Exception as error:
@@ -72,21 +72,8 @@ class QuizAttemptResource(Resource):
         return {"msg": "quiz attempt retrieved", "quiz_attempt": self.schema.dump(query)}, 200
 
     def post(self, course_id, section_id, trainer_id, eng_id):
-        try:
-            quiz = (
-                Quiz.query
-                .filter(Quiz.course_id == course_id)
-                .filter(Quiz.section_id == section_id)
-                .filter(Quiz.trainer_id == trainer_id)
-                .one()
-            )
-        except Exception as error:
-            if "No row was found" in str(error):
-                return {"msg": "not found"}, 404
-            else:
-                raise error
 
-        fmted_quiz = self.quiz_schema.dump(quiz)
+        fmted_quiz = self.query_record(self, course_id, section_id, trainer_id, eng_id, "quiz")
         is_graded = fmted_quiz['is_graded']
 
         quiz_attempt = self.schema.load(request.json)
@@ -97,50 +84,71 @@ class QuizAttemptResource(Resource):
 
         answers = request.json['answers']
         results = self.grade_quiz(fmted_quiz, answers)
-        num_correct = results[0]
-        wrong = results[1]
+        num_correct, wrong = results[0], results[1]
         score = str(num_correct) + "/" + str(len(fmted_quiz['questions']))
         base_output = [score, wrong, quiz_attempt]
 
-        if fmted_quiz['passing_mark'] is None:
-            passing_mark = 0
-        else:
-            passing_mark = fmted_quiz['passing_mark']
+        passing_mark = fmted_quiz['passing_mark'] if fmted_quiz['passing_mark'] != None else 0
 
         if not is_graded:
-            try:
-                db.session.add(quiz_attempt)
-                db.session.add(section_completed)
-                db.session.commit()
-            except IntegrityError as e:
-                return {"msg": str(e)}, 400
-
+            self.add_record([quiz_attempt, section_completed])
             return self.return_output_completed(self, base_output, section_completed)
 
         else:
             # Check if quiz_attempt passes
             if num_correct >= passing_mark:
-                # Add section completed record AND update Enrol table has_passed if passed
-                enrollment = (
-                    Enroll.query
-                    .filter(Enroll.eng_id == eng_id)
-                    .filter(Enroll.course_id == course_id)
-                    .filter(Enroll.trainer_id == trainer_id)
-                    .one()
-                )
+                # Update Enrol table has_passed if passed
+                enrollment = self.query_record(self, course_id, section_id, trainer_id, eng_id, 'enrollment')
                 enrollment.has_passed = True
                 db.session.commit()
-                try:
-                    db.session.add(quiz_attempt)
-                    db.session.add(section_completed)
-                    db.session.commit()
-                except IntegrityError as e:
-                    return {"msg": str(e)}, 400
-
+                # Add section completed record 
+                self.add_record([quiz_attempt, section_completed])
                 return self.return_output_passed(self, base_output, section_completed, enrollment)
-
             else:
                 return self.return_output_failed(self, base_output)
+    
+    @staticmethod
+    def query_record(self, course_id, section_id, trainer_id, eng_id, flag):
+        if flag == 'quiz':
+            try:
+                quiz = (
+                    Quiz.query
+                    .filter((Quiz.course_id == course_id) & 
+                            (Quiz.section_id == section_id) & 
+                            (Quiz.trainer_id == trainer_id))
+                    .one()
+                )
+            except Exception as error:
+                if "No row was found" in str(error):
+                    return {"msg": "not found"}, 404
+                else:
+                    raise error
+            return self.quiz_schema.dump(quiz)
+
+        elif flag == 'enrollment':
+            try:
+                enrollment = (
+                        Enroll.query
+                        .filter((Enroll.eng_id == eng_id) & 
+                                (Enroll.course_id == course_id) &
+                                (Enroll.trainer_id == trainer_id))
+                        .one()
+                    )
+            except Exception as error:
+                if "No row was found" in str(error):
+                    return {"msg": "not found"}, 404
+                else:
+                    raise error
+            return enrollment
+    
+    @staticmethod
+    def add_record(records):
+        for record in records:
+            try:
+                db.session.add(record)
+                db.session.commit()
+            except IntegrityError as e:
+                return {"msg": str(e)}, 400
 
     @staticmethod
     def return_output_completed(self, base_output, section_completed):
@@ -200,6 +208,7 @@ class QuizAttemptResource(Resource):
         wrong = []
         num_correct = 0
         for i in range(len(fmted_questions)):
+            assert fmted_questions[i][0] == answers[i]['question_id'], "Wrong question and answer matching"
             if fmted_questions[i][1] == answers[i]['answer_label']:
                 num_correct += 1
             else:
