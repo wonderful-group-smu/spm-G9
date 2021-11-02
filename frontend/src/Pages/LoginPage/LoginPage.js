@@ -71,6 +71,7 @@ const LoginPage = () => {
                 className='form-control'
                 name='name'
                 onChange={handleChange}
+                aria-label="name"
                 id='loginUsername'
               />
 
@@ -80,10 +81,12 @@ const LoginPage = () => {
                 className='form-control'
                 name='password'
                 onChange={handleChange}
+                role="textbox"
+                aria-label="password"
                 id='loginPassword'
               />
 
-              <button className='confirm-enroll' onClick={handleSubmit} id='loginButton'>
+              <button className='confirm-enroll' onClick={handleSubmit} aria-label="submit" id='loginButton'>
                 Submit
               </button>
             </div>

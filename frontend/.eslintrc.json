@@ -44,5 +44,16 @@
     ],
     "react/display-name": 1
     // "react/prop-types": "off"
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.test.js",
+        "test*.js" // overrides eslint for test files using jest syntax
+      ],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
 }

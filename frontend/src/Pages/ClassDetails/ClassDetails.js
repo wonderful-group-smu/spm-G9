@@ -9,7 +9,7 @@ import './ClassDetails.css'
 import ClassList from '../../Components/ClassList/ClassList'
 import GeneralModal from '../../Components/GeneralModal/GeneralModal'
 import SectionFlow from '../../Components/SectionFlow/SectionFlow'
-import { addSelfEnroll, getSelfEnroll } from '../../Apis/Api'
+import { addSelfEnroll, getSelfEnroll, getEmployeeRole } from '../../Apis/Api'
 
 const ClassDetails = () => {
   const location = useLocation()
@@ -21,6 +21,7 @@ const ClassDetails = () => {
     'fitted-button button-padding',
     'ENROLL NOW',
   ])
+  console.log(courseClass)
 
   const showDetailButton = () => {
     if (DetailButton == 'top-bar') {
@@ -49,7 +50,6 @@ const ClassDetails = () => {
   //   }
   // }, [])
 
-  
   useEffect(() => {
     getSelfEnroll(courseClass.course.course_id, courseClass.trainer.id).then(
       (response) => {
@@ -64,7 +64,8 @@ const ClassDetails = () => {
     )
   }, [])
 
-  const role = 'engineer'
+  // const role = 'engineer'
+  const role = getEmployeeRole()
   const [confirmSubmission, setConfirmSubmission] = React.useState(false)
   function submitSelfEnroll(course_id, trainer_id) {
     console.log('hi')
@@ -86,7 +87,7 @@ const ClassDetails = () => {
             <h3>{courseClass.course.name}</h3>
             <div className='sub-txt'>Application closes on 1 January 2021</div>
 
-            <div className={role != 'engineer' ? 'hidebutton' : ''}>
+            <div className={role != 'ENG' ? 'hidebutton' : ''}>
               <button
                 id='engineer_enroll_button'
                 disabled={disableButton[0]}
@@ -97,6 +98,8 @@ const ClassDetails = () => {
                     courseClass.trainer.id
                   )
                 }}
+                role='button'
+                aria-label='selfEnroll'
               >
                 {disableButton[2]}
               </button>
@@ -105,7 +108,7 @@ const ClassDetails = () => {
         </div>
       </div>
       <br />
-      <div>
+      <div className={role != 'HR' ? 'hidebutton' : ''}>
         <button
           type='submit'
           className={DetailButton}
@@ -113,6 +116,7 @@ const ClassDetails = () => {
         >
           Details
         </button>
+
         <button
           type='submit'
           className={NamelistButton}
@@ -121,6 +125,7 @@ const ClassDetails = () => {
           Students Namelist
         </button>
       </div>
+
       {DetailButton == 'top-bar-selected' ? (
         <div className='flex-boxx'>
           <div className='white-bg class-detail'>
@@ -147,8 +152,16 @@ const ClassDetails = () => {
             </div>
 
             <div className='row'>
-              <div className='col'>{courseClass.start_date.slice(0, 10)}</div>
-              <div className='col'>{courseClass.end_date.slice(0, 10)}</div>
+              <div className='col'>
+                {courseClass.start_date
+                  ? courseClass.start_date.slice(0, 10)
+                  : 'NIL'}
+              </div>
+              <div className='col'>
+                {courseClass.end_date
+                  ? courseClass.end_date.slice(0, 10)
+                  : 'NIL'}
+              </div>
               <div className='col'>{courseClass.class_size}</div>
             </div>
             <br />
@@ -178,7 +191,12 @@ const ClassDetails = () => {
             <div className='sections-title'>
               <h4> Sections </h4>
               <Link to='/createsection'>
-                <button type='button' className='btn-sm btn-secondary'>
+                <button
+                  type='button'
+                  className='btn-sm btn-secondary'
+                  role='button'
+                  aria-label='createSection'
+                >
                   <Cg.CgMathPlus className='plus-icon' />
                   Add a Section
                 </button>
@@ -203,7 +221,6 @@ const ClassDetails = () => {
         modal_content='Thank you for signing up for the course. We are reviewing your request and will get back to you ASAP!'
         button_content='Ok'
         button_action={() => setConfirmSubmission(false)}
-        
       />
     </div>
   )

@@ -32,6 +32,7 @@ const ContentCard = (props) => {
                 state: {
                   session_id: props.sessionNumber,
                   course_id: props.courseId,
+                  trainer_id:props.trainerId
                 },
               }}
             >
@@ -59,7 +60,7 @@ const ContentCard = (props) => {
         show={rejectModalShow}
         onHide={() => setRejectModalShow(false)}
         sessionNumber={props.sessionNumber}
-        sessionContent='Ipsum molestiae natus adipisci modi eligendi? Debitis amet quae unde commodi aspernatur enim, consectetur. Cumque deleniti temporibus ipsam atque a dolores quisquam quisquam adipisci possimus laboriosam. Quibusdam facilis doloribus debitis! Sit quasi quod accusamus eos quod. Ab quos consequuntur eaque quo rem! Mollitia reiciendis porro quo magni incidunt dolore amet atque facilis ipsum deleniti rem!'
+        sessionContent={props.sessionContent}
       />
     </>
   )
@@ -67,9 +68,11 @@ const ContentCard = (props) => {
 
 ContentCard.propTypes = {
   status: bool,
-  sessionNumber: string,
+  sessionNumber: number,
   sessionTitle: string,
   courseId: number,
+  sessionContent: string,
+  trainerId: number
 }
 
 export default ContentCard
