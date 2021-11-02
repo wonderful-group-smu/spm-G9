@@ -57,9 +57,9 @@ class QuizAttemptResource(Resource):
             query = (
                 QuizAttempt.query
                 .join(Employee, isouter=True)
-                .filter((Employee.id == eng_id) & 
-                        (QuizAttempt.course_id == course_id) & 
-                        (QuizAttempt.section_id == section_id) & 
+                .filter((Employee.id == eng_id) &
+                        (QuizAttempt.course_id == course_id) &
+                        (QuizAttempt.section_id == section_id) &
                         (QuizAttempt.trainer_id == trainer_id))
                 .one()
             )
@@ -88,7 +88,7 @@ class QuizAttemptResource(Resource):
         score = str(num_correct) + "/" + str(len(fmted_quiz['questions']))
         base_output = [score, wrong, quiz_attempt]
 
-        passing_mark = fmted_quiz['passing_mark'] if fmted_quiz['passing_mark'] != None else 0
+        passing_mark = fmted_quiz['passing_mark'] if fmted_quiz['passing_mark'] is not None else 0
 
         if not is_graded:
             self.add_record([quiz_attempt, section_completed])
@@ -101,20 +101,20 @@ class QuizAttemptResource(Resource):
                 enrollment = self.query_record(self, course_id, section_id, trainer_id, eng_id, 'enrollment')
                 enrollment.has_passed = True
                 db.session.commit()
-                # Add section completed record 
+                # Add section completed record
                 self.add_record([quiz_attempt, section_completed])
                 return self.return_output_passed(self, base_output, section_completed, enrollment)
             else:
                 return self.return_output_failed(self, base_output)
-    
+
     @staticmethod
     def query_record(self, course_id, section_id, trainer_id, eng_id, flag):
         if flag == 'quiz':
             try:
                 quiz = (
                     Quiz.query
-                    .filter((Quiz.course_id == course_id) & 
-                            (Quiz.section_id == section_id) & 
+                    .filter((Quiz.course_id == course_id) &
+                            (Quiz.section_id == section_id) &
                             (Quiz.trainer_id == trainer_id))
                     .one()
                 )
@@ -128,19 +128,19 @@ class QuizAttemptResource(Resource):
         elif flag == 'enrollment':
             try:
                 enrollment = (
-                        Enroll.query
-                        .filter((Enroll.eng_id == eng_id) & 
-                                (Enroll.course_id == course_id) &
-                                (Enroll.trainer_id == trainer_id))
-                        .one()
-                    )
+                    Enroll.query
+                    .filter((Enroll.eng_id == eng_id) &
+                            (Enroll.course_id == course_id) &
+                            (Enroll.trainer_id == trainer_id))
+                    .one()
+                )
             except Exception as error:
                 if "No row was found" in str(error):
                     return {"msg": "not found"}, 404
                 else:
                     raise error
             return enrollment
-    
+
     @staticmethod
     def add_record(records):
         for record in records:
