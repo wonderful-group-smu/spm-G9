@@ -13,3 +13,5 @@ apispec[yaml]
 apispec-webframeworks
 gunicorn
 pymysql
+selenium
+webdriver_manager

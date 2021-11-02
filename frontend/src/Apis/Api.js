@@ -24,6 +24,11 @@ const getEmployeeID = () => {
 
 const login = (data) => axios.post(`${BASE_URL}auth/login`, data)
 
+const getEmployees = () => {
+  const headers = getAuthHeaders()
+  return axios.get(`${BASE_URL}api/v1/employees`, { headers })
+}
+
 const getCourseList = () => {
   const headers = getAuthHeaders()
   return axios.get(`${BASE_URL}api/v1/courses/0`, { headers })
@@ -42,12 +47,34 @@ const getCourseClasses = ({ course_id }) => {
 const addNewCourse = ({ course_id, name, description, prereqs }) => {
   const headers = getAuthHeaders()
   return axios.post(
-    `${BASE_URL}api/v1/course/` + course_id,
+    `${BASE_URL}api/v1/course/${course_id}`,
     {
       course_id,
       name,
       description,
       prereqs,
+    },
+    { headers }
+  )
+}
+const deleteCourse = ({ course_id }) => {
+  const headers = getAuthHeaders()
+  return axios.delete(
+    `${BASE_URL}api/v1/course/${course_id}`,
+    { headers }
+  )
+}
+
+const addNewCourseClass = ({ course_id, trainer_id, class_size, start_date, end_date }) => {
+  const headers = getAuthHeaders()
+  return axios.post(
+    `${BASE_URL}api/v1/course_class/${course_id}&${trainer_id}`,
+    {
+      class_size,
+      course_id,
+      end_date,
+      start_date,
+      trainer_id,
     },
     { headers }
   )
@@ -204,9 +231,11 @@ export {
   BASE_URL,
   getAuthHeaders,
   login,
+  getEmployees,
   getCourseList,
   getCourseClasses,
   addNewCourse,
+  addNewCourseClass,
   addNewSection,
   addNewQuiz,
   getEmployeeID,
@@ -220,6 +249,6 @@ export {
   getClassContent,
   getAllSelfEnrolled,
   acceptSelfEnroll,
-  deleteSelfEnroll
-
+  deleteSelfEnroll,
+  deleteCourse,
 }

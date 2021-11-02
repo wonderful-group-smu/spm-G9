@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './CourseClasses.css'
 import * as Cg from 'react-icons/cg'
+import * as Im from 'react-icons/im'
 import { Link, useLocation } from 'react-router-dom'
 import { getCourseClasses } from '../../Apis/Api'
 import BackArrow from '../../Components/BackArrow/BackArrow'
@@ -11,6 +12,17 @@ const CourseClasses = () => {
   const { courseID, courseName } = location.state
   const [courseClasses, setCourseClasses] = useState([])
   const [isLoading, setLoading] = useState(true)
+  const [pageTitle, setPageTitle] = useState(`Classes for ${courseName}`)
+  const [deleteMode, setDeleteMode] = useState(false)
+
+  const handleDeleteMode = () => {
+    setPageTitle(deleteMode ? `Classes for ${courseName}` : `Delete Classes for ${courseName}`)
+    setDeleteMode(!deleteMode)
+  }
+
+  const handleDelete = () => {
+    console.log('test')
+  }
 
   useEffect(() => {
     getCourseClasses({
@@ -33,16 +45,61 @@ const CourseClasses = () => {
           <div className='white-bg'>
             <div className='title'>
               <BackArrow />
-              <h5 id='page-title'>Classes for {courseName}</h5>
-              <Link to='/createclass'>
-                <button
-                  type='button' className='btn-sm btn-secondary'
-                  role="button" aria-label="createCourseClass"
+              <h5 id='page-title'>{pageTitle}</h5>
+
+              <div className='button-alignment'>
+                <Link
+                  to={{
+                    pathname: '/createclass',
+                    state: { courseID: courseID, courseName: courseName },
+                  }}
                 >
-                  <Cg.CgMathPlus className='plus-icon' />
-                  Create a Class
+                  <button
+                    hidden={deleteMode}
+                    className='fitted-button-corner'
+                    role="button"
+                    aria-label="createCourseClass"
+                  >
+                    <Cg.CgMathPlus className='plus-icon' />
+                    Create a Class
+                  </button>
+                </Link>
+
+                <button
+                  hidden={deleteMode}
+                  className='fitted-button-corner'
+                  // className='btn-sm btn-secondary'
+                  onClick={handleDeleteMode}
+                  role="button"
+                  aria-label="deleteClasses"
+                >
+                  <Im.ImBin className='bin-icon' />
+                  Delete Classes
                 </button>
-              </Link>
+
+                <button
+                  hidden={!deleteMode}
+                  className='fitted-button-corner'
+                  // className='btn-sm btn-secondary'
+                  onClick={handleDeleteMode}
+                  role="button"
+                  aria-label="cancelDeleteClasses"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  hidden={!deleteMode}
+                  className='fitted-button-corner'
+                  // className='btn-sm btn-secondary'
+                  onClick={handleDelete}
+                  role="button"
+                  aria-label="deleteSelectedClasses"
+                >
+                  Delete Selected Classes
+                </button>
+              </div>
+
             </div>
 
             {courseClasses.map((courseClass, i) => (
@@ -57,11 +114,11 @@ const CourseClasses = () => {
                 </div>
                 <div className='col'>
                   <div className='header-row'>Start Date</div>
-                  {courseClass.start_date ? courseClass.start_date.slice(0,10): "NIL"}
+                  {courseClass.start_date ? courseClass.start_date.slice(0, 10) : "NIL"}
                 </div>
                 <div className='col'>
                   <div className='header-row'>End Date</div>
-                  {courseClass.end_date ? courseClass.start_date.slice(0,10): "NIL"}
+                  {courseClass.end_date ? courseClass.end_date.slice(0, 10) : "NIL"}
                 </div>
 
                 <div className='col'>
@@ -81,8 +138,9 @@ const CourseClasses = () => {
             ))}
           </div>
         </>
-      )}
-    </div>
+      )
+      }
+    </div >
   )
 }
 
