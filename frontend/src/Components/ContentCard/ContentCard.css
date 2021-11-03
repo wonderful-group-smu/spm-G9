@@ -59,16 +59,3 @@
     color: black;
 }
 
-.final-quiz-style{
-    top: 55px;
-    right: 50px;
-    position: absolute;
-    text-decoration: none;
-}
-
-.final-quiz-style:hover{
-    
-    text-decoration: underline;
-    color: white;
-}
-

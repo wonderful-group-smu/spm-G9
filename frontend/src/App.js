@@ -16,6 +16,7 @@ import LoginPage from './Pages/LoginPage/LoginPage'
 import CourseContent from './Pages/CourseContent/CourseContent'
 import TakeQuiz from './Pages/TakeQuiz/TakeQuiz'
 import QuizFeedback from './Pages/QuizFeedback/QuizFeedback'
+import test from './Pages/test'
 // import Empty from './Components/Empty/Empty'
 
 import { getEmployeeRole } from './Apis/Api'
@@ -76,6 +77,10 @@ function App() {
                     <Route
                       path='/enrolmentrequest'
                       component={EnrolmentRequest}
+                    />
+                    <Route
+                      path='/test'
+                      component={test}
                     />
                     <Route path='/createcourse' component={CreateCourse} />
                     <Route path='/createclass' component={CreateClass} />

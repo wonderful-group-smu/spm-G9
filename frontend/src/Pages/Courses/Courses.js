@@ -59,6 +59,8 @@ const Courses = () => {
       })
   }, [])
 
+  console.log(courseDataArr)
+
   return (
     <div id='pagelayout'>
       {isLoading ? (

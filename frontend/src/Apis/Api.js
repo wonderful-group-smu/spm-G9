@@ -18,14 +18,14 @@ const getAuthHeaders = () => {
 const getEmployeeID = () => {
   let token = localStorage.getItem('token')
   const employeeID = jwt(token).sub
-  console.log(jwt(token))
+  // console.log(jwt(token))
   return employeeID
 }
 
 const getEmployeeRole = () => {
   let token = localStorage.getItem('token')
   const employeeRole = jwt(token).user_type
-  console.log(jwt(token))
+  // console.log(jwt(token))
   return employeeRole
 }
 
@@ -40,10 +40,21 @@ const getCourseList = () => {
   const headers = getAuthHeaders()
   return axios.get(`${BASE_URL}api/v1/courses/0`, { headers })
 }
+
+// const getCourse = ({ course_id }) => {
+//   const headers = getAuthHeaders()
+//   // const response = axios.get(http://localhost:5000/api/v1/course/2, { headers })
+//   // return response.c
+//   return  axios.get(`http://localhost:5000/api/v1/course/${ course_id }`, { headers })
+//   // return axios.get(`${BASE_URL}api/v1/course/${course_id}`, { headers })
+
+// }
+
 const getCourseClasses = ({ course_id }) => {
   const headers = getAuthHeaders()
   return axios.get(`${BASE_URL}api/v1/course_classes/` + course_id, { headers })
 }
+
 // const getClassSections = ({ course_id, trainer_id }) => {
 //     const headers = getAuthHeaders();
 //     return axios.get(`${BASE_URL}api/v1/class_section/0`, {
@@ -66,13 +77,16 @@ const addNewCourse = ({ course_id, name, description, prereqs }) => {
 }
 const deleteCourse = ({ course_id }) => {
   const headers = getAuthHeaders()
-  return axios.delete(
-    `${BASE_URL}api/v1/course/${course_id}`,
-    { headers }
-  )
+  return axios.delete(`${BASE_URL}api/v1/course/${course_id}`, { headers })
 }
 
-const addNewCourseClass = ({ course_id, trainer_id, class_size, start_date, end_date }) => {
+const addNewCourseClass = ({
+  course_id,
+  trainer_id,
+  class_size,
+  start_date,
+  end_date,
+}) => {
   const headers = getAuthHeaders()
   return axios.post(
     `${BASE_URL}api/v1/course_class/${course_id}&${trainer_id}`,
@@ -183,10 +197,9 @@ const getSelfEnroll = (course_id, trainer_id) => {
 
 const getCourseEligibleEngineers = (course_id) => {
   const headers = getAuthHeaders()
-  return axios.get(
-    `${BASE_URL}api/v1/course_eligible_engineers/${course_id}`,
-    { headers }
-  )
+  return axios.get(`${BASE_URL}api/v1/course_eligible_engineers/${course_id}`, {
+    headers,
+  })
 }
 
 const addHrEnroll = (course_id, trainer_id) => {
@@ -205,7 +218,6 @@ const addHrEnroll = (course_id, trainer_id) => {
   )
 }
 
-
 const getCourseProgress = (course_id, trainer_id) => {
   const employeeID = getEmployeeID()
   const headers = getAuthHeaders()
@@ -214,7 +226,6 @@ const getCourseProgress = (course_id, trainer_id) => {
     { headers }
   )
 }
-
 
 const getClassContent = (course_id, trainer_id) => {
   const employeeID = getEmployeeID()
@@ -227,12 +238,8 @@ const getClassContent = (course_id, trainer_id) => {
 
 const getAllSelfEnrolled = () => {
   const headers = getAuthHeaders()
-  return axios.get(
-    `${BASE_URL}api/v1/self_enrollments`,
-    { headers }
-  )
+  return axios.get(`${BASE_URL}api/v1/self_enrollments`, { headers })
 }
-
 
 const getQuiz = (course_id, section_id, trainer_id) => {
   const headers = getAuthHeaders()
@@ -242,6 +249,28 @@ const getQuiz = (course_id, section_id, trainer_id) => {
   )
 }
 
+const getQuizAttempt = (course_id, section_id, trainer_id) => {
+  const employeeID = getEmployeeID()
+  const headers = getAuthHeaders()
+  return axios.get(
+    `${BASE_URL}api/v1/quiz_attempt/${course_id}&${section_id}&${trainer_id}&${employeeID}`,
+    { headers }
+  )
+}
+
+////////////////////////////////////////////////////////////////
+const postQuizAttempt = (course_id, section_id, trainer_id, detail_input) => {
+  const employeeID = getEmployeeID()
+  const headers = getAuthHeaders()
+
+  return axios.post(
+    `${BASE_URL}api/v1/quiz_attempt/${course_id}&${section_id}&${trainer_id}&${employeeID}`, 
+    
+   detail_input
+    ,
+    { headers }
+  )
+}
 
 export {
   BASE_URL,
@@ -265,8 +294,10 @@ export {
   getClassContent,
   getAllSelfEnrolled,
   acceptSelfEnroll,
-  deleteSelfEnroll, 
+  deleteSelfEnroll,
   deleteCourse,
   getQuiz,
-  getEmployeeRole
+  getEmployeeRole,
+  getQuizAttempt,
+  postQuizAttempt,
 }

@@ -14,7 +14,7 @@ const ContentCard = (props) => {
       <div className='row-wrapper'>
         <div className='row content-bg'>
           <div className='col-2  content-title'>
-            SESSION<div>{props.sessionNumber}</div>
+            SECTION<div>{props.sessionNumber}</div>
           </div>
           <div className='col '>
             <div

@@ -11,10 +11,11 @@ import Spinner from '../../Components/Spinner/Spinner'
 const CourseContent = () => {
   const [courseProgress, setCourseProgress] = useState()
   const [courseSections, setCourseSections] = useState()
+  const [courseName, setCourseName] = useState()
   const [isLoading, setLoading] = useState(true)
+  const [quizSection, setQuizSection] = useState()
   const location = useLocation()
   const { course_id, trainer_id } = location.state
-
 
   useEffect(() => {
     getCourseProgress(course_id, trainer_id).then((response) => {
@@ -26,23 +27,22 @@ const CourseContent = () => {
             response.data[0].progress['no_sections']) *
             100
         )
-
         setCourseProgress(progress)
       }
     })
 
     getClassContent(course_id, trainer_id)
+      // console.log(response.data)
       .then((response) => {
-        console.log(response.data.class_sections)
-        setCourseSections(response.data.class_sections)
+        console.log(response.data.class_sections.slice(-1)[0].section_id)
+        setQuizSection(response.data.class_sections.slice(-1)[0].section_id)
+        setCourseName(response.data.class_sections[0].course_class.course.name)
+        setCourseSections(response.data.class_sections.slice(0, -1))
       })
       .then(() => {
         setLoading(false)
       })
   }, [])
-
-  // console.log(courseProgress)
-  console.log(courseSections)
 
   return (
     <div id='pagelayout'>
@@ -51,20 +51,46 @@ const CourseContent = () => {
       ) : (
         <>
           <div id='section-header '>
-            <h5 id='page-title'>
-              IS111: Introduction to Python (Course Content)
-            </h5>
+            <h5 id='page-title'>{courseName} Content</h5>
 
             {/* to might need to change based on api */}
-            <Link
+            {console.log(courseProgress)}
+
+            {courseProgress === 100 ? (
+              <div className=' complete'>COURSE COMPLETED</div>
+            ) : (
+              <div>
+              <Link
+                className='fitted-button final-quiz-style'
+                to={{
+                  pathname: '/takequiz',
+                  state: {
+                    course_id: course_id,
+                    trainer_id: trainer_id,
+                    session_id: quizSection,
+                  },
+                }}
+              >
+                Take Final Quiz
+              </Link>
+              </div>
+            )}
+
+
+
+            {/* <Link
               className='fitted-button final-quiz-style'
               to={{
                 pathname: '/takequiz',
-                state: {course_id: course_id, trainer_id: trainer_id},
+                state: {
+                  course_id: course_id,
+                  trainer_id: trainer_id,
+                  session_id: quizSection,
+                },
               }}
             >
               Take Final Quiz
-            </Link>
+            </Link> */}
           </div>
           Your Progress
           <div className='progress'>
@@ -90,7 +116,6 @@ const CourseContent = () => {
                   trainerId={trainer_id}
                 />
               ))}
-
             </div>
           </div>
         </>
