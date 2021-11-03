@@ -6,7 +6,7 @@ import * as Im from 'react-icons/im'
 import * as Bi from 'react-icons/bi'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { getCourseList } from '../../Apis/Api'
+import { deleteCourse, getCourseList } from '../../Apis/Api'
 import Spinner from '../../Components/Spinner/Spinner'
 
 // const CourseData = () => {
@@ -35,18 +35,19 @@ const Courses = () => {
     setDeleteMode(!deleteMode)
   }
 
-  const handleDelete = () => {
-    setCourseDataArr(
-      courseDataArr.filter((item) => !selectedArr.includes(item.courseID))
-    )
-    setSelectedArr([])
+  const handleDelete = async () => {
+    selectedArr.map(async (courseID) => {
+      setLoading(true)
+      deleteCourse({
+        "course_id": courseID
+      })
+        .then((response) => {
+          console.log(response)
+        })
+      setLoading(false)
+    })
+    window.location.reload()
   }
-
-  // useEffect(async () => {
-  //   let response = await getCourseList()
-  //   console.log(response)
-  //   setCourseDataArr(response.data.results)
-  // }, [])
 
   useEffect(() => {
     getCourseList()
@@ -68,8 +69,7 @@ const Courses = () => {
             <button hidden={!deleteMode} onClick={handleDeleteMode}>
               <Bi.BiArrowBack className='back-arrow' />
             </button>
-            <h5 id='page-title'>{pageTitle}</h5>
-
+              <h5 id='page-title'>{pageTitle}</h5>
             <div className='button-alignment'>
               <Link to='/createcourse'>
                 <button
@@ -94,6 +94,17 @@ const Courses = () => {
               >
                 <Im.ImBin className='bin-icon' />
                 Delete Courses
+              </button>
+
+              <button
+                hidden={!deleteMode}
+                className='fitted-button-corner'
+                // className='btn-sm btn-secondary'
+                onClick={handleDeleteMode}
+                role="button"
+                aria-label="cancelDeleteClasses"
+              >
+                Cancel
               </button>
 
               <button
