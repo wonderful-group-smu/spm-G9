@@ -270,14 +270,14 @@ const postQuizAttempt = (course_id, section_id, trainer_id, detail_input) => {
   )
 }
 
-// const getEngineerEligibility = (course_id) => {
-//   const employeeID = getEmployeeID()
-//   const headers = getAuthHeaders()
-//   return axios.get(
-//     `${BASE_URL}api/v1/quiz_attempt/${course_id}&${section_id}&${trainer_id}&${employeeID}`,
-//     { headers }
-//   )
-// }
+const getEngineerEligibility = () => {
+  const employeeID = getEmployeeID()
+  const headers = getAuthHeaders()
+  return axios.get(
+    `${BASE_URL}api/v1/courses/${employeeID}`,
+    { headers }
+  )
+}
 
 export {
   BASE_URL,
@@ -305,6 +305,7 @@ export {
   deleteCourse,
   getQuiz,
   getEmployeeRole,
-  getQuizAttempt,
+  getQuizAttempt, 
   postQuizAttempt,
+  getEngineerEligibility
 }

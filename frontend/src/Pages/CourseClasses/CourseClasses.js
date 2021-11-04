@@ -9,12 +9,13 @@ import Spinner from '../../Components/Spinner/Spinner'
 
 const CourseClasses = () => {
   const location = useLocation()
-  const { courseID, courseName } = location.state
+  const { courseID, courseName, eligibility } = location.state
   const [courseClasses, setCourseClasses] = useState([])
   const [isLoading, setLoading] = useState(true)
   const [pageTitle, setPageTitle] = useState(`Classes for ${courseName}`)
   const [deleteMode, setDeleteMode] = useState(false)
 
+  console.log(eligibility, 'me')
   const handleDeleteMode = () => {
     setPageTitle(deleteMode ? `Classes for ${courseName}` : `Delete Classes for ${courseName}`)
     setDeleteMode(!deleteMode)
@@ -127,7 +128,7 @@ const CourseClasses = () => {
                     id='classbutton'
                     to={{
                       pathname: '/classdetails',
-                      state: { courseClass },
+                      state: { courseClass: courseClass, eligibility: eligibility },
                     }}
                     className='arrow'
                   >
