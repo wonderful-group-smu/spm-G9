@@ -257,7 +257,6 @@ const getQuizAttempt = (course_id, section_id, trainer_id) => {
     { headers }
   )
 }
-
 const postQuizAttempt = (course_id, section_id, trainer_id, detail_input) => {
   const employeeID = getEmployeeID()
   const headers = getAuthHeaders()

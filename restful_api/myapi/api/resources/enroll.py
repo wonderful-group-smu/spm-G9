@@ -15,6 +15,19 @@ class EnrollResource(Resource):
       get:
         tags:
           - api
+        parameters:
+        - name: eng_id
+          in: query
+          type: integer
+          required: true
+        - name: course_id
+          in: query
+          type: integer
+          required: true
+        - name: trainer_id
+          in: query
+          type: integer
+          required: true
         responses:
           200:
             content:
@@ -136,6 +149,7 @@ class EnrollResource(Resource):
 
         enrollment_record.has_passed = updated_record.has_passed
         enrollment_record.is_official = updated_record.is_official
+        enrollment_record.is_approved = updated_record.is_approved
         db.session.commit()
 
         return {"msg": "enrollment updated", "enrollment": self.enroll_schema.dump(enrollment_record)}, 201
@@ -188,7 +202,7 @@ class EnrollResource(Resource):
 
 
 class EnrollResourceList(Resource):
-    """Get all enrolled learners based on engineer id
+    """Get all enrollement records based on engineer id
 
     ---
     get:
