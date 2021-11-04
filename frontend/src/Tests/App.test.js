@@ -93,7 +93,7 @@ describe('CourseClasses', () => {
       }
     });
     render(
-      <MemoryRouter initialEntries={[{pathname: "/courseclasses", state: {course_id: testCourse.course_id, courseName: testCourse.name}}]}>
+      <MemoryRouter initialEntries={[{ pathname: "/courseclasses", state: { course_id: testCourse.course_id, courseName: testCourse.name } }]}>
         <CourseClasses />
       </MemoryRouter>
     );
@@ -113,30 +113,49 @@ describe('CourseClasses', () => {
 describe('ClassDetails', () => {
   test('ClassDetails UI', async () => {
     act(() => {
-      axios.get.mockResolvedValueOnce({
-        data:
-        {
-          msg: 'enrollment record retrieved'
+      // axios.get.mockResolvedValueOnce({
+      //   data:
+      //   {
+      //     msg: 'enrollment record retrieved'
+      //   }
+      // });
+
+      axios.get.mockImplementation((url) => {
+        if (url.includes('enroll')) {
+          return Promise.resolve({
+            data:
+            {
+              msg: 'enrollment record retrieved'
+            }
+          })
         }
-      });
-      
+        else if (url.includes('class_sections')) {
+          return Promise.resolve({
+            data:
+            {
+              class_sections: []
+            }
+          })
+        }
+      })
+
       render(
-        <MemoryRouter initialEntries={[{pathname: "/courseclasses", state:{ courseClass: testCourseClass }}]}>
+        <MemoryRouter initialEntries={[{ pathname: "/courseclasses", state: { courseClass: testCourseClass } }]}>
           <ClassDetails />
         </MemoryRouter>
       );
     })
 
     const elementArray = [];
-    
+
     elementArray.push(await screen.findByRole('button', {
       name: 'selfEnroll'
     }))
     elementArray.push(screen.getByText(RegExp(testCourseClass.course.name)));
 
     elementArray.push(screen.getByText(/Class Details/i));
-    elementArray.push(screen.getByText(RegExp(testCourseClass.start_date.slice(0,10))));
-    elementArray.push(screen.getByText(RegExp(testCourseClass.end_date.slice(0,10))));
+    elementArray.push(screen.getByText(RegExp(testCourseClass.start_date.slice(0, 10))));
+    elementArray.push(screen.getByText(RegExp(testCourseClass.end_date.slice(0, 10))));
     elementArray.concat(screen.getAllByText(RegExp(testCourseClass.class_size)));
 
     elementArray.push(screen.getByText(/Our Trainer/i));
