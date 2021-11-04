@@ -7,6 +7,7 @@ import { object } from 'prop-types'
 import { Link, useLocation } from 'react-router-dom'
 import { getCourseProgress, getClassContent } from '../../Apis/Api'
 import Spinner from '../../Components/Spinner/Spinner'
+import Empty from '../../Components/Empty/Empty'
 
 const CourseContent = () => {
   const [courseProgress, setCourseProgress] = useState()
@@ -14,6 +15,7 @@ const CourseContent = () => {
   const [courseName, setCourseName] = useState()
   const [isLoading, setLoading] = useState(true)
   const [quizSection, setQuizSection] = useState()
+  const [hasSections, setHasSections] = useState(true)
   const location = useLocation()
   const { course_id, trainer_id } = location.state
 
@@ -34,10 +36,15 @@ const CourseContent = () => {
     getClassContent(course_id, trainer_id)
       // console.log(response.data)
       .then((response) => {
+        console.log(response)
         console.log(response.data.class_sections.slice(-1)[0].section_id)
         setQuizSection(response.data.class_sections.slice(-1)[0].section_id)
         setCourseName(response.data.class_sections[0].course_class.course.name)
         setCourseSections(response.data.class_sections.slice(0, -1))
+      })
+      .catch((error) => {
+        console.log(error)
+        setHasSections(false)
       })
       .then(() => {
         setLoading(false)
@@ -49,6 +56,7 @@ const CourseContent = () => {
       {isLoading ? (
         <Spinner />
       ) : (
+        hasSections ?
         <>
           <div id='section-header '>
             <h5 id='page-title'>{courseName} Content</h5>
@@ -117,6 +125,8 @@ const CourseContent = () => {
             </div>
           </div>
         </>
+        :
+        <Empty text="Course is still being set up, come back later!" />
       )}
     </div>
   )

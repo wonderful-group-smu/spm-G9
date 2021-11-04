@@ -100,6 +100,11 @@ const addNewCourseClass = ({
     { headers }
   )
 }
+const deleteCourseClass = ({ course_id, trainer_id }) => {
+  const headers = getAuthHeaders()
+  return axios.delete(`${BASE_URL}api/v1/course_class/${course_id}&${trainer_id}`, { headers })
+}
+
 const addNewSection = ({ course_id, section_name, materials, trainer_id }) => {
   const headers = getAuthHeaders()
   return axios.post(
@@ -113,15 +118,17 @@ const addNewSection = ({ course_id, section_name, materials, trainer_id }) => {
     { headers }
   )
 }
-const addNewQuiz = ({ course_id, section_id, trainer_id, is_graded }) => {
+const addNewQuiz = ({ course_id, section_id, trainer_id, is_graded, passing_mark, questions }) => {
   const headers = getAuthHeaders()
   return axios.post(
-    `${BASE_URL}api/v1/quiz/0`,
+    `${BASE_URL}api/v1/quiz/${course_id}&${section_id}&${trainer_id}`,
     {
       course_id,
       section_id,
       trainer_id,
       is_graded,
+      passing_mark,
+      questions
     },
     { headers }
   )
@@ -279,18 +286,6 @@ const postQuizAttempt = (course_id, section_id, trainer_id, detail_input) => {
 //   )
 // }
 ////////////////////////////////////////////////////////////////
-const postQuizAttempt = (course_id, section_id, trainer_id, detail_input) => {
-  const employeeID = getEmployeeID()
-  const headers = getAuthHeaders()
-
-  return axios.post(
-    `${BASE_URL}api/v1/quiz_attempt/${course_id}&${section_id}&${trainer_id}&${employeeID}`, 
-    
-   detail_input
-    ,
-    { headers }
-  )
-}
 
 export {
   BASE_URL,
@@ -316,6 +311,7 @@ export {
   acceptSelfEnroll,
   deleteSelfEnroll,
   deleteCourse,
+  deleteCourseClass,
   getQuiz,
   getEmployeeRole,
   getQuizAttempt,

@@ -34,14 +34,14 @@ const SectionFlow = (props) => {
     return (
         <div className='column'>
             {
-                props.sections
+                props.classSections
                     // .sort((a, b) => a.order - b.order)
                     .map((section, i) => (
                     <div key={i}>
                         {i == 0 ? "" : <Vsc.VscArrowRight className="section-link" />}
                         <button
                             type="button"
-                            title={section.title}
+                            title={section.section_name}
                             id="section-btn"
                             className="btn btn-outline-primary"
                             // draggable={true}
@@ -49,7 +49,7 @@ const SectionFlow = (props) => {
                             // onDragStart={handleDrag}
                             // onDrop={handleDrop}
                         >
-                            {section.title}
+                            {section.section_name}
                         </button>
                     </div>
                 ))
@@ -59,29 +59,29 @@ const SectionFlow = (props) => {
     )
 }
 
-SectionFlow.defaultProps = {
-    sections: [
-        {
-            title: "Variables & Operators",
-            order: 1
-        },
-        {
-            title: "Conditional Statements & Loops",
-            order: 2
-        },
-        {
-            title: "Lists, Tuples & Dictionaries",
-            order: 3
-        },
-        {
-            title: "File Read & Write",
-            order: 4
-        },
-    ]
-}
+// SectionFlow.defaultProps = {
+//     sections: [
+//         {
+//             title: "Variables & Operators",
+//             order: 1
+//         },
+//         {
+//             title: "Conditional Statements & Loops",
+//             order: 2
+//         },
+//         {
+//             title: "Lists, Tuples & Dictionaries",
+//             order: 3
+//         },
+//         {
+//             title: "File Read & Write",
+//             order: 4
+//         },
+//     ]
+// }
 
 SectionFlow.propTypes = {
-    sections: array,
+    classSections: array,
 }
 
 export default SectionFlow;

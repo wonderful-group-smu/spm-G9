@@ -107,11 +107,11 @@ describe('CourseClasses', () => {
     expectAllInDocument(elementArray)
   })
 
-  
+
 })
 
 describe('ClassDetails', () => {
-  test('ClassDetails UI', () => {
+  test('ClassDetails UI', async () => {
     act(() => {
       axios.get.mockResolvedValueOnce({
         data:
@@ -128,11 +128,11 @@ describe('ClassDetails', () => {
     })
 
     const elementArray = [];
-    elementArray.push(screen.getByText(RegExp(testCourseClass.course.name)));
-    elementArray.push(screen.getByText(/Enroll Now/i));
-    elementArray.push(screen.getByRole('button', {
+    
+    elementArray.push(await screen.findByRole('button', {
       name: 'selfEnroll'
     }))
+    elementArray.push(screen.getByText(RegExp(testCourseClass.course.name)));
 
     elementArray.push(screen.getByText(/Class Details/i));
     elementArray.push(screen.getByText(RegExp(testCourseClass.start_date.slice(0,10))));
