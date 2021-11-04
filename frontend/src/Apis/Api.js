@@ -278,6 +278,19 @@ const postQuizAttempt = (course_id, section_id, trainer_id, detail_input) => {
 //     { headers }
 //   )
 // }
+////////////////////////////////////////////////////////////////
+const postQuizAttempt = (course_id, section_id, trainer_id, detail_input) => {
+  const employeeID = getEmployeeID()
+  const headers = getAuthHeaders()
+
+  return axios.post(
+    `${BASE_URL}api/v1/quiz_attempt/${course_id}&${section_id}&${trainer_id}&${employeeID}`, 
+    
+   detail_input
+    ,
+    { headers }
+  )
+}
 
 export {
   BASE_URL,
