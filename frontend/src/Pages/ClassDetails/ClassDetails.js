@@ -10,18 +10,20 @@ import ClassList from '../../Components/ClassList/ClassList'
 import GeneralModal from '../../Components/GeneralModal/GeneralModal'
 import SectionFlow from '../../Components/SectionFlow/SectionFlow'
 import { addSelfEnroll, getSelfEnroll, getEmployeeRole } from '../../Apis/Api'
+import Spinner from '../../Components/Spinner/Spinner'
 
 const ClassDetails = () => {
   const location = useLocation()
   const { courseClass } = location.state
   const [DetailButton, setDetailButton] = useState('top-bar-selected')
   const [NamelistButton, setNamelistButton] = useState('top-bar')
+  const [isLoading, setLoading] = useState(true)
   const [disableButton, setDisableButton] = useState([
     false,
     'fitted-button button-padding',
     'ENROLL NOW',
   ])
-  console.log(courseClass)
+  // console.log(courseClass)
 
   const showDetailButton = () => {
     if (DetailButton == 'top-bar') {
@@ -36,23 +38,11 @@ const ClassDetails = () => {
     }
   }
 
-  // useEffect(async () => {
-  //   let response = await getSelfEnroll(
-  //     courseClass.course.course_id,
-  //     courseClass.trainer.id
-  //   )
-  //   if (response.data.msg == 'enrollment record retrieved') {
-  //     setDisableButton([
-  //       true,
-  //       'fitted-button button-padding button_masked',
-  //       'APPLIED/ENROLLED',
-  //     ])
-  //   }
-  // }, [])
-
   useEffect(() => {
-    getSelfEnroll(courseClass.course.course_id, courseClass.trainer.id).then(
-      (response) => {
+
+    getSelfEnroll(courseClass.course.course_id, courseClass.trainer.id)
+      .then((response) => {
+        console.log(response)
         if (response.data.msg == 'enrollment record retrieved') {
           setDisableButton([
             true,
@@ -60,12 +50,19 @@ const ClassDetails = () => {
             'APPLIED/ENROLLED',
           ])
         }
-      }
-    )
+      })
+      .then(() => {
+        setLoading(false)
+      })
+
+   
   }, [])
 
   // const role = 'engineer'
   const role = getEmployeeRole()
+
+  const prereqArr = courseClass.course.prereqs
+
   const [confirmSubmission, setConfirmSubmission] = React.useState(false)
   function submitSelfEnroll(course_id, trainer_id) {
     console.log('hi')
@@ -80,148 +77,175 @@ const ClassDetails = () => {
 
   return (
     <div id='pagelayout'>
-      <div className='gfg'>
-        <img src={LectureHeader} className='HeaderImage' />
-        <div className='Overlay'>
-          <div className='first-txt'>
-            <h3>{courseClass.course.name}</h3>
-            <div className='sub-txt'>Application closes on 1 January 2021</div>
-
-            <div className={role != 'ENG' ? 'hidebutton' : ''}>
-              <button
-                id='engineer_enroll_button'
-                disabled={disableButton[0]}
-                className={disableButton[1]}
-                onClick={() => {
-                  submitSelfEnroll(
-                    courseClass.course.course_id,
-                    courseClass.trainer.id
-                  )
-                }}
-                role='button'
-                aria-label='selfEnroll'
-              >
-                {disableButton[2]}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <br />
-      <div className={role != 'HR' ? 'hidebutton' : ''}>
-        <button
-          type='submit'
-          className={DetailButton}
-          onClick={showDetailButton}
-        >
-          Details
-        </button>
-
-        <button
-          type='submit'
-          className={NamelistButton}
-          onClick={showNamelistButton}
-        >
-          Students Namelist
-        </button>
-      </div>
-
-      {DetailButton == 'top-bar-selected' ? (
-        <div className='flex-boxx'>
-          <div className='white-bg class-detail'>
-            <h4>Class Details</h4>
-            <hr />
-            <div className='row'>
-              <div className='col'>
-                <b>
-                  <Fi.FiCalendar /> Start
-                </b>
-              </div>
-              <div className='col'>
-                <b>
-                  <Fi.FiCalendar /> End
-                </b>
-              </div>
-
-              <div className='col'>
-                <b>
-                  <Bs.BsPeopleCircle />
-                  &nbsp; Class Size
-                </b>
-              </div>
-            </div>
-
-            <div className='row'>
-              <div className='col'>
-                {courseClass.start_date
-                  ? courseClass.start_date.slice(0, 10)
-                  : 'NIL'}
-              </div>
-              <div className='col'>
-                {courseClass.end_date
-                  ? courseClass.end_date.slice(0, 10)
-                  : 'NIL'}
-              </div>
-              <div className='col'>{courseClass.class_size}</div>
-            </div>
-            <br />
-          </div>
-          <div style={{ paddingLeft: '1rem' }}></div>
-
-          <div className='white-bg profile-block'>
-            <h4> Our Trainer </h4>
-            <hr />
-            <div className='row'>
-              <div className='col'>
-                <img src={ProfileImage} className='profile-image shadow' />
-              </div>
-              <div className='col'>
-                <h6>{courseClass.trainer.name}</h6>
-                <div>
-                  <i>Senior Engineer</i>
-                </div>
-                <div>
-                  <i>{courseClass.trainer.name}@wonderful.com</i>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className='white-bg sections-block'>
-            <div className='sections-title'>
-              <h4> Sections </h4>
-              <Link to='/createsection'>
-                <button
-                  type='button'
-                  className='btn-sm btn-secondary'
-                  role='button'
-                  aria-label='createSection'
-                >
-                  <Cg.CgMathPlus className='plus-icon' />
-                  Add a Section
-                </button>
-              </Link>
-            </div>
-            <hr />
-            <SectionFlow />
-          </div>
-        </div>
+      {isLoading ? (
+        <Spinner />
       ) : (
-        <ClassList
-          course_id={courseClass.course.course_id}
-          trainer_id={courseClass.trainer.id}
-        />
-      )}
+        <>
+          <div className='gfg'>
+            <img src={LectureHeader} className='HeaderImage' />
+            <div className='Overlay'>
+              <div className='first-txt'>
+                <h3>{courseClass.course.name}</h3>
+                <div className='sub-txt'>
+                  Application closes on 1 January 2021
+                </div>
 
-      <br />
-      <GeneralModal
-        show={confirmSubmission}
-        onHide={() => setConfirmSubmission(false)}
-        modal_title='Self-Enrollment Request Received'
-        modal_content='Thank you for signing up for the course. We are reviewing your request and will get back to you ASAP!'
-        button_content='Ok'
-        button_action={() => setConfirmSubmission(false)}
-      />
+                <div className={role != 'ENG' ? 'hidebutton' : ''}>
+                  <button
+                    id='engineer_enroll_button'
+                    disabled={disableButton[0]}
+                    className={disableButton[1]}
+                    onClick={() => {
+                      submitSelfEnroll(
+                        courseClass.course.course_id,
+                        courseClass.trainer.id
+                      )
+                    }}
+                    role='button'
+                    aria-label='selfEnroll'
+                  >
+                    {disableButton[2]}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+          <div className={role != 'HR' ? 'hidebutton' : ''}>
+            <button
+              type='submit'
+              className={DetailButton}
+              onClick={showDetailButton}
+            >
+              Details
+            </button>
+
+            <button
+              type='submit'
+              className={NamelistButton}
+              onClick={showNamelistButton}
+            >
+              Students Namelist
+            </button>
+          </div>
+
+          {DetailButton == 'top-bar-selected' ? (
+            <div className='flex-boxx'>
+              <div className='white-bg class-detail'>
+                <h4>Class Details</h4>
+                <hr />
+                <div className='row'>
+                  <div className='col'>
+                    <b>
+                      <Fi.FiCalendar /> Start
+                    </b>
+                  </div>
+                  <div className='col'>
+                    <b>
+                      <Fi.FiCalendar /> End
+                    </b>
+                  </div>
+
+                  <div className='col'>
+                    <b>
+                      <Bs.BsPeopleCircle />
+                      &nbsp; Class Size
+                    </b>
+                  </div>
+                </div>
+
+                <div className='row'>
+                  <div className='col'>
+                    {courseClass.start_date
+                      ? courseClass.start_date.slice(0, 10)
+                      : 'NIL'}
+                  </div>
+                  <div className='col'>
+                    {courseClass.end_date
+                      ? courseClass.end_date.slice(0, 10)
+                      : 'NIL'}
+                  </div>
+                  <div className='col'>{courseClass.class_size}</div>
+                </div>
+                <br />
+              </div>
+              <div style={{ paddingLeft: '1rem' }}></div>
+
+              <div className='white-bg profile-block'>
+                <h4> Our Trainer </h4>
+                <hr />
+                <div className='row'>
+                  <div className='col'>
+                    <img src={ProfileImage} className='profile-image shadow' />
+                  </div>
+                  <div className='col'>
+                    <h6>{courseClass.trainer.name}</h6>
+                    <div>
+                      <i>Senior Engineer</i>
+                    </div>
+                    <div>
+                      <i>{courseClass.trainer.name}@wonderful.com</i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className='white-bg sections-block'>
+                <div className='sections-title'>
+                  <h4>Information</h4>
+                </div>
+                <hr />
+                {courseClass.course.description}
+                <br />
+                <br />
+                <p>
+                  <i>Note that these are the prerequisite for this course:</i>
+
+                  {prereqArr.map((data, i) => (
+                    <li key={i}>Course ID: {data.prereq_id}</li>
+                  ))}
+
+              
+                </p>
+              </div>
+
+              <div className='white-bg sections-block'>
+                <div className='sections-title'>
+                  <h4> Sections </h4>
+                  <Link to='/createsection'>
+                    <button
+                      type='button'
+                      className='btn-sm btn-secondary'
+                      role='button'
+                      aria-label='createSection'
+                    >
+                      <Cg.CgMathPlus className='plus-icon' />
+                      Add a Section
+                    </button>
+                  </Link>
+                </div>
+                <hr />
+                <SectionFlow />
+              </div>
+            </div>
+          ) : (
+            <ClassList
+              course_id={courseClass.course.course_id}
+              trainer_id={courseClass.trainer.id}
+            />
+          )}
+
+          <br />
+          <GeneralModal
+            show={confirmSubmission}
+            onHide={() => setConfirmSubmission(false)}
+            modal_title='Self-Enrollment Request Received'
+            modal_content='Thank you for signing up for the course. We are reviewing your request and will get back to you ASAP!'
+            button_content='Ok'
+            button_action={() => setConfirmSubmission(false)}
+          />
+        </>
+      )}
     </div>
   )
 }

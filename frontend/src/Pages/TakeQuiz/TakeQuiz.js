@@ -5,7 +5,7 @@ import './TakeQuiz.css'
 import GeneralModal from '../../Components/GeneralModal/GeneralModal'
 import { useHistory, useLocation } from 'react-router-dom'
 import { object } from 'prop-types'
-import { getQuiz } from '../../Apis/Api'
+import { getQuiz, getEmployeeID, postQuizAttempt } from '../../Apis/Api'
 import Spinner from '../../Components/Spinner/Spinner'
 
 const formReducer = (state, event) => {
@@ -18,10 +18,15 @@ const formReducer = (state, event) => {
 const TakeQuiz = () => {
   const location = useLocation()
   const { course_id, trainer_id, session_id } = location.state
+  const [employeeId, setEmployeeId] = useState()
   const [quizQuestions, setQuizQuestions] = useState([])
+  const [quizAnswers, setQuizAnswers] = useState([])
+  const [viewScore, setScore] = useState()
   const [isLoading, setLoading] = useState(true)
 
   useEffect(() => {
+    setEmployeeId(getEmployeeID())
+
     getQuiz(course_id, session_id, trainer_id)
       .then((response) => {
         console.log(response.data)
@@ -49,15 +54,8 @@ const TakeQuiz = () => {
   }, [])
 
   const [formData, setFormData] = useReducer(formReducer, {})
-  const [submitting, setSubmitting] = useState(false)
-
   const handleSubmit = (event) => {
     event.preventDefault()
-    setSubmitting(true)
-
-    setTimeout(() => {
-      setSubmitting(false)
-    }, 3000)
   }
 
   const handleChange = (event) => {
@@ -66,16 +64,66 @@ const TakeQuiz = () => {
       value: event.target.value,
     })
   }
-
   const [confirmSubmission, setConfirmSubmission] = React.useState(false)
-
+  const [resultsModal, setResultModal] = React.useState(false)
   const history = useHistory()
+
   function handleClick() {
-    history.push('/')
+    console.log(quizAnswers)
+    postQuizAttempt(course_id, session_id, trainer_id, quizAnswers)
+      .then((response) => {
+        console.log(response.data.score)
+        const score_arr = response.data.score.split('/')
+        console.log(score_arr)
+        if (parseInt(score_arr.slice(-1)) / 2 <= parseInt(score_arr.slice())) {
+          setScore(
+            `Congratulations! You passed! \n Your score is  ${response.data.score}`
+          )
+          setResultModal(true)
+          setConfirmSubmission(false)
+        } else {
+          setScore(
+            `Ohh noooo!! Please try harder next time!  \n Your score is  ${response.data.score}`
+          )
+          setResultModal(true)
+          setConfirmSubmission(false)
+        }
+      })
+      .catch((error) => {
+        return error
+      })
   }
 
   const total_answered = Object.keys(formData).length
   const total_question = quizQuestions.length
+
+  console.log(formData)
+  // const answers=[]
+  function formatAnswers() {
+    const answer = []
+    for (const question in formData) {
+      const question_int = parseInt(question)
+      const temp_anwswer = {
+        course_id: course_id,
+        section_id: session_id,
+        trainer_id: trainer_id,
+        question_id: question_int,
+        eng_id: employeeId,
+        answer_label: formData[question],
+      }
+      answer.push(temp_anwswer)
+    }
+
+    const detail_input = {
+      course_id: course_id,
+      eng_id: employeeId,
+      section_id: session_id,
+      trainer_id: trainer_id,
+      answers: answer,
+    }
+
+    setQuizAnswers(detail_input)
+  }
 
   return (
     <div id='pagelayout'>
@@ -87,18 +135,6 @@ const TakeQuiz = () => {
             <h5 id='page-title'>Section {session_id} Quiz</h5>
           </div>
 
-          {submitting && (
-            <div>
-              You are submitting the following:
-              <ul>
-                {Object.entries(formData).map(([name, value]) => (
-                  <li key={name}>
-                    <strong>{name}</strong>:{value.toString()}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
           <form onSubmit={handleSubmit}>
             {quizQuestions.map((data, i) => (
               <QuizQuestion
@@ -115,6 +151,7 @@ const TakeQuiz = () => {
               type='submit'
               className='fitted-button'
               onClick={() => {
+                formatAnswers()
                 setConfirmSubmission(true)
               }}
             >
@@ -131,6 +168,9 @@ const TakeQuiz = () => {
                   modal_title='Submit Quiz'
                   modal_content='Are you sure you want to submit the quiz?'
                   button_content='Yes'
+                  // onClick={()=>{
+                  //   console.log('yes i am ')
+                  // }}
                   button_action={handleClick}
                 />
               </>
@@ -147,6 +187,19 @@ const TakeQuiz = () => {
               </>
             )}
           </>
+
+          <GeneralModal
+            show={resultsModal}
+            onHide={() => setResultModal(false)}
+            modal_title='Your Score'
+            modal_content={viewScore}
+            button_content='Back to Home Page'
+            button_action={() => {
+              setResultModal(false)
+
+              history.push('/')
+            }}
+          />
         </>
       )}
     </div>
