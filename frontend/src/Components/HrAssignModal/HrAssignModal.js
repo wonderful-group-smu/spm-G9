@@ -18,7 +18,7 @@ const EnrollModal = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    addHrEnroll(props.course_id, props.trainer_id)
+    addHrEnroll(props.course_id, props.trainer_id, formData.selfenroll)
   }
 
   const handleChange = (event) => {

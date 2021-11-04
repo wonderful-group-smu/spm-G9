@@ -39,7 +39,6 @@ const ClassDetails = () => {
   }
 
   useEffect(() => {
-
     getSelfEnroll(courseClass.course.course_id, courseClass.trainer.id)
       .then((response) => {
         console.log(response)
@@ -51,11 +50,28 @@ const ClassDetails = () => {
           ])
         }
       })
+      .catch((error) => {
+        console.log(error, 'error firsr')
+      })
       .then(() => {
         setLoading(false)
       })
 
-   
+    // getSelfEnroll(courseClass.course.course_id, courseClass.trainer.id)
+    //   .then((response) => {
+    //     console.log(response)
+    //     if (response.data.msg == 'enrollment record retrieved') {
+    //       setDisableButton([
+    //         true,
+    //         'fitted-button button-padding button_masked',
+    //         'APPLIED/ENROLLED',
+    //       ])
+    //     }
+    //   })
+    //   .then(() => {
+    //     setLoading(false)
+    //   })
+
   }, [])
 
   // const role = 'engineer'
@@ -201,11 +217,13 @@ const ClassDetails = () => {
                 <p>
                   <i>Note that these are the prerequisite for this course:</i>
 
-                  {prereqArr.map((data, i) => (
-                    <li key={i}>Course ID: {data.prereq_id}</li>
-                  ))}
-
-              
+                  {prereqArr.length > 0 ? (
+                    prereqArr.map((data, i) => (
+                      <li key={i}>Course ID: {data.prereq_id}</li>
+                    ))
+                  ) : (
+                    <li>None</li>
+                  )}
                 </p>
               </div>
 
