@@ -14,7 +14,7 @@ import Spinner from '../../Components/Spinner/Spinner'
 
 const ClassDetails = () => {
   const location = useLocation()
-  const { courseClass } = location.state
+  const { courseClass, eligibility } = location.state
   const [DetailButton, setDetailButton] = useState('top-bar-selected')
   const [NamelistButton, setNamelistButton] = useState('top-bar')
   const [isLoading, setLoading] = useState(true)
@@ -24,7 +24,7 @@ const ClassDetails = () => {
     'fitted-button button-padding',
     'ENROLL NOW',
   ])
-  // console.log(courseClass)
+  // console.log(eligibility, 'hiii')
 
   const showDetailButton = () => {
     if (DetailButton == 'top-bar') {
@@ -40,6 +40,7 @@ const ClassDetails = () => {
   }
 
   useEffect(() => {
+    console.log(eligibility ,typeof(eligibility))
     getSelfEnroll(courseClass.course.course_id, courseClass.trainer.id)
       .then((response) => {
         console.log(response)
@@ -50,9 +51,29 @@ const ClassDetails = () => {
             'APPLIED/ENROLLED',
           ])
         }
+
+        // else if (eligibility === 'false'){
+        //   setDisableButton([
+        //     true,
+        //     'fitted-button button-padding button_masked',
+        //     'NOT ELIGIBLE',
+        //   ])
+        // }
+
       })
       .catch((error) => {
-        console.log(error, 'error firsr')
+        console.log(error)
+        
+        if (eligibility == false){
+          setDisableButton([
+            true,
+            'fitted-button button-padding button_masked',
+            'YOU ARE NOT ELIGIBLE',
+          ])
+        }
+
+
+        // console.log(error, 'error firsr')
       })
       .then(() => {
         setLoading(false)
@@ -78,6 +99,7 @@ const ClassDetails = () => {
           console.log(response)
           setClassSections(response.data.class_sections)
         })
+
 
   }, [])
 

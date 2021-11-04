@@ -10,13 +10,14 @@ import ClassRow from '../../Components/ClassRow/ClassRow'
 
 const CourseClasses = () => {
   const location = useLocation()
-  const { courseID, courseName } = location.state
+  const { courseID, courseName, eligibility } = location.state
   const [courseClasses, setCourseClasses] = useState([])
   const [isLoading, setLoading] = useState(true)
   const [pageTitle, setPageTitle] = useState(`Classes for ${courseName}`)
   const [deleteMode, setDeleteMode] = useState(false)
   const [selectedArr, setSelectedArr] = useState([])
 
+  console.log(eligibility, 'me')
   const handleDeleteMode = () => {
     setPageTitle(deleteMode ? `Classes for ${courseName}` : `Delete Classes for ${courseName}`)
     setDeleteMode(!deleteMode)
