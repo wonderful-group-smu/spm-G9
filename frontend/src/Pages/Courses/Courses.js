@@ -6,7 +6,7 @@ import * as Im from 'react-icons/im'
 import * as Bi from 'react-icons/bi'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { deleteCourse, getCourseList } from '../../Apis/Api'
+import { deleteCourse, getCourseList, getEngineerEligibility } from '../../Apis/Api'
 import Spinner from '../../Components/Spinner/Spinner'
 
 // const CourseData = () => {
@@ -28,6 +28,7 @@ const Courses = () => {
   const [deleteMode, setDeleteMode] = useState(false)
   const [courseDataArr, setCourseDataArr] = useState([])
   const [selectedArr, setSelectedArr] = useState([])
+  const [engEligibilityArr, setEngEligibilityArr] = useState([])
   const [isLoading, setLoading] = useState(true)
 
   const handleDeleteMode = () => {
@@ -54,9 +55,21 @@ const Courses = () => {
       .then((response) => {
         setCourseDataArr(response.data.results)
       })
+
+
+    
+    getEngineerEligibility().then((response)=>{
+      setEngEligibilityArr(response.data.results)
+      console.log(response.data.results[0].isEligible, 'hi')
+    })
+
       .then(() => {
         setLoading(false)
       })
+
+
+
+
   }, [])
 
   console.log(courseDataArr)
@@ -124,7 +137,7 @@ const Courses = () => {
 
           <div className='center-content-flexbox'>
             <div>
-              {courseDataArr.map((data) => (
+              {courseDataArr.map((data, i) => (
                 <CourseCard
                   key={data.course_id}
                   courseID={data.course_id}
@@ -132,10 +145,11 @@ const Courses = () => {
                   description={data.description}
                   deleteMode={deleteMode}
                   selectedArr={selectedArr}
+                  eligibility={engEligibilityArr[i].isEligible}
                   setSelectedArr={setSelectedArr}
                   link={{
                     pathname: '/courseclasses',
-                    state: { courseID: data.course_id, courseName: data.name },
+                    state: { courseID: data.course_id, courseName: data.name , eligibility: engEligibilityArr[i].isEligible},
                   }}
                 />
               ))}

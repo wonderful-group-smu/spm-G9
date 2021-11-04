@@ -5,6 +5,7 @@ import * as Fi from 'react-icons/fi'
 import * as Bs from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 import LectureHeader from '../../Assets/Lecture Header.jpeg'
+import * as Ri from 'react-icons/ri'
 
 import {
   array,
@@ -60,7 +61,15 @@ const CourseCard = (props) => {
             <img src={LectureHeader} className='card-img-top' />
             <div className='hover-overlay' />
             <div className='card-body'>
-              <h5 className='card-title'>{props.courseName}</h5>
+              <h5 className='card-title'>
+                {props.courseName}
+                &nbsp;&nbsp;
+                  {props.eligibility && <Ri.RiThumbUpLine />}
+              </h5>
+
+  
+
+
               <p className='card-subtitle mb-2 text-muted'></p>
               <p className='card-text'>
                 <Fi.FiCalendar className='calendar' /> Enrolment Period <br />
@@ -90,6 +99,7 @@ CourseCard.propTypes = {
   selectedArr: array,
   setSelectedArr: func,
   link: oneOfType([string, object]),
+  eligibility: bool,
 }
 
 export default CourseCard
