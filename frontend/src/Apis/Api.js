@@ -202,17 +202,17 @@ const getCourseEligibleEngineers = (course_id) => {
   })
 }
 
-const addHrEnroll = (course_id, trainer_id) => {
-  const employeeID = getEmployeeID()
+const addHrEnroll = (course_id, trainer_id, employee_id) => {
+  // const employeeID = getEmployeeID()
   const detail_input = {
-    eng_id: employeeID,
+    eng_id: employee_id,
     course_id: course_id,
     trainer_id: trainer_id,
     is_official: true,
   }
   const headers = getAuthHeaders()
   return axios.post(
-    `${BASE_URL}api/v1/enroll/${employeeID}&${course_id}&${trainer_id}`,
+    `${BASE_URL}api/v1/enroll/${employee_id}&${course_id}&${trainer_id}`,
     detail_input,
     { headers }
   )
@@ -258,19 +258,26 @@ const getQuizAttempt = (course_id, section_id, trainer_id) => {
   )
 }
 
-////////////////////////////////////////////////////////////////
 const postQuizAttempt = (course_id, section_id, trainer_id, detail_input) => {
   const employeeID = getEmployeeID()
   const headers = getAuthHeaders()
 
   return axios.post(
-    `${BASE_URL}api/v1/quiz_attempt/${course_id}&${section_id}&${trainer_id}&${employeeID}`, 
-    
-   detail_input
-    ,
+    `${BASE_URL}api/v1/quiz_attempt/${course_id}&${section_id}&${trainer_id}&${employeeID}`,
+
+    detail_input,
     { headers }
   )
 }
+
+// const getEngineerEligibility = (course_id) => {
+//   const employeeID = getEmployeeID()
+//   const headers = getAuthHeaders()
+//   return axios.get(
+//     `${BASE_URL}api/v1/quiz_attempt/${course_id}&${section_id}&${trainer_id}&${employeeID}`,
+//     { headers }
+//   )
+// }
 
 export {
   BASE_URL,

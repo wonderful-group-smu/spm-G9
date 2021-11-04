@@ -60,23 +60,21 @@ const CourseContent = () => {
               <div className=' complete'>COURSE COMPLETED</div>
             ) : (
               <div>
-              <Link
-                className='fitted-button final-quiz-style'
-                to={{
-                  pathname: '/takequiz',
-                  state: {
-                    course_id: course_id,
-                    trainer_id: trainer_id,
-                    session_id: quizSection,
-                  },
-                }}
-              >
-                Take Final Quiz
-              </Link>
+                <Link
+                  className='fitted-button final-quiz-style'
+                  to={{
+                    pathname: '/takequiz',
+                    state: {
+                      course_id: course_id,
+                      trainer_id: trainer_id,
+                      session_id: quizSection,
+                    },
+                  }}
+                >
+                  Take Final Quiz
+                </Link>
               </div>
             )}
-
-
 
             {/* <Link
               className='fitted-button final-quiz-style'
@@ -105,11 +103,11 @@ const CourseContent = () => {
           {/* <div className='page-subtitle'>There are 3 lessons in this course</div> */}
           <div className='row'>
             <div className='col'>
-              {courseSections.map((data) => (
+              {courseSections.map((data, i) => (
                 <ContentCard
                   key={data.section_id}
                   status={data.has_completed}
-                  sessionNumber={data.section_id}
+                  sessionNumber={i + 1}
                   sessionTitle={data.section_name}
                   sessionContent={data.materials}
                   courseId={course_id}
