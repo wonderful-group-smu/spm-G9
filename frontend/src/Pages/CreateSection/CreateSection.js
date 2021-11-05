@@ -1,23 +1,89 @@
 import React, { useState } from "react";
+import { useLocation } from 'react-router-dom'
 import { Accordion } from 'react-bootstrap'
 import CreateQuestion from '../../Components/CreateQuestion/CreateQuestion';
 import { array } from "prop-types";
 import '../Pagelayout.css';
 import './CreateSection.css';
-import { addNewSection } from '../../Apis/Api';
+// import { addNewSection } from '../../Apis/Api';
 import BackArrow from "../../Components/BackArrow/BackArrow";
+import { addNewQuiz, addNewSection } from "../../Apis/Api";
 
 const CreateSection = (props) => {
-  const [sectionTitle, setSectionTitle] = useState("");
+  const [sectionName, setSectionName] = useState("");
   const [selectedFiles, setSelectedFiles] = useState([]);
-
   const [questionCount, setQuestionCount] = useState(1);
   const [questions, setQuestions] = useState(props.questionArr);
+  const location = useLocation();
+  const { courseClass } = location.state;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
-    alert(`Submitted ${sectionTitle}, ${selectedFiles}`);
+    alert(`Submitted ${sectionName}, ${selectedFiles}`);
+
+    addNewSection({
+      "course_id": courseClass.course.course_id,
+      "trainer_id": courseClass.trainer_id,
+      "section_name": sectionName,
+      "materials": "test"
+    })
+      .then(response => {
+        let section_id = response.data.class_section.section_id
+        let question_options = {};
+
+        let questionList = 
+          questions.map((question) => {
+            if (question.questionType) {
+              // mcq
+              question_options = ['A', 'B', 'C', 'D'].map((letter, i) => {
+                return {
+                  "question_id": question.questionID,
+                  "course_id": courseClass.course.course_id,
+                  "section_id": section_id,
+                  "trainer_id": courseClass.trainer_id,
+                  "is_correct": question.correctAnswer === letter,
+                  "option_id": i,
+                  "option_label": letter,
+                  "option_value": question[`option${letter}`]
+                }
+              })
+            }
+            else {
+              // t/f
+              question_options = ['T', 'F'].map((letter, i) => {
+                return {
+                  "question_id": question.questionID,
+                  "course_id": courseClass.course.course_id,
+                  "section_id": section_id,
+                  "trainer_id": courseClass.trainer_id,
+                  "is_correct": question.correctAnswer === letter,
+                  "option_id": i,
+                  "option_label": letter,
+                  "option_value": letter === 'T' ? "True" : "False"
+                }
+              })
+            }
+
+            return {
+              "question_id": question.questionID,
+              "course_id": courseClass.course.course_id,
+              "section_id": section_id,
+              "trainer_id": courseClass.trainer_id,
+              "question": question.questionText,
+              "question_type": question.questionType,
+              "question_options": question_options,
+            }
+          })
+
+        addNewQuiz({
+          "course_id": courseClass.course.course_id,
+          "section_id": section_id,
+          "trainer_id": courseClass.trainer_id,
+          "is_graded": false,
+          "passing_mark": 0,
+          "questions": questionList,
+        }).then(response => console.log(response))
+      })
   }
 
   const addQuestion = () => {
@@ -28,39 +94,25 @@ const CreateSection = (props) => {
   }
 
   const testButton = async () => {
-    let response = await addNewSection({
-      "course_id": 2,
-      "materials": "string",
-      "section_name": "sectionX",
-      "trainer_id": 2
-    })
-    console.log(response.data);
-
-    // let response = await addNewQuiz({
-    //   course_id: 2,
-    //   section_id: 3,
-    //   trainer_id: 2,
-    //   is_graded: false,
-    // })
-    // console.log(response.data);
+    console.log(questions)
   }
 
   return (
     <div id='pagelayout'>
 
       <div id='section-header'>
-        <BackArrow/>
+        <BackArrow />
         <h5 id='page-title'>Add a Section</h5>
       </div>
 
       <form onSubmit={handleSubmit}>
 
-        <label htmlFor="inputSectionTitle" className="form-label">Section Title</label>
+        <label htmlFor="inputSectionName" className="form-label">Section Title</label>
         <input
           className="form-control section-form-control"
-          id="inputSectionTitle"
+          id="inputSectionName"
           placeholder="Input Section Title..."
-          onChange={e => setSectionTitle(e.target.value)}
+          onChange={e => setSectionName(e.target.value)}
         />
 
         <label htmlFor="inputMaterials" className="form-label">Course Materials</label>
@@ -78,7 +130,6 @@ const CreateSection = (props) => {
             <Accordion.Body>
               {
                 questions.map((question, i) => {
-                  console.log(i)
                   return (
                     <>
                       <CreateQuestion key={i} questionID={question.questionID}

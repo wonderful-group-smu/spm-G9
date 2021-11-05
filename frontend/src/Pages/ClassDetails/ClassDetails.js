@@ -9,7 +9,7 @@ import './ClassDetails.css'
 import ClassList from '../../Components/ClassList/ClassList'
 import GeneralModal from '../../Components/GeneralModal/GeneralModal'
 import SectionFlow from '../../Components/SectionFlow/SectionFlow'
-import { addSelfEnroll, getSelfEnroll, getEmployeeRole } from '../../Apis/Api'
+import { addSelfEnroll, getClassContent, getSelfEnroll, getEmployeeRole } from '../../Apis/Api'
 import Spinner from '../../Components/Spinner/Spinner'
 
 const ClassDetails = () => {
@@ -18,6 +18,7 @@ const ClassDetails = () => {
   const [DetailButton, setDetailButton] = useState('top-bar-selected')
   const [NamelistButton, setNamelistButton] = useState('top-bar')
   const [isLoading, setLoading] = useState(true)
+  const [classSections, setClassSections] = useState([])
   const [disableButton, setDisableButton] = useState([
     false,
     'fitted-button button-padding',
@@ -92,6 +93,14 @@ const ClassDetails = () => {
     //   .then(() => {
     //     setLoading(false)
     //   })
+
+      getClassContent(courseClass.course.course_id, courseClass.trainer_id)
+        .then(response => {
+          console.log(response)
+          setClassSections(response.data.class_sections)
+        })
+
+
   }, [])
 
   // const role = 'engineer'
@@ -250,7 +259,12 @@ const ClassDetails = () => {
               <div className='white-bg sections-block'>
                 <div className='sections-title'>
                   <h4> Sections </h4>
-                  <Link to='/createsection'>
+                  <Link
+                    to={{
+                      pathname: '/createsection',
+                      state: { courseClass: courseClass },
+                    }}
+                  >
                     <button
                       type='button'
                       className='btn-sm btn-secondary'
@@ -263,7 +277,7 @@ const ClassDetails = () => {
                   </Link>
                 </div>
                 <hr />
-                <SectionFlow />
+                <SectionFlow classSections={classSections} />
               </div>
             </div>
           ) : (

@@ -3,9 +3,10 @@ import './CourseClasses.css'
 import * as Cg from 'react-icons/cg'
 import * as Im from 'react-icons/im'
 import { Link, useLocation } from 'react-router-dom'
-import { getCourseClasses } from '../../Apis/Api'
+import { deleteCourseClass, getCourseClasses } from '../../Apis/Api'
 import BackArrow from '../../Components/BackArrow/BackArrow'
 import Spinner from '../../Components/Spinner/Spinner'
+import ClassRow from '../../Components/ClassRow/ClassRow'
 
 const CourseClasses = () => {
   const location = useLocation()
@@ -14,6 +15,7 @@ const CourseClasses = () => {
   const [isLoading, setLoading] = useState(true)
   const [pageTitle, setPageTitle] = useState(`Classes for ${courseName}`)
   const [deleteMode, setDeleteMode] = useState(false)
+  const [selectedArr, setSelectedArr] = useState([])
 
   console.log(eligibility, 'me')
   const handleDeleteMode = () => {
@@ -21,8 +23,19 @@ const CourseClasses = () => {
     setDeleteMode(!deleteMode)
   }
 
-  const handleDelete = () => {
-    console.log('test')
+  const handleDelete = async () => {
+    selectedArr.map(async (trainer_id) => {
+      setLoading(true)
+      deleteCourseClass({
+        "course_id": courseID,
+        "trainer_id": trainer_id,
+      })
+        .then((response) => {
+          console.log(response)
+        })
+      setLoading(false)
+    })
+    window.location.reload()
   }
 
   useEffect(() => {
@@ -103,39 +116,18 @@ const CourseClasses = () => {
 
             </div>
 
-            {courseClasses.map((courseClass, i) => (
-              <div className='row content-row' key={i}>
-                <div className='col'>
-                  <div className='header-row'>Trainer ID</div>
-                  {courseClass.trainer.id}
-                </div>
-                <div className='col'>
-                  <div className='header-row'>Trainer Name</div>
-                  {courseClass.trainer.name}
-                </div>
-                <div className='col'>
-                  <div className='header-row'>Start Date</div>
-                  {courseClass.start_date ? courseClass.start_date.slice(0, 10) : "NIL"}
-                </div>
-                <div className='col'>
-                  <div className='header-row'>End Date</div>
-                  {courseClass.end_date ? courseClass.end_date.slice(0, 10) : "NIL"}
-                </div>
-
-                <div className='col'>
-                  <div className='header-row action'>Action</div>
-                  <Link
-                    id='classbutton'
-                    to={{
-                      pathname: '/classdetails',
-                      state: { courseClass: courseClass, eligibility: eligibility },
-                    }}
-                    className='arrow'
-                  >
-                    <Cg.CgArrowLongRight size={20} />
-                  </Link>
-                </div>
-              </div>
+            {courseClasses.map((courseClass) => (
+              <ClassRow
+                key={courseClass.course_id}
+                courseClass={courseClass}
+                deleteMode={deleteMode}
+                selectedArr={selectedArr}
+                setSelectedArr={setSelectedArr}
+                link={{
+                  pathname: '/classdetails',
+                  state: { courseClass },
+                }}
+              />
             ))}
           </div>
         </>
