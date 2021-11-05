@@ -167,28 +167,28 @@ const addSelfEnroll = (course_id, trainer_id) => {
   )
 }
 
-const acceptSelfEnroll = (course_id, trainer_id) => {
-  const employeeID = getEmployeeID()
+const acceptSelfEnroll = (eng_id,course_id, trainer_id) => {
+  // const employeeID = getEmployeeID()
 
   const detail_input = {
-    eng_id: employeeID,
+    eng_id: eng_id,
     course_id: course_id,
     trainer_id: trainer_id,
     is_official: true,
   }
   const headers = getAuthHeaders()
   return axios.post(
-    `${BASE_URL}api/v1/enroll/${employeeID}&${course_id}&${trainer_id}`,
+    `${BASE_URL}api/v1/enroll/${eng_id}&${course_id}&${trainer_id}`,
     detail_input,
     { headers }
   )
 }
 
-const deleteSelfEnroll = (course_id, trainer_id) => {
-  const employeeID = getEmployeeID()
+const deleteSelfEnroll = (eng_id,course_id, trainer_id) => {
+  // const employeeID = getEmployeeID()
   const headers = getAuthHeaders()
   return axios.delete(
-    `${BASE_URL}api/v1/enroll/${employeeID}&${course_id}&${trainer_id}`,
+    `${BASE_URL}api/v1/enroll/${eng_id}&${course_id}&${trainer_id}`,
     { headers }
   )
 }
@@ -284,6 +284,18 @@ const getEngineerEligibility = () => {
     { headers }
   )
 }
+
+
+
+// const getClassDetails = (course_id,trainer_id ) => {
+//   // const employeeID = getEmployeeID()
+//   const headers = getAuthHeaders()
+//   return axios.get(
+//     `${BASE_URL}api/v1/course_class/${course_id}&${trainer_id}`,
+//     { headers }
+//   )
+// }
+
 
 export {
   BASE_URL,

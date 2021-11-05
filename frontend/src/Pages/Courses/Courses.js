@@ -93,6 +93,7 @@ const Courses = () => {
                   // className='btn-sm btn-secondary'
                   role="button"
                   aria-label="createCourse"
+                  id='createCourse'
                 >
                   <Cg.CgMathPlus className='plus-icon' />
                   Create a Course

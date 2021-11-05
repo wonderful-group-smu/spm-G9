@@ -9,7 +9,12 @@ import './ClassDetails.css'
 import ClassList from '../../Components/ClassList/ClassList'
 import GeneralModal from '../../Components/GeneralModal/GeneralModal'
 import SectionFlow from '../../Components/SectionFlow/SectionFlow'
-import { addSelfEnroll, getClassContent, getSelfEnroll, getEmployeeRole } from '../../Apis/Api'
+import {
+  addSelfEnroll,
+  getClassContent,
+  getSelfEnroll,
+  getEmployeeRole,
+} from '../../Apis/Api'
 import Spinner from '../../Components/Spinner/Spinner'
 
 const ClassDetails = () => {
@@ -40,7 +45,7 @@ const ClassDetails = () => {
   }
 
   useEffect(() => {
-    console.log(eligibility ,typeof(eligibility))
+    console.log(eligibility, typeof eligibility)
     getSelfEnroll(courseClass.course.course_id, courseClass.trainer.id)
       .then((response) => {
         console.log(response)
@@ -51,20 +56,11 @@ const ClassDetails = () => {
             'APPLIED/ENROLLED',
           ])
         }
-
-        // else if (eligibility === 'false'){
-        //   setDisableButton([
-        //     true,
-        //     'fitted-button button-padding button_masked',
-        //     'NOT ELIGIBLE',
-        //   ])
-        // }
-
       })
       .catch((error) => {
         console.log(error)
-        
-        if (eligibility == false){
+
+        if (eligibility == false) {
           setDisableButton([
             true,
             'fitted-button button-padding button_masked',
@@ -72,35 +68,18 @@ const ClassDetails = () => {
           ])
         }
 
-
         // console.log(error, 'error firsr')
       })
       .then(() => {
         setLoading(false)
       })
 
-    // getSelfEnroll(courseClass.course.course_id, courseClass.trainer.id)
-    //   .then((response) => {
-    //     console.log(response)
-    //     if (response.data.msg == 'enrollment record retrieved') {
-    //       setDisableButton([
-    //         true,
-    //         'fitted-button button-padding button_masked',
-    //         'APPLIED/ENROLLED',
-    //       ])
-    //     }
-    //   })
-    //   .then(() => {
-    //     setLoading(false)
-    //   })
-
-      getClassContent(courseClass.course.course_id, courseClass.trainer_id)
-        .then(response => {
-          console.log(response)
-          setClassSections(response.data.class_sections)
-        })
-
-
+    getClassContent(courseClass.course.course_id, courseClass.trainer_id).then(
+      (response) => {
+        console.log(response)
+        setClassSections(response.data.class_sections)
+      }
+    )
   }, [])
 
   // const role = 'engineer'
