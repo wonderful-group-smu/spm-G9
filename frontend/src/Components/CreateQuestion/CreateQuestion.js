@@ -63,13 +63,13 @@ const CreateQuestion = (props) => {
                     onChange={updateQuestion}
                 />
                 <div className="form-check" id="question-type">
-                    <label className="form-check-label" htmlFor="question-type-mcq">
+                    <label className="form-check-label">
                         MCQ<input className="form-check-input" type="radio"
                             name={"question-type-" + questionID} id="question-type-mcq" onClick={changeQuestionType} defaultChecked />
                     </label>
                 </div>
                 <div className="form-check" id="question-type">
-                    <label className="form-check-label" htmlFor="question-type-tf">
+                    <label className="form-check-label">
                         True/False<input className="form-check-input" type="radio"
                             name={"question-type-" + questionID} id="question-type-tf" onClick={changeQuestionType} />
                     </label>

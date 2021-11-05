@@ -48,12 +48,16 @@ describe('Courses', () => {
   })
 
   test('Courses UI', async () => {
-    axios.get.mockResolvedValueOnce({
-      data:
-      {
-        results: testCourseList
+    axios.get.mockImplementation((url) => {
+      if (url.includes('courses')) {
+        return Promise.resolve({
+          data:
+          {
+            results: testCourseList
+          }
+        })
       }
-    });
+    })
 
     render(
       <Router>
