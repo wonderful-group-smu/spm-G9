@@ -165,7 +165,7 @@ describe('ClassDetails', () => {
     elementArray.push(screen.getByText(/Our Trainer/i));
     elementArray.concat(screen.getAllByText(RegExp(testCourseClass.trainer.name)));
 
-    elementArray.push(screen.getByText(/Sections/i));
+    elementArray.push(screen.getByText("Sections"));
     elementArray.push(screen.getByText(/Add a Section/i));
     elementArray.push(screen.getByRole('button', {
       name: 'createSection'
