@@ -67,9 +67,6 @@ const CourseCard = (props) => {
                   {props.eligibility && <Ri.RiThumbUpLine />}
               </h5>
 
-  
-
-
               <p className='card-subtitle mb-2 text-muted'></p>
               <p className='card-text'>
                 <Fi.FiCalendar className='calendar' /> Enrolment Period <br />

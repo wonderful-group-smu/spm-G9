@@ -1,0 +1,22 @@
+.column{
+    display: flex;
+    align-items: center;
+}
+
+.section-link{
+    transform: scale(1.25);
+    margin: 0 1rem;
+}
+
+.sectionCard:hover{
+    outline-style: solid;
+    outline-width: .05rem;
+    outline-color: rgb(12, 198, 245);
+}
+
+#selectedSectionCard{
+    outline-style: solid;
+    outline-width: .15rem;
+    outline-color: rgb(12, 198, 245);
+    color: rgb(16, 148, 180);
+}

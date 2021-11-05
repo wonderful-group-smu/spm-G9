@@ -118,6 +118,14 @@ const addNewSection = ({ course_id, section_name, materials, trainer_id }) => {
     { headers }
   )
 }
+const deleteSection = ({ section_id }) => {
+  const headers = getAuthHeaders()
+  return axios.delete(
+    `${BASE_URL}api/v1/class_section/${section_id}`,
+    { headers }
+  )
+}
+
 const addNewQuiz = ({ course_id, section_id, trainer_id, is_graded, passing_mark, questions }) => {
   const headers = getAuthHeaders()
   return axios.post(
@@ -310,6 +318,7 @@ export {
   deleteSelfEnroll,
   deleteCourse,
   deleteCourseClass,
+  deleteSection,
   getQuiz,
   getEmployeeRole,
   getQuizAttempt, 
