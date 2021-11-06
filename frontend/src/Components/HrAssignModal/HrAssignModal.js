@@ -18,7 +18,9 @@ const EnrollModal = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    addHrEnroll(props.course_id, props.trainer_id, formData.selfenroll)
+    addHrEnroll(props.course_id, props.trainer_id, formData.selfenroll).then((response)=>{
+      console.log(response)
+    })
   }
 
   const handleChange = (event) => {
@@ -71,7 +73,9 @@ const EnrollModal = (props) => {
               <button
                 type='submit'
                 className='confirm-enroll col'
-                onClick={props.onHide}
+                onClick={props.submit}
+
+                  
               >
                 Submit
               </button>
@@ -88,6 +92,7 @@ EnrollModal.propTypes = {
   onHide: func,
   course_id: number,
   trainer_id: number,
+  submit: func,
 }
 
 export default EnrollModal

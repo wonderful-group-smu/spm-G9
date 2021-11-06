@@ -1,45 +1,43 @@
 import React from 'react'
 import * as FaIcons from 'react-icons/fa'
 // import * as AiIcons from 'react-icons/ai'
-import {RiArtboardFill} from "react-icons/ri"
+import { RiArtboardFill } from 'react-icons/ri'
+import { getEmployeeRole } from '../../Apis/Api'
 
-
-export const SidebarData=[
-    // {
-    //     title:'Home',
-    //     path:'/',
-    //     icon: <AiIcons.AiFillHome />,
-    //     cName:'nav-text'
-    // },
-    {
-        title:'Courses',
-        path:'/',
-        icon: <RiArtboardFill />,
-        cName:'nav-text'
-    },
-    {
-        title:'Enrolled',
-        path:'/enrolled',
-        icon: <FaIcons.FaTasks />,
-        cName:'nav-text'
-    },
-    // {
-    //     title:'Records',
-    //     path:'/records',
-    //     icon: <FaIcons.FaListAlt />,
-    //     cName:'nav-text'
-    // },
-    {
-        title:'Enrolment Request',
-        path:'/enrolmentrequest',
-        icon: <FaIcons.FaListAlt />,
-        cName:'nav-text'
-    },
-
-    // {
-    //     title:'HR Classes',
-    //     path:'/hrclasses',
-    //     icon: <FaIcons.FaClipboardList />,
-    //     cName:'nav-text'
-    // },
+const Data = [
+  {
+    title: 'Courses',
+    path: '/',
+    icon: <RiArtboardFill />,
+    cName: 'nav-text',
+  },
 ]
+
+try {
+  const employeeRole = getEmployeeRole()
+  if (employeeRole != 'ENG') {
+    Data.push({
+      title: 'Enrolment Request',
+      path: '/enrolmentrequest',
+      icon: <FaIcons.FaListAlt />,
+      cName: 'nav-text',
+    })
+
+  } else {
+
+    Data.push({
+      title: 'Enrolled',
+      path: '/enrolled',
+      icon: <FaIcons.FaTasks />,
+      cName: 'nav-text',
+    })
+  }
+} catch (e) {
+  console.log(e)
+}
+
+
+
+export const SidebarData = Data
+
+

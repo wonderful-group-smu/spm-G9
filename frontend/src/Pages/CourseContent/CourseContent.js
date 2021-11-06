@@ -5,7 +5,11 @@ import './CourseContent.css'
 import '../Pagelayout.css'
 import { object } from 'prop-types'
 import { Link, useLocation } from 'react-router-dom'
-import { getCourseProgress, getClassContent } from '../../Apis/Api'
+import {
+  getCourseProgress,
+  getClassContent,
+  getSelfEnroll,
+} from '../../Apis/Api'
 import Spinner from '../../Components/Spinner/Spinner'
 import Empty from '../../Components/Empty/Empty'
 
@@ -16,6 +20,7 @@ const CourseContent = () => {
   const [isLoading, setLoading] = useState(true)
   const [quizSection, setQuizSection] = useState()
   const [hasSections, setHasSections] = useState(true)
+  const [hasPassed, setHasPassed] = useState(false)
   const location = useLocation()
   const { course_id, trainer_id } = location.state
 
@@ -24,13 +29,22 @@ const CourseContent = () => {
       if (response.data[0].progress['completed_sections'] == 0) {
         setCourseProgress(0)
       } else {
-        const progress = Math.round(
+        var progress = Math.round(
           (response.data[0].progress['completed_sections'] /
-            response.data[0].progress['no_sections']) *
+            (response.data[0].progress['no_sections'] - 1)) *
             100
         )
+
+        if (progress > 100) {
+          progress = 100
+        }
         setCourseProgress(progress)
       }
+    })
+    getSelfEnroll(course_id, trainer_id).then((response) => {
+      setHasPassed(response.data.enrollment.has_passed)
+
+      // console.log(response.data.enrollment.has_passed, 'selfenrol')
     })
 
     getClassContent(course_id, trainer_id)
@@ -55,17 +69,17 @@ const CourseContent = () => {
     <div id='pagelayout'>
       {isLoading ? (
         <Spinner />
-      ) : (
-        hasSections ?
+      ) : hasSections ? (
         <>
           <div id='section-header '>
             <h5 id='page-title'>{courseName} Content</h5>
 
-            {/* to might need to change based on api */}
-            {console.log(courseProgress)}
-
-            {courseProgress === 100 ? (
+            {hasPassed ? (
               <div className=' complete'>COURSE COMPLETED</div>
+            ) : courseProgress < 100 ? (
+              <div className='fitted-button quiz_disabled button_masked'>
+                Take Final Quiz
+              </div>
             ) : (
               <div>
                 <Link
@@ -83,20 +97,6 @@ const CourseContent = () => {
                 </Link>
               </div>
             )}
-
-            {/* <Link
-              className='fitted-button final-quiz-style'
-              to={{
-                pathname: '/takequiz',
-                state: {
-                  course_id: course_id,
-                  trainer_id: trainer_id,
-                  session_id: quizSection,
-                },
-              }}
-            >
-              Take Final Quiz
-            </Link> */}
           </div>
           Your Progress
           <div className='progress'>
@@ -115,18 +115,19 @@ const CourseContent = () => {
                 <ContentCard
                   key={data.section_id}
                   status={data.has_completed}
-                  sessionNumber={i + 1}
+                  sessionNumber={data.section_id}
                   sessionTitle={data.section_name}
                   sessionContent={data.materials}
                   courseId={course_id}
                   trainerId={trainer_id}
+                  sessionCount={i + 1}
                 />
               ))}
             </div>
           </div>
         </>
-        :
-        <Empty text="Course is still being set up, come back later!" />
+      ) : (
+        <Empty text='Course is still being set up, come back later!' />
       )}
     </div>
   )

@@ -7,6 +7,7 @@ import { useHistory, useLocation } from 'react-router-dom'
 import { object } from 'prop-types'
 import { getQuiz, getEmployeeID, postQuizAttempt } from '../../Apis/Api'
 import Spinner from '../../Components/Spinner/Spinner'
+import Empty from '../../Components/Empty/Empty'
 
 const formReducer = (state, event) => {
   return {
@@ -23,9 +24,15 @@ const TakeQuiz = () => {
   const [quizAnswers, setQuizAnswers] = useState([])
   const [viewScore, setScore] = useState()
   const [isLoading, setLoading] = useState(true)
+  const [yesQuiz, setYesQuiz] = useState(true)
+  // let history = useHistory();
+  const history = useHistory()
+
+  console.log(course_id, trainer_id, session_id)
 
   useEffect(() => {
     setEmployeeId(getEmployeeID())
+
 
     getQuiz(course_id, session_id, trainer_id)
       .then((response) => {
@@ -50,6 +57,10 @@ const TakeQuiz = () => {
         console.log(formattedQuestions)
         setQuizQuestions(formattedQuestions)
       })
+      .catch((error) => {
+        console.log(error)
+        setYesQuiz(!yesQuiz)
+      })
       .then(() => setLoading(false))
   }, [])
 
@@ -66,7 +77,7 @@ const TakeQuiz = () => {
   }
   const [confirmSubmission, setConfirmSubmission] = React.useState(false)
   const [resultsModal, setResultModal] = React.useState(false)
-  const history = useHistory()
+  
 
   function handleClick() {
     console.log(quizAnswers)
@@ -129,7 +140,7 @@ const TakeQuiz = () => {
     <div id='pagelayout'>
       {isLoading ? (
         <Spinner />
-      ) : (
+      ) : yesQuiz ? (
         <>
           <div id='section-header'>
             <h5 id='page-title'>Section {session_id} Quiz</h5>
@@ -197,10 +208,12 @@ const TakeQuiz = () => {
             button_action={() => {
               setResultModal(false)
 
-              history.push('/')
+              history.goBack()
             }}
           />
         </>
+      ) : (
+        <Empty text='Quiz is still being set up, come back later!' />
       )}
     </div>
   )
