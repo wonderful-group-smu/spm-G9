@@ -19,16 +19,3 @@
     transform: translateY(-15%);
     margin-right: .3rem;
 }
-
-.arrow{
-    color: #404040;
-    margin-right: 30px;
-    padding: 5px;
-    margin-left:60%;
-    border-radius: 50%;
-    align-items: right;
-    text-align: right;
-}
-.arrow:hover{
-    background-color:#d6d6d6 ;
-}

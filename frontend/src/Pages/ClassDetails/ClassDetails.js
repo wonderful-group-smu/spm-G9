@@ -1,29 +1,51 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import LectureHeader from '../../Assets/Lecture Header.jpeg'
+import LectureHeader from '../../Assets/CourseImages/CourseImg1.jpeg'
 import * as Bs from 'react-icons/bs'
 import * as Fi from 'react-icons/fi'
 import * as Cg from 'react-icons/cg'
+import * as Im from 'react-icons/im'
 import ProfileImage from '../../Assets/Profile Image.jpg'
 import './ClassDetails.css'
 import ClassList from '../../Components/ClassList/ClassList'
 import GeneralModal from '../../Components/GeneralModal/GeneralModal'
-import SectionFlow from '../../Components/SectionFlow/SectionFlow'
-import { addSelfEnroll, getSelfEnroll, getEmployeeRole } from '../../Apis/Api'
+import { addSelfEnroll, getClassContent, getSelfEnroll, getEmployeeRole, deleteSection } from '../../Apis/Api'
 import Spinner from '../../Components/Spinner/Spinner'
+import SectionCard from '../../Components/SectionCard/SectionCard'
 
 const ClassDetails = () => {
   const location = useLocation()
   const { courseClass, eligibility } = location.state
+  const [selectedArr, setSelectedArr] = useState([])
+  const [deleteMode, setDeleteMode] = useState(false)
   const [DetailButton, setDetailButton] = useState('top-bar-selected')
   const [NamelistButton, setNamelistButton] = useState('top-bar')
   const [isLoading, setLoading] = useState(true)
+  const [classSections, setClassSections] = useState([])
   const [disableButton, setDisableButton] = useState([
     false,
     'fitted-button button-padding',
     'ENROLL NOW',
   ])
   // console.log(eligibility, 'hiii')
+
+  const handleDelete = () => {
+    selectedArr.map(async (section_id) => {
+      console.log(section_id, 'section_id')
+      setLoading(true)
+      // deleteSection({
+      //   "section_id": section_id
+      // })
+      deleteSection({
+        'section_id': section_id,
+      })
+        .then((response) => {
+          console.log(response)
+        })
+      setLoading(false)
+    })
+    // window.location.reload()
+  }
 
   const showDetailButton = () => {
     if (DetailButton == 'top-bar') {
@@ -39,7 +61,7 @@ const ClassDetails = () => {
   }
 
   useEffect(() => {
-    console.log(eligibility ,typeof(eligibility))
+    console.log(eligibility, typeof (eligibility))
     getSelfEnroll(courseClass.course.course_id, courseClass.trainer.id)
       .then((response) => {
         console.log(response)
@@ -62,8 +84,8 @@ const ClassDetails = () => {
       })
       .catch((error) => {
         console.log(error)
-        
-        if (eligibility == false){
+
+        if (eligibility == false) {
           setDisableButton([
             true,
             'fitted-button button-padding button_masked',
@@ -92,6 +114,14 @@ const ClassDetails = () => {
     //   .then(() => {
     //     setLoading(false)
     //   })
+
+    getClassContent(courseClass.course.course_id, courseClass.trainer_id)
+      .then(response => {
+        console.log(response)
+        setClassSections(response.data.class_sections)
+      })
+
+
   }, [])
 
   // const role = 'engineer'
@@ -250,20 +280,76 @@ const ClassDetails = () => {
               <div className='white-bg sections-block'>
                 <div className='sections-title'>
                   <h4> Sections </h4>
-                  <Link to='/createsection'>
-                    <button
-                      type='button'
-                      className='btn-sm btn-secondary'
-                      role='button'
-                      aria-label='createSection'
+                  <div className='button-alignment'>
+                    <Link
+                      to={{
+                        pathname: '/createsection',
+                        state: { courseClass: courseClass },
+                      }}
                     >
-                      <Cg.CgMathPlus className='plus-icon' />
-                      Add a Section
+                      <button
+                        hidden={deleteMode}
+                        className='fitted-button-corner'
+                        role='button'
+                        aria-label='createSection'
+                      >
+                        <Cg.CgMathPlus className='plus-icon' />
+                        Add a Section
+                      </button>
+                    </Link>
+
+                    <button
+                      hidden={deleteMode}
+                      className='fitted-button-corner'
+                      onClick={() => setDeleteMode(true)}
+                      role="button"
+                      aria-label="deleteCourses"
+                    >
+                      <Im.ImBin className='bin-icon' />
+                      Delete Sections
                     </button>
-                  </Link>
+
+                    <button
+                      hidden={!deleteMode}
+                      className='fitted-button-corner'
+                      onClick={() => setDeleteMode(false)}
+                      role="button"
+                      aria-label="cancelDeleteClasses"
+                    >
+                      Cancel
+                    </button>
+
+                    <button
+                      hidden={!deleteMode}
+                      className='fitted-button-corner'
+                      onClick={handleDelete}
+                      role="button"
+                      aria-label="deleteSelectedCourses"
+                    >
+                      Delete Selected Sections
+                    </button>
+                  </div>
                 </div>
+
                 <hr />
-                <SectionFlow />
+
+                <div className='column'>
+                  {
+                    classSections
+                      .map((section, i) => {
+                        return (
+                        <SectionCard
+                          section={section}
+                          key={i}
+                          index={i}
+                          deleteMode={deleteMode}
+                          selectedArr={selectedArr}
+                          setSelectedArr={setSelectedArr}
+                        />
+                      )})
+                  }
+                </div>
+
               </div>
             </div>
           ) : (

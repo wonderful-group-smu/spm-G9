@@ -1,23 +1,87 @@
 import React, { useState } from "react";
+import { useLocation } from 'react-router-dom'
 import { Accordion } from 'react-bootstrap'
 import CreateQuestion from '../../Components/CreateQuestion/CreateQuestion';
 import { array } from "prop-types";
 import '../Pagelayout.css';
 import './CreateSection.css';
-import { addNewSection } from '../../Apis/Api';
+// import { addNewSection } from '../../Apis/Api';
 import BackArrow from "../../Components/BackArrow/BackArrow";
+import { addNewQuiz, addNewSection } from "../../Apis/Api";
 
 const CreateSection = (props) => {
-  const [sectionTitle, setSectionTitle] = useState("");
-  const [selectedFiles, setSelectedFiles] = useState([]);
-
+  const [sectionName, setSectionName] = useState("");
+  const [materials, setMaterials] = useState([]);
   const [questionCount, setQuestionCount] = useState(1);
   const [questions, setQuestions] = useState(props.questionArr);
+  const [isGraded, setIsGraded] = useState(false);
+  const [passingMark, setPassingMark] = useState(50);
+  const location = useLocation();
+  const { courseClass } = location.state;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
-    alert(`Submitted ${sectionTitle}, ${selectedFiles}`);
+    alert(`Submitted ${sectionName}, ${materials}`);
+
+    let commonData = {
+      "course_id": courseClass.course.course_id,
+      "trainer_id": courseClass.trainer_id,
+    }
+
+    addNewSection({
+      ...commonData,
+      "section_name": sectionName,
+      "materials": "test"
+    })
+      .then(response => {
+        commonData.section_id = response.data.class_section.section_id
+
+        let question_options = {};
+        let questionList =
+          questions.map((question) => {
+            if (question.questionType) {
+              // mcq
+              question_options = ['A', 'B', 'C', 'D'].map((letter, i) => {
+                return {
+                  ...commonData,
+                  "question_id": question.questionID,
+                  "is_correct": question.correctAnswer === letter,
+                  "option_id": i,
+                  "option_label": letter,
+                  "option_value": question[`option${letter}`]
+                }
+              })
+            }
+            else {
+              // t/f
+              question_options = ['T', 'F'].map((letter, i) => {
+                return {
+                  ...commonData,
+                  "question_id": question.questionID,
+                  "is_correct": question.correctAnswer === letter,
+                  "option_id": i,
+                  "option_label": letter,
+                  "option_value": letter === 'T' ? "True" : "False"
+                }
+              })
+            }
+
+            return {
+              ...commonData,
+              "question_id": question.questionID,
+              "question": question.questionText,
+              "question_type": question.questionType,
+              "question_options": question_options,
+            }
+          })
+
+        addNewQuiz({
+          ...commonData,
+          "is_graded": isGraded,
+          "passing_mark": passingMark,
+          "questions": questionList,
+        }).then(response => console.log(response))
+      })
   }
 
   const addQuestion = () => {
@@ -27,49 +91,30 @@ const CreateSection = (props) => {
     setQuestionCount(questionCount + 1);
   }
 
-  const testButton = async () => {
-    let response = await addNewSection({
-      "course_id": 2,
-      "materials": "string",
-      "section_name": "sectionX",
-      "trainer_id": 2
-    })
-    console.log(response.data);
-
-    // let response = await addNewQuiz({
-    //   course_id: 2,
-    //   section_id: 3,
-    //   trainer_id: 2,
-    //   is_graded: false,
-    // })
-    // console.log(response.data);
-  }
-
   return (
     <div id='pagelayout'>
 
       <div id='section-header'>
-        <BackArrow/>
+        <BackArrow />
         <h5 id='page-title'>Add a Section</h5>
       </div>
 
       <form onSubmit={handleSubmit}>
 
-        <label htmlFor="inputSectionTitle" className="form-label">Section Title</label>
+        <label htmlFor="inputSectionName" className="form-label">Section Name</label>
         <input
           className="form-control section-form-control"
-          id="inputSectionTitle"
-          placeholder="Input Section Title..."
-          onChange={e => setSectionTitle(e.target.value)}
+          id="inputSectionName"
+          placeholder="Input Section Name..."
+          onChange={e => setSectionName(e.target.value)}
         />
 
-        <label htmlFor="inputMaterials" className="form-label">Course Materials</label>
+        <label htmlFor="inputMaterials" className="form-label">Section Materials</label>
         <input
           className="form-control section-form-control"
-          type="file"
-          id="formFileMultiple"
-          multiple
-          onChange={e => setSelectedFiles(e.target.files)}
+          id="inputMaterials"
+          placeholder="Input Section Content..."
+          onChange={e => setMaterials(e.target.value)}
         />
 
         <Accordion id="create-quiz-accordion" >
@@ -78,7 +123,6 @@ const CreateSection = (props) => {
             <Accordion.Body>
               {
                 questions.map((question, i) => {
-                  console.log(i)
                   return (
                     <>
                       <CreateQuestion key={i} questionID={question.questionID}
@@ -93,7 +137,32 @@ const CreateSection = (props) => {
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>
-        <button type="button" className="btn btn-info" onClick={testButton}>test</button>
+
+        
+        <label htmlFor="isGradedSwitch" className="form-label" >Graded Quiz?</label>
+        <div className="form-check form-switch" id="isGradedSwitch">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="isGradedSwitch"
+            onChange={e => setIsGraded(e.target.checked)}
+          />
+          <label className="form-check-label">{isGraded ? "Yes" : "No"}</label>
+        </div>
+
+        <label htmlFor="inputPassingMark" className="form-label">Quiz Passing Mark</label>
+        <input
+          className="form-control section-form-control"
+          id="inputPassingMark"
+          defaultValue={passingMark}
+          onChange={e => setPassingMark(e.target.value)}
+          type="number"
+          min={0}
+        />
+
+        
+
         <button type="submit" className="btn btn-secondary submit">Add Section</button>
       </form>
     </div>

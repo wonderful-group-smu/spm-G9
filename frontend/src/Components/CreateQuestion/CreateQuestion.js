@@ -5,13 +5,13 @@ import * as Im from 'react-icons/im';
 import './CreateQuestion.css';
 
 const CreateQuestion = (props) => {
-    const [questionType, setQuestionType] = useState(true);
+    const [questionType, setQuestionType] = useState(true)
     const questionID = props.questionID;
     const questions = props.questions;
     const setQuestions = props.setQuestions;
 
     const updateQuestion = (e) => {
-        const questionIndex = questions.findIndex((obj => obj.questionID == questionID));
+        let questionIndex = questions.findIndex((obj => obj.questionID == questionID));
         questions[questionIndex].questionText = e.target.value;
         setQuestions(questions);
     }
@@ -21,11 +21,14 @@ const CreateQuestion = (props) => {
     }
 
     const changeQuestionType = (e) => {
-        if (e.target.id == 'question-type-mcq') {
-            setQuestionType(true);
+        let questionIndex = questions.findIndex((obj => obj.questionID == questionID));
+        if (e.target.id === 'question-type-mcq') {
+            questions[questionIndex].questionType = true
+            setQuestionType(true)
         }
-        else if (e.target.id == 'question-type-tf') {
-            setQuestionType(false);
+        else {
+            questions[questionIndex].questionType = false
+            setQuestionType(false)
         }
     }
 
@@ -60,13 +63,13 @@ const CreateQuestion = (props) => {
                     onChange={updateQuestion}
                 />
                 <div className="form-check" id="question-type">
-                    <label className="form-check-label" htmlFor="question-type-mcq">
+                    <label className="form-check-label">
                         MCQ<input className="form-check-input" type="radio"
                             name={"question-type-" + questionID} id="question-type-mcq" onClick={changeQuestionType} defaultChecked />
                     </label>
                 </div>
                 <div className="form-check" id="question-type">
-                    <label className="form-check-label" htmlFor="question-type-tf">
+                    <label className="form-check-label">
                         True/False<input className="form-check-input" type="radio"
                             name={"question-type-" + questionID} id="question-type-tf" onClick={changeQuestionType} />
                     </label>
