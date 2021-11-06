@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import LectureHeader from '../../Assets/Lecture Header.jpeg'
+import LectureHeader from '../../Assets/CourseImages/CourseImg1.jpeg'
 import * as Bs from 'react-icons/bs'
 import * as Fi from 'react-icons/fi'
 import * as Cg from 'react-icons/cg'
@@ -29,11 +29,15 @@ const ClassDetails = () => {
   ])
   // console.log(eligibility, 'hiii')
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     selectedArr.map(async (section_id) => {
+      console.log(section_id, 'section_id')
       setLoading(true)
+      // deleteSection({
+      //   "section_id": section_id
+      // })
       deleteSection({
-        "section_id": section_id
+        'section_id': section_id,
       })
         .then((response) => {
           console.log(response)

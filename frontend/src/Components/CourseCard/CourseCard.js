@@ -4,7 +4,7 @@ import './CourseCard.css'
 import * as Fi from 'react-icons/fi'
 import * as Bs from 'react-icons/bs'
 import { Link } from 'react-router-dom'
-import LectureHeader from '../../Assets/Lecture Header.jpeg'
+import CourseImages from '../../Assets/CourseImages/CourseImages';
 import * as Ri from 'react-icons/ri'
 
 import {
@@ -34,20 +34,11 @@ const CourseCard = (props) => {
     setSelected(!selected)
   }
 
-  // function handlestring() {
-  //   return ""
-  // }
-
   return (
     <>
       <Link
         id={props.courseName}
         to={props.link}
-        // to={{
-        //   pathname: '/courseclasses',
-        //   state:{ courseID: props.courseID, courseName: props.courseName }
-        // }}
-
         className='try'
         style={{ textDecoration: 'none' }}
       >
@@ -58,7 +49,7 @@ const CourseCard = (props) => {
           <div
             className={selected && props.deleteMode ? 'card selected' : 'card'}
           >
-            <img src={LectureHeader} className='card-img-top' />
+            <img src={CourseImages[props.courseID % 9 - 1].default} className='card-img-top' />
             <div className='hover-overlay' />
             <div className='card-body'>
               <h5 className='card-title'>

@@ -120,8 +120,17 @@ const addNewSection = ({ course_id, section_name, materials, trainer_id }) => {
 }
 const deleteSection = ({ section_id }) => {
   const headers = getAuthHeaders()
+  console.log(headers)
+  console.log(`${BASE_URL}api/v1/class_section/${section_id}`)
   return axios.delete(
     `${BASE_URL}api/v1/class_section/${section_id}`,
+    { headers }
+  )
+}
+const deleteQuiz = ({ course_id, section_id, trainer_id }) => {
+  const headers = getAuthHeaders()
+  return axios.delete(
+    `${BASE_URL}api/v1/quiz/${course_id}&${section_id}&${trainer_id}`,
     { headers }
   )
 }
@@ -319,6 +328,7 @@ export {
   deleteCourse,
   deleteCourseClass,
   deleteSection,
+  deleteQuiz,
   getQuiz,
   getEmployeeRole,
   getQuizAttempt, 
