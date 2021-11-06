@@ -16,6 +16,7 @@ const CreateSection = (props) => {
   const [questions, setQuestions] = useState(props.questionArr);
   const [isGraded, setIsGraded] = useState(false);
   const [passingMark, setPassingMark] = useState(50);
+  const [selectedFiles, setSelectedFiles] = useState([]);
   const location = useLocation();
   const { courseClass } = location.state;
 

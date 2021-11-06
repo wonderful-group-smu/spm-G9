@@ -14,7 +14,7 @@ const ContentCard = (props) => {
       <div className='row-wrapper'>
         <div className='row content-bg'>
           <div className='col-2  content-title'>
-            SECTION<div>{props.sessionNumber}</div>
+            SECTION<div>{props.sessionCount}</div>
           </div>
           <div className='col '>
             <div
@@ -72,7 +72,8 @@ ContentCard.propTypes = {
   sessionTitle: string,
   courseId: number,
   sessionContent: string,
-  trainerId: number
+  trainerId: number,
+  sessionCount: number
 }
 
 export default ContentCard

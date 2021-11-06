@@ -60,7 +60,7 @@ def init():
     items_to_add.append(class_section_two)
     click.echo("created class section")
     click.echo("create enrollment")
-    enrollment_one = Enroll(eng_id=1, course_id=1, trainer_id=2, is_official=True, has_passed=True)
+    enrollment_one = Enroll(eng_id=1, course_id=2, trainer_id=2, is_official=True, has_passed=True)
     items_to_add.append(enrollment_one)
     click.echo("created enrollment")
     click.echo("create section completed")

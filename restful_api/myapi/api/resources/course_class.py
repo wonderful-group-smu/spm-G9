@@ -3,6 +3,7 @@ from flask_jwt_extended import jwt_required
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from myapi.api.schemas import CourseClassSchema
+from myapi.api.schemas.enroll import EnrollSchema
 from myapi.extensions import db
 from myapi.models import CourseClass, Employee, Course, Enroll
 
@@ -52,6 +53,13 @@ class CourseClassResource(Resource):
                       type: string
                       example: course class created
                     course_class: CourseClassSchema
+                    num_enrolled:
+                      type: integer
+                    num_slots_remaining:
+                      type: integer
+                    enrollments:
+                      type: array
+                      items: EnrollSchema
 
       delete:
         tags:
@@ -88,17 +96,35 @@ class CourseClassResource(Resource):
                 return {"msg": "not found"}, 404
             else:
                 raise error
+
         course_class = self.schema.dump(query)
         class_size = course_class['class_size']
 
-        num_enrolled_dict = self.get_num_enrolled(course_id, trainer_id)
-        num_enrolled = num_enrolled_dict["num_enrolled"]
+        try:
+            enroll_query = (
+                Enroll.query
+                .filter(Enroll.course_id == course_id)
+                .filter(Enroll.trainer_id == trainer_id)
+                .join(Employee, Enroll.eng_id == Employee.id, isouter=True)
+            )
+        except Exception as error:
+            if "No row was found" in str(error):
+                return {"msg": "not found"}, 404
+            else:
+                raise error
+
+        num_enrolled = enroll_query.count()
         num_slots_remaining = class_size - num_enrolled
 
-        return {"msg": "course class retrieved",
-                "course_class": course_class,
-                "num_enrolled": num_enrolled,
-                "num_slots_remaining": num_slots_remaining}, 200
+        enroll_schema = EnrollSchema(many=True)
+
+        return {
+            "msg": "course class retrieved",
+            "course_class": course_class,
+            "num_enrolled": num_enrolled,
+            "num_slots_remaining": num_slots_remaining,
+            "enrollments": enroll_schema.dump(enroll_query.all())
+        }, 200
 
     def post(self, course_id, trainer_id):
         course_class = self.schema.load(request.json)
@@ -117,24 +143,6 @@ class CourseClassResource(Resource):
         db.session.commit()
 
         return {"msg": "course class deleted"}, 204
-
-    @staticmethod
-    def get_num_enrolled(course_id, trainer_id):
-        """Helper function to get number of enrolled learners in a course_class using course_id and trainer_id"""
-        try:
-            query_count = (
-                Enroll.query
-                .filter(Enroll.course_id == course_id)
-                .filter(Enroll.trainer_id == trainer_id)
-                .count()
-            )
-        except Exception as error:
-            if "No row was found" in str(error):
-                return {"msg": "not found"}, 404
-            else:
-                raise error
-
-        return {"num_enrolled": query_count}
 
 
 class CourseClassResourceList(Resource):
@@ -165,7 +173,7 @@ class CourseClassResourceList(Resource):
 
     """
 
-    # method_decorators = [jwt_required()]
+    method_decorators = [jwt_required()]
 
     def get(self, course_id):
 

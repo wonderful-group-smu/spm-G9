@@ -6,6 +6,7 @@ import time
 # pip install webdriver-manager
 # pip install selenium
 
+
 class WonderfulGroup(unittest.TestCase):
 
     def setUp(self):
@@ -23,7 +24,7 @@ class WonderfulGroup(unittest.TestCase):
         driver = self.driver
         courses_nav = driver.find_element_by_id('Courses')
         courses_nav.click()
-        select_course = driver.find_element_by_id('course two name')
+        select_course = driver.find_element_by_id('course one name')
         select_course.click()
         select_class = driver.find_element_by_id('classbutton')
         select_class.click()
@@ -41,7 +42,7 @@ class WonderfulGroup(unittest.TestCase):
             self.assertEqual("APPLIED/ENROLLED",
                              self_enroll.text, 'Does not match')
 
-    def test_testing(self):
+    def test_quiz(self):
         driver = self.driver
         enrolled_nav = driver.find_element_by_id('Enrolled')
         enrolled_nav.click()
@@ -63,14 +64,16 @@ class WonderfulGroup(unittest.TestCase):
 
         submit_modal = driver.find_element_by_id('Submit Quiz').text
         self.assertEqual("Submit Quiz", submit_modal, 'Does not match')
+
         submit_request = driver.find_element_by_class_name(
             'confirm-enroll')
         submit_request.click()
 
         time.sleep(2)
 
-        page_title = driver.find_element_by_id('page-title').text
-        self.assertEqual("Courses", page_title, 'Does not match')
+        score_modal = driver.find_element_by_id(
+            'Your Score').text
+        self.assertEqual("Your Score", score_modal, 'Does not match')
 
     def tearDown(self):
         # to close the browser

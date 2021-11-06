@@ -72,15 +72,6 @@ const ClassDetails = () => {
             'APPLIED/ENROLLED',
           ])
         }
-
-        // else if (eligibility === 'false'){
-        //   setDisableButton([
-        //     true,
-        //     'fitted-button button-padding button_masked',
-        //     'NOT ELIGIBLE',
-        //   ])
-        // }
-
       })
       .catch((error) => {
         console.log(error)
@@ -93,35 +84,18 @@ const ClassDetails = () => {
           ])
         }
 
-
         // console.log(error, 'error firsr')
       })
       .then(() => {
         setLoading(false)
       })
 
-    // getSelfEnroll(courseClass.course.course_id, courseClass.trainer.id)
-    //   .then((response) => {
-    //     console.log(response)
-    //     if (response.data.msg == 'enrollment record retrieved') {
-    //       setDisableButton([
-    //         true,
-    //         'fitted-button button-padding button_masked',
-    //         'APPLIED/ENROLLED',
-    //       ])
-    //     }
-    //   })
-    //   .then(() => {
-    //     setLoading(false)
-    //   })
-
-    getClassContent(courseClass.course.course_id, courseClass.trainer_id)
-      .then(response => {
+    getClassContent(courseClass.course.course_id, courseClass.trainer_id).then(
+      (response) => {
         console.log(response)
         setClassSections(response.data.class_sections)
-      })
-
-
+      }
+    )
   }, [])
 
   // const role = 'engineer'
