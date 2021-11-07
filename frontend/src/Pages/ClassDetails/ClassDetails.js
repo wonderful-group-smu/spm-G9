@@ -9,7 +9,13 @@ import ProfileImage from '../../Assets/Profile Image.jpg'
 import './ClassDetails.css'
 import ClassList from '../../Components/ClassList/ClassList'
 import GeneralModal from '../../Components/GeneralModal/GeneralModal'
-import { addSelfEnroll, getClassContent, getSelfEnroll, getEmployeeRole, deleteSection } from '../../Apis/Api'
+import {
+  addSelfEnroll,
+  getClassContent,
+  getSelfEnroll,
+  getEmployeeRole,
+  deleteSection,
+} from '../../Apis/Api'
 import Spinner from '../../Components/Spinner/Spinner'
 import SectionCard from '../../Components/SectionCard/SectionCard'
 
@@ -27,6 +33,7 @@ const ClassDetails = () => {
     'fitted-button button-padding',
     'ENROLL NOW',
   ])
+  const role = getEmployeeRole()
   // console.log(eligibility, 'hiii')
 
   const handleDelete = () => {
@@ -37,11 +44,10 @@ const ClassDetails = () => {
       //   "section_id": section_id
       // })
       deleteSection({
-        'section_id': section_id,
+        section_id: section_id,
+      }).then((response) => {
+        console.log(response)
       })
-        .then((response) => {
-          console.log(response)
-        })
       setLoading(false)
     })
     // window.location.reload()
@@ -61,7 +67,7 @@ const ClassDetails = () => {
   }
 
   useEffect(() => {
-    console.log(eligibility, typeof (eligibility))
+    console.log(eligibility, typeof(eligibility))
     getSelfEnroll(courseClass.course.course_id, courseClass.trainer.id)
       .then((response) => {
         console.log(response)
@@ -99,7 +105,7 @@ const ClassDetails = () => {
   }, [])
 
   // const role = 'engineer'
-  const role = getEmployeeRole()
+
 
   const prereqArr = courseClass.course.prereqs
 
@@ -127,7 +133,7 @@ const ClassDetails = () => {
               <div className='first-txt'>
                 <h3>{courseClass.course.name}</h3>
                 <div className='sub-txt'>
-                  Application closes on 1 January 2021
+                  Application is closing soon!
                 </div>
 
                 <div className={role != 'ENG' ? 'hidebutton' : ''}>
@@ -255,40 +261,42 @@ const ClassDetails = () => {
                 <div className='sections-title'>
                   <h4> Sections </h4>
                   <div className='button-alignment'>
-                    <Link
-                      to={{
-                        pathname: '/createsection',
-                        state: { courseClass: courseClass },
-                      }}
-                    >
+                    <div className={role == 'ENG' ? 'hidebutton' : ''}>
+                      <Link
+                        to={{
+                          pathname: '/createsection',
+                          state: { courseClass: courseClass },
+                        }}
+                      >
+                        <button
+                          hidden={deleteMode}
+                          className='fitted-button-corner'
+                          role='button'
+                          aria-label='createSection'
+                        >
+                          <Cg.CgMathPlus className='plus-icon' />
+                          Add a Section
+                        </button>
+                      </Link>
+
                       <button
                         hidden={deleteMode}
                         className='fitted-button-corner'
+                        onClick={() => setDeleteMode(true)}
                         role='button'
-                        aria-label='createSection'
+                        aria-label='deleteCourses'
                       >
-                        <Cg.CgMathPlus className='plus-icon' />
-                        Add a Section
+                        <Im.ImBin className='bin-icon' />
+                        Delete Sections
                       </button>
-                    </Link>
-
-                    <button
-                      hidden={deleteMode}
-                      className='fitted-button-corner'
-                      onClick={() => setDeleteMode(true)}
-                      role="button"
-                      aria-label="deleteCourses"
-                    >
-                      <Im.ImBin className='bin-icon' />
-                      Delete Sections
-                    </button>
+                    </div>
 
                     <button
                       hidden={!deleteMode}
                       className='fitted-button-corner'
                       onClick={() => setDeleteMode(false)}
-                      role="button"
-                      aria-label="cancelDeleteClasses"
+                      role='button'
+                      aria-label='cancelDeleteClasses'
                     >
                       Cancel
                     </button>
@@ -297,8 +305,8 @@ const ClassDetails = () => {
                       hidden={!deleteMode}
                       className='fitted-button-corner'
                       onClick={handleDelete}
-                      role="button"
-                      aria-label="deleteSelectedCourses"
+                      role='button'
+                      aria-label='deleteSelectedCourses'
                     >
                       Delete Selected Sections
                     </button>
@@ -308,22 +316,19 @@ const ClassDetails = () => {
                 <hr />
 
                 <div className='column'>
-                  {
-                    classSections
-                      .map((section, i) => {
-                        return (
-                        <SectionCard
-                          section={section}
-                          key={i}
-                          index={i}
-                          deleteMode={deleteMode}
-                          selectedArr={selectedArr}
-                          setSelectedArr={setSelectedArr}
-                        />
-                      )})
-                  }
+                  {classSections.map((section, i) => {
+                    return (
+                      <SectionCard
+                        section={section}
+                        key={i}
+                        index={i}
+                        deleteMode={deleteMode}
+                        selectedArr={selectedArr}
+                        setSelectedArr={setSelectedArr}
+                      />
+                    )
+                  })}
                 </div>
-
               </div>
             </div>
           ) : (

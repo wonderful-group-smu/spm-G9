@@ -3,7 +3,11 @@ import './CourseClasses.css'
 import * as Cg from 'react-icons/cg'
 import * as Im from 'react-icons/im'
 import { Link, useLocation } from 'react-router-dom'
-import { deleteCourseClass, getCourseClasses } from '../../Apis/Api'
+import {
+  deleteCourseClass,
+  getCourseClasses,
+  getEmployeeRole,
+} from '../../Apis/Api'
 import BackArrow from '../../Components/BackArrow/BackArrow'
 import Spinner from '../../Components/Spinner/Spinner'
 import ClassRow from '../../Components/ClassRow/ClassRow'
@@ -16,10 +20,15 @@ const CourseClasses = () => {
   const [pageTitle, setPageTitle] = useState(`Classes for ${courseName}`)
   const [deleteMode, setDeleteMode] = useState(false)
   const [selectedArr, setSelectedArr] = useState([])
+  const role = getEmployeeRole()
 
   console.log(eligibility, 'me')
   const handleDeleteMode = () => {
-    setPageTitle(deleteMode ? `Classes for ${courseName}` : `Delete Classes for ${courseName}`)
+    setPageTitle(
+      deleteMode
+        ? `Classes for ${courseName}`
+        : `Delete Classes for ${courseName}`
+    )
     setDeleteMode(!deleteMode)
   }
 
@@ -27,12 +36,11 @@ const CourseClasses = () => {
     selectedArr.map(async (trainer_id) => {
       setLoading(true)
       deleteCourseClass({
-        "course_id": courseID,
-        "trainer_id": trainer_id,
+        course_id: courseID,
+        trainer_id: trainer_id,
+      }).then((response) => {
+        console.log(response)
       })
-        .then((response) => {
-          console.log(response)
-        })
       setLoading(false)
     })
     window.location.reload()
@@ -62,42 +70,45 @@ const CourseClasses = () => {
               <h5 id='page-title'>{pageTitle}</h5>
 
               <div className='button-alignment'>
-                <Link
-                  to={{
-                    pathname: '/createclass',
-                    state: { courseID: courseID, courseName: courseName },
-                  }}
-                >
+                <div className={role == 'ENG' ? 'hidebutton' : ''}>
+                  <Link
+                    to={{
+                      pathname: '/createclass',
+                      state: { courseID: courseID, courseName: courseName },
+                    }}
+                  >
+                    <button
+                      hidden={deleteMode}
+                      className='fitted-button-corner'
+                      role='button'
+                      aria-label='createCourseClass'
+                      id='create_class'
+                    >
+                      <Cg.CgMathPlus className='plus-icon' />
+                      Create a Class
+                    </button>
+                  </Link>
+
                   <button
                     hidden={deleteMode}
                     className='fitted-button-corner'
-                    role="button"
-                    aria-label="createCourseClass"
+                    // className='btn-sm btn-secondary'
+                    onClick={handleDeleteMode}
+                    role='button'
+                    aria-label='deleteClasses'
                   >
-                    <Cg.CgMathPlus className='plus-icon' />
-                    Create a Class
+                    <Im.ImBin className='bin-icon' />
+                    Delete Classes
                   </button>
-                </Link>
-
-                <button
-                  hidden={deleteMode}
-                  className='fitted-button-corner'
-                  // className='btn-sm btn-secondary'
-                  onClick={handleDeleteMode}
-                  role="button"
-                  aria-label="deleteClasses"
-                >
-                  <Im.ImBin className='bin-icon' />
-                  Delete Classes
-                </button>
+                </div>
 
                 <button
                   hidden={!deleteMode}
                   className='fitted-button-corner'
                   // className='btn-sm btn-secondary'
                   onClick={handleDeleteMode}
-                  role="button"
-                  aria-label="cancelDeleteClasses"
+                  role='button'
+                  aria-label='cancelDeleteClasses'
                 >
                   Cancel
                 </button>
@@ -107,13 +118,12 @@ const CourseClasses = () => {
                   className='fitted-button-corner'
                   // className='btn-sm btn-secondary'
                   onClick={handleDelete}
-                  role="button"
-                  aria-label="deleteSelectedClasses"
+                  role='button'
+                  aria-label='deleteSelectedClasses'
                 >
                   Delete Selected Classes
                 </button>
               </div>
-
             </div>
 
             {courseClasses.map((courseClass) => (
@@ -125,15 +135,14 @@ const CourseClasses = () => {
                 setSelectedArr={setSelectedArr}
                 link={{
                   pathname: '/classdetails',
-                  state: { courseClass },
+                  state: { courseClass: courseClass, eligibility: eligibility },
                 }}
               />
             ))}
           </div>
         </>
-      )
-      }
-    </div >
+      )}
+    </div>
   )
 }
 

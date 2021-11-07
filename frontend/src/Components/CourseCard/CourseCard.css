@@ -13,12 +13,15 @@
 .shadow-box{
     /* box-shadow: 1px 0px 8px #404040  ; */
     box-shadow: 1px 1px 8px #d8d8d8;
+    /* width: 300px; */
     /* text-decoration: none !important; */
 }
 
 
 .card{
     max-width: 20rem;
+    /* min-width: 20rem; */
+    /* width: 10rem; */
 }
 
 .selected{

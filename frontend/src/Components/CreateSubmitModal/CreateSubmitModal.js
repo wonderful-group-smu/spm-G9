@@ -9,12 +9,16 @@ const CreateSubmitModal = (props) => {
     } 
 
     return (
-        <Modal show={props.show} onHide={handleClose}>
+
+        
+        <Modal show={props.show} onHide={handleClose} centered>
             <Modal.Header closeButton>
                 <Modal.Title>Created {props.subject}</Modal.Title>
             </Modal.Header>
             <Modal.Body>You have created {props.title}!</Modal.Body>
         </Modal>
+
+
     )
 }
 
