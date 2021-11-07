@@ -6,7 +6,12 @@ import * as Im from 'react-icons/im'
 import * as Bi from 'react-icons/bi'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { deleteCourse, getCourseList, getEngineerEligibility } from '../../Apis/Api'
+import {
+  deleteCourse,
+  getCourseList,
+  getEngineerEligibility,
+  getEmployeeRole,
+} from '../../Apis/Api'
 import Spinner from '../../Components/Spinner/Spinner'
 
 // const CourseData = () => {
@@ -35,41 +40,35 @@ const Courses = () => {
     setPageTitle(deleteMode ? 'Courses' : 'Delete Course')
     setDeleteMode(!deleteMode)
   }
+  const role = getEmployeeRole()
 
   const handleDelete = async () => {
     selectedArr.map(async (courseID) => {
       setLoading(true)
       deleteCourse({
-        "course_id": courseID
+        course_id: courseID,
+      }).then((response) => {
+        console.log(response)
       })
-        .then((response) => {
-          console.log(response)
-        })
       setLoading(false)
     })
     window.location.reload()
   }
 
   useEffect(() => {
-    getCourseList()
-      .then((response) => {
-        setCourseDataArr(response.data.results)
-      })
-
-
-    
-    getEngineerEligibility().then((response)=>{
-      setEngEligibilityArr(response.data.results)
-      console.log(response.data.results[0].isEligible, 'hi')
+    getCourseList().then((response) => {
+      setCourseDataArr(response.data.results)
     })
+
+    getEngineerEligibility()
+      .then((response) => {
+        setEngEligibilityArr(response.data.results)
+        console.log(response.data.results[0].isEligible)
+      })
 
       .then(() => {
         setLoading(false)
       })
-
-
-
-
   }, [])
 
   console.log(courseDataArr)
@@ -84,41 +83,43 @@ const Courses = () => {
             <button hidden={!deleteMode} onClick={handleDeleteMode}>
               <Bi.BiArrowBack className='back-arrow' />
             </button>
-              <h5 id='page-title'>{pageTitle}</h5>
+            <h5 id='page-title'>{pageTitle}</h5>
             <div className='button-alignment'>
-              <Link to='/createcourse'>
+              <div className={role == 'ENG' ? 'hidebutton' : ''}>
+                <Link to='/createcourse'>
+                  <button
+                    hidden={deleteMode}
+                    className='fitted-button-corner'
+                    // className='btn-sm btn-secondary'
+                    role='button'
+                    aria-label='createCourse'
+                    id='createCourse'
+                  >
+                    <Cg.CgMathPlus className='plus-icon' />
+                    Create a Course
+                  </button>
+                </Link>
+
                 <button
                   hidden={deleteMode}
                   className='fitted-button-corner'
                   // className='btn-sm btn-secondary'
-                  role="button"
-                  aria-label="createCourse"
-                  id='createCourse'
+                  onClick={handleDeleteMode}
+                  role='button'
+                  aria-label='deleteCourses'
                 >
-                  <Cg.CgMathPlus className='plus-icon' />
-                  Create a Course
+                  <Im.ImBin className='bin-icon' />
+                  Delete Courses
                 </button>
-              </Link>
-
-              <button
-                hidden={deleteMode}
-                className='fitted-button-corner'
-                // className='btn-sm btn-secondary'
-                onClick={handleDeleteMode}
-                role="button"
-                aria-label="deleteCourses"
-              >
-                <Im.ImBin className='bin-icon' />
-                Delete Courses
-              </button>
+              </div>
 
               <button
                 hidden={!deleteMode}
                 className='fitted-button-corner'
                 // className='btn-sm btn-secondary'
                 onClick={handleDeleteMode}
-                role="button"
-                aria-label="cancelDeleteClasses"
+                role='button'
+                aria-label='cancelDeleteClasses'
               >
                 Cancel
               </button>
@@ -128,8 +129,8 @@ const Courses = () => {
                 className='fitted-button-corner'
                 // className='btn-sm btn-secondary'
                 onClick={handleDelete}
-                role="button"
-                aria-label="deleteSelectedCourses"
+                role='button'
+                aria-label='deleteSelectedCourses'
               >
                 Delete Selected Courses
               </button>
@@ -137,24 +138,26 @@ const Courses = () => {
           </div>
 
           <div className='center-content-flexbox'>
-            <div>
-              {courseDataArr.map((data, i) => (
-                <CourseCard
-                  key={data.course_id}
-                  courseID={data.course_id}
-                  courseName={data.name}
-                  description={data.description}
-                  deleteMode={deleteMode}
-                  selectedArr={selectedArr}
-                  eligibility={engEligibilityArr[i].isEligible}
-                  setSelectedArr={setSelectedArr}
-                  link={{
-                    pathname: '/courseclasses',
-                    state: { courseID: data.course_id, courseName: data.name , eligibility: engEligibilityArr[i].isEligible},
-                  }}
-                />
-              ))}
-            </div>
+            {courseDataArr.map((data, i) => (
+              <CourseCard
+                key={data.course_id}
+                courseID={data.course_id}
+                courseName={data.name}
+                description={data.description}
+                deleteMode={deleteMode}
+                selectedArr={selectedArr}
+                eligibility={engEligibilityArr[i].isEligible}
+                setSelectedArr={setSelectedArr}
+                link={{
+                  pathname: '/courseclasses',
+                  state: {
+                    courseID: data.course_id,
+                    courseName: data.name,
+                    eligibility: engEligibilityArr[i].isEligible,
+                  },
+                }}
+              />
+            ))}
           </div>
         </>
       )}

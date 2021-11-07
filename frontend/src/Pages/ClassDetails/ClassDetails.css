@@ -67,9 +67,9 @@
     cursor: default;
 }
 
-.hidebutton{
+/* .hidebutton{
     display: none;
-  }
+  } */
 
 
   .input-box-size{
@@ -126,13 +126,13 @@
     height: 50px;
 }
 
-.btn-enroll:hover{
-    /* background-color: rgb(252, 255, 217) !important; */
-    /* color: white !important; */
-    /* width: 200px; */
-    /* height: 50px; */
+/* .btn-enroll:hover{
+    background-color: rgb(252, 255, 217) !important;
+    color: white !important;
+    width: 200px;
+    height: 50px;
     box-shadow: 1px 1px 8px yellow;
-}
+} */
 
 .button-alignment{
     width: 100%;

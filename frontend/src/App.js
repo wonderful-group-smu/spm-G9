@@ -23,7 +23,6 @@ import { getEmployeeRole } from './Apis/Api'
 
 // import Home from './Pages/Home/Home'
 // import Quiz from './Pages/Quiz/Quiz'
-// import SelfEnrollmentForm from './Pages/SelfEnrollmentForm/SelfEnrollmentForm'
 
 function App() {
   const [leftOpen, setOpen] = useState(true)
@@ -102,10 +101,6 @@ function App() {
 
                     {/* <Route path='/' component={Home} />
 
-                    {/* <Route
-                      path='/courses/selfenrollmentform'
-                      component={SelfEnrollmentForm}
-                    /> */}
                     {/* <Route path='/quiz' component={Quiz} /> */}
                     {/* <Route path='/courses' component={Courses} />   */}
                   </Switch>

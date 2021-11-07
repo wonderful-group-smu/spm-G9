@@ -54,5 +54,11 @@
 .center-content-flexbox{
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
+
+.hidebutton{
+  display: none;
+}
+
 
