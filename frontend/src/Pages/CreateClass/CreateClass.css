@@ -57,4 +57,6 @@
 
 .input-label{
     margin-bottom: .5rem;
+    color: rgb(69, 182, 185);
+    font-weight: 500;
 }
