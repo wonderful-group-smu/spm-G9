@@ -42,24 +42,22 @@ const Enrolled = () => {
           </div>
 
           {enrolledCourses.length > 0 ? (
-            <div className='row'>
-              <div className='center-content-flexbox'>
-                {enrolledCourses.map((data) => (
-                  <CourseCard
-                    key={data.course.course_id}
-                    courseID={data.course.course_id}
-                    courseName={data.course.name}
-                    description={data.course.description}
-                    link={{
-                      pathname: '/coursecontent',
-                      state: {
-                        course_id: data.course.course_id,
-                        trainer_id: data.trainer.id,
-                      },
-                    }}
-                  />
-                ))}
-              </div>
+            <div className='center-content-flexbox'>
+              {enrolledCourses.map((data) => (
+                <CourseCard
+                  key={data.course.course_id}
+                  courseID={data.course.course_id}
+                  courseName={data.course.name}
+                  description={data.course.description}
+                  link={{
+                    pathname: '/coursecontent',
+                    state: {
+                      course_id: data.course.course_id,
+                      trainer_id: data.trainer.id,
+                    },
+                  }}
+                />
+              ))}
             </div>
           ) : (
             <Empty text='You do not have any enrolled classes' />
