@@ -135,7 +135,7 @@ const CreateCourse = () => {
 
       <GeneralModal
         show={showModal}
-        onHide={() => setShowModal(false)}
+        onHide={()=>history.push('/')}
         modal_title='Created Course'
         modal_content={'You have created ' + courseName}
         button_content='Back Home'    

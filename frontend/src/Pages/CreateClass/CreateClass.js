@@ -5,10 +5,11 @@ import * as Bs from 'react-icons/bs'
 import 'react-day-picker/lib/style.css';
 import '../Pagelayout.css';
 import './CreateClass.css';
-import CreateSubmitModal from "../../Components/CreateSubmitModal/CreateSubmitModal";
+import GeneralModal from "../../Components/GeneralModal/GeneralModal";
 import BackArrow from "../../Components/BackArrow/BackArrow";
 import { addNewCourseClass, getEmployees } from "../../Apis/Api";
 import TrainerListModal from "../../Components/TrainerListModal/TrainerListModal";
+import TrainerImages from '../../Assets/TrainerImages/TrainerImages'
 
 const CreateClass = () => {
   const location = useLocation()
@@ -20,6 +21,10 @@ const CreateClass = () => {
   const [endDate, setEndDate] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showTrainerModal, setShowTrainerModal] = useState(false)
+  const userTypeString = {
+    "ENG": "Engineer",
+    "HR": "Human Resources"
+  }
   let history = useHistory();
 
   const handleSubmit = async (event) => {
@@ -55,53 +60,64 @@ const CreateClass = () => {
         <div
           id="inputTrainer"
           onClick={() => setShowTrainerModal(true)}
-          onChange={setTrainerID}
         >
-          <Bs.BsPeopleCircle size={35} className="peopleIcon" color={"rgb(163, 163, 163)"}/>
-          <p className="inputTrainerText">No Trainer Selected</p>
+          {trainerID === ""
+            ?
+            <>
+              <Bs.BsPeopleCircle size={35} className="peopleIcon" color={"rgb(163, 163, 163)"} />
+              <p className="inputTrainerText">No Trainer Selected</p>
+            </>
+            :
+            <>
+              <img
+                src={TrainerImages[Math.floor(trainerID % 6 - 1)].default}
+                className="selected-trainer-image shadow"
+              />
+              <div className="trainer-desc">
+                <h5>
+                  {employees.find(employee => employee.id === trainerID).name}
+                </h5>
+                <p className="trainer-role">
+                  {userTypeString[employees.find(employee => employee.id === trainerID).user_type]}
+                </p>
+              </div>
+            </>
+          }
+
         </div>
         <TrainerListModal
           show={showTrainerModal}
           onHide={() => setShowTrainerModal(false)}
           trainerList={employees}
+          setTrainerID={setTrainerID}
+          userTypeString={userTypeString}
         />
-
-        {/* <input
-          className="form-control"
-          list="trainerDatalist"
-          id="inputTrainer"
-          placeholder="Search..."
-          onChange={e => setTrainerID(
-            employees.find(employees => employees.name === e.target.value).id
-          )}
-        /> */}
-        <datalist id="trainerDatalist">
-          {employees.map((employee, i) => (
-            <option value={employee.name} key={i} />
-          ))}
-        </datalist>
-
-
 
         <label htmlFor="inputClassSize" className="form-label">Class Size</label>
         <input
           className="form-control"
+          type="number"
           id="inputClassSize"
           placeholder="Input Class Size..."
           onChange={e => setClassSize(e.target.value)}
         />
 
-        <div className="date-picker-container">
-          <label className="form-label">Start Date</label>
+        <label className="form-label">Class Dates</label>
+        <div className="input-group" id="date-picker-group">
+          <span className="input-group-text">Start Date</span>
           <DayPickerInput onDayChange={day => setStartDate(day)} />
-          <label className="form-label">End Date</label>
+          <span className="input-group-text">End Date</span>
           <DayPickerInput onDayChange={day => setEndDate(day)} />
         </div>
 
-        <button type="submit" className="btn btn-secondary submit">Create Class</button>
-        <CreateSubmitModal
-          show={showModal} setShow={setShowModal} history={history}
-          subject="Class" title={"a class for " + courseName}
+        <button type="submit" className="fitted-button submit">Create Class</button>
+        <GeneralModal
+          show={showModal}
+          onHide={() => history.goBack()}
+          modal_title='Created Class'
+          modal_content={'You have created a class for ' + courseName}
+          button_content='Back to Classes'
+          button_action={() => history.goBack()}
         />
 
       </form>
