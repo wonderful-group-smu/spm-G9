@@ -137,10 +137,9 @@ const CreateCourse = () => {
         show={showModal}
         onHide={() => setShowModal(false)}
         modal_title='Created Course'
-        modal_content={'You have created' + courseName}
+        modal_content={'You have created ' + courseName}
         button_content='Back Home'    
         button_action={()=>history.push('/')}
-
       />
     </>
   )

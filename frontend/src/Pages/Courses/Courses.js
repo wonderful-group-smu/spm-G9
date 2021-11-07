@@ -37,7 +37,7 @@ const Courses = () => {
   const [isLoading, setLoading] = useState(true)
 
   const handleDeleteMode = () => {
-    setPageTitle(deleteMode ? 'Courses' : 'Delete Course')
+    setPageTitle(deleteMode ? 'Courses' : 'Delete Courses')
     setDeleteMode(!deleteMode)
   }
   const role = getEmployeeRole()
@@ -46,13 +46,13 @@ const Courses = () => {
     selectedArr.map(async (courseID) => {
       setLoading(true)
       deleteCourse({
-        course_id: courseID,
+        "course_id": courseID,
       }).then((response) => {
         console.log(response)
       })
       setLoading(false)
     })
-    window.location.reload()
+    // window.location.reload()
   }
 
   useEffect(() => {

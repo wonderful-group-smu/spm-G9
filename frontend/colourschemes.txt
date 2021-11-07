@@ -1,0 +1,5 @@
+light blue: rgb(69, 182, 185)
+pink: rgb(243, 107, 130)
+dark-green: #218380
+dark-blue: #002447
+greyed-out-text: rgb(163, 163, 163)

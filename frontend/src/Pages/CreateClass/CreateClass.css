@@ -7,7 +7,25 @@
 }
 
 #inputTrainer{
-    width: 60%;
+    width: 30%;
+    max-width: 15rem;
+    padding: 1rem;
+    border: 1px solid rgb(194, 194, 194);
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: .25rem;
+    color:rgb(163, 163, 163);
+    margin-bottom: 1rem;
+}
+#inputTrainer:hover{
+    background-color:rgb(243, 243, 243);
+    color:rgb(128, 128, 128);
+    cursor: pointer;
+}
+.inputTrainerText{
+    margin: 0;
 }
 
 #inputClassSize{
