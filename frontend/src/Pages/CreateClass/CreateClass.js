@@ -56,7 +56,7 @@ const CreateClass = () => {
 
       <form onSubmit={handleSubmit}>
 
-        <label htmlFor="inputTrainer" className="form-label">Trainer</label>
+        <label htmlFor="inputTrainer" className="input-label">Trainer</label>
         {trainerID === ""
           ?
           <div
@@ -69,7 +69,7 @@ const CreateClass = () => {
           :
           <div
             id="inputTrainer"
-            style={{color: "rgb(50, 50, 50)"}}
+            style={{ color: "rgb(50, 50, 50)" }}
             onClick={() => setShowTrainerModal(true)}
           >
             <img
@@ -94,7 +94,7 @@ const CreateClass = () => {
           userTypeString={userTypeString}
         />
 
-        <label htmlFor="inputClassSize" className="form-label">Class Size</label>
+        <label htmlFor="inputClassSize" className="input-label">Class Size</label>
         <input
           className="form-control"
           type="number"
@@ -103,7 +103,9 @@ const CreateClass = () => {
           onChange={e => setClassSize(e.target.value)}
         />
 
-        <label className="form-label">Class Dates</label>
+
+
+        <label className="input-label">Class Dates</label>
         <div className="input-group" id="date-picker-group">
           <span className="input-group-text">Start Date</span>
           <DayPickerInput onDayChange={day => setStartDate(day)} />
