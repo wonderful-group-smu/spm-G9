@@ -57,34 +57,35 @@ const CreateClass = () => {
       <form onSubmit={handleSubmit}>
 
         <label htmlFor="inputTrainer" className="form-label">Trainer</label>
-        <div
-          id="inputTrainer"
-          onClick={() => setShowTrainerModal(true)}
-        >
-          {trainerID === ""
-            ?
-            <>
-              <Bs.BsPeopleCircle size={35} className="peopleIcon" color={"rgb(163, 163, 163)"} />
-              <p className="inputTrainerText">No Trainer Selected</p>
-            </>
-            :
-            <>
-              <img
-                src={TrainerImages[Math.floor(trainerID % 6 - 1)].default}
-                className="selected-trainer-image shadow"
-              />
-              <div className="trainer-desc">
-                <h5>
-                  {employees.find(employee => employee.id === trainerID).name}
-                </h5>
-                <p className="trainer-role">
-                  {userTypeString[employees.find(employee => employee.id === trainerID).user_type]}
-                </p>
-              </div>
-            </>
-          }
-
-        </div>
+        {trainerID === ""
+          ?
+          <div
+            id="inputTrainer"
+            onClick={() => setShowTrainerModal(true)}
+          >
+            <Bs.BsPeopleCircle size={35} className="peopleIcon" color={"rgb(163, 163, 163)"} />
+            <p className="inputTrainerText">No Trainer Selected</p>
+          </div>
+          :
+          <div
+            id="inputTrainer"
+            style={{color: "rgb(50, 50, 50)"}}
+            onClick={() => setShowTrainerModal(true)}
+          >
+            <img
+              src={TrainerImages[Math.floor(trainerID % 6 - 1)].default}
+              className="selected-trainer-image shadow"
+            />
+            <div className="trainer-desc">
+              <h5>
+                {employees.find(employee => employee.id === trainerID).name}
+              </h5>
+              <p className="trainer-role">
+                {userTypeString[employees.find(employee => employee.id === trainerID).user_type]}
+              </p>
+            </div>
+          </div>
+        }
         <TrainerListModal
           show={showTrainerModal}
           onHide={() => setShowTrainerModal(false)}
@@ -120,8 +121,8 @@ const CreateClass = () => {
           button_action={() => history.goBack()}
         />
 
-      </form>
-    </div>
+      </form >
+    </div >
   )
 }
 
