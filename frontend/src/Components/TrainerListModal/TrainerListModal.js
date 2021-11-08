@@ -25,7 +25,7 @@ const TrainerListModal = (props) => {
                                 props.onHide()
                             }}>
                             <img
-                                src={TrainerImages[Math.floor(employee.id % 6 - 1)].default}
+                                src={TrainerImages[employee.id % 8].default}
                                 className="profile-image shadow trainer-image"
                             />
                             <div className="trainer-desc">

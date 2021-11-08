@@ -4,8 +4,7 @@ import LectureHeader from '../../Assets/CourseImages/CourseImg1.jpeg'
 import * as Bs from 'react-icons/bs'
 import * as Fi from 'react-icons/fi'
 import * as Cg from 'react-icons/cg'
-import * as Im from 'react-icons/im'
-import ProfileImage from '../../Assets/Profile Image.jpg'
+import TrainerImages from '../../Assets/TrainerImages/TrainerImages'
 import './ClassDetails.css'
 import ClassList from '../../Components/ClassList/ClassList'
 import GeneralModal from '../../Components/GeneralModal/GeneralModal'
@@ -14,7 +13,6 @@ import {
   getClassContent,
   getSelfEnroll,
   getEmployeeRole,
-  deleteSection,
 } from '../../Apis/Api'
 import Spinner from '../../Components/Spinner/Spinner'
 import SectionCard from '../../Components/SectionCard/SectionCard'
@@ -23,7 +21,6 @@ const ClassDetails = () => {
   const location = useLocation()
   const { courseClass, eligibility } = location.state
   const [selectedArr, setSelectedArr] = useState([])
-  const [deleteMode, setDeleteMode] = useState(false)
   const [DetailButton, setDetailButton] = useState('top-bar-selected')
   const [NamelistButton, setNamelistButton] = useState('top-bar')
   const [isLoading, setLoading] = useState(true)
@@ -35,23 +32,6 @@ const ClassDetails = () => {
   ])
   const role = getEmployeeRole()
   // console.log(eligibility, 'hiii')
-
-  const handleDelete = () => {
-    selectedArr.map(async (section_id) => {
-      console.log(section_id, 'section_id')
-      setLoading(true)
-      // deleteSection({
-      //   "section_id": section_id
-      // })
-      deleteSection({
-        section_id: section_id,
-      }).then((response) => {
-        console.log(response)
-      })
-      setLoading(false)
-    })
-    // window.location.reload()
-  }
 
   const showDetailButton = () => {
     if (DetailButton == 'top-bar') {
@@ -103,9 +83,6 @@ const ClassDetails = () => {
       }
     )
   }, [])
-
-  // const role = 'engineer'
-
 
   const prereqArr = courseClass.course.prereqs
 
@@ -222,7 +199,7 @@ const ClassDetails = () => {
                 <hr />
                 <div className='row'>
                   <div className='col'>
-                    <img src={ProfileImage} className='profile-image shadow' />
+                    <img src={TrainerImages[courseClass.trainer_id % 8].default} className='profile-image shadow' />
                   </div>
                   <div className='col'>
                     <h6>{courseClass.trainer.name}</h6>
@@ -269,7 +246,6 @@ const ClassDetails = () => {
                         }}
                       >
                         <button
-                          hidden={deleteMode}
                           className='fitted-button-corner'
                           role='button'
                           aria-label='createSection'
@@ -278,38 +254,7 @@ const ClassDetails = () => {
                           Add a Section
                         </button>
                       </Link>
-
-                      <button
-                        hidden={deleteMode}
-                        className='fitted-button-corner'
-                        onClick={() => setDeleteMode(true)}
-                        role='button'
-                        aria-label='deleteCourses'
-                      >
-                        <Im.ImBin className='bin-icon' />
-                        Delete Sections
-                      </button>
                     </div>
-
-                    <button
-                      hidden={!deleteMode}
-                      className='fitted-button-corner'
-                      onClick={() => setDeleteMode(false)}
-                      role='button'
-                      aria-label='cancelDeleteClasses'
-                    >
-                      Cancel
-                    </button>
-
-                    <button
-                      hidden={!deleteMode}
-                      className='fitted-button-corner'
-                      onClick={handleDelete}
-                      role='button'
-                      aria-label='deleteSelectedCourses'
-                    >
-                      Delete Selected Sections
-                    </button>
                   </div>
                 </div>
 
@@ -322,7 +267,6 @@ const ClassDetails = () => {
                         section={section}
                         key={i}
                         index={i}
-                        deleteMode={deleteMode}
                         selectedArr={selectedArr}
                         setSelectedArr={setSelectedArr}
                       />

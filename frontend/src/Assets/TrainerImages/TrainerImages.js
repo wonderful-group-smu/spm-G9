@@ -5,6 +5,8 @@ const TrainerImages = [
     require('./TrainerImg4.jpeg'),
     require('./TrainerImg5.jpeg'),
     require('./TrainerImg6.jpeg'),
+    require('./TrainerImg7.jpeg'),
+    require('./TrainerImg8.jpeg'),
 ];
 
 export default TrainerImages

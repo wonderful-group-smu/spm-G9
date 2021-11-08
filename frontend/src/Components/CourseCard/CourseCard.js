@@ -48,7 +48,7 @@ const CourseCard = (props) => {
           <div
             className={selected && props.deleteMode ? 'card selected' : 'card'}
           >
-            <img src={CourseImages[props.courseID % 9 - 1].default} className='card-img-top' />
+            <img src={CourseImages[props.courseID % 8].default} className='card-img-top' />
             <div className='hover-overlay' />
             <div className='card-body'>
               <h5 className='card-title'>

@@ -75,7 +75,7 @@ const CreateClass = () => {
             onClick={() => setShowTrainerModal(true)}
           >
             <img
-              src={TrainerImages[Math.floor(trainerID % 6 - 1)].default}
+              src={TrainerImages[trainerID % 8].default}
               className="selected-trainer-image shadow"
             />
             <div className="trainer-desc">
