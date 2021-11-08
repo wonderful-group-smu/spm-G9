@@ -1,3 +1,4 @@
+# author: Joel and Brandon (primary)
 from flask import url_for
 import time
 
