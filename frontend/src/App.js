@@ -6,7 +6,6 @@ import Navbar from './Components/Navbars/Navbar'
 import Courses from './Pages/Courses/Courses'
 import EnrolmentRequest from './Pages/EnrolmentRequest/EnrolmentRequest'
 import Enrolled from './Pages/Enrolled/Enrolled'
-import CreateCourse from './Pages/CreateCourse/CreateCourse'
 import TopNav from './Components/Navbars/TopNav/TopNav'
 import CourseClasses from './Pages/CourseClasses/CourseClasses'
 import CreateClass from './Pages/CreateClass/CreateClass'
@@ -81,7 +80,6 @@ function App() {
                       path='/test'
                       component={test}
                     />
-                    <Route path='/createcourse' component={CreateCourse} />
                     <Route path='/createclass' component={CreateClass} />
                     <Route path='/createsection' component={CreateSection} />
 

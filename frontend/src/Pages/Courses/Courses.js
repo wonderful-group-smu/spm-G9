@@ -5,7 +5,7 @@ import * as Cg from 'react-icons/cg'
 import * as Im from 'react-icons/im'
 import * as Bi from 'react-icons/bi'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import {
   deleteCourse,
   getCourseList,
@@ -13,6 +13,7 @@ import {
   getEmployeeRole,
 } from '../../Apis/Api'
 import Spinner from '../../Components/Spinner/Spinner'
+import CreateCourseModal from '../../Components/CreateCourseModal/CreateCourseModal'
 
 // const CourseData = () => {
 //   let temp = [];
@@ -34,6 +35,7 @@ const Courses = () => {
   const [courseDataArr, setCourseDataArr] = useState([])
   const [selectedArr, setSelectedArr] = useState([])
   const [engEligibilityArr, setEngEligibilityArr] = useState([])
+  const [showCreateCourse, setShowCreateCourse] = useState(false)
   const [isLoading, setLoading] = useState(true)
 
   const handleDeleteMode = () => {
@@ -49,10 +51,11 @@ const Courses = () => {
         "course_id": courseID,
       }).then((response) => {
         console.log(response)
+      }).then(() => {
+        setLoading(false)
+        window.location.reload()
       })
-      setLoading(false)
     })
-    window.location.reload()
   }
 
   useEffect(() => {
@@ -86,19 +89,25 @@ const Courses = () => {
             <h5 id='page-title'>{pageTitle}</h5>
             <div className='button-alignment'>
               <div className={role == 'ENG' ? 'hidebutton' : ''}>
-                <Link to='/createcourse'>
                   <button
                     hidden={deleteMode}
                     className='fitted-button-corner'
-                    // className='btn-sm btn-secondary'
                     role='button'
                     aria-label='createCourse'
                     id='createCourse'
+                    onClick={() => setShowCreateCourse(true)}
                   >
                     <Cg.CgMathPlus className='plus-icon' />
                     Create a Course
                   </button>
-                </Link>
+                <CreateCourseModal
+                  show={showCreateCourse}
+                  hideWithReload={() => {
+                    setShowCreateCourse(false)
+                    window.location.reload()
+                  }}
+                  onHide={() => setShowCreateCourse(false)}
+                />
 
                 <button
                   hidden={deleteMode}
@@ -116,7 +125,6 @@ const Courses = () => {
               <button
                 hidden={!deleteMode}
                 className='fitted-button-corner'
-                // className='btn-sm btn-secondary'
                 onClick={handleDeleteMode}
                 role='button'
                 aria-label='cancelDeleteClasses'
@@ -127,7 +135,6 @@ const Courses = () => {
               <button
                 hidden={!deleteMode}
                 className='fitted-button-corner'
-                // className='btn-sm btn-secondary'
                 onClick={handleDelete}
                 role='button'
                 aria-label='deleteSelectedCourses'

@@ -1,31 +1,30 @@
 import React, { useEffect, useState } from 'react'
-// import { useHistory } from 'react-router-dom'
-// import { array } from 'prop-types'
-import '../Pagelayout.css'
-import './CreateCourse.css'
+import './CreateCourseModal.css'
+import * as Bs from 'react-icons/bs'
+import * as Md from 'react-icons/md'
+import * as Gi from 'react-icons/gi'
 import { addNewCourse, getCourseList } from '../../Apis/Api'
-// import GeneralModal from '../../Components/GeneralModal/GeneralModal'
-import BackArrow from '../../Components/BackArrow/BackArrow'
+import Modal from 'react-bootstrap/Modal'
+import { bool, func } from 'prop-types'
 
-const CreateCourse = () => {
+const CreateCourseModal = (props) => {
   const [courseID, setCourseID] = useState(0)
   const [courseName, setCourseName] = useState('')
   const [courseDataArr, setCourseDataArr] = useState([])
   const [desc, setDesc] = useState('')
   const [prereqs, setPrereqs] = useState([])
-  // const [showModal, setShowModal] = useState(false)
-  // let history = useHistory()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    let response = await addNewCourse({
+    addNewCourse({
       course_id: courseID,
       name: courseName,
       description: desc,
       prereqs: prereqs,
     })
-    console.log(response.data)
-    // setShowModal(true)
+      .then(() => {
+        props.hideWithReload()
+      })
   }
 
   useEffect(async () => {
@@ -47,16 +46,18 @@ const CreateCourse = () => {
   }, [])
 
   return (
-    <>
-      <div id='pagelayout'>
-        <div id='section-header'>
-          <BackArrow />
-          <h5 id='page-title'>Create a Course</h5>
-        </div>
+    <Modal {...props} centered>
+      <div className="modal-box">
+        <h5>
+          Create a Course
+          <button className='closing-icon' onClick={props.onHide}>
+            <Bs.BsX size={30} />
+          </button>
+        </h5>
 
         <form onSubmit={handleSubmit}>
           <label htmlFor='inputCourseName' className='input-label'>
-            Course Name
+            <Md.MdTextFields/> Course Name
           </label>
           <input
             className='form-control'
@@ -66,7 +67,7 @@ const CreateCourse = () => {
           />
 
           <label htmlFor='inputDesc' className='input-label'>
-            Description
+            <Bs.BsFileEarmarkText/> Description
           </label>
           <textarea
             className='form-control'
@@ -77,7 +78,7 @@ const CreateCourse = () => {
           />
 
           <label htmlFor='form-check' className='input-label'>
-            Prerequisites
+            <Gi.GiCheckboxTree />Prerequisites
           </label>
           <div className="list-group" id="prereq-list-group">
             {courseDataArr.map(course => {
@@ -109,25 +110,20 @@ const CreateCourse = () => {
           <button
             id='submit-create-course'
             type='submit'
-            className='fitted-button'
-            data-bs-toggle='modal'
-            data-bs-target='create-submit-modal'
+            className='confirm-enroll col'
           >
             Create Course
           </button>
         </form>
       </div>
-
-      {/* <GeneralModal
-        show={showModal}
-        onHide={() => history.push('/')}
-        modal_title='Created Course'
-        modal_content={'You have created ' + courseName}
-        button_content='Back Home'
-        button_action={() => history.push('/')}
-      /> */}
-    </>
+    </Modal>
   )
 }
 
-export default CreateCourse
+CreateCourseModal.propTypes = {
+  show: bool,
+  onHide: func,
+  hideWithReload: func,
+}
+
+export default CreateCourseModal

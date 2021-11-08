@@ -2,6 +2,11 @@
     margin-bottom: 1rem;
 }
 
+#section-header{
+    display: flex;
+    gap: 1.5rem;
+}
+
 .submit{
     margin-top: 1rem;
 }
@@ -59,4 +64,7 @@
     margin-bottom: .5rem;
     color: rgb(69, 182, 185);
     font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
 }

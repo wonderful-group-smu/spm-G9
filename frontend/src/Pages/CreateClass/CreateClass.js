@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory, useLocation } from 'react-router-dom'
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import * as Bs from 'react-icons/bs'
+import * as Fi from 'react-icons/fi'
 import 'react-day-picker/lib/style.css';
 import '../Pagelayout.css';
 import './CreateClass.css';
@@ -55,8 +56,9 @@ const CreateClass = () => {
       </div>
 
       <form onSubmit={handleSubmit}>
-
-        <label htmlFor="inputTrainer" className="input-label">Trainer</label>
+        <label htmlFor="inputTrainer" className="input-label">
+          <Bs.BsPersonFill/> Trainer
+        </label>
         {trainerID === ""
           ?
           <div
@@ -94,7 +96,9 @@ const CreateClass = () => {
           userTypeString={userTypeString}
         />
 
-        <label htmlFor="inputClassSize" className="input-label">Class Size</label>
+        <label htmlFor="inputClassSize" className="input-label">
+          <Bs.BsPeopleFill/> Class Size
+        </label>
         <input
           className="form-control"
           type="number"
@@ -105,7 +109,9 @@ const CreateClass = () => {
 
 
 
-        <label className="input-label">Class Dates</label>
+        <label className="input-label">
+          <Fi.FiCalendar/> Class Dates
+        </label>
         <div className="input-group" id="date-picker-group">
           <span className="input-group-text">Start Date</span>
           <DayPickerInput onDayChange={day => setStartDate(day)} />
