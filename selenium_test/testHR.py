@@ -68,56 +68,44 @@ class WonderfulGroup(unittest.TestCase):
         create_course = driver.find_element_by_id('createCourse')
         create_course.click()
 
-        driver.find_element_by_id('inputCourseName').send_keys("Selenium Test")
+        driver.find_element_by_id('inputCourseName').send_keys("Selenium Test2")
         driver.find_element_by_id('inputDesc').send_keys(
             "Selenium Test Description")
 
         submit_create_course = driver.find_element_by_id(
             'submit-create-course')
         submit_create_course.click()
-        successful_creation= driver.find_element_by_id('Created Course').text
-        self.assertEqual("Created Course", successful_creation, 'Does not match')
-        back_home= driver.find_element_by_class_name('confirm-enroll')
-        back_home.click()
+        # successful_creation= driver.find_element_by_id('Created Course').text
+        # self.assertEqual("Created Course", successful_creation, 'Does not match')
+        # back_home= driver.find_element_by_class_name('confirm-enroll')
+        # back_home.click()
 
         time.sleep(5)
 
-    # def test_create_class(self):
-    #     driver = self.driver
-    #     enrolment_request_nav = driver.find_element_by_id('Courses')
-    #     enrolment_request_nav.click()
-    #     select_course = driver.find_element_by_id('course one name')
-    #     select_course.click()
 
-    #     create_class = driver.find_element_by_id('create_class')
-    #     create_class.click()
+    def test_create_class(self):
+        driver = self.driver
+        enrolment_request_nav = driver.find_element_by_id('Courses')
+        enrolment_request_nav.click()
+        select_course = driver.find_element_by_id('course two name')
+        select_course.click()
+        create_class = driver.find_element_by_id('create_class')
+        create_class.click()
 
-    #     driver.find_element_by_id('inputTrainer').send_keys('testtrainer')
-    #     driver.find_element_by_id('inputClassSize').send_keys('10')
+        driver.find_element_by_id('inputTrainer').click()
+        driver.find_elements_by_class_name('trainer-row')[0].click()
+
+        time.sleep(2)
+        driver.find_element_by_id('inputClassSize').send_keys(10)
         
+        driver.find_elements_by_class_name('DayPickerInput')[0].find_element_by_tag_name('input').send_keys('2021-11-25')
+        driver.find_elements_by_class_name('DayPickerInput')[1].find_element_by_tag_name('input').send_keys('2021-11-30')
 
-    #     # driver.find_element_by_class_name('DayPickerInput').find_element_by_tag_name('input').send_keys('value', '2021-11-17')
-    #     time.sleep(5)
+        driver.find_element_by_class_name('fitted-button').click()
+        successful_creation= driver.find_element_by_id('Created Class').text
+        self.assertEqual("Created Class", successful_creation, 'Does not match')
+
         
-    #     # create_class.click()
-    #     #   create_class = driver.find_element_by_id('create_class')
-    #     # create_class.click()
-
-        
-
-    #     # driver.find_element_by_id('inputCourseName').send_keys("Selenium Test")
-    #     # driver.find_element_by_id('inputDesc').send_keys(
-    #     #     "Selenium Test Description")
-
-    #     # submit_create_course = driver.find_element_by_id(
-    #     #     'submit-create-course')
-    #     # submit_create_course.click()
-    #     # successful_creation= driver.find_element_by_id('Created Course').text
-    #     # self.assertEqual("Created Course", successful_creation, 'Does not match')
-    #     # back_home= driver.find_element_by_class_name('confirm-enroll')
-    #     # back_home.click()
-
-    #     # time.sleep(5)
 
 
     def tearDown(self):

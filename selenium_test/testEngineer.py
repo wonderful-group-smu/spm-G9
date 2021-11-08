@@ -40,9 +40,7 @@ class WonderfulGroup(unittest.TestCase):
                              modal_title, 'Does not match')
         else:
             print('Cannot self-enroll')
-            # self.assertEqual("APPLIED/ENROLLED",
-            #                  self_enroll.text, 'Does not match')
-
+            
     def test_quiz(self):
         driver = self.driver
         enrolled_nav = driver.find_element_by_id('Enrolled')
