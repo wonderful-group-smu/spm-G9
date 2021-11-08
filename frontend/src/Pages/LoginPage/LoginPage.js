@@ -13,7 +13,7 @@ const formReducer = (state, event) => {
 }
 
 const LoginPage = () => {
-  // const authInput = { username: 'testuser', password: 'testpassword' }
+  // const authInput = { username: 'testengineer', password: 'testpassword' }
   const [submitting, setSubmitting] = useState(false)
   const [formData, setFormData] = useReducer(formReducer, {})
 

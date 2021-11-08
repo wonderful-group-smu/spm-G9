@@ -1,11 +1,12 @@
+import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 import axios from 'axios';
 import { MemoryRouter, BrowserRouter as Router } from 'react-router-dom';
-import { BASE_URL, getAuthHeaders, getCourseList, getCourseClasses } from '../Apis/Api';
+import { BASE_URL, getAuthHeaders, getCourseList, getCourseClasses, getClassContent } from '../Apis/Api';
 
 import { expectAllInDocument, storageMock } from './testMethods.js';
-import { testCourse, testCourseList, testCourseClass, testCourseClasses } from './testProps.js';
+import { testHrToken, testCourse, testCourseList, testCourseClass, testCourseClasses, testClassSection } from './testProps.js';
 
 import App from '../App';
 import Courses from '../Pages/Courses/Courses';
@@ -34,7 +35,7 @@ describe('Login', () => {
 
     // after logging in, create token in mock local storage
     window.localStorage = storageMock();
-    window.localStorage.setItem('token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTYzNTMwNTc1MSwianRpIjoiNzcwYTQxMDUtYzUzNC00MTkzLTkxYjUtMzQ4MmNlZTRmYTUxIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6MSwibmJmIjoxNjM1MzA1NzUxLCJleHAiOjE2MzU5MTA1NTEsInVzZXJfdHlwZSI6IkVORyJ9.WUoDmNxMO2T-WGkLWJjvByBWS4fW39BQZfditGptpN0')
+    window.localStorage.setItem('token', testHrToken)
   });
 })
 
@@ -47,18 +48,19 @@ describe('Courses', () => {
     expect(result).toEqual(testCourseList);
   })
 
-  test('Courses UI', async () => {
-    axios.get.mockImplementation((url) => {
-      if (url.includes('courses')) {
-        return Promise.resolve({
-          data:
-          {
-            results: testCourseList
-          }
-        })
-      }
-    })
+  const axiosGet = (url) => {
+    if (url.includes('courses')) {
+      return Promise.resolve({
+        data:
+        {
+          results: testCourseList
+        }
+      })
+    }
+  }
 
+  test('Courses UI', async () => {
+    axios.get.mockImplementation(axiosGet)
     render(
       <Router>
         <Courses />
@@ -76,8 +78,6 @@ describe('Courses', () => {
     }))
     expectAllInDocument(elementArray)
   })
-
-
 })
 
 describe('CourseClasses', () => {
@@ -115,14 +115,27 @@ describe('CourseClasses', () => {
 })
 
 describe('ClassDetails', () => {
+  const classContentResponse = {
+    data: {
+      class_sections: [testClassSection]
+    }
+  }
+  test('getClassContent API', async () => {
+    const courseID = testCourse.course_id
+    const trainerID = testCourseClass.trainer.trainer_id
+    const employeeID = 3
+    const headers = getAuthHeaders();
+    axios.get.mockResolvedValueOnce(classContentResponse);
+    const result = await getClassContent(courseID, trainerID);
+    expect(axios.get)
+      .toHaveBeenCalledWith(
+        `${BASE_URL}api/v1/class_sections/${courseID}&${trainerID}&${employeeID}`, { headers }
+      );
+    expect(result).toEqual(classContentResponse);
+  })
+
   test('ClassDetails UI', async () => {
     act(() => {
-      // axios.get.mockResolvedValueOnce({
-      //   data:
-      //   {
-      //     msg: 'enrollment record retrieved'
-      //   }
-      // });
 
       axios.get.mockImplementation((url) => {
         if (url.includes('enroll')) {
@@ -134,12 +147,7 @@ describe('ClassDetails', () => {
           })
         }
         else if (url.includes('class_sections')) {
-          return Promise.resolve({
-            data:
-            {
-              class_sections: []
-            }
-          })
+          return Promise.resolve(classContentResponse)
         }
       })
 
