@@ -101,7 +101,7 @@ const CreateSection = (props) => {
 
       <form onSubmit={handleSubmit}>
 
-        <label htmlFor="inputSectionName" className="form-label">Section Name</label>
+        <label htmlFor="inputSectionName" className="input-label">Section Name</label>
         <input
           className="form-control section-form-control"
           id="inputSectionName"
@@ -109,12 +109,13 @@ const CreateSection = (props) => {
           onChange={e => setSectionName(e.target.value)}
         />
 
-        <label htmlFor="inputMaterials" className="form-label">Section Materials</label>
-        <input
+        <label htmlFor="inputMaterials" className="input-label">Section Materials</label>
+        <textarea
           className="form-control section-form-control"
           id="inputMaterials"
           placeholder="Input Section Content..."
           onChange={e => setMaterials(e.target.value)}
+          rows='4'
         />
 
         <Accordion id="create-quiz-accordion" >
@@ -139,7 +140,7 @@ const CreateSection = (props) => {
         </Accordion>
 
         
-        <label htmlFor="isGradedSwitch" className="form-label" >Graded Quiz?</label>
+        <label htmlFor="isGradedSwitch" className="input-label" >Graded Quiz?</label>
         <div className="form-check form-switch" id="isGradedSwitch">
           <input
             className="form-check-input"
@@ -151,7 +152,7 @@ const CreateSection = (props) => {
           <label className="form-check-label">{isGraded ? "Yes" : "No"}</label>
         </div>
 
-        <label htmlFor="inputPassingMark" className="form-label">Quiz Passing Mark</label>
+        <label htmlFor="inputPassingMark" className="input-label">Quiz Passing Mark</label>
         <input
           className="form-control section-form-control"
           id="inputPassingMark"
@@ -163,7 +164,7 @@ const CreateSection = (props) => {
 
         
 
-        <button type="submit" className="btn btn-secondary submit">Add Section</button>
+        <button type="submit" className="fitted-button submit">Add Section</button>
       </form>
     </div>
   )
