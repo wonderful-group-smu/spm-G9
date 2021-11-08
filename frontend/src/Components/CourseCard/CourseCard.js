@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import './CourseCard.css'
 // import * as Si from 'react-icons/si'
-import * as Fi from 'react-icons/fi'
 import * as Bs from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 import CourseImages from '../../Assets/CourseImages/CourseImages';
@@ -60,7 +59,7 @@ const CourseCard = (props) => {
 
               <p className='card-subtitle mb-2 text-muted'></p>
               <p className='card-text'>
-                <Fi.FiCalendar className='calendar' /> Enrolment Period <br />
+                <Bs.BsFileEarmarkText className='calendar' /> Course Description <br />
                 {props.description}
                 <Bs.BsCircle
                   className='checkbox'

@@ -1,0 +1,28 @@
+.trainer-row{
+    display: flex;
+}
+.trainer-row:hover{
+    background-color: rgb(243, 243, 243);
+    cursor: pointer;
+}
+
+.trainer-desc{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.profile-image{
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    box-shadow: 1px solid ;  
+}
+.trainer-image{
+    margin: 1em 1.5em;
+}
+
+.trainer-role{
+    font-style: italic;
+}

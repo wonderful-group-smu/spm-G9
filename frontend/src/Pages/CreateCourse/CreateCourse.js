@@ -8,6 +8,7 @@ import { addNewCourse, getCourseList } from '../../Apis/Api'
 import GeneralModal from '../../Components/GeneralModal/GeneralModal'
 
 import BackArrow from '../../Components/BackArrow/BackArrow'
+// import CourseListModal from '../../Components/CourseListModal/CourseListModal'
 
 const CreateCourse = () => {
   const [courseID, setCourseID] = useState(0)
@@ -17,19 +18,6 @@ const CreateCourse = () => {
   const [prereqs, setPrereqs] = useState([])
   const [showModal, setShowModal] = useState(false)
   let history = useHistory()
-
-  const addPrereq = (e) => {
-    let prereqID = e.target.value
-    let prereq = {
-      course_id: 3,
-      prereq_id: prereqID,
-    }
-    if (prereqs.some((obj) => obj.prereq_id === prereqID)) {
-      setPrereqs(prereqs.filter((course) => course.prereq_id !== prereqID))
-    } else {
-      setPrereqs([...prereqs, prereq])
-    }
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -58,7 +46,6 @@ const CreateCourse = () => {
     }
 
     setCourseDataArr(results)
-
     setCourseID(max_id + 1)
   }, [])
 
@@ -71,7 +58,7 @@ const CreateCourse = () => {
         </div>
 
         <form onSubmit={handleSubmit}>
-          <label htmlFor='inputCourseName' className='form-label'>
+          <label htmlFor='inputCourseName' className='input-label'>
             Course Name
           </label>
           <input
@@ -81,7 +68,7 @@ const CreateCourse = () => {
             onChange={(e) => setCourseName(e.target.value)}
           />
 
-          <label htmlFor='inputDesc' className='form-label'>
+          <label htmlFor='inputDesc' className='input-label'>
             Description
           </label>
           <textarea
@@ -92,55 +79,56 @@ const CreateCourse = () => {
             onChange={(e) => setDesc(e.target.value)}
           />
 
-          <label htmlFor='form-check' className='form-label'>
+          <label htmlFor='form-check' className='input-label'>
             Prerequisites
           </label>
-          <div className='form-check' onChange={addPrereq}>
-            {courseDataArr.map((course, i) => (
-              <div key={i}>
-                <label className='form-check-label'>
-                  <input
-                    className='form-check-input'
-                    type='checkbox'
-                    value={course.course_id}
-                    id='inputPrereq'
-                  />
 
+          <div className="list-group" id="prereq-list-group">
+            {courseDataArr.map(course => {
+              const selected = prereqs.find(prereq => prereq.prereq_id === course.course_id) ? "active" : ""
+              return (
+                <button
+                  type="button"
+                  className={`list-group-item list-group-item-action ${selected}`}
+                  key={course.course_id}
+                  onClick={() => {
+                    let prereq = {
+                      course_id: courseID,
+                      prereq_id: course.course_id,
+                    }
+                    if (prereqs.some((obj) => obj.prereq_id === course.course_id)) {
+                      setPrereqs(prereqs.filter((obj) => obj.prereq_id !== course.course_id))
+                    } else {
+                      setPrereqs([...prereqs, prereq])
+                    }
+                    console.log(prereqs)
+                  }}
+                >
                   {course.name}
-                </label>
-              </div>
-            ))}
+                </button>
+              )
+            })}
           </div>
 
           <button
             id='submit-create-course'
             type='submit'
             className='fitted-button'
-            // className='btn btn-secondary submit'
             data-bs-toggle='modal'
             data-bs-target='create-submit-modal'
           >
             Create Course
           </button>
-
-          {/* <CreateSubmitModal
-          show={showModal}
-          setShow={setShowModal}
-          history={history}
-          subject='Course'
-          title={'course ' + courseName}
-        />  */}
         </form>
       </div>
 
       <GeneralModal
         show={showModal}
-        onHide={() => setShowModal(false)}
+        onHide={() => history.push('/')}
         modal_title='Created Course'
-        modal_content={'You have created' + courseName}
-        button_content='Back Home'    
-        button_action={()=>history.push('/')}
-
+        modal_content={'You have created ' + courseName}
+        button_content='Back Home'
+        button_action={() => history.push('/')}
       />
     </>
   )

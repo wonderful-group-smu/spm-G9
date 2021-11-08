@@ -36,8 +36,8 @@ const CourseClasses = () => {
     selectedArr.map(async (trainer_id) => {
       setLoading(true)
       deleteCourseClass({
-        course_id: courseID,
-        trainer_id: trainer_id,
+        'course_id': courseID,
+        'trainer_id': trainer_id,
       }).then((response) => {
         console.log(response)
       })

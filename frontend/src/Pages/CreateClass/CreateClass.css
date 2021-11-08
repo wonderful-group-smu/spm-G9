@@ -7,25 +7,56 @@
 }
 
 #inputTrainer{
-    width: 60%;
+    width: 17rem;
+    height: 8rem;
+    padding: 1rem;
+    border: 1px solid rgb(194, 194, 194);
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: .25rem;
+    color:rgb(163, 163, 163);
+    margin-bottom: 1rem;
+}
+#inputTrainer:hover{
+    background-color:rgb(243, 243, 243);
+    color:rgb(128, 128, 128);
+    cursor: pointer;
+}
+.inputTrainerText{
+    margin: 0;
+}
+
+.selected-trainer-image{
+    border-radius: 50%;
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    box-shadow: 1px solid ;  
 }
 
 #inputClassSize{
-    width: 60%;
+    width: 12rem;
 }
 
-.date-picker-container{
-    display: flex;
-    flex-direction: column;
-}
-
-.DayPickerInput{
-    margin-bottom: .5rem;
+.DayPickerInput {
+    width: 8rem;
 }
 
 .DayPickerInput > input {
     padding: .375rem .75rem;
     border: 1px solid #ced4da;
-    border-radius: .25rem;
-    width: 60%;
+    border-radius: 0 .25rem .25rem 0;
+    width: 95%;
+}
+
+.trainer-role{
+    margin-bottom: .2rem;
+}
+
+.input-label{
+    margin-bottom: .5rem;
+    color: rgb(69, 182, 185);
+    font-weight: 500;
 }
