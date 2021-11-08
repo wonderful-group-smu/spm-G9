@@ -32,3 +32,8 @@
 #prereq-list-group{
     width: 60%;
 }
+
+#list-group-item-action.active{
+    background-color: rgb(69, 182, 185);
+    border-color: rgb(243, 243, 243);
+}

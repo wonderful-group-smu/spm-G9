@@ -89,6 +89,7 @@ const CreateCourse = () => {
               return (
                 <button
                   type="button"
+                  id="list-group-item-action"
                   className={`list-group-item list-group-item-action ${selected}`}
                   key={course.course_id}
                   onClick={() => {
@@ -101,7 +102,6 @@ const CreateCourse = () => {
                     } else {
                       setPrereqs([...prereqs, prereq])
                     }
-                    console.log(prereqs)
                   }}
                 >
                   {course.name}
@@ -133,13 +133,5 @@ const CreateCourse = () => {
     </>
   )
 }
-
-// CreateCourse.defaultProps = {
-//   prereqs: ["IS110", "IS111", "IS112", "IS113"],
-// }
-
-// CreateCourse.propTypes = {
-//   prereqs: array,
-// }
 
 export default CreateCourse
