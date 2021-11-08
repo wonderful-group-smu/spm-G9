@@ -137,36 +137,28 @@ describe('ClassDetails', () => {
   })
 
   test('ClassDetails UI', async () => {
-    act(() => {
-
-      axios.get.mockImplementation((url) => {
-        if (url.includes('enroll')) {
-          return Promise.resolve({
-            data:
-            {
-              msg: 'enrollment record retrieved'
-            }
-          })
-        }
-        else if (url.includes('class_sections')) {
-          return Promise.resolve(classContentResponse)
-        }
-      })
-
-      render(
-        <MemoryRouter initialEntries={[{ pathname: "/courseclasses", state: { courseClass: testCourseClass } }]}>
-          <ClassDetails />
-        </MemoryRouter>
-      );
+    axios.get.mockImplementation((url) => {
+      if (url.includes('enroll')) {
+        return Promise.resolve({
+          data:
+          {
+            msg: 'no enrollment record retrieved'
+          }
+        })
+      }
+      else if (url.includes('class_sections')) {
+        return Promise.resolve(classContentResponse)
+      }
     })
 
+    render(
+      <MemoryRouter initialEntries={[{ pathname: "/courseclasses", state: { courseClass: testCourseClass } }]}>
+        <ClassDetails />
+      </MemoryRouter>
+    );
+
     const elementArray = [];
-
-    elementArray.push(await screen.findByRole('button', {
-      name: 'selfEnroll'
-    }))
-    elementArray.push(screen.getByText(RegExp(testCourseClass.course.name)));
-
+    elementArray.push(await screen.findByText(testCourseClass.course.name));
     elementArray.push(screen.getByText(/Class Details/i));
     elementArray.push(screen.getByText(RegExp(testCourseClass.start_date.slice(0, 10))));
     elementArray.push(screen.getByText(RegExp(testCourseClass.end_date.slice(0, 10))));

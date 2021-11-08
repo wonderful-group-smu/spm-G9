@@ -25,7 +25,7 @@ const testCourseClass = {
     start_date: new Date(2021, 12, 1).toISOString(),
     end_date: new Date(2021, 12, 30).toISOString(),
     trainer: testTrainer,
-    trainer_id: testTrainer.trainer_id
+    trainer_id: testTrainer.id
 }
 const testCourseClasses = [
     testCourseClass,
@@ -39,7 +39,6 @@ const testClassSection = {
     section_name: "Section One",
     trainer_id: testCourseClass.trainer.trainer_id,
 }
-
 
 export {
     testHrToken,
