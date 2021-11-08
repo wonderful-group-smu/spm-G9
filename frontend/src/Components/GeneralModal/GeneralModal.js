@@ -20,6 +20,7 @@ const GeneralModal = (props) => {
           type='submit'
           className='confirm-enroll col'
           onClick={props.button_action}
+          id={props.modal_title}
         >
           {props.button_content}
         </button>
