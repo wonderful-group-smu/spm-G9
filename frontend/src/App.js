@@ -15,13 +15,8 @@ import LoginPage from './Pages/LoginPage/LoginPage'
 import CourseContent from './Pages/CourseContent/CourseContent'
 import TakeQuiz from './Pages/TakeQuiz/TakeQuiz'
 import QuizFeedback from './Pages/QuizFeedback/QuizFeedback'
-import test from './Pages/test'
-// import Empty from './Components/Empty/Empty'
 
 import { getEmployeeRole } from './Apis/Api'
-
-// import Home from './Pages/Home/Home'
-// import Quiz from './Pages/Quiz/Quiz'
 
 function App() {
   const [leftOpen, setOpen] = useState(true)
@@ -75,10 +70,6 @@ function App() {
                     <Route
                       path='/enrolmentrequest'
                       component={EnrolmentRequest}
-                    />
-                    <Route
-                      path='/test'
-                      component={test}
                     />
                     <Route path='/createclass' component={CreateClass} />
                     <Route path='/createsection' component={CreateSection} />
