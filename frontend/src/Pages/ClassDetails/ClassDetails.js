@@ -4,7 +4,7 @@ import LectureHeader from '../../Assets/CourseImages/CourseImg1.jpeg'
 import * as Bs from 'react-icons/bs'
 import * as Fi from 'react-icons/fi'
 import * as Cg from 'react-icons/cg'
-import ProfileImage from '../../Assets/Profile Image.jpg'
+import TrainerImages from '../../Assets/TrainerImages/TrainerImages'
 import './ClassDetails.css'
 import ClassList from '../../Components/ClassList/ClassList'
 import GeneralModal from '../../Components/GeneralModal/GeneralModal'
@@ -83,7 +83,7 @@ const ClassDetails = () => {
       }
     )
   }, [])
-  
+
   const prereqArr = courseClass.course.prereqs
 
   const [confirmSubmission, setConfirmSubmission] = React.useState(false)
@@ -199,7 +199,7 @@ const ClassDetails = () => {
                 <hr />
                 <div className='row'>
                   <div className='col'>
-                    <img src={ProfileImage} className='profile-image shadow' />
+                    <img src={TrainerImages[courseClass.trainer_id % 8].default} className='profile-image shadow' />
                   </div>
                   <div className='col'>
                     <h6>{courseClass.trainer.name}</h6>

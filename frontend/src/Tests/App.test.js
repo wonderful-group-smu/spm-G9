@@ -15,6 +15,8 @@ import ClassDetails from '../Pages/ClassDetails/ClassDetails';
 
 jest.mock("axios");
 
+// test author: Edwin
+
 describe('Login', () => {
   test('Login Form', () => {
     render(<App />);
