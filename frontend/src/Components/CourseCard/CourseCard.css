@@ -13,12 +13,15 @@
 .shadow-box{
     /* box-shadow: 1px 0px 8px #404040  ; */
     box-shadow: 1px 1px 8px #d8d8d8;
+    /* width: 300px; */
     /* text-decoration: none !important; */
 }
 
 
 .card{
     max-width: 20rem;
+    /* min-width: 20rem; */
+    /* width: 10rem; */
 }
 
 .selected{
@@ -49,14 +52,12 @@
 }
 
 .card-title{
-    /* color: #212529; */
     color:rgb(243, 107, 130);
 }
 
 .card-text{
     padding-top:12px ;
     color: #8d8d8d;
-    /* text-decoration: none !important; */
 }
 
 .calendar{

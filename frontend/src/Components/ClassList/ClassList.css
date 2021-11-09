@@ -1,7 +1,6 @@
 .header-row-class{
     font-weight: bold;
     color: rgb(69, 182, 185);
-    /* font-size: smaller; */
     border-bottom: #ebebeb solid 1px;
     padding-bottom:15px ;
     
@@ -27,4 +26,9 @@
 
 .select-engineer{
     margin-top: 10px;
+}
+
+.retrieving{
+    color: rgb(243, 107, 130, 0.7);
+    text-align: center;
 }

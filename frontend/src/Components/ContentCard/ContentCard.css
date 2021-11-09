@@ -17,8 +17,12 @@
 
 .content-subtitle{
     color: rgb(243, 107, 130);
-    /* font-weight: bold; */
     font-size: 20px;
+    cursor: pointer;
+}
+
+.content-subtitle:hover{
+  text-decoration: underline;
 }
 
 .content-status-parent{
@@ -28,7 +32,6 @@
 .content-status-child{
     display: table-cell;
     vertical-align: middle;
-    /* align-content: center; */
     text-align: center;
 }
 
@@ -43,3 +46,14 @@
 .row-wrapper{
     margin-bottom: 20px;
 }
+
+.quiz-link{
+    text-decoration: none;
+    color: black;
+}
+
+.quiz-link:hover{
+    text-decoration: underline;
+    color: black;
+}
+

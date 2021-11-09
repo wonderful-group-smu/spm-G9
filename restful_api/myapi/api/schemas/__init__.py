@@ -8,6 +8,8 @@ from myapi.api.schemas.section_completed import SectionCompletedSchema
 from myapi.api.schemas.quiz import QuizSchema
 from myapi.api.schemas.question import QuestionSchema
 from myapi.api.schemas.question_option import QuestionOptionSchema
+from myapi.api.schemas.quiz_attempt import QuizAttemptSchema
+from myapi.api.schemas.answer import AnswerSchema
 
 __all__ = [
     "EmployeeSchema",
@@ -21,5 +23,7 @@ __all__ = [
     "SectionCompletedSchema",
     "QuizSchema",
     "QuestionSchema",
-    "QuestionOptionSchema"
+    "QuestionOptionSchema",
+    "QuizAttemptSchema",
+    "AnswerSchema"
 ]

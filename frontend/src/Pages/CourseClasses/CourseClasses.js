@@ -1,73 +1,143 @@
 import React, { useEffect, useState } from 'react'
-import "./CourseClasses.css"
+import './CourseClasses.css'
 import * as Cg from 'react-icons/cg'
+import * as Im from 'react-icons/im'
 import { Link, useLocation } from 'react-router-dom'
-import { getCourseClasses } from '../../Apis/Api'
+import {
+  deleteCourseClass,
+  getCourseClasses,
+  getEmployeeRole,
+} from '../../Apis/Api'
 import BackArrow from '../../Components/BackArrow/BackArrow'
+import Spinner from '../../Components/Spinner/Spinner'
+import ClassRow from '../../Components/ClassRow/ClassRow'
 
 const CourseClasses = () => {
-  const location = useLocation();
-  const { courseID, courseName } = location.state
+  const location = useLocation()
+  const { courseID, courseName, eligibility } = location.state
   const [courseClasses, setCourseClasses] = useState([])
+  const [isLoading, setLoading] = useState(true)
+  const [pageTitle, setPageTitle] = useState(`Classes for ${courseName}`)
+  const [deleteMode, setDeleteMode] = useState(false)
+  const [selectedArr, setSelectedArr] = useState([])
+  const role = getEmployeeRole()
 
-  useEffect(async () => {
-    let response = await getCourseClasses({
-      "courseID": courseID,
+  const handleDeleteMode = () => {
+    setPageTitle(
+      deleteMode
+        ? `Classes for ${courseName}`
+        : `Delete Classes for ${courseName}`
+    )
+    setDeleteMode(!deleteMode)
+  }
+
+  const handleDelete = async () => {
+    selectedArr.map(async (trainer_id) => {
+      setLoading(true)
+      deleteCourseClass({
+        'course_id': courseID,
+        'trainer_id': trainer_id,
+      })
+      setLoading(false)
     })
-    setCourseClasses(response.data.course_classes)
-    console.log(courseClasses)
+    window.location.reload()
+  }
+
+  useEffect(() => {
+    getCourseClasses({
+      course_id: courseID,
+    })
+      .then((response) => {
+        setCourseClasses(response.data.course_classes)
+      })
+      .then(() => {
+        setLoading(false)
+      })
   }, [])
 
   return (
     <div id='pagelayout'>
-      <div className='white-bg'>
-        <div className="title">
-          <BackArrow/>
-          <h5 id="page-title">Classes for {courseName}</h5>
-          <Link to='/createclass'>
-            <button type="button" className="btn-sm btn-secondary">
-              <Cg.CgMathPlus className="plus-icon" />Create a Class
-            </button>
-          </Link>
-        </div>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <>
+          <div className='white-bg'>
+            <div className='title'>
+              <BackArrow />
+              <h5 id='page-title'>{pageTitle}</h5>
 
-        {courseClasses.map((courseClass, i) => (
-          <div className='row content-row' key={i}>
-            <div className='col'>
-              <div className='header-row'>Trainer ID</div>
-              {courseClass.trainer.id}
-            </div>
-            <div className='col'>
-              <div className='header-row'>Trainer Name</div>
-              {courseClass.trainer.name}
-            </div>
-            <div className='col'>
-              <div className='header-row'>Start Date</div>
-              {courseClass.start_date}
-            </div>
-            <div className='col'>
-              <div className='header-row'>End Date</div>
-              {courseClass.end_date}
-            </div>
+              <div className='button-alignment'>
+                <div className={role == 'ENG' ? 'hidebutton' : ''}>
+                  <Link
+                    to={{
+                      pathname: '/createclass',
+                      state: { courseID: courseID, courseName: courseName },
+                    }}
+                  >
+                    <button
+                      hidden={deleteMode}
+                      className='fitted-button-corner'
+                      role='button'
+                      aria-label='createCourseClass'
+                      id='create_class'
+                    >
+                      <Cg.CgMathPlus className='plus-icon' />
+                      Create a Class
+                    </button>
+                  </Link>
 
-            <div className='col'>
-              <div className='header-row action'>Action</div>
-              <Link
-                to={{
-                  pathname: '/classdetails',
-                  state:{ courseClass } 
-                }}
-                className='arrow'
+                  <button
+                    hidden={deleteMode}
+                    className='fitted-button-corner'
+                    onClick={handleDeleteMode}
+                    role='button'
+                    aria-label='deleteClasses'
+                  >
+                    <Im.ImBin className='bin-icon' />
+                    Delete Classes
+                  </button>
+                </div>
+
+                <button
+                  hidden={!deleteMode}
+                  className='fitted-button-corner'
+                  onClick={handleDeleteMode}
+                  role='button'
+                  aria-label='cancelDeleteClasses'
                 >
-                <Cg.CgArrowLongRight size={20} />
-              </Link>
-            </div>
-          </div>
-        ))}
+                  Cancel
+                </button>
 
-      </div>
-    </div >
+                <button
+                  hidden={!deleteMode}
+                  className='fitted-button-corner'
+                  onClick={handleDelete}
+                  role='button'
+                  aria-label='deleteSelectedClasses'
+                >
+                  Delete Selected Classes
+                </button>
+              </div>
+            </div>
+
+            {courseClasses.map((courseClass) => (
+              <ClassRow
+                key={courseClass.course_id}
+                courseClass={courseClass}
+                deleteMode={deleteMode}
+                selectedArr={selectedArr}
+                setSelectedArr={setSelectedArr}
+                link={{
+                  pathname: '/classdetails',
+                  state: { courseClass: courseClass, eligibility: eligibility },
+                }}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
   )
 }
 
-export default CourseClasses;
+export default CourseClasses

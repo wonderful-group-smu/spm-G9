@@ -13,7 +13,6 @@ const formReducer = (state, event) => {
 }
 
 const LoginPage = () => {
-  // const authInput = { username: 'testuser', password: 'testpassword' }
   const [submitting, setSubmitting] = useState(false)
   const [formData, setFormData] = useReducer(formReducer, {})
 
@@ -29,16 +28,11 @@ const LoginPage = () => {
     axios
     login(formData)
       .then((response) => {
-        // window.location.reload(false)
-        // setSubmitting(false)
         if (response.data) {
-          console.log(response)
           const token = response.data.access_token
           localStorage.setItem('token', token)
-          console.log(token)
           window.location.reload(false)
         } else {
-          console.log(response.data)
           alert('Incorrect authentication')
         }
       })
@@ -71,6 +65,8 @@ const LoginPage = () => {
                 className='form-control'
                 name='name'
                 onChange={handleChange}
+                aria-label="name"
+                id='loginUsername'
               />
 
               <label className='form-label'>Password</label>
@@ -79,9 +75,12 @@ const LoginPage = () => {
                 className='form-control'
                 name='password'
                 onChange={handleChange}
+                role="textbox"
+                aria-label="password"
+                id='loginPassword'
               />
 
-              <button className='confirm-enroll' onClick={handleSubmit}>
+              <button className='confirm-enroll' onClick={handleSubmit} aria-label="submit" id='loginButton'>
                 Submit
               </button>
             </div>

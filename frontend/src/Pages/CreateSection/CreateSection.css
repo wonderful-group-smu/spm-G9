@@ -2,17 +2,33 @@
     margin-bottom: 1rem;
 }
 
-#inputSectionTitle{
+.input-label{
+    margin-bottom: .5rem;
+    color: rgb(69, 182, 185);
+    font-weight: 500;
+}
+
+#inputSectionName{
     width: 60%;
 }
 
-#formFileMultiple{
+#inputMaterials{
     width: 60%;
+}
+
+#isGradedSwitch{
+    margin-bottom: 1rem;
+}
+
+#inputPassingMark{
+    width: 10%;
 }
 
 #create-quiz-accordion{
     width: 80%;
+    margin-bottom: 1rem;
 }
+
 
 .submit{
     margin-top: 1rem;

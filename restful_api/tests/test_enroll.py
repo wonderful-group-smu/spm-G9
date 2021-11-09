@@ -1,3 +1,4 @@
+# author: Joel and Brandon (primary)
 from flask import url_for
 import time
 
@@ -32,6 +33,7 @@ def test_get_single_enrollment(
     assert rep.get_json()["enrollment"]["eng_id"] == enrollments[0].eng_id, "Incorrect engineer id retrieved by Enroll"
     assert rep.get_json()["enrollment"]["course_id"] == enrollments[0].course_id, "Incorrect course id retrieved by Enroll"
     assert rep.get_json()["enrollment"]["trainer_id"] == enrollments[0].trainer_id, "Incorrect trainer id retrieved by Enroll"
+    assert rep.get_json()["enrollment"]["is_approved"] is None, "Incorrect approval status retrieved by Enroll"
 
 
 def test_post_single_enrollment_official(
@@ -57,6 +59,7 @@ def test_post_single_enrollment_official(
     assert rep_json['enrollment']['trainer_id'] == enroll.trainer_id, "Incorrect trainer id retrieved"
     assert rep_json['enrollment']['has_passed'] == False, "Incorrect has passed retrieved"
     assert rep_json['enrollment']['is_official'] == True, "Incorrect official status retrieved"
+    assert rep_json['enrollment']['is_approved'] is None, "Incorrect approval status retrieved"
 
     # Create enrollment failure due to missing attributes
     request_json = {
@@ -116,7 +119,8 @@ def test_put_single_enrollment(
         'course_id': enrollments[0].eng_id,
         'trainer_id': enrollments[0].eng_id,
         'has_passed': False,
-        'is_official': True
+        'is_official': True,
+        'is_approved': True
     }
     rep = client.put(enrollment_url, json=request_json, headers=engineer_employee_headers)
     assert rep.status_code == 201, "Incorrect status code retrieved"
@@ -126,6 +130,31 @@ def test_put_single_enrollment(
     assert rep_json['enrollment']['trainer_id'] == enrollments[0].trainer_id, "Incorrect trainer id retrieved"
     assert rep_json['enrollment']['has_passed'] == False, "Incorrect has passed retrieved"
     assert rep_json['enrollment']['is_official'] == True, "Incorrect official status retrieved"
+    assert rep_json['enrollment']['is_approved'] == True, "Incorrect approval status retrieved"
+
+
+def test_delete_single_enrollment(
+    client,
+    engineer_employee_headers,
+    enroll,
+    db
+):
+    db.session.add(enroll)
+    db.session.commit()
+
+    # Delete enrollment success
+    enrollment_url = url_for('api.enrollment',
+                             eng_id=enroll.eng_id,
+                             course_id=enroll.course_id,
+                             trainer_id=enroll.trainer_id
+                             )
+    rep = client.delete(enrollment_url, headers=engineer_employee_headers)
+    assert rep.status_code == 204, "Incorrect response code"
+
+    # Delete enrollment failure
+    course_url = url_for('api.enrollment', eng_id=9999, course_id=9999, trainer_id=9999)
+    rep = client.delete(course_url, headers=engineer_employee_headers)
+    assert rep.status_code == 404, "Incorrect response code"
 
 
 def test_get_all_enrollments(
@@ -150,7 +179,7 @@ def test_get_all_enrollments(
         assert any(e["trainer_id"] == enrollment.trainer_id for e in results['results']), "Incorrect course id retrieved for enginer"
 
 
-def test_get_all_self_enrollments_by_eng_id(
+def test_get_all_self_enrollments(
     client,
     db,
     enroll_factory,
@@ -160,21 +189,12 @@ def test_get_all_self_enrollments_by_eng_id(
     db.session.add_all(enrollments)
     db.session.commit()
 
-    # Find unavailable/ empty enrollments
-    course_url = url_for('api.self_enrollments_by_eng', eng_id=9999)
-    rep = client.get(course_url, headers=engineer_employee_headers)
+    # Find enrollments
+    self_enrollments_url = url_for('api.self_enrollments')
+    rep = client.get(self_enrollments_url, headers=engineer_employee_headers)
     results = rep.get_json()
     assert rep.status_code == 200, "Enrollment endpoint not up"
-    assert len(results['results']) == 0, "Incorrect number of enrollments in course"
-
-    # Get self enrollments of eng
-    enrollment_url = url_for("api.self_enrollments_by_eng", eng_id=enrollments[0].eng_id)
-
-    res = client.get(enrollment_url, headers=engineer_employee_headers)
-    assert res.status_code == 200, "Enrollment endpoint not up"
-
-    enrollments = [e for e in enrollments if e.eng_id == enrollments[0].eng_id]
-    results = res.get_json()
+    assert len(results['results']) == 3, "Incorrect number of enrollments in course"
 
     # Check for all enrollments in the list
     for enrollment in enrollments:

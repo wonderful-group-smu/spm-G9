@@ -7,5 +7,7 @@
 }
 
 #page-title{
-    padding-bottom: .5rem;
+    display: flex;
+    width: 100%;
+    align-items: center;
 }

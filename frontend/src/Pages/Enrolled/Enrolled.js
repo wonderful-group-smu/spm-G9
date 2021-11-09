@@ -1,4 +1,5 @@
 import CourseCard from '../../Components/CourseCard/CourseCard'
+import Empty from '../../Components/Empty/Empty'
 import '../Pagelayout.css'
 import { getEnrolledList } from '../../Apis/Api'
 import React, { useEffect, useState } from 'react'
@@ -12,7 +13,14 @@ const Enrolled = () => {
   useEffect(() => {
     getEnrolledList()
       .then((response) => {
-        setEnrolledCourses(response.data.results)
+        const allEnrolled = response.data.results
+        if (allEnrolled.length > 0) {
+          const official_enrolled = allEnrolled.filter(function (obj) {
+            return obj.is_official == true
+          })
+
+          setEnrolledCourses(official_enrolled)
+        }
       })
       .then(() => {
         setLoading(false)
@@ -29,22 +37,27 @@ const Enrolled = () => {
             <h5 id='page-title'>Enrolled Courses</h5>
           </div>
 
-          <div className='row'>
+          {enrolledCourses.length > 0 ? (
             <div className='center-content-flexbox'>
-              {enrolledCourses.map((data, i) => (
+              {enrolledCourses.map((data) => (
                 <CourseCard
-                  key={{ i }}
+                  key={data.course.course_id}
                   courseID={data.course.course_id}
-                  cardTitle={data.course.name}
-                  cardText={data.course.description}
+                  courseName={data.course.name}
+                  description={data.course.description}
                   link={{
-                    pathname: '/optionselection',
-                    state: { course_id: data.course.course_id },
+                    pathname: '/coursecontent',
+                    state: {
+                      course_id: data.course.course_id,
+                      trainer_id: data.trainer.id,
+                    },
                   }}
                 />
               ))}
             </div>
-          </div>
+          ) : (
+            <Empty text='You do not have any enrolled classes' />
+          )}
         </>
       )}
     </div>

@@ -11,7 +11,9 @@ from myapi.models import (
     SectionCompleted,
     Quiz,
     Question,
-    QuestionOption
+    QuestionOption,
+    QuizAttempt,
+    Answer
 )
 
 
@@ -94,7 +96,6 @@ class SectionCompletedFactory(factory.Factory):
 
 
 class QuizFactory(factory.Factory):
-    quiz_id = factory.Sequence(lambda n: n)
     course_id = factory.SelfAttribute('class_section.course_id')
     trainer_id = factory.SelfAttribute('class_section.trainer_id')
     section_id = factory.SelfAttribute('class_section.section_id')
@@ -110,7 +111,6 @@ class QuestionFactory(factory.Factory):
     course_id = factory.SelfAttribute('quiz.course_id')
     trainer_id = factory.SelfAttribute('quiz.trainer_id')
     section_id = factory.SelfAttribute('quiz.section_id')
-    quiz_id = factory.SelfAttribute('quiz.quiz_id')
     question = factory.LazyAttribute(lambda o: "question %d" % o.question_id)
     question_type = factory.LazyAttribute(lambda n: True)
     quiz = factory.SubFactory(QuizFactory)
@@ -123,7 +123,6 @@ class QuestionOptionFactory(factory.Factory):
     course_id = factory.SelfAttribute('question.course_id')
     trainer_id = factory.SelfAttribute('question.trainer_id')
     section_id = factory.SelfAttribute('question.section_id')
-    quiz_id = factory.SelfAttribute('question.quiz_id')
     question_id = factory.SelfAttribute('question.question_id')
     option_id = factory.Sequence(lambda n: n)
     option_label = factory.LazyAttribute(lambda o: "option label %d" % o.question_id)
@@ -133,3 +132,28 @@ class QuestionOptionFactory(factory.Factory):
 
     class Meta:
         model = QuestionOption
+
+
+class QuizAttemptFactory(factory.Factory):
+    course_id = factory.SelfAttribute('quiz.course_id')
+    section_id = factory.SelfAttribute('quiz.section_id')
+    trainer_id = factory.SelfAttribute('quiz.trainer_id')
+    eng_id = factory.SelfAttribute('engineer.id')
+    quiz = factory.SubFactory(QuizFactory)
+    engineer = factory.SubFactory(EmployeeFactory)
+
+    class Meta:
+        model = QuizAttempt
+
+
+class AnswerFactory(factory.Factory):
+    question_id = factory.Sequence(lambda n: n)
+    course_id = factory.SelfAttribute('quiz_attempt.course_id')
+    trainer_id = factory.SelfAttribute('quiz_attempt.trainer_id')
+    section_id = factory.SelfAttribute('quiz_attempt.section_id')
+    eng_id = factory.SelfAttribute('quiz_attempt.eng_id')
+    answer_label = factory.LazyAttribute(lambda o: "answer label %d" % o.question_id)
+    quiz_attempt = factory.SubFactory(QuizAttemptFactory)
+
+    class Meta:
+        model = Answer

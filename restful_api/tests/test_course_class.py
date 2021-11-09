@@ -1,3 +1,4 @@
+# author: Phyo
 from flask import url_for
 
 
@@ -36,6 +37,8 @@ def test_get_single_course_class(client, db, course_class, engineer_employee_hea
     rep = client.get(course_url, headers=engineer_employee_headers)
 
     assert rep.get_json()['num_slots_remaining'] == course_class.class_size - 1, "Incorrect num slots retrieved"
+    assert len(rep.get_json()['enrollments']) == 1, "Incorrect num of enrollments retrieved"
+    assert rep.get_json()['enrollments'][0]['eng_id'] == 0, "Incorrect engineer enrolled"
 
 
 def test_create_course_class(client, db, course, employee, engineer_employee_headers):

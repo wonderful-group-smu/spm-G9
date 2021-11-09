@@ -15,7 +15,9 @@ from tests.factories import (
     SectionCompletedFactory,
     QuizFactory,
     QuestionFactory,
-    QuestionOptionFactory
+    QuestionOptionFactory,
+    QuizAttemptFactory,
+    AnswerFactory
 )
 
 register(EmployeeFactory)
@@ -28,6 +30,8 @@ register(SectionCompletedFactory)
 register(QuizFactory)
 register(QuestionFactory)
 register(QuestionOptionFactory)
+register(QuizAttemptFactory)
+register(AnswerFactory)
 
 
 @pytest.fixture(scope="session")

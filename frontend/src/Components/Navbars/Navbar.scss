@@ -9,8 +9,6 @@ div {
     --secs: 0.4s;
     --bg-left: #002447;
     --bg-right: #fafafa;
-    // --bg-right: #218380;
-    // --bg-right: #d8dbc8;
     --bg-main: #FAFAFA;
   }
   
@@ -46,7 +44,6 @@ div {
   #main { background: var(--bg-main); flex-grow: 1;
     .header { background: var(--bg-right) ;
       box-shadow: 1px 0px 4px #c9c8c8  ;
-      // box-shadow: 1px 0px 8px #404040  ;
       @media (orientation: landscape) {
         .title { transition: left var(--secs), right var(--secs);
           &.left-closed { left: var(--header-height); }
