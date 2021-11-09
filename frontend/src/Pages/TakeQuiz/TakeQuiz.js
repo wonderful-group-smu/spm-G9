@@ -1,7 +1,6 @@
 import React, { useReducer, useState, useEffect } from 'react'
 import QuizQuestion from '../../Components/QuizQuestion/QuizQuestion'
 import '../Pagelayout.css'
-import './TakeQuiz.css'
 import GeneralModal from '../../Components/GeneralModal/GeneralModal'
 import { useHistory, useLocation } from 'react-router-dom'
 import { object } from 'prop-types'
