@@ -24,6 +24,7 @@ const TakeQuiz = () => {
   const [quizAnswers, setQuizAnswers] = useState([])
   const [viewScore, setScore] = useState()
   const [isLoading, setLoading] = useState(true)
+  const [qnId, setQnId] = useState()
   const [yesQuiz, setYesQuiz] = useState(true)
   // let history = useHistory();
   const history = useHistory()
@@ -38,6 +39,9 @@ const TakeQuiz = () => {
       .then((response) => {
         console.log(response.data)
         const allQuestions = response.data.quiz.questions
+        const question_id=response.data.quiz.questions[0].question_id
+        setQnId(question_id)
+        // console.log(question_id, 'qnid')
         const formattedQuestions = []
         for (let i = 0; i < allQuestions.length; i++) {
           const question = allQuestions[i].question
@@ -113,12 +117,12 @@ const TakeQuiz = () => {
   function formatAnswers() {
     const answer = []
     for (const question in formData) {
-      const question_int = parseInt(question)
+      // const question_int = parseInt(question)
       const temp_anwswer = {
         course_id: course_id,
         section_id: session_id,
         trainer_id: trainer_id,
-        question_id: question_int,
+        question_id: qnId,
         eng_id: employeeId,
         answer_label: formData[question],
       }

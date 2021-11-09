@@ -24,7 +24,7 @@ class WonderfulGroup(unittest.TestCase):
         driver = self.driver
         courses_nav = driver.find_element_by_id('Courses')
         courses_nav.click()
-        select_course = driver.find_element_by_id('course one name')
+        select_course = driver.find_element_by_id('Essential Skills')
         select_course.click()
         select_class = driver.find_element_by_id('classbutton')
         select_class.click()
@@ -47,7 +47,7 @@ class WonderfulGroup(unittest.TestCase):
         driver = self.driver
         enrolled_nav = driver.find_element_by_id('Enrolled')
         enrolled_nav.click()
-        select_course = driver.find_element_by_id('course two name')
+        select_course = driver.find_element_by_id('Intro to Engineering')
         select_course.click()
 
         select_quiz = driver.find_elements_by_class_name('quiz-link')[0]
@@ -65,6 +65,7 @@ class WonderfulGroup(unittest.TestCase):
 
         submit_modal = driver.find_element_by_id('Submit Quiz').text
         self.assertEqual("Submit Quiz", submit_modal, 'Does not match')
+        time.sleep(1)
 
         submit_request = driver.find_element_by_class_name(
             'confirm-enroll')

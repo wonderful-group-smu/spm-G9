@@ -14,7 +14,7 @@ import CreateSection from './Pages/CreateSection/CreateSection'
 import LoginPage from './Pages/LoginPage/LoginPage'
 import CourseContent from './Pages/CourseContent/CourseContent'
 import TakeQuiz from './Pages/TakeQuiz/TakeQuiz'
-import QuizFeedback from './Pages/QuizFeedback/QuizFeedback'
+
 
 import { getEmployeeRole } from './Apis/Api'
 
@@ -75,7 +75,7 @@ function App() {
                     <Route path='/createsection' component={CreateSection} />
 
                     {/* OnlyEngineers */}
-                    <Route path='/quizfeedback' component={QuizFeedback} />
+            
                     <Route path='/takequiz' component={TakeQuiz} />
                     <Route path='/enrolled' component={Enrolled} />
 
