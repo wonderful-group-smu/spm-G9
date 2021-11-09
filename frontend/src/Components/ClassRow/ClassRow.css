@@ -10,3 +10,16 @@
 .arrow:hover{
     background-color:#d6d6d6 ;
 }
+.checkboxClass{
+    position: relative;
+    float: right;
+    right: .1rem;
+    bottom: -1rem;
+    color: rgb(172, 172, 172);    
+    transform: scale(1.1, 1.1)
+}
+
+.checked{
+    color: rgb(12, 198, 245);
+    transform: scale(1.4,1.4);
+}
