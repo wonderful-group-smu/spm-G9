@@ -4,7 +4,6 @@ import '../Pagelayout.css'
 import { getEnrolledList } from '../../Apis/Api'
 import React, { useEffect, useState } from 'react'
 import Spinner from '../../Components/Spinner/Spinner'
-// import { ReactComponent as EmptyPage } from '../../Assets/EmptyPage.svg'
 
 const Enrolled = () => {
   const [enrolledCourses, setEnrolledCourses] = useState([])
@@ -16,7 +15,6 @@ const Enrolled = () => {
       .then((response) => {
         const allEnrolled = response.data.results
         if (allEnrolled.length > 0) {
-          console.log(response.data.results[0].is_official)
           const official_enrolled = allEnrolled.filter(function (obj) {
             return obj.is_official == true
           })
@@ -28,8 +26,6 @@ const Enrolled = () => {
         setLoading(false)
       })
   }, [])
-
-  // console.log(enrolledCourses)
 
   return (
     <div id='pagelayout'>

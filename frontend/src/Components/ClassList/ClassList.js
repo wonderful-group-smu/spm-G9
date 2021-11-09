@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './ClassList.css'
 import * as Md from 'react-icons/md'
-// import * as Bs from 'react-icons/bs'
 import HrAssignModal from '../HrAssignModal/HrAssignModal'
 import { number } from 'prop-types'
 import { getClassDetails,  } from '../../Apis/Api'
@@ -16,14 +15,12 @@ const ClassList = (props) => {
   useEffect(() => {
     getClassDetails(props.course_id, props.trainer_id)
       .then((response) => {
-        console.log(response.data.enrollments, 'hiii')
         setEnrollmentArr(response.data.enrollments)
       })
       .then(() => {
         setLoading(false)
       })
     
-    console.log("reload!!!");
   }, [modalShow])
 
   return (
@@ -66,7 +63,6 @@ const ClassList = (props) => {
         onHide={() => setModalShow(false)}
         course_id={props.course_id}
         trainer_id={props.trainer_id}
-        // submit={setModalShow(false)}
         submit={() => {
           setTimeout(function() {
             setModalShow(false);

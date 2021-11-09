@@ -1,7 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import * as Bs from 'react-icons/bs'
-// import * as Io from 'react-icons/io'
 import './TopNav.css'
 import { NavDropdown } from 'react-bootstrap'
 import { getEmployeeRole } from '../../../Apis/Api'

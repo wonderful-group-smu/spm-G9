@@ -18,14 +18,12 @@ const getAuthHeaders = () => {
 const getEmployeeID = () => {
   let token = localStorage.getItem('token')
   const employeeID = jwt(token).sub
-  // console.log(jwt(token))
   return employeeID
 }
 
 const getEmployeeRole = () => {
   let token = localStorage.getItem('token')
   const employeeRole = jwt(token).user_type
-  // console.log(jwt(token))
   return employeeRole
 }
 
@@ -41,26 +39,10 @@ const getCourseList = () => {
   return axios.get(`${BASE_URL}api/v1/courses/0`, { headers })
 }
 
-// const getCourse = ({ course_id }) => {
-//   const headers = getAuthHeaders()
-//   // const response = axios.get(http://localhost:5000/api/v1/course/2, { headers })
-//   // return response.c
-//   return  axios.get(`http://localhost:5000/api/v1/course/${ course_id }`, { headers })
-//   // return axios.get(`${BASE_URL}api/v1/course/${course_id}`, { headers })
-
-// }
-
 const getCourseClasses = ({ course_id }) => {
   const headers = getAuthHeaders()
   return axios.get(`${BASE_URL}api/v1/course_classes/` + course_id, { headers })
 }
-
-// const getClassSections = ({ course_id, trainer_id }) => {
-//     const headers = getAuthHeaders();
-//     return axios.get(`${BASE_URL}api/v1/class_section/0`, {
-//         course_id, trainer_id
-//     }, {headers})
-// }
 
 const addNewCourse = ({ course_id, name, description, prereqs }) => {
   const headers = getAuthHeaders()
@@ -120,8 +102,6 @@ const addNewSection = ({ course_id, section_name, materials, trainer_id }) => {
 }
 const deleteSection = ({ section_id }) => {
   const headers = getAuthHeaders()
-  console.log(headers)
-  console.log(`${BASE_URL}api/v1/class_section/${section_id}`)
   return axios.delete(
     `${BASE_URL}api/v1/class_section/${section_id}`,
     { headers }
@@ -154,13 +134,11 @@ const addNewQuiz = ({ course_id, section_id, trainer_id, is_graded, passing_mark
 const getEnrolledList = () => {
   const headers = getAuthHeaders()
   const employeeID = getEmployeeID()
-  // console.log( axios.get(`${BASE_URL}api/v1/enrollments/${employeeID}`, {headers}))
   return axios.get(`${BASE_URL}api/v1/enrollments/${employeeID}`, { headers })
 }
 
 const getClassDetails = (course_id, trainer_id) => {
   const headers = getAuthHeaders()
-  // console.log( axios.get(`${BASE_URL}api/v1/enrollments/${employeeID}`, {headers}))
   return axios.get(
     `${BASE_URL}api/v1/course_class/${course_id}&${trainer_id}`,
     { headers }
@@ -169,7 +147,6 @@ const getClassDetails = (course_id, trainer_id) => {
 
 const addSelfEnroll = (course_id, trainer_id) => {
   const employeeID = getEmployeeID()
-
   const detail_input = {
     eng_id: employeeID,
     course_id: course_id,
@@ -185,8 +162,6 @@ const addSelfEnroll = (course_id, trainer_id) => {
 }
 
 const acceptSelfEnroll = (eng_id,course_id, trainer_id) => {
-  // const employeeID = getEmployeeID()
-
   const detail_input = {
     eng_id: eng_id,
     course_id: course_id,
@@ -202,7 +177,6 @@ const acceptSelfEnroll = (eng_id,course_id, trainer_id) => {
 }
 
 const deleteSelfEnroll = (eng_id,course_id, trainer_id) => {
-  // const employeeID = getEmployeeID()
   const headers = getAuthHeaders()
   return axios.delete(
     `${BASE_URL}api/v1/enroll/${eng_id}&${course_id}&${trainer_id}`,
@@ -227,7 +201,6 @@ const getCourseEligibleEngineers = (course_id) => {
 }
 
 const addHrEnroll = (course_id, trainer_id, employee_id) => {
-  // const employeeID = getEmployeeID()
   const detail_input = {
     eng_id: employee_id,
     course_id: course_id,
@@ -301,18 +274,6 @@ const getEngineerEligibility = () => {
     { headers }
   )
 }
-
-
-
-// const getClassDetails = (course_id,trainer_id ) => {
-//   // const employeeID = getEmployeeID()
-//   const headers = getAuthHeaders()
-//   return axios.get(
-//     `${BASE_URL}api/v1/course_class/${course_id}&${trainer_id}`,
-//     { headers }
-//   )
-// }
-
 
 export {
   BASE_URL,

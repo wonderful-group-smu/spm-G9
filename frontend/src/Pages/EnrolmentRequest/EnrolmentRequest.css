@@ -1,18 +1,7 @@
-/* .white-bg{
-    background-color: white;
-    box-shadow: 1px 1px 3px #ebebeb;
-    border-radius: 10px;
-    padding: 2rem;
-  
-} */
-
 .header-row{
     font-weight: bold;
     color: rgb(69, 182, 185);
-    font-size: smaller;
-    /* border-bottom: #ebebeb solid 1px; */
-    /* padding-bottom:15px ; */
-    
+    font-size: smaller;    
 }
 .content-row{
     padding-top: 15px;

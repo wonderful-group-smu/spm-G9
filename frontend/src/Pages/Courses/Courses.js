@@ -5,7 +5,6 @@ import * as Cg from 'react-icons/cg'
 import * as Im from 'react-icons/im'
 import * as Bi from 'react-icons/bi'
 import React, { useEffect, useState } from 'react'
-// import { Link } from 'react-router-dom'
 import {
   deleteCourse,
   getCourseList,
@@ -14,20 +13,6 @@ import {
 } from '../../Apis/Api'
 import Spinner from '../../Components/Spinner/Spinner'
 import CreateCourseModal from '../../Components/CreateCourseModal/CreateCourseModal'
-
-// const CourseData = () => {
-//   let temp = [];
-//   for (let i = 1; i < 7; i++) {
-//     temp.push(
-//       {
-//         courseID: i,
-//         cardTitle: "IS110: Python Programming",
-//         cardText: "12 Jan 2021 to 31 Jan 2021"
-//       },
-//     )
-//   }
-//   return temp;
-// }
 
 const Courses = () => {
   const [pageTitle, setPageTitle] = useState('Courses')
@@ -49,8 +34,6 @@ const Courses = () => {
       setLoading(true)
       deleteCourse({
         "course_id": courseID,
-      }).then((response) => {
-        console.log(response)
       }).then(() => {
         setLoading(false)
         window.location.reload()
@@ -66,15 +49,12 @@ const Courses = () => {
     getEngineerEligibility()
       .then((response) => {
         setEngEligibilityArr(response.data.results)
-        console.log(response.data.results[0].isEligible)
       })
 
       .then(() => {
         setLoading(false)
       })
   }, [])
-
-  console.log(courseDataArr)
 
   return (
     <div id='pagelayout'>

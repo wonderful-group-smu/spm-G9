@@ -7,9 +7,7 @@
 }
 .profile-block{
     align-content: center;
-    /* width: 40%; */
     text-align: center;
-    /* max-width: 40%; */
     min-width: 40%;
 }
 
@@ -67,14 +65,9 @@
     cursor: default;
 }
 
-/* .hidebutton{
-    display: none;
-  } */
 
-
-  .input-box-size{
+.input-box-size{
     width: 35% !important;
-    /* display: flex; */
 }
 
 .HeaderImage{
@@ -82,14 +75,11 @@
     width: 100%;
     object-fit: cover ;
     border-radius: 4px 4px 0px 0px;
-    /* position: absolute; */
     z-index: 0;
 }
 .gfg {
-    /* margin: 3%; */
     position: relative;
     border-radius: 10px;
-    /* background-color: white; */
 
 }
 .gfg>h5, .gfg>p{
@@ -121,22 +111,12 @@
 
 .btn-enroll{
     background-color: rgb(252, 255, 217) !important;
-    /* color: white !important; */
     width: 200px;
     height: 50px;
 }
-
-/* .btn-enroll:hover{
-    background-color: rgb(252, 255, 217) !important;
-    color: white !important;
-    width: 200px;
-    height: 50px;
-    box-shadow: 1px 1px 8px yellow;
-} */
 
 .button-alignment{
     width: 100%;
     display: flex;
     justify-content: end;
-    /* margin-right: 70px; */
 }

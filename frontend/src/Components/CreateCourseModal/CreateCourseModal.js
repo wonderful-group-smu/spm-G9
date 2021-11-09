@@ -31,11 +31,8 @@ const CreateCourseModal = (props) => {
     let response = await getCourseList()
     let results = response.data.results
 
-    console.log(results[0])
-
     let max_id = 0
     for await (let num of results) {
-      console.log(num.course_id)
       if (num.course_id > max_id) {
         max_id = num.course_id
       }

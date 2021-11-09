@@ -31,7 +31,6 @@ const ClassDetails = () => {
     'ENROLL NOW',
   ])
   const role = getEmployeeRole()
-  // console.log(eligibility, 'hiii')
 
   const showDetailButton = () => {
     if (DetailButton == 'top-bar') {
@@ -47,10 +46,8 @@ const ClassDetails = () => {
   }
 
   useEffect(() => {
-    console.log(eligibility, typeof(eligibility))
     getSelfEnroll(courseClass.course.course_id, courseClass.trainer.id)
       .then((response) => {
-        console.log(response)
         if (response.data.msg == 'enrollment record retrieved') {
           setDisableButton([
             true,
@@ -59,9 +56,7 @@ const ClassDetails = () => {
           ])
         }
       })
-      .catch((error) => {
-        console.log(error)
-
+      .catch(() => {
         if (eligibility == false) {
           setDisableButton([
             true,
@@ -70,7 +65,6 @@ const ClassDetails = () => {
           ])
         }
 
-        // console.log(error, 'error firsr')
       })
       .then(() => {
         setLoading(false)
@@ -78,7 +72,6 @@ const ClassDetails = () => {
 
     getClassContent(courseClass.course.course_id, courseClass.trainer_id).then(
       (response) => {
-        console.log(response)
         setClassSections(response.data.class_sections)
       }
     )
@@ -88,7 +81,6 @@ const ClassDetails = () => {
 
   const [confirmSubmission, setConfirmSubmission] = React.useState(false)
   function submitSelfEnroll(course_id, trainer_id) {
-    console.log('hi')
     addSelfEnroll(course_id, trainer_id)
     setDisableButton([
       true,

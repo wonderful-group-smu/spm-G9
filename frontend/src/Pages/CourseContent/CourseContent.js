@@ -43,21 +43,15 @@ const CourseContent = () => {
     })
     getSelfEnroll(course_id, trainer_id).then((response) => {
       setHasPassed(response.data.enrollment.has_passed)
-
-      // console.log(response.data.enrollment.has_passed, 'selfenrol')
     })
 
     getClassContent(course_id, trainer_id)
-      // console.log(response.data)
       .then((response) => {
-        console.log(response)
-        console.log(response.data.class_sections.slice(-1)[0].section_id)
         setQuizSection(response.data.class_sections.slice(-1)[0].section_id)
         setCourseName(response.data.class_sections[0].course_class.course.name)
         setCourseSections(response.data.class_sections.slice(0, -1))
       })
-      .catch((error) => {
-        console.log(error)
+      .catch(() => {
         setHasSections(false)
       })
       .then(() => {
@@ -109,7 +103,6 @@ const CourseContent = () => {
               {courseProgress}%
             </div>
           </div>
-          {/* <div className='page-subtitle'>There are 3 lessons in this course</div> */}
           <div className='row'>
             <div className='col'>
               {courseSections.map((data, i) => (

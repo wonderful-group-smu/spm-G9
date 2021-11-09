@@ -3,7 +3,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { SidebarData } from './SidebarData'
 import './Navbar.css'
-// import TopNav from "./TopNav/TopNav"
 import { string, func } from 'prop-types'
 
 
@@ -20,7 +19,6 @@ function Navbar(props){
             <div className='header'>
               <h3 className='title' id='logo_name'>Wonderful Group</h3>
             </div>
-            {/* <hr/> */}
             <div className='content'>
 
               <ul className='nav-menu-items'>

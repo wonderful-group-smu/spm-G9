@@ -22,7 +22,6 @@ const CourseClasses = () => {
   const [selectedArr, setSelectedArr] = useState([])
   const role = getEmployeeRole()
 
-  console.log(eligibility, 'me')
   const handleDeleteMode = () => {
     setPageTitle(
       deleteMode
@@ -38,8 +37,6 @@ const CourseClasses = () => {
       deleteCourseClass({
         'course_id': courseID,
         'trainer_id': trainer_id,
-      }).then((response) => {
-        console.log(response)
       })
       setLoading(false)
     })
