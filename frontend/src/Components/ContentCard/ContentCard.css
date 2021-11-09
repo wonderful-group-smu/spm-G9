@@ -17,7 +17,6 @@
 
 .content-subtitle{
     color: rgb(243, 107, 130);
-    /* font-weight: bold; */
     font-size: 20px;
     cursor: pointer;
 }
@@ -33,7 +32,6 @@
 .content-status-child{
     display: table-cell;
     vertical-align: middle;
-    /* align-content: center; */
     text-align: center;
 }
 

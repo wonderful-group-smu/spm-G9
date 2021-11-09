@@ -1,27 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,700;1,300&display=swap');
 
-* {
-    /* box-sizing: border-box;
-    margin: 0;
-    padding: 0; */
-    /* font-family: 'Poppins', sans-serif  !important; */
-    /* color: #404040; */
-  }
-
 
 .white-bg{
     background-color: white;
-    /* border: 1px #404040 solid; */
     box-shadow: 1px 1px 3px #ebebeb;
     border-radius: 10px;
     padding: 2rem;
-    /* padding-left:  */
-    /* margin-left: 1rem; */    
-    /* width: 0%; */
 }
 
 
-/* pink-button - may need to change the name, but affecting quite a number of buttons now */
 .confirm-enroll{
   background-color: rgb(243, 107, 130);
   width: 100%;
@@ -33,7 +20,6 @@
 
 .fitted-button{
   background-color: rgb(243, 107, 130);
-  /* width: 100%; */
   padding: 10px;
   color: white;
   margin-top: 20px;
@@ -42,10 +28,8 @@
 
 .fitted-button-corner{
   background-color: rgb(243, 107, 130);
-  /* width: 100%; */
   padding: 8px;
   color: white;
-  /* margin-top: 20px; */
   border-radius: 5px;
   margin-right: 10px;
 }

@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import './CourseCard.css'
-// import * as Si from 'react-icons/si'
 import * as Bs from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 import CourseImages from '../../Assets/CourseImages/CourseImages';

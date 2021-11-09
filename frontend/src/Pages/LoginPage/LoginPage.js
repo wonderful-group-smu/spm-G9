@@ -13,7 +13,6 @@ const formReducer = (state, event) => {
 }
 
 const LoginPage = () => {
-  // const authInput = { username: 'testengineer', password: 'testpassword' }
   const [submitting, setSubmitting] = useState(false)
   const [formData, setFormData] = useReducer(formReducer, {})
 
@@ -29,16 +28,11 @@ const LoginPage = () => {
     axios
     login(formData)
       .then((response) => {
-        // window.location.reload(false)
-        // setSubmitting(false)
         if (response.data) {
-          console.log(response)
           const token = response.data.access_token
           localStorage.setItem('token', token)
-          console.log(token)
           window.location.reload(false)
         } else {
-          console.log(response.data)
           alert('Incorrect authentication')
         }
       })

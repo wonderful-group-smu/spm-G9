@@ -26,10 +26,7 @@ const TakeQuiz = () => {
   const [isLoading, setLoading] = useState(true)
   const [qnId, setQnId] = useState()
   const [yesQuiz, setYesQuiz] = useState(true)
-  // let history = useHistory();
   const history = useHistory()
-
-  console.log(course_id, trainer_id, session_id)
 
   useEffect(() => {
     setEmployeeId(getEmployeeID())
@@ -37,11 +34,9 @@ const TakeQuiz = () => {
 
     getQuiz(course_id, session_id, trainer_id)
       .then((response) => {
-        console.log(response.data)
         const allQuestions = response.data.quiz.questions
         const question_id=response.data.quiz.questions[0].question_id
         setQnId(question_id)
-        // console.log(question_id, 'qnid')
         const formattedQuestions = []
         for (let i = 0; i < allQuestions.length; i++) {
           const question = allQuestions[i].question
@@ -58,11 +53,9 @@ const TakeQuiz = () => {
             options: formattedOptions,
           })
         }
-        console.log(formattedQuestions)
         setQuizQuestions(formattedQuestions)
       })
-      .catch((error) => {
-        console.log(error)
+      .catch(() => {
         setYesQuiz(!yesQuiz)
       })
       .then(() => setLoading(false))
@@ -84,12 +77,9 @@ const TakeQuiz = () => {
   
 
   function handleClick() {
-    console.log(quizAnswers)
     postQuizAttempt(course_id, session_id, trainer_id, quizAnswers)
       .then((response) => {
-        console.log(response.data.score)
         const score_arr = response.data.score.split('/')
-        console.log(score_arr)
         if (parseInt(score_arr.slice(-1)) / 2 <= parseInt(score_arr.slice())) {
           setScore(
             `Congratulations! You passed! \n Your score is  ${response.data.score}`
@@ -112,12 +102,9 @@ const TakeQuiz = () => {
   const total_answered = Object.keys(formData).length
   const total_question = quizQuestions.length
 
-  console.log(formData)
-  // const answers=[]
   function formatAnswers() {
     const answer = []
     for (const question in formData) {
-      // const question_int = parseInt(question)
       const temp_anwswer = {
         course_id: course_id,
         section_id: session_id,
@@ -183,9 +170,6 @@ const TakeQuiz = () => {
                   modal_title='Submit Quiz'
                   modal_content='Are you sure you want to submit the quiz?'
                   button_content='Yes'
-                  // onClick={()=>{
-                  //   console.log('yes i am ')
-                  // }}
                   button_action={handleClick}
                 />
               </>

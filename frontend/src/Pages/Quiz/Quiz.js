@@ -15,10 +15,8 @@ const Quiz = () => {
           <div className='col-8'>Pending Quizzes</div>
           <div className='col-2'>Score</div>
           <div className='col-2'>Feedback</div>
-          {/* <div className='col'></div> */}
         </div>
 
-        {/* Each quiz */}
         <div className='row content-row'>
           <div className='col-8'>
             <div>
@@ -32,7 +30,6 @@ const Quiz = () => {
           <div className='col-2'>-</div>
         </div>
 
-        {/* Each quiz */}
         <div className='row content-row'>
           <div className='col-8'>
             <div>
@@ -46,7 +43,6 @@ const Quiz = () => {
           <div className='col-2'>-</div>
         </div>
 
-        {/* Each quiz */}
         <div className='row content-row'>
           <div className='col-8'>
             <div>
@@ -66,10 +62,8 @@ const Quiz = () => {
           <div className='col-8'>Past Quizzes</div>
           <div className='col-2'>Score</div>
           <div className='col-2'>Feedback</div>
-          {/* <div className='col'></div> */}
         </div>
 
-        {/* Each quiz */}
         <div className='row content-row'>
           <div className='col-8'>
             <div>
@@ -85,7 +79,6 @@ const Quiz = () => {
           </div>
         </div>
 
-        {/* Each quiz */}
         <div className='row content-row'>
           <div className='col-8'>
             <div>

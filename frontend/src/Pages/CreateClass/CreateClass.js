@@ -30,20 +30,18 @@ const CreateClass = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    let response = await addNewCourseClass({
+    await addNewCourseClass({
       "class_size": classSize,
       "course_id": courseID,
       "end_date": endDate,
       "start_date": startDate,
       "trainer_id": trainerID,
     })
-    console.log(response.data)
     setShowModal(true)
   }
 
   useEffect(async () => {
     let response = await getEmployees();
-    console.log(response.data.results)
     setEmployees(response.data.results)
   }, [])
 

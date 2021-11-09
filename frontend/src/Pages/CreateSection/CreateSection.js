@@ -5,7 +5,6 @@ import CreateQuestion from '../../Components/CreateQuestion/CreateQuestion';
 import { array } from "prop-types";
 import '../Pagelayout.css';
 import './CreateSection.css';
-// import { addNewSection } from '../../Apis/Api';
 import BackArrow from "../../Components/BackArrow/BackArrow";
 import { addNewQuiz, addNewSection } from "../../Apis/Api";
 

@@ -18,9 +18,7 @@ const EnrollModal = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    addHrEnroll(props.course_id, props.trainer_id, formData.selfenroll).then((response)=>{
-      console.log(response)
-    })
+    addHrEnroll(props.course_id, props.trainer_id, formData.selfenroll)
   }
 
   const handleChange = (event) => {
@@ -29,8 +27,6 @@ const EnrollModal = (props) => {
       value: event.target.value,
     })
   }
-
-  console.log(formData)
 
   useEffect(() => {
     getCourseEligibleEngineers(props.course_id)

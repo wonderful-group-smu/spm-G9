@@ -52,14 +52,12 @@
 }
 
 .card-title{
-    /* color: #212529; */
     color:rgb(243, 107, 130);
 }
 
 .card-text{
     padding-top:12px ;
     color: #8d8d8d;
-    /* text-decoration: none !important; */
 }
 
 .calendar{

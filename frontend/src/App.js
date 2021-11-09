@@ -25,8 +25,6 @@ function App() {
   const [loginStatus, setLoginStatus] = useState(false)
   const [employeeRole, setEmployeeRole] = useState()
 
-  // const loginStatus = false
-
   const toggleSidebar = () => {
     setOpen(!leftOpen)
     if (leftOpen) {
@@ -41,13 +39,13 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem('token')) {
       setEmployeeRole(getEmployeeRole())
+      employeeRole
       setLoginStatus(true)
     } else {
       setLoginStatus(false)
     }
   }, [])
 
-  console.log(employeeRole)
   return (
     <>
       <div id='layout'>
@@ -85,13 +83,6 @@ function App() {
                     <Route path='/courseclasses' component={CourseClasses} />
                     <Route path='/classdetails' component={ClassDetails} />
                     <Route path='/' component={Courses} />
-
-                    {/* Notneed */}
-
-                    {/* <Route path='/' component={Home} />
-
-                    {/* <Route path='/quiz' component={Quiz} /> */}
-                    {/* <Route path='/courses' component={Courses} />   */}
                   </Switch>
                 </div>
               </div>
@@ -103,32 +94,3 @@ function App() {
   )
 }
 export default App
-
-// <div id='layout'>
-//         <Router>
-//           <Navbar leftOpen={showNavbar} toggleSidebar={toggleSidebar} iconColor={iconColor}></Navbar>
-
-//           <div id='main'>
-//             <Switch>
-//               <Route path='/loginpage' component={LoginPage} />
-//             </Switch>
-//             <TopNav />
-//             <div className='content'>
-//             <Switch>
-
-//               <Route path='/enrolmentrequest' component={EnrolmentRequest} />
-//               <Route path='/courses/selfenrollmentform' component={SelfEnrollmentForm} />
-//               <Route path='/courses' component={Courses} />
-//               <Route path='/records' component={Records} />
-//               <Route path='/enrolled' component={Enrolled} />
-//               <Route path='/createcourse' component={CreateCourse} />
-//               <Route path='/hrclasses' component={HrClasses} />
-//               <Route path='/hrclassdetails' component={HrClassDetails} />
-//               <Route path='/' component={Home} />
-//             </Switch>
-//             </div>
-//           </div>
-
-//         </Router>
-//       </div>
-//     </>

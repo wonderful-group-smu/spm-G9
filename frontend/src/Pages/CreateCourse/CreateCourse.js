@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
-// import { useHistory } from 'react-router-dom'
-// import { array } from 'prop-types'
 import '../Pagelayout.css'
 import './CreateCourse.css'
 import { addNewCourse, getCourseList } from '../../Apis/Api'
-// import GeneralModal from '../../Components/GeneralModal/GeneralModal'
 import BackArrow from '../../Components/BackArrow/BackArrow'
 
 const CreateCourse = () => {
@@ -13,30 +10,23 @@ const CreateCourse = () => {
   const [courseDataArr, setCourseDataArr] = useState([])
   const [desc, setDesc] = useState('')
   const [prereqs, setPrereqs] = useState([])
-  // const [showModal, setShowModal] = useState(false)
-  // let history = useHistory()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    let response = await addNewCourse({
+    await addNewCourse({
       course_id: courseID,
       name: courseName,
       description: desc,
       prereqs: prereqs,
     })
-    console.log(response.data)
-    // setShowModal(true)
   }
 
   useEffect(async () => {
     let response = await getCourseList()
     let results = response.data.results
 
-    console.log(results[0])
-
     let max_id = 0
     for await (let num of results) {
-      console.log(num.course_id)
       if (num.course_id > max_id) {
         max_id = num.course_id
       }
@@ -117,15 +107,6 @@ const CreateCourse = () => {
           </button>
         </form>
       </div>
-
-      {/* <GeneralModal
-        show={showModal}
-        onHide={() => history.push('/')}
-        modal_title='Created Course'
-        modal_content={'You have created ' + courseName}
-        button_content='Back Home'
-        button_action={() => history.push('/')}
-      /> */}
     </>
   )
 }

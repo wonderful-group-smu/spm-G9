@@ -14,7 +14,6 @@ import {
 
 const HrEnroll = () => {
   const [allEnrollRequest, setAllEnrollRequest] = useState([])
-
   const [modalShow, setModalShow] = React.useState(false)
   const [rejectModalShow, setRejectModalShow] = React.useState(false)
   const [ModalEngId, setModalEngId] = useState('')
@@ -51,9 +50,6 @@ const HrEnroll = () => {
       )
 
       all_slots.push(response.data.num_slots_remaining)
-
-      console.log(response.data.course_class.start_date)
-   
       all_start_date.push(response.data.course_class.start_date.slice(0, 10))
       all_end_date.push(response.data.course_class.end_date.slice(0, 10))
     }
@@ -155,8 +151,7 @@ const HrEnroll = () => {
             course_name={modalCourseName}
             accept_request={() => {
               acceptSelfEnroll(ModalEngId, modalCourseId, modalTrainerId).then(
-                (response) => {
-                  console.log(response)
+                () => {
                   setModalShow(false)
                   window.location.reload(false)
                 }
@@ -168,8 +163,7 @@ const HrEnroll = () => {
             onHide={() => setRejectModalShow(false)}
             reject_request={() => {
               deleteSelfEnroll(ModalEngId, modalCourseId, modalTrainerId).then(
-                (response) => {
-                  console.log(response)
+                () => {
                   setRejectModalShow(false)
                   window.location.reload(false)
                 }
