@@ -44,18 +44,6 @@ const HrEnroll = () => {
     let all_start_date = []
     let all_end_date = []
 
-
-    // for await(let num of allEnrollRequest){
-    //   const response= await getClassDetails(
-    //     num.course.course_id,
-    //     num.trainer.id
-    //   )
-    //   all_slots.push(response.data.num_slots_remaining)
-    //   console.log(response.data.course_class.start_date)
-
-
-    // }
-
     for (i; i < allEnrollRequest.length; i++) {
       const response = await getClassDetails(
         allEnrollRequest[i].course.course_id,
@@ -74,8 +62,7 @@ const HrEnroll = () => {
     setStartDate(all_start_date)
     setSlotsAvailable(all_slots)
 
-
-  })
+  }, [allEnrollRequest])
 
   return (
     <div id='pagelayout'>
