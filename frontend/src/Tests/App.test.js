@@ -109,6 +109,10 @@ describe('CourseClasses', () => {
     elementArray.push(screen.getByRole('button', {
       name: 'createCourseClass'
     }))
+    elementArray.push(screen.getByText(/Delete Classes/i));
+    elementArray.push(screen.getByRole('button', {
+      name: 'deleteClasses'
+    }))
     expectAllInDocument(elementArray)
   })
 

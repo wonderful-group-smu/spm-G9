@@ -89,7 +89,6 @@ const CourseClasses = () => {
                   <button
                     hidden={deleteMode}
                     className='fitted-button-corner'
-                    // className='btn-sm btn-secondary'
                     onClick={handleDeleteMode}
                     role='button'
                     aria-label='deleteClasses'
@@ -102,7 +101,6 @@ const CourseClasses = () => {
                 <button
                   hidden={!deleteMode}
                   className='fitted-button-corner'
-                  // className='btn-sm btn-secondary'
                   onClick={handleDeleteMode}
                   role='button'
                   aria-label='cancelDeleteClasses'
@@ -113,7 +111,6 @@ const CourseClasses = () => {
                 <button
                   hidden={!deleteMode}
                   className='fitted-button-corner'
-                  // className='btn-sm btn-secondary'
                   onClick={handleDelete}
                   role='button'
                   aria-label='deleteSelectedClasses'

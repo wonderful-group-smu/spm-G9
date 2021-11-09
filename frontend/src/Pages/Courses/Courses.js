@@ -92,7 +92,6 @@ const Courses = () => {
                 <button
                   hidden={deleteMode}
                   className='fitted-button-corner'
-                  // className='btn-sm btn-secondary'
                   onClick={handleDeleteMode}
                   role='button'
                   aria-label='deleteCourses'

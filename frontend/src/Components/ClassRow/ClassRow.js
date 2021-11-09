@@ -44,11 +44,11 @@ const ClassRow = (props) => {
 
             <div className='col'>
                 <Bs.BsCircle
-                    className='checkbox'
+                    className='checkboxClass'
                     hidden={selected || !props.deleteMode}
                 />
                 <Bs.BsCheckCircle
-                    className='checkbox checked'
+                    className='checkboxClass checked'
                     hidden={!selected || !props.deleteMode}
                 />
             </div>
